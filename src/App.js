@@ -10,6 +10,7 @@ function App() {
   return (
     <MyContextProvider>
         <BrowserRouter>
+          <h1>Iltimos desktop versiyasida oching! Hozircha mobile versiyasi tayyor emas</h1>
           <div className='app'>
               <Header />
               <Routes>

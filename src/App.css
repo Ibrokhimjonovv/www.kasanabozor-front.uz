@@ -18,3 +18,31 @@ html {
   --main-color: #43a68b;
   --second-color: #6e6e6e;
 }
+
+@media screen and (max-width: 500px) {
+ 
+  body {
+    position: relative;
+    height: 100vh;
+    /* overflow: hidden; */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    
+    #root {
+      * {
+        display: none;
+      }
+    }
+  
+  }
+
+  h1 {
+    color: #000;
+    font-size: 40px;
+    text-align: center;
+    display: block !important;
+    position: relative;
+    z-index: 9999999999;
+  }
+}
