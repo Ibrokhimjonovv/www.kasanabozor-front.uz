@@ -11,4 +11,4 @@ const OnlineShop = () => {
   )
 }
 
-export default OnlineShop
+export default OnlineShop;
