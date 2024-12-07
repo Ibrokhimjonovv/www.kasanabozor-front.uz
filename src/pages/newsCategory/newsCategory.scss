@@ -1,0 +1,173 @@
+#newsCategory {
+    background-color: #F5F5F5;
+
+    .to-back {
+        background-color: #41A58D;
+        height: 50px;
+        margin-top: 146px;
+
+        .backInner {
+            margin: 0 auto;
+            max-width: 1366px;
+            align-items: center;
+            display: flex;
+            height: 100%;
+            padding: 0 50px;
+            color: #fff;
+
+            span {
+                display: flex;
+                align-items: center;
+            }
+
+            a {
+                color: #fff;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    
+    }
+
+    .allProductsPoster {
+        background-color: #fff;
+        height: 100px;
+
+        .posterInner {
+            max-width: 1366px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 50px;
+            color: #41A58D;
+
+            h2 {
+                font-weight: 600;
+                font-size: 28px;
+            }
+
+            img {
+                width: 790px;
+                height: 105px;
+            }
+        }
+    }
+
+    .newsInner {
+        display: flex;
+        gap: 20px;
+        padding: 50px;
+        max-width: 1366px;
+        margin: 0 auto;
+
+        .news-documents {
+            width: 60%;
+
+            .title {
+
+                h2 {
+                    color: #1E1E1E;
+                    font-weight: 600;
+                }
+
+                p {
+                    color: #757575;
+                    margin-top: 5px;
+                }
+            }
+
+            .news-cards {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 15px;
+
+                .news-card-link {
+                    width: 48.5%;
+                }
+
+                .news-card {
+                    width: 100%;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    padding-bottom: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    // transform: translateY(30px);
+                    // opacity: 0;
+                    transition: all 1s, box-shadow 0.5s;
+
+                    &:hover {
+                        box-shadow: 0 5px 10px #00000027;
+                    }
+
+                    .img-cont {
+                        width: 100%;
+                        height: 200px;
+
+                        img {
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .time {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 5px 15px;
+                        margin-top: 10px;
+
+                        span {
+                            display: flex;
+                            align-items: center;
+                            gap: 3px;
+                            color: #41A58D;
+                        }
+                    }
+
+                    .news-title {
+                        font-size: 20px;
+                        color: #4B4B4B;
+                        padding: 5px 15px;
+                        font-weight: 600;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .news-description {
+                        color: #757575;
+                        padding: 5px 15px;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .type {
+                        padding: 5px 10px;
+                        background-color: #F5F5F5;
+                        margin: 0 0 5px 15px;
+                        border-radius: 5px;
+                        color: #757575;
+                    }
+                }
+            }
+        }
+    }
+
+    .weather-data {
+        padding: 10px 0;
+    }
+}

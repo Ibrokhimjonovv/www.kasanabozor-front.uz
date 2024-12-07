@@ -36,6 +36,17 @@
         row-gap: 15px;
         margin-top: 30px;
 
+        a {
+            transform: translateX(-30px);
+            opacity: 0;
+            transition: all 1s;
+            
+            &.active {
+                transform: unset;
+                opacity: 1;
+            }
+        }
+
         .card {
             padding: 20px;
             padding-bottom: 15px;
@@ -45,14 +56,8 @@
             row-gap: 10px;
             border: 1px solid #F3F3F3;
             border-radius: 7px;
-            transform: translateX(-30px);
-            opacity: 0;
-            transition: all 1s;
 
-            &.revealed {
-                transform: unset;
-                opacity: 1;
-            }
+            
             
 
             &:hover {

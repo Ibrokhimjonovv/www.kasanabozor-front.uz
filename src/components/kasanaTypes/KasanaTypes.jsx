@@ -75,7 +75,7 @@ const KasanaTypes = () => {
                 </li>
             </ul>
         </div>
-        <div className="right-side">
+        <div className="k-right-side">
             <div ref={ref1} className={`cub ${inView1 ? "visible" : ""}`}>
                 <p>Kasanachilar soni</p>
                 <p>{inView1 && <Counter start={0} end={12250} duration={2000} />}</p>

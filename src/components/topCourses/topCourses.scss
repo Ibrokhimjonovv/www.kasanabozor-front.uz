@@ -1,0 +1,206 @@
+#topCourses {
+    padding: 30px 50px;
+    max-width: 1366px;
+    margin: 0 auto;
+
+    .categories {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        .custom-catgories {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            max-width: 978px;
+            padding-bottom: 2px;
+
+            &::-webkit-scrollbar {
+                width: 5px; /* Scrollning kengligi */
+                height: 5px
+            }
+
+            &::-webkit-scrollbar-track {
+                background: #f1f1f1; /* Foni */
+                border-radius: 10px;
+            }
+            
+            /* Scrollning o'zi (dragger) */
+            &::-webkit-scrollbar-thumb {
+                background: #888; /* Scrollning rangi */
+                border-radius: 10px;
+            }
+            
+            /* Hover paytida scrollning o'zgarishi */
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555; /* Hover rangi */
+            }
+    
+            a {
+                background-color: #F5F5F5;
+                border-radius: 20px;
+                border: 0;
+                display: flex;
+                align-items: center;
+                padding: 9px 15px;
+                gap: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                color: #303030;
+    
+                &:hover {
+                    background-color: #41A58D;
+                    
+    
+                    span {
+                        color: #fff;
+                    }
+                }
+    
+                &.active {
+                    background-color: #41A58D;
+                    
+    
+                    span {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .default-category {
+            padding: 9px 15px;
+            border-radius: 20px;
+            background-color: #41A58D;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #41a58ec7;
+            }
+        }
+    }
+
+    .courses {
+        padding: 20px;
+
+
+        .title {
+            color: #1E1E1E;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 30px 0 0;
+        }
+
+        .littleTitle {
+            color: #757575;
+            margin-top: 5px;
+            margin: 5px 0 20px;
+        }
+
+        .courses-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            row-gap: 15px;
+
+            .course-card {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 1s;
+                width: 280px;
+
+                &.revealed {
+                    opacity: 1;
+                    transform: unset;
+                }
+
+                .card-img {
+                    width: 100%;
+                    height: 190px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 10px;
+                    }
+                }
+
+                a {
+                    color: #118E71;
+                    display: block;
+                }
+
+                .card-title {
+                    color: #4B4B4B;
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin: 10px 0;
+                }
+
+                .card-description {
+                    color: #757575;
+                    margin: 10px 0;
+                }
+
+                .line {
+                    height: 1px;
+                    background-color: #D9D9D9;
+                }
+
+                .about-card {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .detail {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #757575;
+                        gap: 5px;
+                        border-right: 1px solid #D9D9D9;
+                        padding-right: 8px;
+                        margin: 10px 0;
+
+                        &:last-child {
+                            border: unset;
+                        }
+
+                        svg {
+                            width: 17px !important;
+                            height: 17px !important;
+                        }
+                    }
+                }
+
+                .author {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: #757575;
+
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.rat {
+    display: flex;
+    justify-content: space-between;
+
+    .detail {
+        display: flex;
+        align-items: center;
+        color: #757575;
+    }
+}

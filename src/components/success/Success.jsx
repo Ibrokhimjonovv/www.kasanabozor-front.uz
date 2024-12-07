@@ -4,6 +4,7 @@ import img1 from "./img1.png";
 import img2 from "./img2.png";
 import img3 from "./img3.png";
 import img4 from "./img4.png";
+import Loading from "../loading/loading";
 
 const Success = () => {
   const [successPeople, setSuccessPeople] = useState([
@@ -44,24 +45,18 @@ const Success = () => {
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".scroll-fade-effect:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
+        const revealPoint = windowHeight * 0.9;
 
         if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
           revealElement.classList.add("revealed");
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
 
@@ -82,7 +77,9 @@ const Success = () => {
             </div>
           ))
         ) : (
-          <p>Ma'lumotlar yuklanmoqda...</p>
+          <p>
+            <Loading />
+          </p>
         )}
       </div>
     </div>

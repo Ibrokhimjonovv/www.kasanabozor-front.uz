@@ -21,37 +21,37 @@ header {
     margin: 0 auto;
     // height: 100px;
     justify-content: space-between;
-    padding: 20px 30px;
+    padding: 20px 30px 10px;
 
 
     a.active-link {
         opacity: 0.5;
     }
 
-    a.bottom-active-link {
-        opacity: 0.5;
-    }
+    // a.bottom-active-link {
+    //     opacity: 0.5;
+    // }
 
     #acc {
         a:hover {
             opacity: 0.5;
         }
     }
-    
+
     .top-side {
         width: 100%;
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid #dedede;
-        padding: 10px 0;
-        
+        padding: 0 0 10px;
+
         a {
             transition: all 0.3s;
         }
 
-        a:hover {
-            opacity: 0.5;
-        }
+        // a:hover {
+        //     opacity: 0.5;
+        // }
 
         .top-left {
             display: flex;
@@ -62,8 +62,13 @@ header {
                 color: #5A5A5A;
                 font-size: 17px;
                 font-weight: 500;
+
+                &:hover {
+                    opacity: 0.5;
+                }
             }
         }
+
         .top-right {
             ul {
                 align-items: center;
@@ -90,14 +95,19 @@ header {
                         row-gap: 0;
                         border-radius: 7px;
                         position: absolute;
-                        background-color: blue;
-                        
+                        background-color: #41A58D;
+                        left: 0;
+
                         li {
                             a {
                                 color: #fff;
                                 display: flex;
                                 align-items: center;
-                                padding: 5px 10px;
+                                padding: 7px 15px;
+
+                                &:hover {
+                                    text-decoration: underline;
+                                }
                             }
                         }
                     }
@@ -115,9 +125,13 @@ header {
         .logo {
             a {
                 font-weight: 600;
-                font-size: 34px;
                 color: var(--main-color);
                 opacity: 1 !important;
+
+                svg {
+                    width: 160px;
+                    height: 50px;
+                }
             }
         }
 
@@ -135,13 +149,29 @@ header {
                     font-size: 17px;
                     font-weight: 500;
 
+                    &:hover {
+                        padding: 7px 10px !important;
+                        background-color: #41A58D !important;
+                        border-radius: 20px !important;
+                        color: #fff !important;
+
+                        svg path {
+                            stroke: #fff;
+                        }
+
+                        svg circle,
+                        svg polygon {
+                            stroke: #fff;
+                        }
+                    }
+
                     &.active {
                         padding: 7px 10px !important;
                         background-color: #41A58D !important;
                         border-radius: 20px !important;
                         color: #fff !important;
 
-                        svg path{
+                        svg path {
                             stroke: #fff;
                         }
                     }
@@ -182,12 +212,12 @@ header {
                         display: flex;
                         align-items: center;
                         cursor: pointer;
-                        
+
                         svg {
                             color: var(--main-color);
                         }
 
-                        
+
                     }
                 }
             }
@@ -221,12 +251,32 @@ header {
     background-color: #F5F5F5;
     padding: 3px 5px;
     border-radius: 5px;
-    
+    position: relative;
+
     ul {
         margin-top: 5px;
 
         svg path {
             stroke: #fff;
         }
+    }
+}
+
+.for-search {
+    // display: none;
+    height: 0;
+    transition: all 0.5s;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    &.df {
+        height: 65px;
+        // display: flex !important;
+    }
+
+    &.bg {
+        background-color: #fff;
     }
 }
