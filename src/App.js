@@ -39,7 +39,7 @@ function AppContent() {
         <Route path='online-shop' element={<OnlineShop />} />
         <Route path="online-shop/product/:id" element={<ProductDetails />} />
         <Route path="online-shop/categories/:category" element={<Categories />} />
-        <Route path="all-categories" element={<AllCategories />} />
+        <Route path="online-shop/all-categories" element={<AllCategories />} />
         <Route path="news" element={<NewsPage />} />
         <Route path="news/:category" element={<NewsCategory />} />
         <Route path="news/:category/:id" element={<NewsDetail />} />

@@ -105,7 +105,7 @@ const TopProducts = () => {
             </Link>
           ))}
         </div>
-        <Link to="/all-categories">
+        <Link to="/online-shop/all-categories">
           <div className="default-category">
             <img src={category9} alt="" />
             <span>Barcha kategoriyalar</span>

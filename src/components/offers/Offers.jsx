@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Offers.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
 
@@ -71,12 +71,26 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
     return () => window.removeEventListener("scroll", reveal);
   }, []);
 
+  const [className, setClassName] = useState('');
+  const location = useLocation();
+  const [hideElements, setHideElements] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === '/online-shop/all-categories') {
+      setClassName('asz'); // ikkinchi sahifaga o'tganda class qo'shish
+      setHideElements(true);
+    } else {
+      setClassName(''); // boshqa sahifalarda class ni olib tashlash
+      setHideElements(false);
+    }
+  }, [location.pathname]);
+
   return (
-    <div id="topOffers">
-      <div className="products">
-        <div className="title">Takliflar</div>
-        <div className="littleTitle">Yangi mahsulotlarni sinab ko'ring!</div>
-        <div className="productsInner">
+    <div id="topOffers" className={className}>
+      <div className={`products ${hideElements ? 'sze' : ''}`}>
+      <div className={`title ${hideElements ? 'hidden' : ''}`}>Takliflar</div>
+      <div className={`littleTitle ${hideElements ? 'hidden' : ''}`}>Yangi mahsulotlarni sinab ko'ring!</div>
+        <div className={`productsInner ${hideElements ? 'sze' : ''}`}>
           {filteredProducts.length > 0 ? (
             filteredProducts.slice(0, visibleProducts).map((product) => (
               <Link
