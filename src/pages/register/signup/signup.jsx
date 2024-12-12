@@ -1,24 +1,39 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../../context/myContext";
 import "./signup.scss";
 import InputMask from "react-input-mask";
+import { globalApi } from "../../../App";
 
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages } =
-    useContext(MyContext);
+  const {
+    selectedLanguage,
+    setSelectedLanguage,
+    languages,
+    setLanguages,
+    setSignUpSuccess,
+  } = useContext(MyContext);
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
+  const [formData, setFormData] = useState({
+    first_name: "",
+    phone: "",
+    password1: "",
+    password2: "",
+  });
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
-
   const closeDropdown = (e) => {
     if (!e.target.closest(".dropdown")) {
       setIsOpen(false);
     }
   };
-
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
 
@@ -26,70 +41,85 @@ const Signup = () => {
       document.removeEventListener("click", closeDropdown);
     };
   }, []);
-
   const handleLanguageChange = (newLanguage) => {
-    // O'rnini almashtirish
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
-    updatedLanguages.push(selectedLanguage); // Avvalgi tanlangan tilni qayta qo‘shish
-    setSelectedLanguage(newLanguage); // Yangi tanlangan tilni yangilash
-    setLanguages(updatedLanguages); // Dropdowndagi tillarni yangilash
-    setIsOpen(false); // Dropdownni yopish
+    updatedLanguages.push(selectedLanguage);
+    setSelectedLanguage(newLanguage);
+    setLanguages(updatedLanguages);
+    setIsOpen(false);
   };
-
-  const [firstName, setFirstName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [showPassword1, setShowPassword1] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
-  const [error, setError] = useState("");
-
   const handleChange = (e) => {
-    const value = e.target.value;
-    setPhone(value);
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+  const validate = () => {
+    const newErrors = {};
 
-  const handleSubmit = (e) => {
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = "Ismni kiritish majburiy.";
+    }
+
+    if (!/^\d{9,12}$/.test(formData.phone.replace(/\D/g, ""))) {
+      newErrors.phone =
+        "Telefon raqam noto'g'ri yoki to'liq emas. (9-12 raqam bo'lishi kerak)";
+    }
+
+    // Parollarni tekshirish
+    if (!formData.password1 || !formData.password2) {
+      newErrors.password1 = "Parollarni kiritish shart.";
+    } else if (formData.password1 !== formData.password2) {
+      newErrors.password1 = "Parollar bir xil emas.";
+    }
+
+    return newErrors;
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSignUpSuccess("");
 
-    let hasError = false;
-    const newError = { firstName: "", phone: "", password1: "", password2: "" };
-
-    // Username tekshirish
-    if (!firstName) {
-      newError.firstName = "Ism kiritish shart!";
-      hasError = true;
-    }
-    if (!phone) {
-      newError.phone = "Telefon raqam kiritish shart!";
-      hasError = true;
-    }
-
-    // Parolni tekshirish
-    if (!password1) {
-      newError.password1 = "Parolni kiritish shart!";
-      hasError = true;
-    }
-    if (!password2) {
-      newError.password2 = "Parolni kiritish shart!";
-      hasError = true;
-    }
-
-    if (hasError) {
-      setError(newError);
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setError(newErrors);
       return;
+    } else {
+      setLoading(true);
     }
 
-    if (!phone || phone.replace(/[^0-9]/g, "").length < 12) {
-      setError("Telefon raqami to'liq kiritilmadi!");
-      return;
+    try {
+      const response = await fetch(`${globalApi}/users/signup/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: formData.first_name,
+          phone: formData.phone,
+          password: formData.password1,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+        setFormData({
+          first_name: "",
+          phone: "",
+          password1: "",
+          password2: "",
+        });
+        setTimeout(() => {
+          setSignUpSuccess('');
+        }, 5000);
+        navigate("/login");
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Ro'yxatdan o'tishda xatolik yuz berdi.");
+      }
+    } catch (err) {
+      setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
+      setLoading(false);
     }
-
-    // Xatolarni tozalash va muvaffaqiyat xabari
-    console.log(firstName, phone, password1, password2);
-
-    setError({ firstName: "", phone: "", password1: "", password2: "" });
-    alert("Tizimga muvaffaqiyatli kirildi!");
   };
   return (
     <div id="signup-cont">
@@ -180,10 +210,11 @@ const Signup = () => {
         <div className="signup-top-text">
           <h3>Ro’yxatdan o’tish</h3>
           <p>Yangi hisobingizni yarating</p>
+          {error.general && <div style={{ color: "red" }}>{error.general}</div>}
         </div>
         <form onSubmit={handleSubmit}>
           <div className="input-container">
-            <label htmlFor="firstName">Ism</label>
+            <label htmlFor="first_name">Ism</label>
             <div className="a">
               <svg
                 width="22"
@@ -201,16 +232,16 @@ const Signup = () => {
                 />
               </svg>
               <input
-                type="firstName"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                type="text"
+                id="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
                 placeholder="Ismingizni kiriting"
-                required
+                name="first_name"
               />
             </div>
-            {error.firstName && (
-              <p className="error-message">{error.firstName}</p>
+            {error.first_name && (
+              <p className="error-message">{error.first_name}</p>
             )}
           </div>
           <div className="input-container">
@@ -240,10 +271,10 @@ const Signup = () => {
               </svg>
               <InputMask
                 mask="+\9\98 (99) 999-99-99"
-                value={phone}
+                value={formData.phone}
                 onChange={handleChange}
                 placeholder="+998 (__) ___-__-__"
-                required
+                name="phone"
               />
             </div>
             {error.phone && <p className="error-message">{error.phone}</p>}
@@ -270,10 +301,10 @@ const Signup = () => {
               <input
                 type={showPassword1 ? "text" : "password"}
                 id="password1"
-                value={password1}
-                onChange={(e) => setPassword1(e.target.value)}
+                value={formData.password1}
+                onChange={handleChange}
                 placeholder="••••••••"
-                required
+                name="password1"
               />
               {showPassword1 ? (
                 <svg
@@ -343,10 +374,10 @@ const Signup = () => {
               <input
                 type={showPassword2 ? "text" : "password"}
                 id="password2"
-                value={password2}
-                onChange={(e) => setPassword2(e.target.value)}
+                value={formData.password2}
+                onChange={handleChange}
                 placeholder="••••••••"
-                required
+                name="password2"
               />
               {showPassword2 ? (
                 <svg
@@ -390,32 +421,12 @@ const Signup = () => {
                 </svg>
               )}
             </div>
-            {error.password2 && (
-              <p className="error-message">{error.password2}</p>
+            {error.password1 && (
+              <p className="error-message">{error.password1}</p>
             )}
           </div>
-          <button type="submit">
-            Tasdiqlash
-            <svg
-              width="21"
-              height="20"
-              viewBox="0 0 21 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.00033 8.33366L10.5918 10.2772C11.0102 10.5911 11.5999 10.5294 11.9443 10.1357L17.167 4.16699"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-              <path
-                d="M18 10C18 11.5671 17.5091 13.0948 16.5964 14.3686C15.6836 15.6424 14.3947 16.5983 12.9108 17.102C11.4269 17.6057 9.82246 17.632 8.32287 17.1771C6.82327 16.7222 5.50383 15.809 4.54985 14.5657C3.59587 13.3225 3.05529 11.8116 3.00402 10.2454C2.95274 8.67916 3.39336 7.1362 4.26398 5.83322C5.1346 4.53025 6.39149 3.53271 7.85812 2.98071C9.32476 2.4287 10.9275 2.34997 12.4411 2.75556"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
+          <button type="submit" disabled={loading}>
+            {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
           </button>
           <div className="signup-link">
             Hisobingiz bormi? <Link to="/login">Kirish</Link>

@@ -8,7 +8,7 @@ import langImg from "./Icon (3).png";
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages } =
+  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, isAuthenticated } =
     useContext(MyContext);
 
   const toggleDropDown = () => {
@@ -422,9 +422,8 @@ const Header = () => {
                 </button>
               </form>
             </li>
-
             <li id="login-top">
-              <Link to="/login">Kirish</Link>
+              { isAuthenticated ? <Link to="/dashboard">Shaxsiy kabinet</Link> : <Link to="/login">Kirish</Link>}
             </li>
             <li>
               <button>

@@ -877,6 +877,10 @@ export const MyContextProvider = ({ children }) => {
   const [followedCourses, setFollowedCourses] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("UZ"); // Boshlang'ich til
   const [languages, setLanguages] = useState(["RU", "EN"]); // Dropdowndagi boshqa tillar
+  const [isOpen, setIsOpen] = useState(false);
+  const [signupSuccess, setSignUpSuccess] = useState("");
+
+
 
 
   return (
@@ -893,7 +897,11 @@ export const MyContextProvider = ({ children }) => {
         selectedLanguage,
         setSelectedLanguage,
         languages,
-        setLanguages
+        setLanguages,
+        isOpen,
+        setIsOpen,
+        signupSuccess,
+        setSignUpSuccess
       }}
     >
       {children}

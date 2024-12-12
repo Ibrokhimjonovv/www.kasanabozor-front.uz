@@ -2,22 +2,23 @@ import React, { useState, useEffect, useContext } from "react";
 import "./login.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../../context/myContext";
+import { globalApi } from "../../../App";
+import InputMask from "react-input-mask";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages } =
+  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess } =
     useContext(MyContext);
+  const [loading, setLoading] = useState(false);
 
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
-
   const closeDropdown = (e) => {
     if (!e.target.closest(".dropdown")) {
       setIsOpen(false);
     }
   };
-
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
 
@@ -25,7 +26,6 @@ const Login = () => {
       document.removeEventListener("click", closeDropdown);
     };
   }, []);
-
   const handleLanguageChange = (newLanguage) => {
     // O'rnini almashtirish
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
@@ -34,21 +34,21 @@ const Login = () => {
     setLanguages(updatedLanguages); // Dropdowndagi tillarni yangilash
     setIsOpen(false); // Dropdownni yopish
   };
-
-  const [username, setUserName] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleSubmit = (e) => {
+  const [data, setData] = useState(null);
+  const [netErr, setNetErr] = useState(false);
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let hasError = false;
-    const newError = { username: "", password: "" };
+    const newError = { phone: "", password: "", general: "" };
 
-    // Username tekshirish
-    if (!username) {
-      newError.username = "Usernameni kiritish shart!";
+    // Phone tekshirish
+    if (!phone) {
+      newError.phone = "Telefon raqamni kiritish shart!";
       hasError = true;
     }
 
@@ -61,17 +61,66 @@ const Login = () => {
     if (hasError) {
       setError(newError);
       return;
+    } else {
+      setLoading(true)
+      setError("")
     }
 
-    // Ma'lumotlarni serverga yuborish (mock)
-    console.log("Username:", username);
-    console.log("Password:", password);
+    const loginData = {
+      phone,
+      password,
+    };
 
-    // Xatolarni tozalash va muvaffaqiyat xabari
-    setError({ username: "", password: "" });
-    alert("Tizimga muvaffaqiyatli kirildi!");
+    try {
+      const response = await fetch(`${globalApi}/users/token/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (!response.ok) {
+          newError.general = "Telefon raqami yoki parol xato!";
+      }
+
+      const data = await response.json();
+
+      const { access, refresh } = data;
+
+      // Tokenni localStorage ga saqlash
+      localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
+    } catch (err) {
+      setNetErr(true)
+      setLoading(false)
+    }
   };
+  const fetchData = async () => {
+    const accessToken = localStorage.getItem("access_token");
 
+    try {
+      const response = await fetch(
+        "http://localhost:8000/protected-resource/",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Unauthorized");
+      }
+
+      const data = await response.json();
+      setData(data);
+      console.log(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
   return (
     <div id="login">
       <div className="login-header">
@@ -162,9 +211,12 @@ const Login = () => {
           <h3>Kirish</h3>
           <p>Kirish uchun login va parolni kiriting</p>
         </div>
+        {signupSuccess && <div style={{ color: "green" }}>{signupSuccess}</div>}
+        {error.general && <div style={{color: "red"}}>{error.general}</div>}
+        {netErr && <div style={{color: 'red', textAlign: 'center'}}>Tarmoq xatoligi</div>}
         <form onSubmit={handleSubmit}>
           <div className="input-container">
-            <label htmlFor="username">Foydalanuvchi nomi</label>
+            <label htmlFor="phone">Telefon raqami</label>
             <div className="a">
               <svg
                 width="22"
@@ -181,18 +233,15 @@ const Login = () => {
                   stroke-linejoin="round"
                 />
               </svg>
-              <input
-                type="username"
-                id="username"
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="Foydalanuvchi nomini kiriting"
-                required
+              <InputMask
+                mask="+\9\98 (99) 999-99-99"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+998 (__) ___-__-__"
+                name="phone"
               />
             </div>
-            {error.username && (
-              <p className="error-message">{error.username}</p>
-            )}
+            {error.phone && <p className="error-message">{error.phone}</p>}
           </div>
           <div className="input-container">
             <label htmlFor="password">Parol</label>
@@ -219,11 +268,10 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Parolingizni kiriting"
-                required
               />
               {showPassword ? (
                 <svg
-                    className="eye s"
+                  className="eye s"
                   onClick={() => setShowPassword(!showPassword)}
                   stroke="#41A58D"
                   fill="currentColor"
@@ -267,9 +315,11 @@ const Login = () => {
               <p className="error-message">{error.password}</p>
             )}
           </div>
-          <Link to="#" id="forgotPass">Parol esdan chiqdimi?</Link>
-          <button type="submit">
-            Kirish
+          <Link to="#" id="forgotPass">
+            Parol esdan chiqdimi?
+          </Link>
+          <button type="submit" disabled={loading}>
+              {loading ? "Kirilmoqda..." : "Kirish"}
             <svg
               width="17"
               height="18"
@@ -290,6 +340,12 @@ const Login = () => {
             Hisobingiz yo’qmi? <Link to="/signup">Ro’yxatdan o’tish</Link>
           </div>
         </form>
+        {data && (
+          <div>
+            <h3>Data from Protected Resource:</h3>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+          </div>
+        )}
       </div>
     </div>
   );
