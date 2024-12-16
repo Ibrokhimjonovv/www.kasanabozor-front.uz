@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import InputMask from "react-input-mask";
 import Dashboard from "../dashboard/dashboard";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
-import "./addUser.scss";
-import eye from "./eye.png";
+import "./addPupil.scss";
+import eye from "../addUser/eye.png";
 
-const AddUser = () => {
+const AddPupil = () => {
   const { isOpen, setIsOpen } = useContext(MyContext);
 
   const [password, setPassword] = useState("");
@@ -103,10 +103,10 @@ const AddUser = () => {
     }
   }, [selectedDistrict, villages]);
   return (
-    <div id="admin-add-user">
+    <div id="admin-add-pupils">
       <Dashboard />
       <div className={`admin-item ${isOpen ? "wd" : ""}`}>
-        <div className="title">Foydalanuvchi qo'shish</div>
+        <div className="title">O'qituvchi qo'shish</div>
         <div className="to-back">
           <Link to="/dashboard">
             <svg
@@ -139,7 +139,7 @@ const AddUser = () => {
               stroke-linejoin="round"
             />
           </svg>
-          <Link to="/dashboard/admin/users">Foydalanuvchilar</Link>
+          <Link to="/dashboard/admin/pupils">O'qituvchilar</Link>
           <svg
             width="6"
             height="10"
@@ -424,9 +424,7 @@ const AddUser = () => {
                 </svg>
 
                 <select name="gender" id="gender">
-                  <option value="#" disabled>
-                    Tanlang
-                  </option>
+                  <option value="#">Tanlang</option>
                   <option value="">Roli 1</option>
                   <option value="">Roli 2</option>
                 </select>
@@ -757,4 +755,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddPupil;

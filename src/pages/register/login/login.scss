@@ -146,6 +146,18 @@
                             fill: #41A58D;
                         }
                     }
+
+                    #code {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        left: 37px;
+                        color: #7a7c82;
+                    }
+
+                    #phone {
+                        padding-left: 76px;
+                    }
                 }
 
 
