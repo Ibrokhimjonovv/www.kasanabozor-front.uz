@@ -3,9 +3,12 @@ import "./dashboard.scss";
 import { NavLink, Link } from "react-router-dom";
 import profile from "./profile.png";
 import { MyContext } from "../../context/myContext";
+import Logout from "../../components/logout/logout";
 
 const Dashboard = () => {
-  const {isOpen, setIsOpen} = useContext(MyContext);
+  const {isOpen, setIsOpen, isAdmin, data} = useContext(MyContext);
+  console.log(data);
+  
 
   const sideBarFunction = () => {
     setIsOpen(!isOpen);
@@ -271,7 +274,7 @@ const Dashboard = () => {
               <NavLink
                 to="p"
                 className={({ isActive }) => (isActive ? "active" : "")}
-                onClick={() => toggleDropdown("menu3")}
+                onClick={(event) => toggleDropdown(event, "menu3")}
               >
                 <div className="item-inner">
                   <div className="item-left-side">
@@ -315,10 +318,10 @@ const Dashboard = () => {
               </NavLink>
               {dropdownStates.menu3 && (
                 <div className="item-dropdown open">
-                  <NavLink to="users-item">Foydalanuvchilar</NavLink>
-                  <NavLink to="users-item">Kasanachilar</NavLink>
-                  <NavLink to="users-item">Adminlar</NavLink>
-                  <NavLink to="users-item">Moderator</NavLink>
+                  <NavLink to="/dashboard/admin/products">Mahsulotlar</NavLink>
+                  <NavLink to="/dashboard/admin/categories">Kategoriyalar</NavLink>
+                  <NavLink to="/dashboard/admin/subcategories">Subkategoriyalar</NavLink>
+                  <NavLink to="/dashboard/admin/hashtags">Heshteglar</NavLink>
                 </div>
               )}
             </li>
@@ -326,7 +329,7 @@ const Dashboard = () => {
               <NavLink
                 to="c"
                 className={({ isActive }) => (isActive ? "active" : "")}
-                onClick={() => toggleDropdown("menu4")}
+                onClick={(event) => toggleDropdown(event, "menu4")}
               >
                 <div className="item-inner">
                   <div className="item-left-side">
@@ -374,10 +377,9 @@ const Dashboard = () => {
               </NavLink>
               {dropdownStates.menu4 && (
                 <div className="item-dropdown open">
-                  <NavLink to="users-item">Foydalanuvchilar</NavLink>
-                  <NavLink to="users-item">Kasanachilar</NavLink>
-                  <NavLink to="users-item">Adminlar</NavLink>
-                  <NavLink to="users-item">Moderator</NavLink>
+                  <NavLink to="/dashboard/admin/teachers">O'qituvchilar</NavLink>
+                  <NavLink to="/dashboard/admin/pupils">O'quvchilar</NavLink>
+                  <NavLink to="#">Kurslar</NavLink>
                 </div>
               )}
             </li>
@@ -444,7 +446,7 @@ const Dashboard = () => {
               <NavLink
                 to="n"
                 className={({ isActive }) => (isActive ? "active" : "")}
-                onClick={() => toggleDropdown("menu6")}
+                onClick={(event) => toggleDropdown(event,"menu6")}
               >
                 <div className="item-inner">
                   <div className="item-left-side">
@@ -492,10 +494,8 @@ const Dashboard = () => {
               </NavLink>
               {dropdownStates.menu6 && (
                 <div className="item-dropdown open">
-                  <NavLink to="users-item">Foydalanuvchilar</NavLink>
-                  <NavLink to="users-item">Kasanachilar</NavLink>
-                  <NavLink to="users-item">Adminlar</NavLink>
-                  <NavLink to="users-item">Moderator</NavLink>
+                  <NavLink to="/dashboard/admin/admin-news">Yangiliklar</NavLink>
+                  <NavLink to="/dashboard/admin/admin-news-categories">Kategoriyalar</NavLink>
                 </div>
               )}
             </li>
@@ -730,6 +730,7 @@ const Dashboard = () => {
       </div>
       <div className={`side-bar-item ${isOpen ? "side-bar-item-width" : ""}`}>
         <div className="top">
+          <Logout />
           <div className="profile">
             <Link to="#">
               <img src={profile} alt="" />

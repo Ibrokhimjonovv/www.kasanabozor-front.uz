@@ -1,5 +1,5 @@
 // src/MyContext.js
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 import productImg1 from "./productImg1.png";
 import authorImg from "./authorImg1.png";
@@ -873,15 +873,27 @@ export const MyContextProvider = ({ children }) => {
     },
   ];
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState("");
+  const [ refresh, setRefresh ] = useState("");
   const [followedCourses, setFollowedCourses] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("UZ"); // Boshlang'ich til
   const [languages, setLanguages] = useState(["RU", "EN"]); // Dropdowndagi boshqa tillar
   const [isOpen, setIsOpen] = useState(false);
   const [signupSuccess, setSignUpSuccess] = useState("");
-
-
-
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    // LocalStorage dan access_tokenni olish
+    const tokenn = localStorage.getItem("access_token");
+  
+    // Agar access_token mavjud bo'lsa, isAuthenticated ni true qilamiz
+    if (tokenn) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   return (
     <MyContext.Provider
@@ -891,6 +903,7 @@ export const MyContextProvider = ({ children }) => {
         documents,
         courses,
         isAuthenticated,
+        setIsAuthenticated,
         followedCourses,
         setFollowedCourses,
         announcements,
@@ -901,7 +914,15 @@ export const MyContextProvider = ({ children }) => {
         isOpen,
         setIsOpen,
         signupSuccess,
-        setSignUpSuccess
+        setSignUpSuccess,
+        token, setToken,
+        refresh, setRefresh,
+        setLoginSuccess,
+        loginSuccess,
+        isAdmin,
+        setIsAdmin,
+        data,
+        setData
       }}
     >
       {children}

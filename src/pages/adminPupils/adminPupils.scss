@@ -1,4 +1,4 @@
-#admin-users-jobs {
+#admin-pupils {
     background-color: #f5f5f5;
     min-height: 100vh;
 
@@ -264,6 +264,15 @@
             td {
                 border-bottom: 1px solid #ddd;
                 color: #5A5A5A;
+
+            }
+            .forCheckbox {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border-bottom: unset;
+                height: 100%;
+                
             }
 
             input[type="checkbox"] {

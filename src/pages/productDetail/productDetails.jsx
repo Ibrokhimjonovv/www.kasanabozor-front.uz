@@ -11,12 +11,13 @@ import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
 
 const ProductDetails = () => {
+  const { isAuthenticated } = useContext(MyContext)
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
   const { products } = useContext(MyContext);
-  const [mainImage, setMainImage] = useState(img1);
+  const [mainImage, setMainImage] = useState(img1); 
   const [images, setImages] = useState([img2, img3, img4, img5]);
   const handleImageClick = (selectedImage, index) => {
     setImages([mainImage, ...images.filter((_, i) => i !== index)]);
@@ -135,7 +136,13 @@ const ProductDetails = () => {
                 <div className="work">{product.work}</div>
               </div>
             </div>
-            <Link to="#">Buyurtma qilish</Link>
+            {
+              isAuthenticated ? (
+                <Link to="#">Buyurtma qilish</Link>
+              ) : (
+                <Link to="/login">Login</Link>
+              )
+            }
           </div>
         </div>
         <div className="texts">

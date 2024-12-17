@@ -1,15 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../../context/myContext";
 import { globalApi } from "../../../App";
 import InputMask from "react-input-mask";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess } =
-    useContext(MyContext);
+  const {
+    selectedLanguage,
+    setSelectedLanguage,
+    languages,
+    setLanguages,
+    signupSuccess,
+    isAuthendticated,
+    setIsAuthenticated,
+    token,
+    setToken,
+    refresh,
+    setRefresh,
+    setLoginSuccess,
+    setIsAdmin,
+    setData
+  } = useContext(MyContext);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
@@ -38,8 +53,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [data, setData] = useState(null);
   const [netErr, setNetErr] = useState(false);
+  const [usernot, setUsernot] = useState("")
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,6 +64,10 @@ const Login = () => {
     // Phone tekshirish
     if (!phone) {
       newError.phone = "Telefon raqamni kiritish shart!";
+      hasError = true;
+    } else if (!/^\d{9,12}$/.test(phone.replace(/\D/g, ""))) {
+      newError.phone =
+      "Telefon raqam noto'g'ri yoki to'liq emas.";
       hasError = true;
     }
 
@@ -62,65 +81,48 @@ const Login = () => {
       setError(newError);
       return;
     } else {
-      setLoading(true)
-      setError("")
+      setLoading(true);
+      setError({ phone: "", password: "", general: "" });
     }
-
-    const loginData = {
-      phone,
-      password,
-    };
-
-    try {
-      const response = await fetch(`${globalApi}/users/token/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
-
-      if (!response.ok) {
-          newError.general = "Telefon raqami yoki parol xato!";
-      }
-
-      const data = await response.json();
-
-      const { access, refresh } = data;
-
-      // Tokenni localStorage ga saqlash
-      localStorage.setItem("access_token", access);
-      localStorage.setItem("refresh_token", refresh);
-    } catch (err) {
-      setNetErr(true)
-      setLoading(false)
-    }
-  };
-  const fetchData = async () => {
-    const accessToken = localStorage.getItem("access_token");
-
     try {
       const response = await fetch(
-        "http://localhost:8000/protected-resource/",
+        `${globalApi}/users/token/?phone=${phone}&password=${password}`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Unauthorized");
+      if(response.status === 404) {
+          setUsernot("Foydalanuvchi topilmadi!")
+      } else if(response.status === 400) {
+        setUsernot("Tarmoq xatoligi")
       }
-
+      
       const data = await response.json();
-      setData(data);
-      console.log(data);
+      const { token, refresh } = data;
+      localStorage.setItem("access_token", token);
+      localStorage.setItem("refresh_token", refresh);
+      setData(data)
+      setToken(data.access);
+      setLoginSuccess(true)
+      setIsAdmin(data.role);
+      console.log(data.role);
+      
+      navigate("/");
+      window.location.reload();
     } catch (err) {
-      console.error("Error fetching data:", err);
+      setNetErr(true);
+      setLoading(false);
+      setError((prev) => ({
+        ...prev,
+        general: err.message, // umumiy xatolikni ko'rsatish
+      }));
     }
   };
+
   return (
     <div id="login">
       <div className="login-header">
@@ -211,9 +213,8 @@ const Login = () => {
           <h3>Kirish</h3>
           <p>Kirish uchun login va parolni kiriting</p>
         </div>
-        {signupSuccess && <div style={{ color: "green" }}>{signupSuccess}</div>}
-        {error.general && <div style={{color: "red"}}>{error.general}</div>}
-        {netErr && <div style={{color: 'red', textAlign: 'center'}}>Tarmoq xatoligi</div>}
+        {signupSuccess && <div style={{ color: "green", textAlign: "center" }}>{signupSuccess}</div>}
+        {usernot}
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label htmlFor="phone">Telefon raqami</label>
@@ -233,12 +234,14 @@ const Login = () => {
                   stroke-linejoin="round"
                 />
               </svg>
+              <span id="code">+998</span>
               <InputMask
-                mask="+\9\98 (99) 999-99-99"
+                mask="(99) 999-99-99"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+998 (__) ___-__-__"
+                placeholder="(__) ___-__-__"
                 name="phone"
+                id="phone"
               />
             </div>
             {error.phone && <p className="error-message">{error.phone}</p>}
@@ -268,6 +271,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Parolingizni kiriting"
+                name="password"
               />
               {showPassword ? (
                 <svg
@@ -319,7 +323,7 @@ const Login = () => {
             Parol esdan chiqdimi?
           </Link>
           <button type="submit" disabled={loading}>
-              {loading ? "Kirilmoqda..." : "Kirish"}
+            {loading ? "Kirilmoqda..." : "Kirish"}
             <svg
               width="17"
               height="18"
@@ -340,12 +344,6 @@ const Login = () => {
             Hisobingiz yo’qmi? <Link to="/signup">Ro’yxatdan o’tish</Link>
           </div>
         </form>
-        {data && (
-          <div>
-            <h3>Data from Protected Resource:</h3>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-          </div>
-        )}
       </div>
     </div>
   );
