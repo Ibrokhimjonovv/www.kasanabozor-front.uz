@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../../context/myContext";
 import "./signup.scss";
 import InputMask from "react-input-mask";
-import { globalApi } from "../../../App";
+import { usersServerUrl } from '../../../SuperVars';
+import axios from "axios";
+
 
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -87,40 +89,52 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch(`${globalApi}/users/signup/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          first_name: formData.first_name,
-          phone: formData.phone,
-          password: formData.password1,
-        }),
+      const response = await axios.post(`${usersServerUrl}accounts/sign-up/`, {
+        first_name: formData.first_name,
+        phone: formData.phone,
+        password: formData.password1
       });
 
-      if (response.ok) {
-        const data = await response.json();
+      console.log(response);
+
+      if (response.data.status === "ok") {
         setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+        
+        const {access, refresh} = response.data;
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+        
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
+
         setFormData({
           first_name: "",
           phone: "",
           password1: "",
           password2: "",
         });
+        
         setTimeout(() => {
           setSignUpSuccess('');
         }, 5000);
+        
         navigate("/login");
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Ro'yxatdan o'tishda xatolik yuz berdi.");
+        const data = await response.data;
+        if (data.details.phone) {
+          setError("Ushbu raqam band.");
+        } else {
+          setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
+        }
       }
     } catch (err) {
+      console.log(err);
       setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
+    } finally {
       setLoading(false);
     }
   };
+
   return (
     <div id="signup-cont">
       <div className="signup-header">

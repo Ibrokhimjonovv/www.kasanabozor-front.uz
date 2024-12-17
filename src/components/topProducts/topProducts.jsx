@@ -125,9 +125,10 @@ const TopProducts = () => {
             <Link to={`product/${product.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={product.img} alt="" />
+            { console.log(product) }
+                  <img src={'http://127.0.0.1:8901' + String(product.product_image_Ecommerce_product_images[0] ? product.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." />
                 </div>
-                <div className="productTitle">{product.title}</div>
+                <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
                 <Discount product={product} />
                 <div className="details">

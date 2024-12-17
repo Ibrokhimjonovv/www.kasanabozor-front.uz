@@ -32,7 +32,8 @@ import Moderators from "./pages/moderators/moderators";
 import AddUser from "./pages/addUser/addUser";
 import Jobs from "./pages/admin-jobs/jobs";
 
-export const globalApi = "http://192.168.1.64:8000"
+import './createAxiosClient';
+
 
 function AppContent() {
   const location = useLocation();
@@ -118,3 +119,4 @@ export default App;
 // fainted narvent
 // no pole dont toliver
 // swim
+

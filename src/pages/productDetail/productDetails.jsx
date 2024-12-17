@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./productDetails.scss";
+import axios from 'axios';
 
 import img1 from "./productImg1.png";
 import img2 from "./productImg2.png";
@@ -9,48 +10,61 @@ import img4 from "./productImg4.png";
 import img5 from "./productImg5.png";
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
+import { eCommerseServerUrl } from "../../SuperVars";
+
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
-  const { products } = useContext(MyContext);
   const [mainImage, setMainImage] = useState(img1);
   const [images, setImages] = useState([img2, img3, img4, img5]);
+
   const handleImageClick = (selectedImage, index) => {
     setImages([mainImage, ...images.filter((_, i) => i !== index)]);
     setMainImage(selectedImage);
   };
 
-  useEffect(() => {
-    const foundProduct = products.find((item) => item.id === parseInt(id));
-    setProduct(foundProduct);
+  const loadProductData = async () => {
+    try {
+      const productsResponse = await axios.post(`${eCommerseServerUrl}products/exact/`, {'id': parseInt(id)}, {'headers': {'Content-Type': 'application/json'}});
 
-    if (foundProduct) {
-      const filteredProducts = products.filter(
-        (item) =>
-          item.category === foundProduct.category && item.id !== foundProduct.id
-      );
-      setSimilarProducts(filteredProducts);
+      setProduct(productsResponse.data.product);
+      setSimilarProducts(productsResponse.data.related);
+      setImages(productsResponse.data.product.product_image_Ecommerce_product_images);
+      setMainImage(productsResponse.data.product.product_image_Ecommerce_product_images[0]);
+    } catch (err) {
+      console.error(err);
     }
-  }, [id]);
+  };
 
-  if (!product) {
-    return <p><Loading /></p>;
-  }
+  useEffect(() => {
+    let isMounted = true; // To prevent setting state on unmounted component
+
+    const loadData = async () => {
+      if (isMounted) {
+        await loadProductData();
+      }
+    };
+
+    loadData();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Ensure usersServerUrl is a dependency if it's dynamic
 
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
-    console.log(selectedDep);
   };
 
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
 
-  return (
-    <div className="product-details">
+  return (product ? <><div className="product-details">
       <div className="to-back">
         <div className="inner">
           <Link to="/online-shop">
@@ -105,7 +119,7 @@ const ProductDetails = () => {
               />
             </svg>
           </span>
-          <span>{product.title}</span>
+          <span>{product.name}</span>
         </div>
       </div>
 
@@ -116,7 +130,7 @@ const ProductDetails = () => {
               {images.map((image, index) => (
                 <img
                   key={index}
-                  src={image}
+                  src={ `http://127.0.0.1:8901${image.image}` }
                   alt={`Image ${index + 2}`}
                   onClick={() => handleImageClick(image, index)}
                   style={{ cursor: "pointer" }}
@@ -124,7 +138,7 @@ const ProductDetails = () => {
               ))}
             </div>
             <div className="hero-image">
-              <img src={mainImage} alt="" />
+              <img src={ `http://127.0.0.1:8901${mainImage.image}` } alt="" />
             </div>
           </div>
           <div className="with-author">
@@ -139,23 +153,23 @@ const ProductDetails = () => {
           </div>
         </div>
         <div className="texts">
-          <div className="title">{product.title}</div>
+          <div className="title">{product.name}</div>
 
           <div className="price">
             <span
               className={
-                product.newPrice === null ? "oldPrice active" : "oldPrice "
+                product.price_off === null ? "oldPrice active" : "oldPrice "
               }
             >
-              {formatPrice(product.oldPrice)} so'm
+              {formatPrice(product.price)} so'm
             </span>
-            <span className={product.newPrice ? "newPrice active" : "newPrice"}>
-              {product.newPrice ? `${formatPrice(product.newPrice)} so'm` : ""}
+            <span className={product.price_off ? "newPrice active" : "newPrice"}>
+              {product.price_off ? `${formatPrice(product.price_off)} so'm` : ""}
             </span>
-            {product.newPrice && (
+            {product.price_off && (
               <div className="chegirma">
                 {Math.round(
-                  ((product.oldPrice - product.newPrice) / product.oldPrice) *
+                  ((product.price - product.price_off) / product.price) *
                     100
                 )}
                 % CHEGIRMA
@@ -192,25 +206,7 @@ const ProductDetails = () => {
               }`}
             >
               <p className="title">Tarif</p>
-              <p>
-                Ko'p funktsiyali oshxona pichog'i pishloq, non, sariyog ' va
-                sabzavotlarni maydalash, sabzavot va mevalarni, shu jumladan
-                kartoshkani (kartoshkani) tozalash va kesish uchun javob beradi.
-                Oshxona uchun oshpaz pichog'i-bu baliq kesish uchun non va
-                fileto pichog'i, go'sht va biftek uchun bolta, shuningdek
-                o'tlar, pishloq va kolbasa uchun, tarvuz uchun, kabob uchun,
-                piyoz uchun, pomidor uchun, meva yadrosi uchun, xamirni kesish
-                uchun javob beradi. Ushbu yordamchi pichoq sizning sevimli
-                ayolingiz, qizingiz, xotiningiz, onangiz yoki buvingiz uchun
-                ajoyib sovg'a bo'ladi. Oshxona pichog'i har qanday oshxonada
-                ajralmas yordamchidir. O'tkir pichoq pichog'i yuqori sifatli
-                zanglamaydigan po'latdan yasalgan bo'lib, uning chidamliligi va
-                mukammal kesish qobiliyatini ta'minlaydi. U optimal uzunlikka
-                ega, bu sizga oziq-ovqat mahsulotlarini oson va toza kesish,
-                kesish va kesish imkonini beradi. Ushbu yordamchi pichoq
-                pishirish paytida turli xil vazifalarni bajarish uchun
-                mo'ljallangan.
-              </p>
+              <p>{ product.price }</p>
             </div>
             <div
               className={`datas-container ${
@@ -220,51 +216,12 @@ const ProductDetails = () => {
               <p className="title">Pichoqning o’lchamlari va tavsifi:</p>
               <div className="more-data">
                 <ul>
-                  <li>
-                    <span>Pichoqning o’lchamlari va tavsifi:</span>
+                  {product.product_dimension_Ecommerce_product_dimentions.map((value, index) => <li key={ index }>
+                    <span>{ value.name }:</span>
                     <span></span>
-                    <span>21.6 sm (8.5 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Pichoq uzunligi:</span>
-                    <span></span>
-                    <span>10.2 sm (4 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Tutqich uzunligi:</span>
-                    <span></span>
-                    <span>11.4 sm (4.5 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Pichoq qalinligi:</span>
-                    <span></span>
-                    <span>3 mm (0.12 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Og’irligi:</span>
-                    <span></span>
-                    <span>175 gramm (6.2 untsiya)</span>
-                  </li>
-                  <li>
-                    <span>Pichoq materiali:</span>
-                    <span></span>
-                    <span>Yuqori sifatli karbonli zanglamaydigan po’lat</span>
-                  </li>
-                  <li>
-                    <span>Tutqich materiali:</span>
-                    <span></span>
-                    <span>G10 kompozit, sirpanmaydigan yuzaga ega</span>
-                  </li>
-                  <li>
-                    <span>Pichoq qirrasining turi:</span>
-                    <span></span>
-                    <span>Tekis, o’tkir</span>
-                  </li>
-                  <li>
-                    <span>Qattiqlik darajasi:</span>
-                    <span></span>
-                    <span>HRC 58-60</span>
-                  </li>
+                    <span>{ value.value }</span>
+                  </li>)}
+                  
                 </ul>
                 <div className="xus">
                   <div className="title">Xususiyatlari</div>
@@ -275,16 +232,7 @@ const ProductDetails = () => {
                     <p>Ko‘p funksiyali dizayn: kesish, chopish va tilish uchun mos</p>
                   </div> */}
                   <ul>
-                    <li>Qulay tutish uchun ergonomik tutqich dizayni</li>
-                    <li>Mustahkamlikni oshiruvchi to‘liq karkasli tuzilma</li>
-                    <li>
-                      Korroziyaga chidamli pichoq, uzoq muddat o’tkirlikni
-                      saqlab qoladi
-                    </li>
-                    <li>
-                      Ko‘p funksiyali dizayn: kesish, chopish va tilish uchun
-                      mos
-                    </li>
+                    {product.product_property_Ecommerce_product_properties.map((value, index) => <li key={ index }>{ value.text }</li>)}
                   </ul>
                 </div>
               </div>
@@ -297,21 +245,21 @@ const ProductDetails = () => {
         <div className="littleTitle">Yangi mahsulotlarni sinab ko'ring!</div>
         <div className="similar-products">
           {similarProducts.map((similarProduct, index) => (
-            <Link to={`product/${similarProduct.id}`} key={index}>
+            <Link to={`/online-shop/product/${similarProduct.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={similarProduct.img} alt="" />
+                {/* <img src={'http://127.0.0.1:8901' + String(product.product_image_Ecommerce_product_images[0] ? product.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." /> */}
                 </div>
-                <div className="productTitle">{similarProduct.title}</div>
+                <div className="productTitle">{similarProduct.name}</div>
                 <div className="productDescription">
                   {similarProduct.description}
                 </div>
                 <div className="price">
                   <span className="oldPrice">
-                    {similarProduct.oldPrice} so'm
+                    {similarProduct.price} so'm
                   </span>
                   <span className="newPrice">
-                    {similarProduct.newPrice} so'm
+                    {similarProduct.price_off} so'm
                   </span>
                 </div>
                 <div className="details">
@@ -343,7 +291,7 @@ const ProductDetails = () => {
           ))}
         </div>
       </div>
-    </div>
+    </div></> : <Loading />
   );
 };
 

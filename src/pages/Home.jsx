@@ -1,5 +1,3 @@
-import React, { useState, useContext } from 'react';
-import { MyContext } from '../context/myContext';
 import HeroSwiper from '../components/hero-swiper/hero-swiper';
 import AboutKasana from '../components/aboutKasana/AboutKasana';
 import KasanaTypes from '../components/kasanaTypes/KasanaTypes';
@@ -11,10 +9,12 @@ import Announcements from '../components/announcements/Announcements';
 import LittlePoster from '../components/littlePoster/LittlePoster';
 import Success from '../components/success/Success';
 import Questions from '../components/questions/questions';
+import { MyContext } from '../context/myContext';
+import { useContext } from 'react';
 
 
 const Home = () => {
-    const { value } = useContext(MyContext)
+  const {} = useContext(MyContext);
 
   return (
     <div>
@@ -33,4 +33,5 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;
+
