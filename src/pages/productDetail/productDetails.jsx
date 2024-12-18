@@ -143,9 +143,9 @@ const ProductDetails = () => {
           </div>
           <div className="with-author">
             <div className="author">
-              <img src={product.authorImg} alt="" />
+              <img src={product.user.pfp} alt="" />
               <div className="text">
-                <div className="name">{product.authorName}</div>
+                <div className="name">{product.user.first_name} {product.user.last_name}</div>
                 <div className="work">{product.work}</div>
               </div>
             </div>
