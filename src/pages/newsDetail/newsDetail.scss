@@ -1,6 +1,7 @@
 #newsInnerDetail {
     background-color: #F5F5F5;
 
+
     .to-back {
         background-color: #41A58D;
         height: 50px;
@@ -36,6 +37,8 @@
         gap: 20px;
         justify-content: space-between;
         padding: 30px 50px;
+        max-width: 1366px;
+        margin: 0 auto;
 
         .left-side {
             display: flex;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./addComments.scss";
-import user from "./userImg.png";
+import "../addComments/addComments.scss";
+import user from "../addComments/userImg.png";
 import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
 
-const AddComments = ({ news }) => {
+const AddProductsComments = ({ com }) => {
   const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState("");
+  const [productComment, setProductComment] = useState("");
   const [replyingTo, setReplyingTo] = useState(null); // reply uchun yangi holat
   const [currentReplyTo, setCurrentReplyTo] = useState(null); // replyga reply yozish uchun
   const { id } = useParams();
@@ -15,7 +15,7 @@ const AddComments = ({ news }) => {
 
   // Izohlarni localStorage'dan olish
   useEffect(() => {
-    const storedComments = localStorage.getItem("comments");
+    const storedComments = localStorage.getItem("product-comments");
     if (storedComments) {
       setComments(JSON.parse(storedComments));
     }
@@ -24,25 +24,25 @@ const AddComments = ({ news }) => {
   // Izohlarni localStorage'ga saqlash
   useEffect(() => {
     if (Object.keys(comments).length > 0) {
-      localStorage.setItem("comments", JSON.stringify(comments));
+      localStorage.setItem("product-comments", JSON.stringify(comments));
     }
   }, [comments]);
 
   useEffect(() => {
-    if (news) {
+    if (com) {
       setComments((prevComments) => ({
         ...prevComments,
-        [news.id]: prevComments[news.id] || [],
+        [com.id]: prevComments[com.id] || [],
       }));
     }
-  }, [id, news]);
+  }, [id, com]);
 
   const handleAddComment = () => {
-    if (newComment.trim() === "") return;
+    if (productComment.trim() === "") return;
 
     const comment = {
       id: Date.now(),
-      text: newComment,
+      text: productComment,
       author: "Foydalanuvchi",
       replies: [],
     };
@@ -51,42 +51,39 @@ const AddComments = ({ news }) => {
     setComments((prevComments) => {
       const updatedComments = {
         ...prevComments,
-        [news.id]: [...(prevComments[news.id] || []), comment],
+        [com.id]: [...(prevComments[com.id] || []), comment],
       };
       return updatedComments;
     });
 
-    setNewComment(""); // Inputni tozalash
+    setProductComment(""); // Inputni tozalash
   };
 
   const handleReply = () => {
-    if (newComment.trim() === "") return;
+    if (productComment.trim() === "") return;
 
     const updatedComments = { ...comments };
     let commentToReply = null;
 
     if (currentReplyTo) {
       // Replyga reply qo'shish
-      commentToReply = findCommentById(
-        updatedComments[news.id],
-        currentReplyTo
-      );
+      commentToReply = findCommentById(updatedComments[com.id], currentReplyTo);
     } else {
       // Asosiy reply
-      commentToReply = findCommentById(updatedComments[news.id], replyingTo);
+      commentToReply = findCommentById(updatedComments[com.id], replyingTo);
     }
 
     if (commentToReply) {
       commentToReply.replies.push({
         id: Date.now(),
-        text: newComment,
+        text: productComment,
         author: "Foydalanuvchi",
         replies: [],
       });
     }
 
     setComments(updatedComments);
-    setNewComment(""); // Inputni tozalash
+    setProductComment(""); // Inputni tozalash
     setReplyingTo(null); // reply holatini tozalash
     setCurrentReplyTo(null); // current reply holatini tozalash
   };
@@ -107,8 +104,9 @@ const AddComments = ({ news }) => {
   const handleCancelReply = () => {
     setReplyingTo(null); // Javobni bekor qilish
     setCurrentReplyTo(null); // Replyga reply holatini bekor qilish
-    setNewComment(""); // Inputni tozalash
+    setProductComment(""); // Inputni tozalash
   };
+
 
   const renderReplies = (replies) => {
     return replies.map((reply) => (
@@ -118,7 +116,7 @@ const AddComments = ({ news }) => {
             <img src={user} alt="" />
             <div className="texts">
               <div className="name">
-                {reply.author} {reply.author === news.authorName && "(muallif)"}
+                {reply.author} {reply.author === com.authorName && "(muallif)"}
               </div>
               <div className="date">
                 <span>{new Date(reply.id).toLocaleDateString()}</span>
@@ -126,9 +124,7 @@ const AddComments = ({ news }) => {
             </div>
           </div>
           <div className="reply-button">
-            <button onClick={() => setCurrentReplyTo(reply.id)}>
-              Javob berish
-            </button>
+            <button onClick={() => setCurrentReplyTo(reply.id)}>Javob berish</button>
           </div>
         </div>
         <div className="message">{reply.text}</div>
@@ -141,16 +137,15 @@ const AddComments = ({ news }) => {
     <div id="comments">
       <h2>Izohlar</h2>
       <div className="commentsInner">
-        {comments[news.id] && comments[news.id].length > 0 ? (
-          comments[news.id].map((comment) => (
+        {comments[com.id] && comments[com.id].length > 0 ? (
+          comments[com.id].map((comment) => (
             <div className="user-comment" key={comment.id}>
               <div className="who">
                 <div className="user">
                   <img src={user} alt="" />
                   <div className="texts">
                     <div className="name">
-                      {comment.author}{" "}
-                      {comment.author === news.authorName && "(muallif)"}
+                    {comment.author} {comment.author === com.authorName && "(muallif)"}
                     </div>
                     <div className="date">
                       <span>{new Date(comment.id).toLocaleDateString()}</span>
@@ -158,9 +153,7 @@ const AddComments = ({ news }) => {
                   </div>
                 </div>
                 <div className="reply-button">
-                  <button onClick={() => setReplyingTo(comment.id)}>
-                    Javob berish
-                  </button>
+                  <button onClick={() => setReplyingTo(comment.id)}>Javob berish</button>
                 </div>
               </div>
               <div className="message">{comment.text}</div>
@@ -174,21 +167,23 @@ const AddComments = ({ news }) => {
       <div className="addComment">
         <div className="title">
           <span>Izoh matni</span>
-          {isAuthenticated ? <></> : <Link to="/login">Kirish</Link>}
+          {
+              isAuthenticated ? (
+                <></>
+            ) : (
+                <Link to="/login">Kirish</Link>
+            )
+          }
         </div>
         {(replyingTo || currentReplyTo) && (
-          <button
-            type="button"
-            className="cancel-reply"
-            onClick={handleCancelReply}
-          >
-            Javobdan voz kechish
-          </button>
-        )}
+            <button type="button" className="cancel-reply" onClick={handleCancelReply}>
+              Javobdan voz kechish
+            </button>
+          )}
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (newComment.trim() === "") return; // Izoh bo'sh bo'lsa hech narsa qilmasin
+            if (productComment.trim() === "") return; // Izoh bo'sh bo'lsa hech narsa qilmasin
             if (currentReplyTo) {
               handleReply(); // Agar javobga reply qo'shish bo'lsa
             } else if (replyingTo) {
@@ -199,6 +194,7 @@ const AddComments = ({ news }) => {
           }}
         >
           <div className="type">
+            
             <div className="btns">
               <button>
                 <svg
@@ -480,32 +476,28 @@ const AddComments = ({ news }) => {
               </button>
             </div>
             <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder={
-                currentReplyTo
-                  ? "Javob yozing..."
-                  : replyingTo
-                  ? "Javob yozing..."
-                  : "Izoh yozing..."
-              }
+              value={productComment}
+              onChange={(e) => setProductComment(e.target.value)}
+              placeholder={currentReplyTo ? "Javob yozing..." : replyingTo ? "Javob yozing..." : "Izoh yozing..."}
             />
           </div>
-          {isAuthenticated ? (
-            <button id="submit" type="submit">
-              Yuborish
-            </button>
-          ) : (
-            <div style={{ marginTop: "20px" }}>
-              <Link to="/login" id="submit">
-                Iltimos xisobingizga kiring
-              </Link>
-            </div>
-          )}
+          {
+            isAuthenticated ? (
+                <button id="submit" type="submit">
+                    Yuborish
+                </button>
+            ) : (
+                <div style={{marginTop: '20px'}}>
+                    <Link to="/login"  id="submit">
+                        Iltimos xisobingizga kiring
+                    </Link>
+                </div>
+            )
+          }
         </form>
       </div>
     </div>
   );
 };
 
-export default AddComments;
+export default AddProductsComments;

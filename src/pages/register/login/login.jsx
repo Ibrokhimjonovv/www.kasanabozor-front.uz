@@ -182,7 +182,7 @@ const Login = () => {
                 className="down-arrow"
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 viewBox="0 0 1024 1024"
                 height="1em"
                 width="1em"
@@ -229,9 +229,9 @@ const Login = () => {
                 <path
                   d="M20.3337 22.5V20.1667C20.3337 18.929 19.842 17.742 18.9668 16.8668C18.0917 15.9917 16.9047 15.5 15.667 15.5H6.33366C5.09598 15.5 3.909 15.9917 3.03383 16.8668C2.15866 17.742 1.66699 18.929 1.66699 20.1667V22.5M15.667 6.16667C15.667 8.744 13.5777 10.8333 11.0003 10.8333C8.423 10.8333 6.33366 8.744 6.33366 6.16667C6.33366 3.58934 8.423 1.5 11.0003 1.5C13.5777 1.5 15.667 3.58934 15.667 6.16667Z"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <span id="code">+998</span>
@@ -259,9 +259,9 @@ const Login = () => {
                 <path
                   d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
 
@@ -279,7 +279,7 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   stroke="#41A58D"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokewidth="0"
                   viewBox="0 0 1024 1024"
                   height="1em"
                   width="1em"
@@ -301,16 +301,16 @@ const Login = () => {
                   <path
                     d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
                     stroke="#41A58D"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
                     stroke="#41A58D"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               )}
@@ -334,9 +334,9 @@ const Login = () => {
               <path
                 d="M5.16667 2.33296H2.66667C2.22464 2.33296 1.80072 2.50855 1.48816 2.82111C1.1756 3.13367 1 3.5576 1 3.99962V4.83296M5.16667 15.6663H2.66667C2.22464 15.6663 1.80072 15.4907 1.48816 15.1781C1.1756 14.8656 1 14.4417 1 13.9996V13.1663M0.999167 8.99962H5.16583M5.16583 8.99962L3.49917 7.33296M5.16583 8.99962L3.49917 10.6663M14.8125 15.1896L9.8125 16.6896C9.5636 16.7643 9.30067 16.7798 9.04473 16.7348C8.78878 16.6898 8.5469 16.5856 8.33841 16.4304C8.12992 16.2753 7.96059 16.0736 7.84396 15.8413C7.72732 15.6091 7.66661 15.3528 7.66667 15.093V2.90629C7.66661 2.64642 7.72732 2.39013 7.84396 2.1579C7.96059 1.92567 8.12992 1.72393 8.33841 1.5688C8.5469 1.41367 8.78878 1.30944 9.04473 1.26444C9.30067 1.21944 9.5636 1.23491 9.8125 1.30962L14.8125 2.80962C15.1558 2.91268 15.4568 3.12367 15.6707 3.41129C15.8846 3.69892 16.0001 4.04784 16 4.40629V13.593C16.0001 13.9514 15.8846 14.3003 15.6707 14.588C15.4568 14.8756 15.1558 15.0866 14.8125 15.1896Z"
                 stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
