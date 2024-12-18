@@ -10,17 +10,27 @@ import img4 from "./productImg4.png";
 import img5 from "./productImg5.png";
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
+<<<<<<< HEAD
 import { eCommerseServerUrl } from "../../SuperVars";
 
+=======
+import AddComments from "../../components/addComments/addComments";
+import AddProductsComments from "../../components/addProductComments/addProductsComment";
+>>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
 
 const ProductDetails = () => {
+  const { isAuthenticated } = useContext(MyContext);
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
   const [mainImage, setMainImage] = useState(img1);
+<<<<<<< HEAD
   const [images, setImages] = useState([img2, img3, img4, img5]);
 
+=======
+  const [images, setImages] = useState([img2, img3, img4, img5, img5]);
+>>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
   const handleImageClick = (selectedImage, index) => {
     setImages([mainImage, ...images.filter((_, i) => i !== index)]);
     setMainImage(selectedImage);
@@ -39,6 +49,7 @@ const ProductDetails = () => {
     }
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     let isMounted = true; // To prevent setting state on unmounted component
 
@@ -55,6 +66,15 @@ const ProductDetails = () => {
       isMounted = false;
     };
   }, []); // Ensure usersServerUrl is a dependency if it's dynamic
+=======
+  if (!product) {
+    return (
+      <p>
+        <Loading />
+      </p>
+    );
+  }
+>>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
 
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
@@ -141,6 +161,7 @@ const ProductDetails = () => {
               <img src={ `http://127.0.0.1:8901${mainImage.image}` } alt="" />
             </div>
           </div>
+<<<<<<< HEAD
           <div className="with-author">
             <div className="author">
               <img src={product.user.pfp} alt="" />
@@ -151,6 +172,8 @@ const ProductDetails = () => {
             </div>
             <Link to="#">Buyurtma qilish</Link>
           </div>
+=======
+>>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
         </div>
         <div className="texts">
           <div className="title">{product.name}</div>
@@ -176,6 +199,7 @@ const ProductDetails = () => {
               </div>
             )}
           </div>
+<<<<<<< HEAD
 
           <div className="dep">
             <input
@@ -235,8 +259,128 @@ const ProductDetails = () => {
                     {product.product_property_Ecommerce_product_properties.map((value, index) => <li key={ index }>{ value.text }</li>)}
                   </ul>
                 </div>
+=======
+          <div className="title">Qisqacha tafsilot</div>
+          <p>
+            Chust hunarmandchilik pichoqlari, asosan, o'ziga xos dizayni va
+            yuqori sifatli materiallari bilan ajralib turadi. Ushbu pichoqlar,
+            an'anaviy usullar bilan ishlab chiqarilib, hunarmandlar tomonidan
+            qo'l mehnati bilan tayyorlanadi. Chust pichoqlari, o'zining kesish
+            qobiliyati va mustahkamligi bilan mashhur bo'lib, ko'plab oshpazlar
+            va hunarmandlar tomonidan qadrlanadi.
+          </p>
+          <div className="with-author">
+            <div className="author">
+              <img src={product.authorImg} alt="" />
+              <div className="text">
+                <div className="name">{product.authorName}</div>
+                <div className="work">{product.work}</div>
+>>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
               </div>
             </div>
+            {isAuthenticated ? (
+              <Link to="#">Bog'lanish</Link>
+            ) : (
+              <Link to="/login">Kirish</Link>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="about-product-bottom">
+        <div className="dep">
+          <input
+            type="radio"
+            name="dep"
+            id="tarriff"
+            checked={selectedDep === "tarriff"}
+            onChange={handleChange}
+          />
+          <label htmlFor="tarriff" className="tarriff_label">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.0013 13.3333V10M10.0013 6.66667H10.0096M18.3346 10C18.3346 14.6024 14.6037 18.3333 10.0013 18.3333C5.39893 18.3333 1.66797 14.6024 1.66797 10C1.66797 5.39763 5.39893 1.66667 10.0013 1.66667C14.6037 1.66667 18.3346 5.39763 18.3346 10Z"
+                stroke="#41A58D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Mahsulot tarifi
+          </label>
+          <input
+            type="radio"
+            name="dep"
+            id="datas"
+            checked={selectedDep === "datas"}
+            onChange={handleChange}
+          />
+          <label htmlFor="datas" className="datas_label">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.5 9.58333C17.5029 10.6832 17.2459 11.7682 16.75 12.75C16.162 13.9265 15.2581 14.916 14.1395 15.6077C13.021 16.2995 11.7319 16.6662 10.4167 16.6667C9.31678 16.6695 8.23176 16.4126 7.25 15.9167L2.5 17.5L4.08333 12.75C3.58744 11.7682 3.33047 10.6832 3.33333 9.58333C3.33384 8.26813 3.70051 6.97904 4.39227 5.86046C5.08402 4.74187 6.07355 3.83797 7.25 3.25C8.23176 2.75411 9.31678 2.49713 10.4167 2.5H10.8333C12.5703 2.59583 14.2109 3.32897 15.4409 4.55905C16.671 5.78913 17.4042 7.42971 17.5 9.16667V9.58333Z"
+                stroke="#5A5A5A"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Fikrlar
+          </label>
+        </div>
+        <div className="dep-container">
+          <div
+            className={`datas-container ${
+              selectedDep === "tarriff" ? "active" : ""
+            }`}
+          >
+            <p className="title">{product.title}</p>
+            <p>
+              Chust hunarmandchilik pichoqlari, o'ziga xos dizayni va yuqori
+              sifatli materiallari bilan ajralib turadi. Ushbu pichoqlar,
+              an'anaviy usullar bilan ishlab chiqarilib, hunarmandlar tomonidan
+              qo'l mehnati bilan tayyorlanadi. Chust pichoqlari, o'zining kesish
+              qobiliyati va mustahkamligi bilan mashhur bo'lib, ko'plab
+              oshpazlar va hunarmandlar tomonidan qadrlanadi. Chust pichoqlari
+              tarixi asrlar davomida shakllangan bo'lib, bu yerda hunarmandlar
+              o'z mahoratlarini avloddan-avlodga o'tkazib kelishgan. Ularning
+              har biri o'ziga xos uslub va an'analarga ega bo'lib, pichoqlarni
+              yaratishda tabiiy materiallardan foydalanishadi. Chust pichoqlari,
+              nafaqat amaliyotda, balki san'at asari sifatida ham qadrlanadi.
+              Har bir pichoq, o'zining o'ziga xos shakli va dizayni bilan
+              ajralib turadi, bu esa ularni boshqa pichoqlardan farqlaydi. Ushbu
+              pichoqlar, nafaqat oshpazlar uchun, balki san'atkorlar va
+              kollektorlar uchun ham qimmatli bo'lib, ularning har biri o'ziga
+              xos hikoyaga ega. Chust hunarmandlari, o'z ishlarida an'anaviy
+              usullarni saqlab qolish bilan birga, zamonaviy dizayn
+              elementlarini ham qo'shib, pichoqlarni yanada jozibador va
+              funksional qilishga intiladilar.
+            </p>
+            <div className="hashtags">
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+            </div>
+          </div>
+          <div
+            className={`datas-container ${
+              selectedDep === "datas" ? "active" : ""
+            }`}
+          >
+            <AddProductsComments com={product} />
           </div>
         </div>
       </div>

@@ -63,7 +63,7 @@ const Signup = () => {
 
     if (!/^\d{9,12}$/.test(formData.phone.replace(/\D/g, ""))) {
       newErrors.phone =
-        "Telefon raqam noto'g'ri yoki to'liq emas. (9-12 raqam bo'lishi kerak)";
+        "Telefon raqam noto'g'ri yoki to'liq emas";
     }
 
     // Parollarni tekshirish
@@ -283,12 +283,14 @@ const Signup = () => {
                   stroke-linejoin="round"
                 />
               </svg>
+              <span id="code">+998</span>
               <InputMask
-                mask="+\9\98 (99) 999-99-99"
+                mask="(99) 999-99-99"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="+998 (__) ___-__-__"
+                placeholder="(__) ___-__-__"
                 name="phone"
+                id="phone"
               />
             </div>
             {error.phone && <p className="error-message">{error.phone}</p>}

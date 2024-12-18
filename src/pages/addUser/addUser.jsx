@@ -404,6 +404,74 @@ const AddUser = () => {
 
               <div className="error-message">To'ldirilishi shart</div>
             </div>
+            <div className="input-row">
+              <label htmlFor="gender">Roli</label>
+              <div className="inputs">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.40039 21.6004L2.4008 18C2.40102 16.0119 4.01273 14.4004 6.00079 14.4004H13.2002M16.2004 17.4004L17.4004 18.6004L21.6004 14.4004M14.4004 6.00039C14.4004 7.98862 12.7886 9.60039 10.8004 9.60039C8.81216 9.60039 7.20039 7.98862 7.20039 6.00039C7.20039 4.01217 8.81216 2.40039 10.8004 2.40039C12.7886 2.40039 14.4004 4.01217 14.4004 6.00039Z"
+                    stroke="#B2B2B2"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                <select name="gender" id="gender">
+                  <option value="#" disabled>
+                    Tanlang
+                  </option>
+                  <option value="">Roli 1</option>
+                  <option value="">Roli 2</option>
+                </select>
+              </div>
+              <div className="error-message">To'ldirilishi shart</div>
+            </div>
+            <div className="input-row mro-width">
+              <label htmlFor="file">Faoliyati</label>
+              <div className="inputs">
+                <svg
+                  width="25"
+                  height="24"
+                  viewBox="0 0 25 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_1164_4770)">
+                    <path
+                      d="M19.3301 4H18.2291C17.7641 1.721 15.7441 0 13.3301 0H11.3301C8.91608 0 6.89508 1.721 6.43108 4H5.33008C2.57308 4 0.330078 6.243 0.330078 9V19C0.330078 21.757 2.57308 24 5.33008 24H19.3301C22.0871 24 24.3301 21.757 24.3301 19V9C24.3301 6.243 22.0871 4 19.3301 4ZM11.3301 2H13.3301C14.6341 2 15.7451 2.836 16.1581 4H8.50208C8.91508 2.836 10.0261 2 11.3301 2ZM22.3301 19C22.3301 20.654 20.9841 22 19.3301 22H18.3301V9C18.3301 8.447 17.8831 8 17.3301 8C16.7771 8 16.3301 8.447 16.3301 9V22H8.33008V9C8.33008 8.447 7.88208 8 7.33008 8C6.77808 8 6.33008 8.447 6.33008 9V22H5.33008C3.67608 22 2.33008 20.654 2.33008 19V9C2.33008 7.346 3.67608 6 5.33008 6H19.3301C20.9841 6 22.3301 7.346 22.3301 9V19Z"
+                      fill="#B3B3B3"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1164_4770">
+                      <rect
+                        width="24"
+                        height="24"
+                        fill="white"
+                        transform="translate(0.330078)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+
+                <select name="" id="">
+                  <option value="" disabled>
+                    Tanlang
+                  </option>
+                  <option value="">Faoliyati 1</option>
+                  <option value="">Faoliyati 2</option>
+                </select>
+              </div>
+
+              <div className="error-message">To'ldirilishi shart</div>
+            </div>
             {/* Viloyat */}
             <div className="input-row">
               <label htmlFor="regions">Viloyatni</label>

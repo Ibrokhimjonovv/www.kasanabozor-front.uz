@@ -31,15 +31,31 @@ import Admins from "./pages/admins/admins";
 import Moderators from "./pages/moderators/moderators";
 import AddUser from "./pages/addUser/addUser";
 import Jobs from "./pages/admin-jobs/jobs";
+import AdminProducts from "./pages/admin-products/admin-products";
+import AdminCategories from "./pages/admin-categories/admin-categories";
+import AdminSubcategories from "./pages/admin-sub-categories/adminSubcategories";
+import AdminHashtags from "./pages/admin-hashtags/admin-hashtags";
+import AdminTeachers from "./pages/admin-teachers/adminTeachers";
+import AddTeacher from "./pages/addTeacher/addTeacher";
+import AdminPupils from "./pages/adminPupils/adminPupils";
+import AddPupil from "./pages/addPupil/addPupil";
+import AdminNews from "./pages/adminNews/adminNews";
+import AddNews from "./pages/addNews/addNews";
+import AdminNewsCategories from "./pages/admin-news-categories/admin-news-categories";
+import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 
+<<<<<<< HEAD
 import './createAxiosClient';
 
+=======
+export const globalApi = "http://bk.kasanabozor.uz"
+>>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
 
 function AppContent() {
   const location = useLocation();
 
   // Headerni ko'rsatmaslik kerak bo'lgan sahifalar
-  const noHeaderPaths = ["/login", "/signup", "/dashboard", '/dashboard/admin/users', '/dashboard/admin/homemakers', '/dashboard/admin/admins', '/dashboard/admin/moderators', '/dashboard/admin/add-user', '/dashboard/admin/jobs'];
+  const noHeaderPaths = ["/login", "/signup", "/dashboard", '/dashboard/admin/users', '/dashboard/admin/homemakers', '/dashboard/admin/admins', '/dashboard/admin/moderators', '/dashboard/admin/add-user', '/dashboard/admin/jobs', '/dashboard/admin/products', '/dashboard/admin/categories', '/dashboard/admin/subcategories', '/dashboard/admin/hashtags', '/dashboard/admin/teachers','/dashboard/admin/add-teacher', '/dashboard/admin/pupils', '/dashboard/admin/add-pupils', '/dashboard/admin/admin-news', '/dashboard/admin/add-news', '/dashboard/admin/admin-news-categories'];
   const { isAuthenticated } = useContext(MyContext);
 
   return (
@@ -68,9 +84,13 @@ function AppContent() {
           element={<CoursesCategory />}
         />
         <Route path="courses/course/:id" element={<CourseDetail />} />
+        {/* Announce start */}
         <Route path="announcements" element={<AnnouncementsPage />} />
         <Route path="announcements/:id" element={<AnnounceDetail />} />
+        {/* Announce end */}
+        {/* Profile start */}
         <Route path="profile" element={<Profile />} />
+        {/* Profile end */}
 
         {/* Admin start */}
         <Route path="dashboard/admin/users" element={<Users />}/>
@@ -79,7 +99,22 @@ function AppContent() {
         <Route path="dashboard/admin/moderators" element={<Moderators />}/>
         <Route path="dashboard/admin/add-user/" element={<AddUser />}/>
         <Route path="dashboard/admin/jobs/" element={<Jobs />}/>
+        <Route path="dashboard/admin/products/" element={<AdminProducts />} />
+        <Route path="dashboard/admin/categories/" element={<AdminCategories />} />
+        <Route path="dashboard/admin/subcategories/" element={<AdminSubcategories />} />
+        <Route path="dashboard/admin/hashtags" element={<AdminHashtags />} />
+        <Route path="dashboard/admin/teachers" element={<AdminTeachers />} />
+        <Route path="dashboard/admin/add-teacher" element={<AddTeacher />} />
+        <Route path="dashboard/admin/pupils" element={<AdminPupils />} />
+        <Route path="dashboard/admin/add-pupils" element={<AddPupil />} />
+        <Route path="dashboard/admin/admin-news" element={<AdminNews />} />
+        <Route path="dashboard/admin/add-news" element={<AddNews />} />
+        <Route path="dashboard/admin/admin-news-categories" element={<AdminNewsCategories />} />
         {/* Admin end */}
+
+        {/* Chatbox start */}
+          <Route path="/online-shop/messaging" element={<UsersMessaging />} />
+        {/* Chatbox end */}
 
         {isAuthenticated ? (
           <Route path="dashboard" element={<Dashboard />} />

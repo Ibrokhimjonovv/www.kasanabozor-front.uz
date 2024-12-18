@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./addComments.scss";
 import user from "./userImg.png";
 import { Link, useParams } from "react-router-dom";
+import { MyContext } from "../../context/myContext";
+import { useContext } from "react";
 
 const AddComments = ({ news }) => {
   const [comments, setComments] = useState({});
@@ -9,6 +11,7 @@ const AddComments = ({ news }) => {
   const [replyingTo, setReplyingTo] = useState(null); // reply uchun yangi holat
   const [currentReplyTo, setCurrentReplyTo] = useState(null); // replyga reply yozish uchun
   const { id } = useParams();
+  const { isAuthenticated } = useContext(MyContext)
 
   // Izohlarni localStorage'dan olish
   useEffect(() => {
@@ -64,7 +67,10 @@ const AddComments = ({ news }) => {
 
     if (currentReplyTo) {
       // Replyga reply qo'shish
-      commentToReply = findCommentById(updatedComments[news.id], currentReplyTo);
+      commentToReply = findCommentById(
+        updatedComments[news.id],
+        currentReplyTo
+      );
     } else {
       // Asosiy reply
       commentToReply = findCommentById(updatedComments[news.id], replyingTo);
@@ -104,7 +110,6 @@ const AddComments = ({ news }) => {
     setNewComment(""); // Inputni tozalash
   };
 
-
   const renderReplies = (replies) => {
     return replies.map((reply) => (
       <div key={reply.id} className="replied-messages">
@@ -121,7 +126,9 @@ const AddComments = ({ news }) => {
             </div>
           </div>
           <div className="reply-button">
-            <button onClick={() => setCurrentReplyTo(reply.id)}>Javob berish</button>
+            <button onClick={() => setCurrentReplyTo(reply.id)}>
+              Javob berish
+            </button>
           </div>
         </div>
         <div className="message">{reply.text}</div>
@@ -142,7 +149,8 @@ const AddComments = ({ news }) => {
                   <img src={user} alt="" />
                   <div className="texts">
                     <div className="name">
-                    {comment.author} {comment.author === news.authorName && "(muallif)"}
+                      {comment.author}{" "}
+                      {comment.author === news.authorName && "(muallif)"}
                     </div>
                     <div className="date">
                       <span>{new Date(comment.id).toLocaleDateString()}</span>
@@ -150,7 +158,9 @@ const AddComments = ({ news }) => {
                   </div>
                 </div>
                 <div className="reply-button">
-                  <button onClick={() => setReplyingTo(comment.id)}>Javob berish</button>
+                  <button onClick={() => setReplyingTo(comment.id)}>
+                    Javob berish
+                  </button>
                 </div>
               </div>
               <div className="message">{comment.text}</div>
@@ -164,13 +174,17 @@ const AddComments = ({ news }) => {
       <div className="addComment">
         <div className="title">
           <span>Izoh matni</span>
-          <Link to="#">Kirish</Link>
+          {isAuthenticated ? <></> : <Link to="/login">Kirish</Link>}
         </div>
         {(replyingTo || currentReplyTo) && (
-            <button type="button" className="cancel-reply" onClick={handleCancelReply}>
-              Javobdan voz kechish
-            </button>
-          )}
+          <button
+            type="button"
+            className="cancel-reply"
+            onClick={handleCancelReply}
+          >
+            Javobdan voz kechish
+          </button>
+        )}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -185,7 +199,6 @@ const AddComments = ({ news }) => {
           }}
         >
           <div className="type">
-            
             <div className="btns">
               <button>
                 <svg
@@ -469,12 +482,26 @@ const AddComments = ({ news }) => {
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder={currentReplyTo ? "Javob yozing..." : replyingTo ? "Javob yozing..." : "Izoh yozing..."}
+              placeholder={
+                currentReplyTo
+                  ? "Javob yozing..."
+                  : replyingTo
+                  ? "Javob yozing..."
+                  : "Izoh yozing..."
+              }
             />
           </div>
-          <button id="submit" type="submit">
-            Yuborish
-          </button>
+          {isAuthenticated ? (
+            <button id="submit" type="submit">
+              Yuborish
+            </button>
+          ) : (
+            <div style={{ marginTop: "20px" }}>
+              <Link to="/login" id="submit">
+                Iltimos xisobingizga kiring
+              </Link>
+            </div>
+          )}
         </form>
       </div>
     </div>
