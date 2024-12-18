@@ -9,16 +9,18 @@ import img4 from "./productImg4.png";
 import img5 from "./productImg5.png";
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
+import AddComments from "../../components/addComments/addComments";
+import AddProductsComments from "../../components/addProductComments/addProductsComment";
 
 const ProductDetails = () => {
-  const { isAuthenticated } = useContext(MyContext)
+  const { isAuthenticated } = useContext(MyContext);
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
   const { products } = useContext(MyContext);
-  const [mainImage, setMainImage] = useState(img1); 
-  const [images, setImages] = useState([img2, img3, img4, img5]);
+  const [mainImage, setMainImage] = useState(img1);
+  const [images, setImages] = useState([img2, img3, img4, img5, img5]);
   const handleImageClick = (selectedImage, index) => {
     setImages([mainImage, ...images.filter((_, i) => i !== index)]);
     setMainImage(selectedImage);
@@ -38,7 +40,11 @@ const ProductDetails = () => {
   }, [id]);
 
   if (!product) {
-    return <p><Loading /></p>;
+    return (
+      <p>
+        <Loading />
+      </p>
+    );
   }
 
   const handleChange = (event) => {
@@ -128,22 +134,6 @@ const ProductDetails = () => {
               <img src={mainImage} alt="" />
             </div>
           </div>
-          <div className="with-author">
-            <div className="author">
-              <img src={product.authorImg} alt="" />
-              <div className="text">
-                <div className="name">{product.authorName}</div>
-                <div className="work">{product.work}</div>
-              </div>
-            </div>
-            {
-              isAuthenticated ? (
-                <Link to="#">Buyurtma qilish</Link>
-              ) : (
-                <Link to="/login">Login</Link>
-              )
-            }
-          </div>
         </div>
         <div className="texts">
           <div className="title">{product.title}</div>
@@ -169,133 +159,126 @@ const ProductDetails = () => {
               </div>
             )}
           </div>
-
-          <div className="dep">
-            <input
-              type="radio"
-              name="dep"
-              id="tarriff"
-              checked={selectedDep === "tarriff"}
-              onChange={handleChange}
-            />
-            <label htmlFor="tarriff" className="tarriff_label">
-              Mahsulot tarifi
-            </label>
-            <input
-              type="radio"
-              name="dep"
-              id="datas"
-              checked={selectedDep === "datas"}
-              onChange={handleChange}
-            />
-            <label htmlFor="datas" className="datas_label">
-              Batafsil ma’lumot
-            </label>
-          </div>
-          <div className="dep-container">
-            <div
-              className={`datas-container ${
-                selectedDep === "tarriff" ? "active" : ""
-              }`}
-            >
-              <p className="title">Tarif</p>
-              <p>
-                Ko'p funktsiyali oshxona pichog'i pishloq, non, sariyog ' va
-                sabzavotlarni maydalash, sabzavot va mevalarni, shu jumladan
-                kartoshkani (kartoshkani) tozalash va kesish uchun javob beradi.
-                Oshxona uchun oshpaz pichog'i-bu baliq kesish uchun non va
-                fileto pichog'i, go'sht va biftek uchun bolta, shuningdek
-                o'tlar, pishloq va kolbasa uchun, tarvuz uchun, kabob uchun,
-                piyoz uchun, pomidor uchun, meva yadrosi uchun, xamirni kesish
-                uchun javob beradi. Ushbu yordamchi pichoq sizning sevimli
-                ayolingiz, qizingiz, xotiningiz, onangiz yoki buvingiz uchun
-                ajoyib sovg'a bo'ladi. Oshxona pichog'i har qanday oshxonada
-                ajralmas yordamchidir. O'tkir pichoq pichog'i yuqori sifatli
-                zanglamaydigan po'latdan yasalgan bo'lib, uning chidamliligi va
-                mukammal kesish qobiliyatini ta'minlaydi. U optimal uzunlikka
-                ega, bu sizga oziq-ovqat mahsulotlarini oson va toza kesish,
-                kesish va kesish imkonini beradi. Ushbu yordamchi pichoq
-                pishirish paytida turli xil vazifalarni bajarish uchun
-                mo'ljallangan.
-              </p>
-            </div>
-            <div
-              className={`datas-container ${
-                selectedDep === "datas" ? "active" : ""
-              }`}
-            >
-              <p className="title">Pichoqning o’lchamlari va tavsifi:</p>
-              <div className="more-data">
-                <ul>
-                  <li>
-                    <span>Pichoqning o’lchamlari va tavsifi:</span>
-                    <span></span>
-                    <span>21.6 sm (8.5 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Pichoq uzunligi:</span>
-                    <span></span>
-                    <span>10.2 sm (4 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Tutqich uzunligi:</span>
-                    <span></span>
-                    <span>11.4 sm (4.5 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Pichoq qalinligi:</span>
-                    <span></span>
-                    <span>3 mm (0.12 dyuym)</span>
-                  </li>
-                  <li>
-                    <span>Og’irligi:</span>
-                    <span></span>
-                    <span>175 gramm (6.2 untsiya)</span>
-                  </li>
-                  <li>
-                    <span>Pichoq materiali:</span>
-                    <span></span>
-                    <span>Yuqori sifatli karbonli zanglamaydigan po’lat</span>
-                  </li>
-                  <li>
-                    <span>Tutqich materiali:</span>
-                    <span></span>
-                    <span>G10 kompozit, sirpanmaydigan yuzaga ega</span>
-                  </li>
-                  <li>
-                    <span>Pichoq qirrasining turi:</span>
-                    <span></span>
-                    <span>Tekis, o’tkir</span>
-                  </li>
-                  <li>
-                    <span>Qattiqlik darajasi:</span>
-                    <span></span>
-                    <span>HRC 58-60</span>
-                  </li>
-                </ul>
-                <div className="xus">
-                  <div className="title">Xususiyatlari</div>
-                  {/* <div className="xus-inner">
-                    <p>Qulay tutish uchun ergonomik tutqich dizayni</p>
-                    <p>Mustahkamlikni oshiruvchi to‘liq karkasli tuzilma</p>
-                    <p>Korroziyaga chidamli pichoq, uzoq muddat o’tkirlikni saqlab qoladi</p>
-                    <p>Ko‘p funksiyali dizayn: kesish, chopish va tilish uchun mos</p>
-                  </div> */}
-                  <ul>
-                    <li>Qulay tutish uchun ergonomik tutqich dizayni</li>
-                    <li>Mustahkamlikni oshiruvchi to‘liq karkasli tuzilma</li>
-                    <li>
-                      Korroziyaga chidamli pichoq, uzoq muddat o’tkirlikni
-                      saqlab qoladi
-                    </li>
-                    <li>
-                      Ko‘p funksiyali dizayn: kesish, chopish va tilish uchun
-                      mos
-                    </li>
-                  </ul>
-                </div>
+          <div className="title">Qisqacha tafsilot</div>
+          <p>
+            Chust hunarmandchilik pichoqlari, asosan, o'ziga xos dizayni va
+            yuqori sifatli materiallari bilan ajralib turadi. Ushbu pichoqlar,
+            an'anaviy usullar bilan ishlab chiqarilib, hunarmandlar tomonidan
+            qo'l mehnati bilan tayyorlanadi. Chust pichoqlari, o'zining kesish
+            qobiliyati va mustahkamligi bilan mashhur bo'lib, ko'plab oshpazlar
+            va hunarmandlar tomonidan qadrlanadi.
+          </p>
+          <div className="with-author">
+            <div className="author">
+              <img src={product.authorImg} alt="" />
+              <div className="text">
+                <div className="name">{product.authorName}</div>
+                <div className="work">{product.work}</div>
               </div>
             </div>
+            {isAuthenticated ? (
+              <Link to="#">Bog'lanish</Link>
+            ) : (
+              <Link to="/login">Kirish</Link>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="about-product-bottom">
+        <div className="dep">
+          <input
+            type="radio"
+            name="dep"
+            id="tarriff"
+            checked={selectedDep === "tarriff"}
+            onChange={handleChange}
+          />
+          <label htmlFor="tarriff" className="tarriff_label">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.0013 13.3333V10M10.0013 6.66667H10.0096M18.3346 10C18.3346 14.6024 14.6037 18.3333 10.0013 18.3333C5.39893 18.3333 1.66797 14.6024 1.66797 10C1.66797 5.39763 5.39893 1.66667 10.0013 1.66667C14.6037 1.66667 18.3346 5.39763 18.3346 10Z"
+                stroke="#41A58D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Mahsulot tarifi
+          </label>
+          <input
+            type="radio"
+            name="dep"
+            id="datas"
+            checked={selectedDep === "datas"}
+            onChange={handleChange}
+          />
+          <label htmlFor="datas" className="datas_label">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.5 9.58333C17.5029 10.6832 17.2459 11.7682 16.75 12.75C16.162 13.9265 15.2581 14.916 14.1395 15.6077C13.021 16.2995 11.7319 16.6662 10.4167 16.6667C9.31678 16.6695 8.23176 16.4126 7.25 15.9167L2.5 17.5L4.08333 12.75C3.58744 11.7682 3.33047 10.6832 3.33333 9.58333C3.33384 8.26813 3.70051 6.97904 4.39227 5.86046C5.08402 4.74187 6.07355 3.83797 7.25 3.25C8.23176 2.75411 9.31678 2.49713 10.4167 2.5H10.8333C12.5703 2.59583 14.2109 3.32897 15.4409 4.55905C16.671 5.78913 17.4042 7.42971 17.5 9.16667V9.58333Z"
+                stroke="#5A5A5A"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Fikrlar
+          </label>
+        </div>
+        <div className="dep-container">
+          <div
+            className={`datas-container ${
+              selectedDep === "tarriff" ? "active" : ""
+            }`}
+          >
+            <p className="title">{product.title}</p>
+            <p>
+              Chust hunarmandchilik pichoqlari, o'ziga xos dizayni va yuqori
+              sifatli materiallari bilan ajralib turadi. Ushbu pichoqlar,
+              an'anaviy usullar bilan ishlab chiqarilib, hunarmandlar tomonidan
+              qo'l mehnati bilan tayyorlanadi. Chust pichoqlari, o'zining kesish
+              qobiliyati va mustahkamligi bilan mashhur bo'lib, ko'plab
+              oshpazlar va hunarmandlar tomonidan qadrlanadi. Chust pichoqlari
+              tarixi asrlar davomida shakllangan bo'lib, bu yerda hunarmandlar
+              o'z mahoratlarini avloddan-avlodga o'tkazib kelishgan. Ularning
+              har biri o'ziga xos uslub va an'analarga ega bo'lib, pichoqlarni
+              yaratishda tabiiy materiallardan foydalanishadi. Chust pichoqlari,
+              nafaqat amaliyotda, balki san'at asari sifatida ham qadrlanadi.
+              Har bir pichoq, o'zining o'ziga xos shakli va dizayni bilan
+              ajralib turadi, bu esa ularni boshqa pichoqlardan farqlaydi. Ushbu
+              pichoqlar, nafaqat oshpazlar uchun, balki san'atkorlar va
+              kollektorlar uchun ham qimmatli bo'lib, ularning har biri o'ziga
+              xos hikoyaga ega. Chust hunarmandlari, o'z ishlarida an'anaviy
+              usullarni saqlab qolish bilan birga, zamonaviy dizayn
+              elementlarini ham qo'shib, pichoqlarni yanada jozibador va
+              funksional qilishga intiladilar.
+            </p>
+            <div className="hashtags">
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+              <div className="hashtag">#quroqchilik</div>
+            </div>
+          </div>
+          <div
+            className={`datas-container ${
+              selectedDep === "datas" ? "active" : ""
+            }`}
+          >
+            <AddProductsComments com={product} />
           </div>
         </div>
       </div>

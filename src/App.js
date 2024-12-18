@@ -42,6 +42,7 @@ import AddPupil from "./pages/addPupil/addPupil";
 import AdminNews from "./pages/adminNews/adminNews";
 import AddNews from "./pages/addNews/addNews";
 import AdminNewsCategories from "./pages/admin-news-categories/admin-news-categories";
+import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 
 export const globalApi = "http://bk.kasanabozor.uz"
 
@@ -78,9 +79,13 @@ function AppContent() {
           element={<CoursesCategory />}
         />
         <Route path="courses/course/:id" element={<CourseDetail />} />
+        {/* Announce start */}
         <Route path="announcements" element={<AnnouncementsPage />} />
         <Route path="announcements/:id" element={<AnnounceDetail />} />
+        {/* Announce end */}
+        {/* Profile start */}
         <Route path="profile" element={<Profile />} />
+        {/* Profile end */}
 
         {/* Admin start */}
         <Route path="dashboard/admin/users" element={<Users />}/>
@@ -101,6 +106,10 @@ function AppContent() {
         <Route path="dashboard/admin/add-news" element={<AddNews />} />
         <Route path="dashboard/admin/admin-news-categories" element={<AdminNewsCategories />} />
         {/* Admin end */}
+
+        {/* Chatbox start */}
+          <Route path="/online-shop/messaging" element={<UsersMessaging />} />
+        {/* Chatbox end */}
 
         {isAuthenticated ? (
           <Route path="dashboard" element={<Dashboard />} />

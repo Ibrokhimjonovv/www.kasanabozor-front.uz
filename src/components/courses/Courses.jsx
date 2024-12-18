@@ -28,7 +28,7 @@ const CourseCard = ({ course }) => {
   });
 
   return (
-    <Link to="#" ref={ref}>
+    <Link to={`/courses/course/${course.id}`} ref={ref}>
       <div
         className={`course-card ${inView ? "visible" : ""}`}
         // style={{ transitionDelay: `${delay}ms` }}
