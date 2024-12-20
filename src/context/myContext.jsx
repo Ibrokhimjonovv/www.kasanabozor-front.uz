@@ -13,8 +13,8 @@ import cardImg2 from "./cardImg2.png";
 import cardImg3 from "./cardImg3.png";
 import cardImg4 from "./cardImg4.png";
 import profileImg1 from "./profileImg.png";
-import authorImgAnn from "./authorImg.png";
 import authorImg2 from "./authorImg2.png";
+import heroImg from "../assets/heroImg.jpg"
 
 export const MyContext = createContext(null);
 
@@ -873,9 +873,82 @@ export const MyContextProvider = ({ children }) => {
     },
   ];
 
+  const services = [
+    {
+      id: 1,
+      heroImg: heroImg,
+      title: "Tandir yasash",
+      price: "100 000 - 200 000 so’m/soatiga",
+      details: ["2+ yil tajriba", "Qisqa vaqtli ish", "Toshkent shaxri"],
+      authorImg: "authorImg1.png",
+      author: "Dilshodbek Tursunov",
+      date: "2 soat oldin",
+      views: 456,
+      authorImg: authorImg,
+      location: "Toshkent shaxri",
+      timeWork: "To'liq stavka",
+    },
+    {
+      id: 2,
+      heroImg: heroImg,
+      title: "Pishiriq pishirish xizmatlari",
+      price: "100 000 - 200 000 so’m/soatiga",
+      details: ["2+ yil tajriba", "Qisqa vaqtli ish", "Toshkent shaxri"],
+      authorImg: "authorImg1.png",
+      author: "Dilshodbek Tursunov",
+      date: "2 soat oldin",
+      views: 456,
+      authorImg: authorImg,
+      location: "Toshkent shaxri",
+      timeWork: "To'liq stavka",
+    },
+    {
+      id: 3,
+      heroImg: heroImg,
+      title: "Front end dasturchi",
+      price: "100 000 - 200 000 so’m/soatiga",
+      details: ["2+ yil tajriba", "Qisqa vaqtli ish", "Toshkent shaxri"],
+      authorImg: "authorImg1.png",
+      author: "Dilshodbek Tursunov",
+      date: "2 soat oldin",
+      views: 456,
+      authorImg: authorImg,
+      location: "Toshkent shaxri",
+      timeWork: "To'liq stavka",
+    },
+    {
+      id: 4,
+      heroImg: heroImg,
+      title: "Marketing mutaxasis",
+      price: "100 000 - 200 000 so’m/soatiga",
+      details: ["2+ yil tajriba", "Qisqa vaqtli ish", "Toshkent shaxri"],
+      authorImg: "authorImg1.png",
+      author: "Dilshodbek Tursunov",
+      date: "2 soat oldin",
+      views: 456,
+      authorImg: authorImg,
+      location: "Toshkent shaxri",
+      timeWork: "To'liq stavka",
+    },
+    {
+      id: 5,
+      heroImg: heroImg,
+      title: "Bosh buhgalter",
+      price: "100 000 - 200 000 so’m/soatiga",
+      details: ["2+ yil tajriba", "Qisqa vaqtli ish", "Toshkent shaxri"],
+      authorImg: "authorImg1.png",
+      author: "Dilshodbek Tursunov",
+      date: "2 soat oldin",
+      views: 456,
+      authorImg: authorImg,
+      location: "Toshkent shaxri",
+      timeWork: "To'liq stavka",
+    },
+  ];
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState("");
-  const [ refresh, setRefresh ] = useState("");
+  const [refresh, setRefresh] = useState("");
   const [followedCourses, setFollowedCourses] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("UZ"); // Boshlang'ich til
   const [languages, setLanguages] = useState(["RU", "EN"]); // Dropdowndagi boshqa tillar
@@ -884,11 +957,12 @@ export const MyContextProvider = ({ children }) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [data, setData] = useState(null);
-  
+  const [activeLink, setActiveLink] = useState(1);
+
   useEffect(() => {
     // LocalStorage dan access_tokenni olish
     const tokenn = localStorage.getItem("access_token");
-  
+
     // Agar access_token mavjud bo'lsa, isAuthenticated ni true qilamiz
     if (tokenn) {
       setIsAuthenticated(true);
@@ -915,14 +989,19 @@ export const MyContextProvider = ({ children }) => {
         setIsOpen,
         signupSuccess,
         setSignUpSuccess,
-        token, setToken,
-        refresh, setRefresh,
+        token,
+        setToken,
+        refresh,
+        setRefresh,
         setLoginSuccess,
         loginSuccess,
         isAdmin,
         setIsAdmin,
         data,
-        setData
+        setData,
+        services,
+        activeLink,
+        setActiveLink
       }}
     >
       {children}

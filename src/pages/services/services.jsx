@@ -1,30 +1,23 @@
 import React, { useContext, useState, useEffect } from "react";
-import "./announceDetail.scss";
 import { MyContext } from "../../context/myContext";
 import { Link, useParams } from "react-router-dom";
 import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
+import "./services.scss";
 
-const AnnounceDetail = () => {
-  const [selectedDep, setSelectedDep] = useState("announce");
-  const { announcements, activeLink, setActiveLink } = useContext(MyContext);
-  const [currentAnnounce, setCurrentAnnounce] = useState(null);
+const Services = () => {
+  const { services, activeLink, setActiveLink } = useContext(MyContext);
+  const [currentService, setCurrentService] = useState(null);
   const { id } = useParams();
-  
-
-  const handleChange = (event) => {
-    setSelectedDep(event.target.id);
-  };
+  const [savedServices, setSavedServices] = useState([]);
 
   // useEffect ni har doim chaqirish kerak
   useEffect(() => {
-    const foundAnnounce = announcements.find(
-      (item) => item.id === parseInt(id)
-    );
-    setCurrentAnnounce(foundAnnounce);
-  }, [id, announcements]); // announcement o'zgarganda va id o'zgarganda qayta ishlaydi
+    const foundService = services.find((item) => item.id === parseInt(id));
+    setCurrentService(foundService);
+  }, [id, services]); // announcement o'zgarganda va id o'zgarganda qayta ishlaydi
 
-  if (!currentAnnounce) {
+  if (!currentService) {
     return (
       <p>
         <Loading />
@@ -32,13 +25,20 @@ const AnnounceDetail = () => {
     );
   }
 
+  const handleSaveClick = (e, service) => {
+    e.preventDefault(); // Link'ni ochilishini to'xtatish
+    if (!savedServices.some((saved) => saved.id === service.id)) {
+      setSavedServices([...savedServices, service]);
+      console.log("Saqlangan xizmatlar:", [...savedServices, service]);
+    } else {
+      console.log("Bu xizmat allaqachon saqlangan.");
+    }
+  };
+
   return (
     <div id="announceDetail">
       <div className="announceSelect">
-        <Link
-          to="/announcements/1"
-          id="ann-link"
-        >
+        <Link to="/announcements/1">
           <svg
             width="20"
             height="20"
@@ -57,9 +57,7 @@ const AnnounceDetail = () => {
           Ish e'lonlari
         </Link>
 
-        <Link
-          to="/services/1"
-        >
+        <Link to="/services/1" id="ser-link">
           <svg
             width="21"
             height="20"
@@ -78,9 +76,7 @@ const AnnounceDetail = () => {
           Xizmatlar
         </Link>
 
-        <Link
-          to="/add-announce"
-        >
+        <Link to="/add-announce">
           <svg
             width="21"
             height="20"
@@ -100,109 +96,78 @@ const AnnounceDetail = () => {
         </Link>
       </div>
       <div className="dep-container">
-        <div
-          className={`datas-container announceDetail ${
-            selectedDep === "announce" ? "active" : ""
-          }`}
-        >
+        <div className="datas-container announceDetail">
           <div className="left-side">
             <div className="announcements-cards">
-              {announcements.map((announcement, index) => (
-                <Link
-                  to={`/announcements/${announcement.id}`}
-                  key={announcement.id}
-                >
-                  <div className="card ">
-                    <p className="title">{announcement.title}</p>
-                    <p className="price">{announcement.price}</p>
-                    <div className="details">
-                      {announcement.details.map((detail, index) => (
-                        <div className="detail" key={index}>
-                          {detail}
+              {services.map((service) => {
+                const isSaved = savedServices.some(
+                  (saved) => saved.id === service.id
+                );
+
+                return (
+                  <Link to={`/services/${service.id}`} key={service.id}>
+                    <div className={`card ${isSaved ? "saved" : ""}`}>
+                      <button
+                        id="save-btn"
+                        className={`${isSaved ? "saved" : ""}`}
+                        onClick={(e) => handleSaveClick(e, service)}
+                      >
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M25.3337 28L16.0003 21.3333L6.66699 28V6.66667C6.66699 5.95942 6.94794 5.28115 7.44804 4.78105C7.94814 4.28095 8.62641 4 9.33366 4H22.667C23.3742 4 24.0525 4.28095 24.5526 4.78105C25.0527 5.28115 25.3337 5.95942 25.3337 6.66667V28Z"
+                            stroke="#757575"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+
+                      <div className="hero-img-title">
+                        <img className="heroImg" src={service.heroImg} alt="" />
+                        <div>
+                          <p className="title">{service.title}</p>
+                          <p className="price">{service.price}</p>
+                          <div className="details">
+                            {service.details.map((detail, index) => (
+                              <div className="detail" key={index}>
+                                {detail}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      ))}
+                      </div>
+                      <div className="author">
+                        <img src={service.authorImg || "/default.png"} alt="" />
+                        <span>{service.author}</span>
+                      </div>
+                      <div className="date-count">
+                        <span>{service.date || "Aniq emas"}</span>
+                        <span>{service.views || 0}</span>
+                      </div>
                     </div>
-                    <div className="author">
-                      <img src={announcement.authorImg || defaultImg} alt="" />
-                      <span>{announcement.author} </span>
-                    </div>
-                    <div className="date-count">
-                      <span>
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_355_2881)">
-                            <path
-                              d="M10.0003 5.00008V10.0001L13.3337 11.6667M18.3337 10.0001C18.3337 14.6025 14.6027 18.3334 10.0003 18.3334C5.39795 18.3334 1.66699 14.6025 1.66699 10.0001C1.66699 5.39771 5.39795 1.66675 10.0003 1.66675C14.6027 1.66675 18.3337 5.39771 18.3337 10.0001Z"
-                              stroke="#767676"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_355_2881">
-                              <rect width="20" height="20" fill="white" />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        {announcement.date || "Aniq emas"}
-                      </span>
-                      <span>
-                        <svg
-                          width="21"
-                          height="20"
-                          viewBox="0 0 21 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_355_2885)">
-                            <path
-                              d="M1.16602 9.99992C1.16602 9.99992 4.49935 3.33325 10.3327 3.33325C16.166 3.33325 19.4993 9.99992 19.4993 9.99992C19.4993 9.99992 16.166 16.6666 10.3327 16.6666C4.49935 16.6666 1.16602 9.99992 1.16602 9.99992Z"
-                              stroke="#767676"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M10.3327 12.4999C11.7134 12.4999 12.8327 11.3806 12.8327 9.99992C12.8327 8.61921 11.7134 7.49992 10.3327 7.49992C8.95197 7.49992 7.83268 8.61921 7.83268 9.99992C7.83268 11.3806 8.95197 12.4999 10.3327 12.4999Z"
-                              stroke="#767676"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_355_2885">
-                              <rect
-                                width="20"
-                                height="20"
-                                fill="white"
-                                transform="translate(0.333008)"
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        {announcement.views || 0}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
           <div className="right-side">
+            <div className="hero-img-detail">
+              <img src={currentService?.heroImg} alt="" />
+            </div>
             <div className="top-side">
               <div className="top-left">
                 <div className="author">
-                  <img src={currentAnnounce?.authorImg || defaultImg} alt="" />
-                  <span>{currentAnnounce?.author || "undefinde"}</span>
+                  <img src={currentService?.authorImg || defaultImg} alt="" />
+                  <span>{currentService?.author || "undefinde"}</span>
                 </div>
-                <div className="cur-title">{currentAnnounce.title}</div>
+                <div className="cur-title">{currentService.title}</div>
               </div>
               <div className="top-right">
                 <span>
@@ -284,7 +249,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Lokatsiya</p>
-                  <p>{currentAnnounce?.location || "Kiritilmagan"}</p>
+                  <p>{currentService?.location || "Kiritilmagan"}</p>
                 </div>
               </li>
               <li>
@@ -314,7 +279,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish vaqti</p>
-                  <p>{currentAnnounce?.timeWork || "Kiritilmagan"}</p>
+                  <p>{currentService?.timeWork || "Kiritilmagan"}</p>
                 </div>
               </li>
               <li>
@@ -337,7 +302,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish haqqi</p>
-                  <p>{currentAnnounce?.price || "Kiritilmagan"}</p>
+                  <p>{currentService?.price || "Kiritilmagan"}</p>
                 </div>
               </li>
             </ul>
@@ -393,21 +358,9 @@ const AnnounceDetail = () => {
             </div>
           </div>
         </div>
-        <div
-          className={`datas-container announceDetail ${
-            selectedDep === "service" ? "active" : ""
-          }`}
-        ></div>
-        <div
-          className={`datas-container ${
-            selectedDep === "toAnnounce" ? "active" : ""
-          }`}
-        >
-          <p className="title">E'lon berish</p>
-        </div>
       </div>
     </div>
   );
 };
 
-export default AnnounceDetail;
+export default Services;
