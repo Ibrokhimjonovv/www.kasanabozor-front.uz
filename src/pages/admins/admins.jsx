@@ -1,105 +1,34 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dashboard from "../dashboard/dashboard";
 import "./admins.scss";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../users/left.png";
 import right from "../users/right.png";
+import axios from 'axios';
+import { usersServerUrl } from '../../SuperVars.js';
+
+
 const Admins = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
+  const { isOpen } = useContext(MyContext);
 
   // Example user data (you can add more users)
-  const users = [
-    {
-      id: "123456",
-      name: "Abrorbek Fitratjon Cho'Iponovich",
-      phone: "+99891 234 56 78",
-      registrationDate: "14.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123457",
-      name: "Qodirova Mohlaroyim Abdullayevna",
-      phone: "+99891 234 56 78",
-      registrationDate: "18.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123458",
-      name: "Alisherbek Ahmadov",
-      phone: "+99891 234 56 79",
-      registrationDate: "10.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123459",
-      name: "Mukhammadbek Sodikov",
-      phone: "+99891 234 56 80",
-      registrationDate: "22.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123460",
-      name: "Olimbek Sharipov",
-      phone: "+99891 234 56 81",
-      registrationDate: "11.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123461",
-      name: "Dilshodbek Kasymov",
-      phone: "+99891 234 56 82",
-      registrationDate: "23.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123462",
-      name: "Sardorbek Umarov",
-      phone: "+99891 234 56 83",
-      registrationDate: "05.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123463",
-      name: "Shohrukhbek Shamsutdinov",
-      phone: "+99891 234 56 84",
-      registrationDate: "03.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123464",
-      name: "Zafarbek Zohidov",
-      phone: "+99891 234 56 85",
-      registrationDate: "25.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123465",
-      name: "Umidbek Jumayev",
-      phone: "+99891 234 56 86",
-      registrationDate: "27.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123466",
-      name: "Shahzodbek Tashkentov",
-      phone: "+99891 234 56 87",
-      registrationDate: "28.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    {
-      id: "123467",
-      name: "Azizbek Normatov",
-      phone: "+99891 234 56 88",
-      registrationDate: "30.02.2024",
-      job: "Kasanachi nonvoy",
-    },
-    // Add more users if necessary
-  ];
-
+  const [users, setUsers] = useState([]);
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
+  const fetchData = async () => {
+    const adminsResults = await axios.post(`${usersServerUrl}dashboard/users/list/admin/`);
+    if (adminsResults.data.status === "ok") {
+      setUsers(adminsResults.data.results);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -222,9 +151,9 @@ const Admins = () => {
                     <input type="checkbox" />
                   </td>
                   <td>{user.id}</td>
-                  <td>{user.name}</td>
+                  <td>{user.first_name} {user.last_name}</td>
                   <td>{user.phone}</td>
-                  <td>{user.registrationDate}</td>
+                  <td>{new Date(user.created_at).toISOString().replace('T', ' ').slice(0, 16).replace(/-/g, '.')}</td>
                   <td>
                     <button className="btn btn-secondary">
                       <svg

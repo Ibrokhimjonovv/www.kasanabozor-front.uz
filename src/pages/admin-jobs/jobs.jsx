@@ -1,108 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./jobs.scss";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../users/left.png";
 import right from "../users/right.png";
 import Dashboard from "../dashboard/dashboard";
-import img from "./img.png";
+import axios from 'axios';
+import { usersServerUrl } from "../../SuperVars";
+
 
 const Jobs = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
-  const jobs = [
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-  ];
+  const { isOpen } = useContext(MyContext);
+  const [jobs, setJobs] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -110,9 +24,24 @@ const Jobs = () => {
     if (currentPage < Math.ceil(jobs.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+
+  const fetchData = async () => {
+    try {
+      const jobsListResponse = await axios.post(`${usersServerUrl}dashboard/jobs/list/`);
+      if (jobsListResponse.data.status === "ok") {
+        setJobs(jobsListResponse.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentJobs = jobs.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(jobs.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
@@ -360,13 +289,13 @@ const Jobs = () => {
               </tr>
             </thead>
             <tbody>
-              {currentJobs.map((job, index) => (
+              {jobs.map((job, index) => (
                 <tr key={index}>
                   <td>
                     <input type="checkbox" />
                   </td>
                   <td>{job.id}</td>
-                  <td>{job.jobName}</td>
+                  <td>{job.title}</td>
                   <td>
                     <img src={job.icon} alt="" />
                   </td>

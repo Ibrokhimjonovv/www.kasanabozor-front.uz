@@ -1,39 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-=======
 import { MyContext } from "../../../context/myContext";
-import { globalApi } from "../../../App";
->>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
 import InputMask from "react-input-mask";
-import { MyContext } from "../../../context/myContext";
 import { usersServerUrl } from "../../../SuperVars.js";
 import axios from "axios";
 
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-<<<<<<< HEAD
   const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess } = useContext(MyContext);
-=======
-  const {
-    selectedLanguage,
-    setSelectedLanguage,
-    languages,
-    setLanguages,
-    signupSuccess,
-    isAuthendticated,
-    setIsAuthenticated,
-    token,
-    setToken,
-    refresh,
-    setRefresh,
-    setLoginSuccess,
-    setIsAdmin,
-    setData
-  } = useContext(MyContext);
->>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -99,10 +75,9 @@ const Login = () => {
       setLoading(true);
       setError({ phone: "", password: "", general: "" });
     }
-<<<<<<< HEAD
 
     const loginData = {
-      phone,
+      phone: '+998 ' + phone,
       password,
     };
 
@@ -115,6 +90,7 @@ const Login = () => {
 
       const data = await response.data;
       const { access, refresh } = data;
+      console.log(response);
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 
@@ -129,47 +105,6 @@ const Login = () => {
     }
   };
   
-=======
-    try {
-      const response = await fetch(
-        `${globalApi}/users/token/?phone=${phone}&password=${password}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if(response.status === 404) {
-          setUsernot("Foydalanuvchi topilmadi!")
-      } else if(response.status === 400) {
-        setUsernot("Tarmoq xatoligi")
-      }
-      
-      const data = await response.json();
-      const { token, refresh } = data;
-      localStorage.setItem("access_token", token);
-      localStorage.setItem("refresh_token", refresh);
-      setData(data)
-      setToken(data.access);
-      setLoginSuccess(true)
-      setIsAdmin(data.role);
-      console.log(data.role);
-      
-      navigate("/");
-      window.location.reload();
-    } catch (err) {
-      setNetErr(true);
-      setLoading(false);
-      setError((prev) => ({
-        ...prev,
-        general: err.message, // umumiy xatolikni ko'rsatish
-      }));
-    }
-  };
->>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
-
   return (
     <div id="login">
       <div className="login-header">

@@ -44,12 +44,7 @@ import AddNews from "./pages/addNews/addNews";
 import AdminNewsCategories from "./pages/admin-news-categories/admin-news-categories";
 import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 
-<<<<<<< HEAD
 import './createAxiosClient';
-
-=======
-export const globalApi = "http://bk.kasanabozor.uz"
->>>>>>> 93d4ab598bebfcdd83611ed0f0d2f643fd9a3237
 
 function AppContent() {
   const location = useLocation();
