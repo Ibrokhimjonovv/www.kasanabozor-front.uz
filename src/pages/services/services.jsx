@@ -27,12 +27,20 @@ const Services = () => {
 
   const handleSaveClick = (e, service) => {
     e.preventDefault(); // Link'ni ochilishini to'xtatish
-    if (!savedServices.some((saved) => saved.id === service.id)) {
-      setSavedServices([...savedServices, service]);
-      console.log("Saqlangan xizmatlar:", [...savedServices, service]);
-    } else {
-      console.log("Bu xizmat allaqachon saqlangan.");
-    }
+
+    setSavedServices((prevServices) => {
+      if (prevServices.some((saved) => saved.id === service.id)) {
+        // Agar xizmat allaqachon saqlangan bo'lsa, uni olib tashlash
+        return prevServices.filter((saved) => saved.id !== service.id);
+      } else {
+        // Aks holda, xizmatni qo'shish
+        return [...prevServices, service];
+      }
+    });
+  };
+
+  const isSaved = (announcement) => {
+    return savedServices.some((a) => a.id === announcement.id);
   };
 
   return (
@@ -173,27 +181,27 @@ const Services = () => {
                 <span>
                   <svg
                     width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
+                    height="33"
+                    viewBox="0 0 32 33"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M15.9974 17.3333C16.7338 17.3333 17.3307 16.7364 17.3307 16C17.3307 15.2636 16.7338 14.6666 15.9974 14.6666C15.261 14.6666 14.6641 15.2636 14.6641 16C14.6641 16.7364 15.261 17.3333 15.9974 17.3333Z"
+                      d="M15.9993 17.8333C16.7357 17.8333 17.3327 17.2364 17.3327 16.5C17.3327 15.7636 16.7357 15.1667 15.9993 15.1667C15.263 15.1667 14.666 15.7636 14.666 16.5C14.666 17.2364 15.263 17.8333 15.9993 17.8333Z"
                       stroke="#757575"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
                     <path
-                      d="M15.9974 7.99998C16.7338 7.99998 17.3307 7.40303 17.3307 6.66665C17.3307 5.93027 16.7338 5.33331 15.9974 5.33331C15.261 5.33331 14.6641 5.93027 14.6641 6.66665C14.6641 7.40303 15.261 7.99998 15.9974 7.99998Z"
+                      d="M15.9993 8.50001C16.7357 8.50001 17.3327 7.90306 17.3327 7.16668C17.3327 6.4303 16.7357 5.83334 15.9993 5.83334C15.263 5.83334 14.666 6.4303 14.666 7.16668C14.666 7.90306 15.263 8.50001 15.9993 8.50001Z"
                       stroke="#757575"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
                     <path
-                      d="M15.9974 26.6666C16.7338 26.6666 17.3307 26.0697 17.3307 25.3333C17.3307 24.5969 16.7338 24 15.9974 24C15.261 24 14.6641 24.5969 14.6641 25.3333C14.6641 26.0697 15.261 26.6666 15.9974 26.6666Z"
+                      d="M15.9993 27.1667C16.7357 27.1667 17.3327 26.5697 17.3327 25.8333C17.3327 25.097 16.7357 24.5 15.9993 24.5C15.263 24.5 14.666 25.097 14.666 25.8333C14.666 26.5697 15.263 27.1667 15.9993 27.1667Z"
                       stroke="#757575"
                       stroke-width="1.5"
                       stroke-linecap="round"
@@ -202,22 +210,31 @@ const Services = () => {
                   </svg>
                 </span>
                 <span>
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <button
+                    key={currentService.id}
+                    onClick={(e) => handleSaveClick(e, currentService)}
+                    className={`save-btn ${
+                      isSaved(currentService) ? "saved" : "not-saved"
+                    }`}
                   >
-                    <path
-                      d="M25.3307 28L15.9974 21.3333L6.66406 28V6.66667C6.66406 5.95942 6.94501 5.28115 7.44511 4.78105C7.94521 4.28095 8.62349 4 9.33073 4H22.6641C23.3713 4 24.0496 4.28095 24.5497 4.78105C25.0498 5.28115 25.3307 5.95942 25.3307 6.66667V28Z"
-                      stroke="#757575"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M25.3307 28L15.9974 21.3333L6.66406 28V6.66667C6.66406 5.95942 6.94501 5.28115 7.44511 4.78105C7.94521 4.28095 8.62349 4 9.33073 4H22.6641C23.3713 4 24.0496 4.28095 24.5497 4.78105C25.0498 5.28115 25.3307 5.95942 25.3307 6.66667V28Z"
+                        stroke="#757575"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
                 </span>
+
                 <Link to="#">Ariza qoldirish</Link>
               </div>
             </div>

@@ -625,3 +625,19 @@
         // display: block;
     }    
 }
+
+.save-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &.saved {
+        svg {
+            fill: #41A58D;
+
+            path {
+                stroke: #41A58D;
+            }
+        }
+    }
+}

@@ -9,8 +9,9 @@ const AnnounceDetail = () => {
   const [selectedDep, setSelectedDep] = useState("announce");
   const { announcements, activeLink, setActiveLink } = useContext(MyContext);
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
+  const [savedAnnouncements, setSavedAnnouncements] = useState([]);
+
   const { id } = useParams();
-  
 
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
@@ -32,13 +33,27 @@ const AnnounceDetail = () => {
     );
   }
 
+  // Tanlangan e'lonlarni saqlash uchun state
+
+  const saveAnnouncement = (announcement) => {
+    setSavedAnnouncements((prevAnnouncements) => {
+      // E'lon allaqachon saqlangan bo'lsa, uni o'chirish
+      if (prevAnnouncements.some((a) => a.id === announcement.id)) {
+        return prevAnnouncements.filter((a) => a.id !== announcement.id); // O'chirish
+      }
+      // Aks holda, e'lonni qo'shish
+      return [...prevAnnouncements, announcement]; // Yangi e'lonni qo'shish
+    });
+  };
+
+  const isSaved = (announcement) => {
+    return savedAnnouncements.some((a) => a.id === announcement.id);
+  };
+
   return (
     <div id="announceDetail">
       <div className="announceSelect">
-        <Link
-          to="/announcements/1"
-          id="ann-link"
-        >
+        <Link to="/announcements/1" id="ann-link">
           <svg
             width="20"
             height="20"
@@ -57,9 +72,7 @@ const AnnounceDetail = () => {
           Ish e'lonlari
         </Link>
 
-        <Link
-          to="/services/1"
-        >
+        <Link to="/services/1">
           <svg
             width="21"
             height="20"
@@ -78,9 +91,7 @@ const AnnounceDetail = () => {
           Xizmatlar
         </Link>
 
-        <Link
-          to="/add-announce"
-        >
+        <Link to="/add-announce">
           <svg
             width="21"
             height="20"
@@ -237,21 +248,27 @@ const AnnounceDetail = () => {
                   </svg>
                 </span>
                 <span>
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <button
+                    key={currentAnnounce.id}
+                    onClick={() => saveAnnouncement(currentAnnounce)}
+                    className={`save-btn ${isSaved(currentAnnounce) ? "saved" : "not-saved"}`}
                   >
-                    <path
-                      d="M25.3307 28L15.9974 21.3333L6.66406 28V6.66667C6.66406 5.95942 6.94501 5.28115 7.44511 4.78105C7.94521 4.28095 8.62349 4 9.33073 4H22.6641C23.3713 4 24.0496 4.28095 24.5497 4.78105C25.0498 5.28115 25.3307 5.95942 25.3307 6.66667V28Z"
-                      stroke="#757575"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M25.3307 28L15.9974 21.3333L6.66406 28V6.66667C6.66406 5.95942 6.94501 5.28115 7.44511 4.78105C7.94521 4.28095 8.62349 4 9.33073 4H22.6641C23.3713 4 24.0496 4.28095 24.5497 4.78105C25.0498 5.28115 25.3307 5.95942 25.3307 6.66667V28Z"
+                        stroke="#757575"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
                 </span>
                 <Link to="#">Ariza qoldirish</Link>
               </div>

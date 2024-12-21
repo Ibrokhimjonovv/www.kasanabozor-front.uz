@@ -67,7 +67,7 @@ const AnnouncementsPage = () => {
       </div>
       <div className="to-announce">
         <p>O’z xizmatingiz haqida hoziroq barcha e’lon qiling!</p>
-        <Link to="#">E'lon berish</Link>
+        <Link to="/add-announce">E'lon berish</Link>
       </div>
       <div className="titlee">
         <div className="text">
