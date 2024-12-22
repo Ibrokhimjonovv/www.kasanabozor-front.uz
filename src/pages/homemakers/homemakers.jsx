@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useContext, useState, useEffect } from "react";
 import Dashboard from "../dashboard/dashboard";
 import "./homemakers.scss";
@@ -9,6 +10,15 @@ import axios from 'axios';
 import { usersServerUrl } from '../../SuperVars.js';
 
 
+=======
+import React, { useContext, useState } from "react";
+import Dashboard from "../admin/dashboard/dashboard";
+import "./homemakers.scss";
+import { MyContext } from "../../context/myContext";
+import { Link } from "react-router-dom";
+import left from "../../assets/left.png";
+import right from "../../assets/right.png";
+>>>>>>> 8586c269379f3c97b10b691a7aea5ca55ee175ce
 const Homemakers = () => {
     const { isOpen } = useContext(MyContext);
 
