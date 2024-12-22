@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import Dashboard from "../dashboard/dashboard";
+import Dashboard from "../admin/dashboard/dashboard";
 import "./homemakers.scss";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
-import left from "../users/left.png";
-import right from "../users/right.png";
+import left from "../../assets/left.png";
+import right from "../../assets/right.png";
 const Homemakers = () => {
     const { isOpen, setIsOpen } = useContext(MyContext);
 

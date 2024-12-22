@@ -22,27 +22,29 @@ import AnnounceDetail from "./pages/announceDetail/announceDetail";
 import Login from "./pages/register/login/login";
 import Signup from "./pages/register/signup/signup";
 import Profile from "./pages/profile/profile";
-import Dashboard from "./pages/dashboard/dashboard";
+import Dashboard from "./pages/admin/dashboard/dashboard";
 import { useContext } from "react";
 import NotFound from "./pages/404Page/404Page";
-import Users from "./pages/users/users";
+import Users from "./pages/admin/users/users";
 import Homemakers from "./pages/homemakers/homemakers";
-import Admins from "./pages/admins/admins";
-import Moderators from "./pages/moderators/moderators";
-import AddUser from "./pages/addUser/addUser";
-import Jobs from "./pages/admin-jobs/jobs";
-import AdminProducts from "./pages/admin-products/admin-products";
-import AdminCategories from "./pages/admin-categories/admin-categories";
-import AdminSubcategories from "./pages/admin-sub-categories/adminSubcategories";
-import AdminHashtags from "./pages/admin-hashtags/admin-hashtags";
-import AdminTeachers from "./pages/admin-teachers/adminTeachers";
-import AddTeacher from "./pages/addTeacher/addTeacher";
-import AdminPupils from "./pages/adminPupils/adminPupils";
-import AddPupil from "./pages/addPupil/addPupil";
-import AdminNews from "./pages/adminNews/adminNews";
-import AddNews from "./pages/addNews/addNews";
-import AdminNewsCategories from "./pages/admin-news-categories/admin-news-categories";
+import Admins from "./pages/admin/admins/admins";
+import Moderators from "./pages/admin/moderators/moderators";
+import AddUser from "./pages/admin/addUser/addUser";
+import Jobs from "./pages/admin/admin-jobs/jobs";
+import AdminProducts from "./pages/admin/admin-products/admin-products";
+import AdminCategories from "./pages/admin/admin-categories/admin-categories";
+import AdminSubcategories from "./pages/admin/admin-sub-categories/adminSubcategories";
+import AdminHashtags from "./pages/admin/admin-hashtags/admin-hashtags";
+import AdminTeachers from "./pages/admin/admin-teachers/adminTeachers";
+import AddTeacher from "./pages/admin/addTeacher/addTeacher";
+import AdminPupils from "./pages/admin/adminPupils/adminPupils";
+import AddPupil from "./pages/admin/addPupil/addPupil";
+import AdminNews from "./pages/admin/adminNews/adminNews";
+import AddNews from "./pages/admin/addNews/addNews";
+import AdminNewsCategories from "./pages/admin/admin-news-categories/admin-news-categories";
 import UsersMessaging from "./pages/usersMessaging/usersMessaging";
+import Services from "./pages/services/services";
+import AddAnnounce from "./pages/addAnnounce/addAnnounce";
 
 export const globalApi = "http://bk.kasanabozor.uz"
 
@@ -83,6 +85,12 @@ function AppContent() {
         <Route path="announcements" element={<AnnouncementsPage />} />
         <Route path="announcements/:id" element={<AnnounceDetail />} />
         {/* Announce end */}
+        {/* Services start */}
+        <Route path="services/:id" element={<Services />} />
+        {/* Services end */}
+        {/* Add announce start */}
+        <Route path="add-announce" element={<AddAnnounce />} />
+        {/* Add announce end */}
         {/* Profile start */}
         <Route path="profile" element={<Profile />} />
         {/* Profile end */}
@@ -149,3 +157,10 @@ export default App;
 // fainted narvent
 // no pole dont toliver
 // swim
+
+// new
+// heart break anniversary
+// kickin' back
+// i dont wanna be you anymore
+// the way life goes
+// softcorehear

@@ -1,31 +1,23 @@
 import React, { useContext, useState, useEffect } from "react";
-import "./announceDetail.scss";
 import { MyContext } from "../../context/myContext";
 import { Link, useParams } from "react-router-dom";
 import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
+import "./services.scss";
 
-const AnnounceDetail = () => {
-  const [selectedDep, setSelectedDep] = useState("announce");
-  const { announcements, activeLink, setActiveLink } = useContext(MyContext);
-  const [currentAnnounce, setCurrentAnnounce] = useState(null);
-  const [savedAnnouncements, setSavedAnnouncements] = useState([]);
-
+const Services = () => {
+  const { services, activeLink, setActiveLink } = useContext(MyContext);
+  const [currentService, setCurrentService] = useState(null);
   const { id } = useParams();
-
-  const handleChange = (event) => {
-    setSelectedDep(event.target.id);
-  };
+  const [savedServices, setSavedServices] = useState([]);
 
   // useEffect ni har doim chaqirish kerak
   useEffect(() => {
-    const foundAnnounce = announcements.find(
-      (item) => item.id === parseInt(id)
-    );
-    setCurrentAnnounce(foundAnnounce);
-  }, [id, announcements]); // announcement o'zgarganda va id o'zgarganda qayta ishlaydi
+    const foundService = services.find((item) => item.id === parseInt(id));
+    setCurrentService(foundService);
+  }, [id, services]); // announcement o'zgarganda va id o'zgarganda qayta ishlaydi
 
-  if (!currentAnnounce) {
+  if (!currentService) {
     return (
       <p>
         <Loading />
@@ -33,27 +25,28 @@ const AnnounceDetail = () => {
     );
   }
 
-  // Tanlangan e'lonlarni saqlash uchun state
+  const handleSaveClick = (e, service) => {
+    e.preventDefault(); // Link'ni ochilishini to'xtatish
 
-  const saveAnnouncement = (announcement) => {
-    setSavedAnnouncements((prevAnnouncements) => {
-      // E'lon allaqachon saqlangan bo'lsa, uni o'chirish
-      if (prevAnnouncements.some((a) => a.id === announcement.id)) {
-        return prevAnnouncements.filter((a) => a.id !== announcement.id); // O'chirish
+    setSavedServices((prevServices) => {
+      if (prevServices.some((saved) => saved.id === service.id)) {
+        // Agar xizmat allaqachon saqlangan bo'lsa, uni olib tashlash
+        return prevServices.filter((saved) => saved.id !== service.id);
+      } else {
+        // Aks holda, xizmatni qo'shish
+        return [...prevServices, service];
       }
-      // Aks holda, e'lonni qo'shish
-      return [...prevAnnouncements, announcement]; // Yangi e'lonni qo'shish
     });
   };
 
   const isSaved = (announcement) => {
-    return savedAnnouncements.some((a) => a.id === announcement.id);
+    return savedServices.some((a) => a.id === announcement.id);
   };
 
   return (
     <div id="announceDetail">
       <div className="announceSelect">
-        <Link to="/announcements/1" id="ann-link">
+        <Link to="/announcements/1">
           <svg
             width="20"
             height="20"
@@ -72,7 +65,7 @@ const AnnounceDetail = () => {
           Ish e'lonlari
         </Link>
 
-        <Link to="/services/1">
+        <Link to="/services/1" id="ser-link">
           <svg
             width="21"
             height="20"
@@ -111,135 +104,104 @@ const AnnounceDetail = () => {
         </Link>
       </div>
       <div className="dep-container">
-        <div
-          className={`datas-container announceDetail ${
-            selectedDep === "announce" ? "active" : ""
-          }`}
-        >
+        <div className="datas-container announceDetail">
           <div className="left-side">
             <div className="announcements-cards">
-              {announcements.map((announcement, index) => (
-                <Link
-                  to={`/announcements/${announcement.id}`}
-                  key={announcement.id}
-                >
-                  <div className="card ">
-                    <p className="title">{announcement.title}</p>
-                    <p className="price">{announcement.price}</p>
-                    <div className="details">
-                      {announcement.details.map((detail, index) => (
-                        <div className="detail" key={index}>
-                          {detail}
+              {services.map((service) => {
+                const isSaved = savedServices.some(
+                  (saved) => saved.id === service.id
+                );
+
+                return (
+                  <Link to={`/services/${service.id}`} key={service.id}>
+                    <div className={`card ${isSaved ? "saved" : ""}`}>
+                      <button
+                        id="save-btn"
+                        className={`${isSaved ? "saved" : ""}`}
+                        onClick={(e) => handleSaveClick(e, service)}
+                      >
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M25.3337 28L16.0003 21.3333L6.66699 28V6.66667C6.66699 5.95942 6.94794 5.28115 7.44804 4.78105C7.94814 4.28095 8.62641 4 9.33366 4H22.667C23.3742 4 24.0525 4.28095 24.5526 4.78105C25.0527 5.28115 25.3337 5.95942 25.3337 6.66667V28Z"
+                            stroke="#757575"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+
+                      <div className="hero-img-title">
+                        <img className="heroImg" src={service.heroImg} alt="" />
+                        <div>
+                          <p className="title">{service.title}</p>
+                          <p className="price">{service.price}</p>
+                          <div className="details">
+                            {service.details.map((detail, index) => (
+                              <div className="detail" key={index}>
+                                {detail}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      ))}
+                      </div>
+                      <div className="author">
+                        <img src={service.authorImg || "/default.png"} alt="" />
+                        <span>{service.author}</span>
+                      </div>
+                      <div className="date-count">
+                        <span>{service.date || "Aniq emas"}</span>
+                        <span>{service.views || 0}</span>
+                      </div>
                     </div>
-                    <div className="author">
-                      <img src={announcement.authorImg || defaultImg} alt="" />
-                      <span>{announcement.author} </span>
-                    </div>
-                    <div className="date-count">
-                      <span>
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_355_2881)">
-                            <path
-                              d="M10.0003 5.00008V10.0001L13.3337 11.6667M18.3337 10.0001C18.3337 14.6025 14.6027 18.3334 10.0003 18.3334C5.39795 18.3334 1.66699 14.6025 1.66699 10.0001C1.66699 5.39771 5.39795 1.66675 10.0003 1.66675C14.6027 1.66675 18.3337 5.39771 18.3337 10.0001Z"
-                              stroke="#767676"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_355_2881">
-                              <rect width="20" height="20" fill="white" />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        {announcement.date || "Aniq emas"}
-                      </span>
-                      <span>
-                        <svg
-                          width="21"
-                          height="20"
-                          viewBox="0 0 21 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_355_2885)">
-                            <path
-                              d="M1.16602 9.99992C1.16602 9.99992 4.49935 3.33325 10.3327 3.33325C16.166 3.33325 19.4993 9.99992 19.4993 9.99992C19.4993 9.99992 16.166 16.6666 10.3327 16.6666C4.49935 16.6666 1.16602 9.99992 1.16602 9.99992Z"
-                              stroke="#767676"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M10.3327 12.4999C11.7134 12.4999 12.8327 11.3806 12.8327 9.99992C12.8327 8.61921 11.7134 7.49992 10.3327 7.49992C8.95197 7.49992 7.83268 8.61921 7.83268 9.99992C7.83268 11.3806 8.95197 12.4999 10.3327 12.4999Z"
-                              stroke="#767676"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_355_2885">
-                              <rect
-                                width="20"
-                                height="20"
-                                fill="white"
-                                transform="translate(0.333008)"
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        {announcement.views || 0}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
           <div className="right-side">
+            <div className="hero-img-detail">
+              <img src={currentService?.heroImg} alt="" />
+            </div>
             <div className="top-side">
               <div className="top-left">
                 <div className="author">
-                  <img src={currentAnnounce?.authorImg || defaultImg} alt="" />
-                  <span>{currentAnnounce?.author || "undefinde"}</span>
+                  <img src={currentService?.authorImg || defaultImg} alt="" />
+                  <span>{currentService?.author || "undefinde"}</span>
                 </div>
-                <div className="cur-title">{currentAnnounce.title}</div>
+                <div className="cur-title">{currentService.title}</div>
               </div>
               <div className="top-right">
                 <span>
                   <svg
                     width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
+                    height="33"
+                    viewBox="0 0 32 33"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M15.9974 17.3333C16.7338 17.3333 17.3307 16.7364 17.3307 16C17.3307 15.2636 16.7338 14.6666 15.9974 14.6666C15.261 14.6666 14.6641 15.2636 14.6641 16C14.6641 16.7364 15.261 17.3333 15.9974 17.3333Z"
+                      d="M15.9993 17.8333C16.7357 17.8333 17.3327 17.2364 17.3327 16.5C17.3327 15.7636 16.7357 15.1667 15.9993 15.1667C15.263 15.1667 14.666 15.7636 14.666 16.5C14.666 17.2364 15.263 17.8333 15.9993 17.8333Z"
                       stroke="#757575"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
                     <path
-                      d="M15.9974 7.99998C16.7338 7.99998 17.3307 7.40303 17.3307 6.66665C17.3307 5.93027 16.7338 5.33331 15.9974 5.33331C15.261 5.33331 14.6641 5.93027 14.6641 6.66665C14.6641 7.40303 15.261 7.99998 15.9974 7.99998Z"
+                      d="M15.9993 8.50001C16.7357 8.50001 17.3327 7.90306 17.3327 7.16668C17.3327 6.4303 16.7357 5.83334 15.9993 5.83334C15.263 5.83334 14.666 6.4303 14.666 7.16668C14.666 7.90306 15.263 8.50001 15.9993 8.50001Z"
                       stroke="#757575"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
                     <path
-                      d="M15.9974 26.6666C16.7338 26.6666 17.3307 26.0697 17.3307 25.3333C17.3307 24.5969 16.7338 24 15.9974 24C15.261 24 14.6641 24.5969 14.6641 25.3333C14.6641 26.0697 15.261 26.6666 15.9974 26.6666Z"
+                      d="M15.9993 27.1667C16.7357 27.1667 17.3327 26.5697 17.3327 25.8333C17.3327 25.097 16.7357 24.5 15.9993 24.5C15.263 24.5 14.666 25.097 14.666 25.8333C14.666 26.5697 15.263 27.1667 15.9993 27.1667Z"
                       stroke="#757575"
                       stroke-width="1.5"
                       stroke-linecap="round"
@@ -249,9 +211,11 @@ const AnnounceDetail = () => {
                 </span>
                 <span>
                   <button
-                    key={currentAnnounce.id}
-                    onClick={() => saveAnnouncement(currentAnnounce)}
-                    className={`save-btn ${isSaved(currentAnnounce) ? "saved" : "not-saved"}`}
+                    key={currentService.id}
+                    onClick={(e) => handleSaveClick(e, currentService)}
+                    className={`save-btn ${
+                      isSaved(currentService) ? "saved" : "not-saved"
+                    }`}
                   >
                     <svg
                       width="32"
@@ -270,6 +234,7 @@ const AnnounceDetail = () => {
                     </svg>
                   </button>
                 </span>
+
                 <Link to="#">Ariza qoldirish</Link>
               </div>
             </div>
@@ -301,7 +266,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Lokatsiya</p>
-                  <p>{currentAnnounce?.location || "Kiritilmagan"}</p>
+                  <p>{currentService?.location || "Kiritilmagan"}</p>
                 </div>
               </li>
               <li>
@@ -331,7 +296,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish vaqti</p>
-                  <p>{currentAnnounce?.timeWork || "Kiritilmagan"}</p>
+                  <p>{currentService?.timeWork || "Kiritilmagan"}</p>
                 </div>
               </li>
               <li>
@@ -354,7 +319,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish haqqi</p>
-                  <p>{currentAnnounce?.price || "Kiritilmagan"}</p>
+                  <p>{currentService?.price || "Kiritilmagan"}</p>
                 </div>
               </li>
             </ul>
@@ -410,21 +375,9 @@ const AnnounceDetail = () => {
             </div>
           </div>
         </div>
-        <div
-          className={`datas-container announceDetail ${
-            selectedDep === "service" ? "active" : ""
-          }`}
-        ></div>
-        <div
-          className={`datas-container ${
-            selectedDep === "toAnnounce" ? "active" : ""
-          }`}
-        >
-          <p className="title">E'lon berish</p>
-        </div>
       </div>
     </div>
   );
 };
 
-export default AnnounceDetail;
+export default Services;
