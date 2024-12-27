@@ -157,13 +157,10 @@ export default App;
 // fainted narvent
 // no pole dont toliver
 // swim
-
-<<<<<<< HEAD
-=======
 // new
 // heart break anniversary
 // kickin' back
 // i dont wanna be you anymore
 // the way life goes
 // softcorehear
->>>>>>> 8586c269379f3c97b10b691a7aea5ca55ee175ce
+//

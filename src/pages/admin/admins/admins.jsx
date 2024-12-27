@@ -3,17 +3,12 @@ import Dashboard from "../dashboard/dashboard";
 import "./admins.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD:src/pages/admins/admins.jsx
-import left from "../users/left.png";
-import right from "../users/right.png";
-import axios from 'axios';
-import { usersServerUrl } from '../../SuperVars.js';
-
-
-=======
 import left from "../../../assets/left.png";
-import right from "../../../assets/left.png";
->>>>>>> 8586c269379f3c97b10b691a7aea5ca55ee175ce:src/pages/admin/admins/admins.jsx
+import right from "../../../assets/right.png";
+import axios from 'axios';
+import { usersServerUrl } from '../../../SuperVars.js';
+
+
 const Admins = () => {
   const { isOpen } = useContext(MyContext);
 

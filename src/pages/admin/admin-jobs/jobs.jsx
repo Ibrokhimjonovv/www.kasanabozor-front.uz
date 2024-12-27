@@ -6,7 +6,7 @@ import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import axios from 'axios';
-import { usersServerUrl } from "../../SuperVars";
+import { usersServerUrl } from "../../../SuperVars";
 
 
 const Jobs = () => {
@@ -54,6 +54,21 @@ const Jobs = () => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
+
+  const [newJobName, setNewJobName] = useState("");
+  // const [newJobIcon, setNewJobIcon] = useState("");
+
+  const createJob = async (e) => {
+    e.preventDefault();
+    const newJobRequest = await axios.post(`${usersServerUrl}dashboard/jobs/create/`, {
+      title: newJobName,
+      is_active: true
+    }, {headers: {"Content-Type": "application/json"}});
+    if (newJobRequest.data.status === "ok" && newJobRequest.data.details === "Created with 100% success") {
+      await fetchData();
+      setOffCanvas(false);
+    }
+  }
 
   return (
     <div id="admin-users-jobs">
@@ -104,7 +119,7 @@ const Jobs = () => {
               </Link>
                 <div className={`offcanvas ${offCanvas ? "show" : ""}`}>
                   <h1>Yangi kasb qo'shish</h1>
-                  <form action="">
+                  <form action="" onSubmit={createJob}>
                     <div className="input-row">
                       <label htmlFor="firstName">Kasb nomi</label>
                       <div className="inputs">
@@ -127,11 +142,11 @@ const Jobs = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        <input type="text" placeholder="Nomini kiriting" />
+                        <input type="text" onChange={ (e) => setNewJobName(e.target.value) } value={ newJobName } placeholder="Nomini kiriting" />
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-                    <div className="input-row">
+	  {/*<div className="input-row">
                       <label htmlFor="firstName">Meta nomi</label>
                       <div className="inputs">
                         <svg
@@ -149,7 +164,7 @@ const Jobs = () => {
                         <input type="text" placeholder="Nomini kiriting" />
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
-                    </div>
+                    </div>*/}
                     <div className="input-row">
                       <label htmlFor="status">Belgi</label>
                       <div className="inputs">
@@ -180,7 +195,7 @@ const Jobs = () => {
 
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-                    <div className="input-row">
+	  {/*<div className="input-row">
                       <label htmlFor="status">Holati</label>
                       <div className="inputs">
                         <svg
@@ -209,7 +224,7 @@ const Jobs = () => {
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
-                    </div>
+                    </div>*/}
                     <div className="button">
                       <button type="submit" id="sub">
                         Qo'shish

@@ -9,7 +9,7 @@ import axios from "axios";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess } = useContext(MyContext);
+  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess, setIsAuthenticated } = useContext(MyContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -44,8 +44,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [netErr, setNetErr] = useState(false);
-  const [usernot, setUsernot] = useState("")
+  const [setNetErr] = useState(false);
+  const [usernot] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -97,6 +97,7 @@ const Login = () => {
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
 
+      setIsAuthenticated(true);
       navigate("/");
     } catch (err) {
       setNetErr(true)

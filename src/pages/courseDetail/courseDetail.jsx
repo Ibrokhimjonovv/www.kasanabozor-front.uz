@@ -9,7 +9,7 @@ import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
 
 const CourseDetail = () => {
-  const { category, id } = useParams();
+  const { id } = useParams();
   const { courses, isAuthenticated, followedCourses, setFollowedCourses } = useContext(MyContext);
   const [course, setCourse] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(0);

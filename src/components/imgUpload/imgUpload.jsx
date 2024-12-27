@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import "./imgUpload.scss";
 
-const ImageUpload = () => {
+const ImageUpload = ({ changeLocal }) => {
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -25,10 +25,12 @@ const ImageUpload = () => {
       return;
     }
 
-    const newImages = validFiles.map((file) =>
-      Object.assign(file, { preview: URL.createObjectURL(file) })
-    );
-    setImages((prevImages) => [...prevImages, ...newImages]); // Rasmlarni qo'shamiz
+    const newImages = validFiles.map((file) => {let a = new Blob([file], file.type);return {'blob': a, 'file': file};});
+    setImages((prevImages) => [...prevImages, ...newImages]);
+    if (changeLocal) {
+      changeLocal((prevImages) => [...prevImages, ...newImages]);
+    }
+    // Rasmlarni qo'shamiz
     setIsDragging(false); // Rasm qo'shilgandan keyin holatni tiklaymiz
   };
 
@@ -36,7 +38,7 @@ const ImageUpload = () => {
     onDrop,
     onDragEnter: () => setIsDragging(true),
     onDragLeave: () => setIsDragging(false),
-    accept: "image/png, image/jpeg, image/gif",
+    accept: "image/png, image/jpeg, image/webp, image/gif",
     multiple: true,
   });
 
@@ -53,6 +55,15 @@ const ImageUpload = () => {
       updatedImages.unshift(selectedImage);
       return updatedImages;
     });
+
+    if (changeLocal) {
+      changeLocal((prevImages) => {
+        const updatedImages = [...prevImages];
+        const [selectedImage] = updatedImages.splice(index, 1);
+        updatedImages.unshift(selectedImage);
+        return updatedImages;
+      });
+    }
   };
 
   return (

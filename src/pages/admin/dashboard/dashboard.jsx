@@ -6,8 +6,7 @@ import { MyContext } from "../../../context/myContext";
 import Logout from "../../../components/logout/logout";
 
 const Dashboard = () => {
-  const {isOpen, setIsOpen, isAdmin, data} = useContext(MyContext);
-  console.log(data);
+  const {isOpen, setIsOpen} = useContext(MyContext);
   
 
   const sideBarFunction = () => {

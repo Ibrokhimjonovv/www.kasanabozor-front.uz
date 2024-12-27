@@ -1,142 +1,40 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./admin-products.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-import img from "../admin-jobs/img.png";
-import authorImg from "./authorImg.png";
 import StarRating from "../../../components/starRating/starRating";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
+import axios from 'axios';
+import { eCommerseServerUrl } from '../../../SuperVars.js';
+
 
 const AdminProducts = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
-  const products = [
-    {
-      id: 1,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 4,
-      status: true,
-    },
-    {
-      id: 2,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 3,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 4,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 5,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 6,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 7,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 8,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 9,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 10,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 11,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-  ];
+  const { isOpen } = useContext(MyContext);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const fetchData = async () => {
+    const productsListResponse = await axios.post(`${eCommerseServerUrl}dashboard/products/list/`);
+    if (productsListResponse.data.status === "ok") {
+      setProducts(productsListResponse.data.results);
+    }
+
+    const categoryListResponse = await axios.post(`${eCommerseServerUrl}dashboard/categories/list/`);
+    if (categoryListResponse.data.status === "ok") {
+      setCategories(categoryListResponse.data.data);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -160,21 +58,34 @@ const AdminProducts = () => {
     setOffCanvas(!offCanvas);
   };
 
-  // Har bir mahsulotning statusini saqlash uchun state
-  const [productStatuses, setProductStatuses] = useState(
-    products.reduce((acc, product) => {
-      acc[product.id] = product.status; // Initial holatni mahsulotdan olish
-      return acc;
-    }, {})
-  );
+  const [newProductImages, setNewProductImages] = useState([]);
+  const [newProductName, setNewProductName] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState("");
+  const [newProductPriceOff, setNewProductPriceOff] = useState("");
+  const [newProductDescription, setNewProductDescription] = useState("");
+  const [newProductCategory, setNewProductCategory] = useState("");
 
-  // Checkbox holatini yangilash funksiyasi
-  const handleStatusChange = (id) => {
-    setProductStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [id]: !prevStatuses[id], // Statusni teskari qilish
-    }));
-  };
+  const createNewProduct = async (e) => {
+    e.preventDefault();
+
+    try {
+      const createNewProductResponse = await axios.post(`${eCommerseServerUrl}dashboard/products/create/`, {
+        name: newProductName,
+        price: newProductPrice,
+        price_off: newProductPriceOff,
+        description: newProductDescription,
+        category: newProductCategory,
+        images: newProductImages
+      });
+      if (createNewProductResponse.data.status === "ok") {
+        console.log(createNewProductResponse);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
   return (
     <div id="admin-products">
       <Dashboard />
@@ -223,7 +134,7 @@ const AdminProducts = () => {
               </Link>
               <div className={`offcanvas ${offCanvas ? "show" : ""}`}>
                 <h1>Mahsulot qo'shish</h1>
-                <form action="">
+                <form action="" onSubmit={ createNewProduct }>
                   <div className="input-row">
                     <label htmlFor="productName">Mahsulot nomi</label>
                     <div className="inputs">
@@ -246,12 +157,12 @@ const AdminProducts = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      <input type="text" placeholder="Nomini kiriting" />
+                      <input type="text" placeholder="Nomini kiriting" value={ newProductName } onChange={ (e) => {setNewProductName(e.target.value)} } />
                     </div>
                     <div className="error-message">To'ldirilishi shart</div>
                   </div>
                   <div className="one-row">
-                    <div className="input-row">
+                    {/*<div className="input-row">
                       <label htmlFor="sku">SKU</label>
                       <div className="inputs">
                         <svg
@@ -269,7 +180,7 @@ const AdminProducts = () => {
                         <input type="text" placeholder="SKU kodi" />
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
-                    </div>
+                    </div>*/}
                     <div className="input-row">
                       <label htmlFor="price">Narxi</label>
                       <div className="inputs">
@@ -291,7 +202,7 @@ const AdminProducts = () => {
                             stroke-width="2"
                           />
                         </svg>
-                        <input type="text" placeholder="Narx kiriting" />
+                        <input type="text" placeholder="Narx kiriting" value={newProductPrice} onChange={ (e) => { setNewProductPrice(parseInt(e.target.value));setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
@@ -303,13 +214,15 @@ const AdminProducts = () => {
                       name="about-product"
                       id=""
                       placeholder="Text"
+                      value={newProductDescription}
+                      onChange={ (e) => setNewProductDescription(e.target.value) }
                     ></textarea>
                     <div className="error-message">To'ldirilishi shart</div>
                   </div>
                   <div className="input-row">
                     <label htmlFor="">Mahsulot rasmlari</label>
                     <label htmlFor="">Rasmlar</label>
-                    <ImageUpload />
+                    <ImageUpload changeLocal={ setNewProductImages } />
                   </div>
                   <label
                     style={{ textAlign: "left", width: "100%" }}
@@ -319,7 +232,7 @@ const AdminProducts = () => {
                   </label>
                   <div className="one-row">
                     <div className="input-row">
-                      <label htmlFor="sku">Kategoriya</label>
+                      <label htmlFor="category">Kategoriya</label>
                       <div className="inputs">
                         <svg
                           width="24"
@@ -337,15 +250,13 @@ const AdminProducts = () => {
                           />
                         </svg>
 
-                        <select name="" id="">
-                          <option value="">Tanlang</option>
-                          <option value="">Tanlang</option>
-                          <option value="">Tanlang</option>
+                        <select name="category" id="category" value={ newProductCategory } onChange={ (e) => { setNewProductCategory(e.target.value); } }>
+                          {categories.map((value, index) => <option value={ value.id } key={ index }>{ value.name }</option>)}
                         </select>
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-                    <div className="input-row">
+    {/*<div className="input-row">
                       <label htmlFor="status">
                         Holati
                         <svg
@@ -385,7 +296,7 @@ const AdminProducts = () => {
                             stroke="#B2B2B2"
                             stroke-width="2"
                           />
-                        </svg>
+		</svg>
                         <select name="" id="status">
                           <option value="">Aktiv</option>
                           <option value="">Aktivemas</option>
@@ -393,7 +304,7 @@ const AdminProducts = () => {
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
-                    </div>
+                    </div>*/}
                   </div>
                   <div className="button">
                     <button type="submit" id="sub">
@@ -479,9 +390,9 @@ const AdminProducts = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Reyting
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+	  	{/*<th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Aktivligi
-                </th>
+                </th>*/}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
@@ -496,21 +407,21 @@ const AdminProducts = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={product.productImg}
+                      src={product.product_image_Ecommerce_product_images[0] ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ''}
                       alt=""
                     />
                   </td>
-                  <td>{product.productTitle}</td>
-                  <td>
-                    <img className="authorImg" src={product.authorImg} alt="" />
+                  <td>{product.name}</td>
+		  <td>
+                    <img className="authorImg" src={product.user.pfp} alt="" />
                   </td>
                   {/* <td className="sku">{product.sku}</td> */}
-                  <td>{product.category}</td>
+                  <td>{product.category.title}</td>
                   <td>{product.price}</td>
                   <td>
-                    <StarRating rating={product.rating} />
+                    <StarRating rating={ product.average_rating } />
                   </td>
-                  <td>
+		      {/*<td>
                     <input
                       type="checkbox"
                       id={`status-${product.id}`}
@@ -526,7 +437,7 @@ const AdminProducts = () => {
                         className={productStatuses[product.id] ? "active" : ""}
                       ></span>
                     </label>
-                  </td>
+                  </td>*/}
                   <td>
                     <button className="btn btn-secondary">
                       <svg
