@@ -1,6 +1,8 @@
 .tox {
     margin-top: 7px;
     height: 250px !important;
+
+
     .tox-menubar {
         display: none !important;
     }
@@ -44,10 +46,14 @@
     width: 40px !important;
     cursor: pointer;
     transition: all 0.5s !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     svg {
-    transition: all 0.5s !important;
-
+        transition: all 0.5s !important;
+        position: unset !important;
+        transform: unset !important;
     }
 
     &:hover {

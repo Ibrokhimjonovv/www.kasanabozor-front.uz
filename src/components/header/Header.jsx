@@ -15,6 +15,7 @@ const Header = () => {
     languages,
     setLanguages,
     isAuthenticated,
+    user
   } = useContext(MyContext);
 
   const toggleDropDown = () => {
@@ -68,8 +69,8 @@ const Header = () => {
   };
 
   const notF = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   return (
     <div className={`tyu ${scrolled ? "scrolled" : ""}`}>
@@ -448,10 +449,43 @@ const Header = () => {
             </li>
             <li id="login-top">
               {isAuthenticated ? (
-                <Link to="/dashboard"> <svg width="25" height="25" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.3307 24.5V22.1667C23.3307 20.929 22.8391 19.742 21.9639 18.8668C21.0887 17.9917 19.9017 17.5 18.6641 17.5H9.33073C8.09305 17.5 6.90607 17.9917 6.0309 18.8668C5.15573 19.742 4.66406 20.929 4.66406 22.1667V24.5M18.6641 8.16667C18.6641 10.744 16.5747 12.8333 13.9974 12.8333C11.4201 12.8333 9.33073 10.744 9.33073 8.16667C9.33073 5.58934 11.4201 3.5 13.9974 3.5C16.5747 3.5 18.6641 5.58934 18.6641 8.16667Z" stroke="#41A58D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Shaxsiy kabinet</Link>
+                user.role === "admin" ? (
+                  <Link to="/dashboard">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
+                        stroke="#118E71"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                    Admin Dashboard
+                  </Link>
+                ) : (
+                  <Link to="/profile">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
+                        stroke="#118E71"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                    Shaxsiy kabinet
+                  </Link>
+                )
               ) : (
                 <Link to="/login">Kirish</Link>
               )}
@@ -789,7 +823,7 @@ const Header = () => {
 
         <div className="menus">
           <div className="details">
-          <div className="detail">
+            <div className="detail">
               <ul>
                 <li>Onlayn bozor</li>
                 <li>
@@ -849,7 +883,6 @@ const Header = () => {
                 <li>
                   <Link to="#">So'nngi yangiliklar</Link>
                 </li>
-
               </ul>
             </div>
             <div className="detail">

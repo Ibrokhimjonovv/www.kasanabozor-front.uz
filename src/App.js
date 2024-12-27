@@ -1,13 +1,16 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Home from "./pages/Home";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { useContext } from "react";
 import { MyContext, MyContextProvider } from "./context/myContext";
+
+// Import komponentlari
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
+import Home from "./pages/Home";
 import OnlineShop from "./pages/onlineShop/onlineShop";
-import AllCategories from "./pages/allCategories/allCategories";
 import ProductDetails from "./pages/productDetail/productDetails";
 import Categories from "./pages/productCategories/Categories";
+import AllCategories from "./pages/allCategories/allCategories";
 import NewsPage from "./pages/newsPage/newsPage";
 import NewsCategory from "./pages/newsCategory/newsCategory";
 import NewsDetail from "./pages/newsDetail/newsDetail";
@@ -23,7 +26,6 @@ import Login from "./pages/register/login/login";
 import Signup from "./pages/register/signup/signup";
 import Profile from "./pages/profile/profile";
 import Dashboard from "./pages/admin/dashboard/dashboard";
-import { useContext } from "react";
 import NotFound from "./pages/404Page/404Page";
 import Users from "./pages/admin/users/users";
 import Homemakers from "./pages/homemakers/homemakers";
@@ -45,15 +47,41 @@ import AdminNewsCategories from "./pages/admin/admin-news-categories/admin-news-
 import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 import Services from "./pages/services/services";
 import AddAnnounce from "./pages/addAnnounce/addAnnounce";
+import Products from "./pages/profilePages/products/Products";
+import EditProfile from "./pages/profilePages/editProfile/EditProfile";
 
-export const globalApi = "http://bk.kasanabozor.uz"
+// Global API
+export const globalApi = "http://bk.kasanabozor.uz";
+
+// PrivateRoute komponenti
+const PrivateRoute = ({ children, userRole, allowedRole }) => {
+  if (userRole !== allowedRole) {
+    return <NotFound />;
+  }
+  return children;
+};
+
+// Profilega kirish uchun o'zgarish
+const ProfileRoute = ({ children, userRole, allowedRole }) => {
+  if (userRole !== allowedRole) {
+    return <NotFound />;
+  } 
+  return children;
+};
 
 function AppContent() {
   const location = useLocation();
+  const { isAuthenticated, user } = useContext(MyContext);
 
   // Headerni ko'rsatmaslik kerak bo'lgan sahifalar
-  const noHeaderPaths = ["/login", "/signup", "/dashboard", '/dashboard/admin/users', '/dashboard/admin/homemakers', '/dashboard/admin/admins', '/dashboard/admin/moderators', '/dashboard/admin/add-user', '/dashboard/admin/jobs', '/dashboard/admin/products', '/dashboard/admin/categories', '/dashboard/admin/subcategories', '/dashboard/admin/hashtags', '/dashboard/admin/teachers','/dashboard/admin/add-teacher', '/dashboard/admin/pupils', '/dashboard/admin/add-pupils', '/dashboard/admin/admin-news', '/dashboard/admin/add-news', '/dashboard/admin/admin-news-categories'];
-  const { isAuthenticated } = useContext(MyContext);
+  const noHeaderPaths = [
+    "/login", "/signup", "/dashboard", '/dashboard/admin/users', '/dashboard/admin/homemakers', 
+    '/dashboard/admin/admins', '/dashboard/admin/moderators', '/dashboard/admin/add-user', 
+    '/dashboard/admin/jobs', '/dashboard/admin/products', '/dashboard/admin/categories', 
+    '/dashboard/admin/subcategories', '/dashboard/admin/hashtags', '/dashboard/admin/teachers',
+    '/dashboard/admin/add-teacher', '/dashboard/admin/pupils', '/dashboard/admin/add-pupils', 
+    '/dashboard/admin/admin-news', '/dashboard/admin/add-news', '/dashboard/admin/admin-news-categories'
+  ];
 
   return (
     <div className="app">
@@ -61,13 +89,11 @@ function AppContent() {
       {!noHeaderPaths.includes(location.pathname) && <Header />}
 
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="online-shop" element={<OnlineShop />} />
         <Route path="online-shop/product/:id" element={<ProductDetails />} />
-        <Route
-          path="online-shop/categories/:category"
-          element={<Categories />}
-        />
+        <Route path="online-shop/categories/:category" element={<Categories />} />
         <Route path="online-shop/all-categories" element={<AllCategories />} />
         <Route path="news" element={<NewsPage />} />
         <Route path="news/:category" element={<NewsCategory />} />
@@ -76,58 +102,58 @@ function AppContent() {
         <Route path="news/documents/pdf" element={<PDFViewer />} />
         <Route path="courses" element={<CoursesPage />} />
         <Route path="courses/all-categories/" element={<AllCourseCategory />} />
-        <Route
-          path="courses/categories/:category"
-          element={<CoursesCategory />}
-        />
+        <Route path="courses/categories/:category" element={<CoursesCategory />} />
         <Route path="courses/course/:id" element={<CourseDetail />} />
-        {/* Announce start */}
         <Route path="announcements" element={<AnnouncementsPage />} />
         <Route path="announcements/:id" element={<AnnounceDetail />} />
-        {/* Announce end */}
-        {/* Services start */}
         <Route path="services/:id" element={<Services />} />
-        {/* Services end */}
-        {/* Add announce start */}
         <Route path="add-announce" element={<AddAnnounce />} />
-        {/* Add announce end */}
         {/* Profile start */}
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={isAuthenticated && user.role === "user" ? <Profile /> : <NotFound />} />
+        <Route path="profile/*" element={
+          <ProfileRoute userRole={user.role} allowedRole="user">
+            <Routes>
+              <Route path="products" element={<Products />}/>
+              <Route path=":title" element={<EditProfile />}/>
+
+              <Route path="*" element={<NotFound />} />
+
+            </Routes>
+          </ProfileRoute>}
+        />
         {/* Profile end */}
 
-        {/* Admin start */}
-        <Route path="dashboard/admin/users" element={<Users />}/>
-        <Route path="dashboard/admin/homemakers" element={<Homemakers />}/>
-        <Route path="dashboard/admin/admins" element={<Admins />}/>
-        <Route path="dashboard/admin/moderators" element={<Moderators />}/>
-        <Route path="dashboard/admin/add-user/" element={<AddUser />}/>
-        <Route path="dashboard/admin/jobs/" element={<Jobs />}/>
-        <Route path="dashboard/admin/products/" element={<AdminProducts />} />
-        <Route path="dashboard/admin/categories/" element={<AdminCategories />} />
-        <Route path="dashboard/admin/subcategories/" element={<AdminSubcategories />} />
-        <Route path="dashboard/admin/hashtags" element={<AdminHashtags />} />
-        <Route path="dashboard/admin/teachers" element={<AdminTeachers />} />
-        <Route path="dashboard/admin/add-teacher" element={<AddTeacher />} />
-        <Route path="dashboard/admin/pupils" element={<AdminPupils />} />
-        <Route path="dashboard/admin/add-pupils" element={<AddPupil />} />
-        <Route path="dashboard/admin/admin-news" element={<AdminNews />} />
-        <Route path="dashboard/admin/add-news" element={<AddNews />} />
-        <Route path="dashboard/admin/admin-news-categories" element={<AdminNewsCategories />} />
-        {/* Admin end */}
+        {/* Admin Routes */}
+        <Route path="dashboard" element={isAuthenticated && user.role === "admin" ? <Dashboard /> : <NotFound />} />
+        <Route path="dashboard/*" element={
+          <PrivateRoute userRole={user.role} allowedRole="admin">
+            <Routes>
+              <Route path="users" element={<Users />} />
+              <Route path="homemakers" element={<Homemakers />} />
+              <Route path="admins" element={<Admins />} />
+              <Route path="moderators" element={<Moderators />} />
+              <Route path="add-user" element={<AddUser />} />
+              <Route path="jobs" element={<Jobs />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="subcategories" element={<AdminSubcategories />} />
+              <Route path="hashtags" element={<AdminHashtags />} />
+              <Route path="teachers" element={<AdminTeachers />} />
+              <Route path="add-teacher" element={<AddTeacher />} />
+              <Route path="pupils" element={<AdminPupils />} />
+              <Route path="add-pupils" element={<AddPupil />} />
+              <Route path="admin-news" element={<AdminNews />} />
+              <Route path="add-news" element={<AddNews />} />
+              <Route path="admin-news-categories" element={<AdminNewsCategories />} />
+            </Routes>
+          </PrivateRoute>
+        } />
 
-        {/* Chatbox start */}
-          <Route path="/online-shop/messaging" element={<UsersMessaging />} />
-        {/* Chatbox end */}
-
-        {isAuthenticated ? (
-          <Route path="dashboard" element={<Dashboard />} />
-        ) : null}
-
-        {/* Register start */}
+        {/* Register Routes */}
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        {/* Register end */}
 
+        {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
 
@@ -148,19 +174,3 @@ function App() {
 }
 
 export default App;
-
-
-// Hot girl bummer
-// Collide justine skyle
-// im your mirror
-// there's nothing holdin' me back
-// fainted narvent
-// no pole dont toliver
-// swim
-
-// new
-// heart break anniversary
-// kickin' back
-// i dont wanna be you anymore
-// the way life goes
-// softcorehear

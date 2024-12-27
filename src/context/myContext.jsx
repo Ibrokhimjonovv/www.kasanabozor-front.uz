@@ -946,7 +946,6 @@ export const MyContextProvider = ({ children }) => {
     },
   ];
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState("");
   const [refresh, setRefresh] = useState("");
   const [followedCourses, setFollowedCourses] = useState([]);
@@ -958,6 +957,9 @@ export const MyContextProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [data, setData] = useState(null);
   const [activeLink, setActiveLink] = useState(1);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({role: 'user'})
+
 
   useEffect(() => {
     // LocalStorage dan access_tokenni olish
@@ -1001,7 +1003,9 @@ export const MyContextProvider = ({ children }) => {
         setData,
         services,
         activeLink,
-        setActiveLink
+        setActiveLink,
+        user,
+        setUser
       }}
     >
       {children}
