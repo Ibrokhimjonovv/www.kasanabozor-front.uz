@@ -1,0 +1,9 @@
+.announce-price {
+    display: -webkit-flex;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: unset !important;
+    height: 100% !important;
+}
