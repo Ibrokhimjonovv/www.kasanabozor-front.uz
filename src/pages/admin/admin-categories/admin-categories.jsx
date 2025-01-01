@@ -59,21 +59,6 @@ const AdminCategories = () => {
     }
   };
 
-  // Har bir mahsulotning statusini saqlash uchun state
-  const [productStatuses, setProductStatuses] = useState(
-    categories.reduce((acc, product) => {
-      acc[product.id] = product.status; // Initial holatni mahsulotdan olish
-      return acc;
-    }, {})
-  );
-
-  // Checkbox holatini yangilash funksiyasi
-  const handleStatusChange = (id) => {
-    setProductStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [id]: !prevStatuses[id], // Statusni teskari qilish
-    }));
-  };
   return (
     <div id="admin-categories">
       <Dashboard />
