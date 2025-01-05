@@ -44,7 +44,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [setNetErr] = useState(false);
   const [usernot] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,7 +89,6 @@ const Login = () => {
 
       const data = await response.data;
       const { access, refresh } = data;
-      console.log(response);
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 
@@ -100,7 +98,6 @@ const Login = () => {
       setIsAuthenticated(true);
       navigate("/");
     } catch (err) {
-      setNetErr(true)
     } finally {
       setLoading(false)
     }
