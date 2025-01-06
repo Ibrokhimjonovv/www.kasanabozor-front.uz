@@ -6,7 +6,6 @@ import InputMask from "react-input-mask";
 import { usersServerUrl } from '../../../SuperVars';
 import axios from "axios";
 
-
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {

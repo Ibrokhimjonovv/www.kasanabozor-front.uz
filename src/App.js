@@ -61,6 +61,30 @@ import MenuTool from "./components/menu-tool/menuTool";
 
 import './createAxiosClient';
 
+import Products from "./pages/profilePages/products/Products";
+import EditProfile from "./pages/profilePages/editProfile/EditProfile";
+import AddProducts from "./pages/profilePages/addProduct/addProduct";
+import LikedProducts from "./pages/profilePages/likedProducts/likedProducts";
+import LikedAnnounces from "./pages/profilePages/announce/likedAnnounces";
+import MyAnnounces from "./pages/profilePages/myAnnounces/myAnnounces";
+import MessagesContainer from "./pages/profilePages/messagesContainer/messagesContainer";
+import MenuTool from "./components/menu-tool/menuTool";
+
+// Global API
+export const globalApi = "http://bk.kasanabozor.uz";
+const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
+  if (!isAuthenticated && userRole !== allowedRole) {
+    return <NotFound />;
+  }
+  return children;
+};
+const ProfileRoute = ({ children, userRole, allowedRole }) => {
+  if (userRole !== allowedRole) {
+    return <NotFound />;
+  }
+  return children;
+};
+
 function AppContent() {
   const location = useLocation();
   const { isAuthenticated, user } = useContext(MyContext);
@@ -210,4 +234,3 @@ function App() {
 }
 
 export default App;
-

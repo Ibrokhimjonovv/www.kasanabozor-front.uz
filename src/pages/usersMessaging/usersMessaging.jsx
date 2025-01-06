@@ -4,10 +4,7 @@ import productImg from "./product.png";
 import Picker from "emoji-picker-react";
 import chatsNot from "./Frame.png";
 import axios, {formToJSON} from "axios";
-
-
 const messagingServerUrl = "http://127.0.0.1:8905/";
-
 
 const UsersMessaging = () => {
   const messagesDiv = useRef(null);
@@ -21,7 +18,6 @@ const UsersMessaging = () => {
   const [selectedChatIndex, setSelectedChatIndex] = useState(null);
   const [countdown, setCountdown] = useState(5);
   const [isDeleting, setIsDeleting] = useState(false);
-
   const [usersChats, setUsersChats] = useState([]);
   const [me, setMe] = useState({});
 

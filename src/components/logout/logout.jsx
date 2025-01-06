@@ -13,11 +13,10 @@ const Logout = () => {
 
     // Foydalanuvchi holatini yangilash (agar kontekstdan foydalanayotgan bo'lsangiz)
     setSelectedLanguage(""); // Yoki boshqa kerakli holatlarni yangilash
-    // setLanguages([]); // Kerakli bo'lsa 
+    setLanguages([]); // Kerakli bo'lsa 
     setIsAuthenticated(false)
 
     axios.defaults.headers.common['Authorization'] = `No-Authorization`;
-
     // Tizimdan chiqqandan so'ng foydalanuvchini login sahifasiga yo'naltirish
     setSelectedLanguage("");
     setIsAuthenticated(false)

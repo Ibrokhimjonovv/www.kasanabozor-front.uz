@@ -8,12 +8,12 @@ import Dashboard from "../dashboard/dashboard";
 import { eCommerseServerUrl } from "../../../SuperVars";
 import axios from "axios";
 
-
 const AdminCategories = () => {
   const { isOpen } = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
 
   const [categories, setCategories] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   const prevPage = () => {
@@ -65,20 +65,7 @@ const AdminCategories = () => {
       setAvaName("");
     }
   };
-  
-  /* const [productStatuses, setProductStatuses] = useState(
-    categories.reduce((acc, product) => {
-      acc[product.id] = product.status;
-      return acc;
-    }, {})
-  );
-  const handleStatusChange = (id) => {
-    setProductStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [id]: !prevStatuses[id],
-    }));
-  }; */
-  
+
   return (
     <div id="admin-categories">
       <Dashboard />

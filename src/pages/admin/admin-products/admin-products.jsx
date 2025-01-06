@@ -55,7 +55,7 @@ const AdminProducts = () => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
-
+ 
   const [newProductImages, setNewProductImages] = useState([]);
   const [newProductName, setNewProductName] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
@@ -83,6 +83,28 @@ const AdminProducts = () => {
     }
   }
 
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto'; 
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [offCanvas]);
+  const [productStatuses, setProductStatuses] = useState(
+    products.reduce((acc, product) => {
+      acc[product.id] = product.status;
+      return acc;
+    }, {})
+  );
+  const handleStatusChange = (id) => {
+    setProductStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [id]: !prevStatuses[id],
+    }));
+  };
 
   useEffect(() => {
     if (offCanvas) {

@@ -12,7 +12,6 @@ import { usersServerUrl } from "../../../SuperVars";
 const Jobs = () => {
   const { isOpen } = useContext(MyContext);
   const [jobs, setJobs] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   
@@ -78,7 +77,6 @@ const Jobs = () => {
       document.body.style.overflow = 'auto';
     };
   }, [offCanvas]);
-  
 
   return (
     <div id="admin-users-jobs">
@@ -212,7 +210,7 @@ const Jobs = () => {
                           height="24"
                           viewBox="0 0 24 24"
                           fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             d="M2.40039 12.0004C2.40039 6.69846 6.69846 2.40039 12.0004 2.40039C17.3023 2.40039 21.6004 6.69846 21.6004 12.0004C21.6004 17.3023 17.3023 21.6004 12.0004 21.6004C6.69846 21.6004 2.40039 17.3023 2.40039 12.0004Z"

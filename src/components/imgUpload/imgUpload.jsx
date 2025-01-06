@@ -18,16 +18,25 @@ const ImageUpload = ({ changeLocal }) => {
       alert("Maksimal 4 ta rasm yuklash mumkin!");
       return;
     }
+    
+    const newImages = validFiles.map((file) =>{
+      let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
+      console.log(a);
+      return a
+    });
 
     const newImages = validFiles.map((file) =>{
       let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
       console.log(a);
       return a
     });
+
     setImages((prevImages) => [...prevImages, ...newImages]);
+    
     if (changeLocal) {
       changeLocal((prevImages) => [...prevImages, ...newImages]);
     }
+
     setIsDragging(false);
   };
   
@@ -38,11 +47,9 @@ const ImageUpload = ({ changeLocal }) => {
     accept: "image/png, image/jpeg, image/webp, image/gif",
     multiple: true,
   });
-  
   const handleRemoveImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
-  
   const handleSetAsCover = (index) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];

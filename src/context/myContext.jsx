@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { usersServerUrl, eCommerseServerUrl } from '../SuperVars.js';
 
-
 export const MyContext = createContext(null);
 export const MyContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);

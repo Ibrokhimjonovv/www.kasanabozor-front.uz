@@ -27,6 +27,7 @@ const Moderators = () => {
   }, []);
 
   // Pagination states
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   const prevPage = () => {

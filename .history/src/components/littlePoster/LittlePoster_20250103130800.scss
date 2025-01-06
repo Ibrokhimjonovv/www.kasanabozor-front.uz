@@ -1,0 +1,113 @@
+#poster {
+    height: 400px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::after {
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to left, #41a38cf3, #41a38cf3);
+        z-index: 1;
+    }
+
+    .images,
+    .texts {
+        z-index: 2;
+        position: relative;
+    }
+
+    .images {
+        display: flex;
+        height: 100%;
+        align-items: flex-end;
+        left: -50px;
+
+        img {
+            position: relative;
+            width: 300px;
+
+            &:nth-child(1) {
+                right: -150px;
+            }
+
+            &:nth-child(2) {
+                z-index: 2;
+                width: 310px;
+            }
+
+            &:nth-child(3) {
+                left: -150px;
+                width: 280px;
+            }
+        }
+    }
+
+    .texts {
+        color: #fff;
+        position: relative;
+        left: -150px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 10px;
+
+        h1 {
+            font-weight: 600;
+            width: 500px;
+        }
+
+        a {
+            margin-top: 15px;
+            color: #41A58D;
+            background-color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+
+            &:hover {
+                background-color: #41A58D;
+                color: #fff;
+                border: 1px solid #fff;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #poster {
+        flex-direction: column-reverse;
+        height: unset !important;
+
+        .texts {
+            width: unset !important;
+        }
+
+        .images {
+            img {
+                position: relative;
+                width: 190px;
+
+                &:nth-child(1) {
+                    right: -140px;
+                }
+
+                &:nth-child(2) {
+                    z-index: 2;
+                    width: 190px;
+                    left: 40px;
+                }
+
+                &:nth-child(3) {
+                    left: -50px;
+                    width: 170px;
+                }
+            }
+        }
+    }
+}
