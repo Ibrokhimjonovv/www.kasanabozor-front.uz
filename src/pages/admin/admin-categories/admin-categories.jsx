@@ -8,12 +8,12 @@ import Dashboard from "../dashboard/dashboard";
 import { eCommerseServerUrl } from "../../../SuperVars";
 import axios from "axios";
 
-
 const AdminCategories = () => {
   const { isOpen } = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
 
   const [categories, setCategories] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   const prevPage = () => {
@@ -41,15 +41,22 @@ const AdminCategories = () => {
   const totalPages = Math.ceil(categories.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < categories.length ? indexOfLastUser : categories.length;
-
+  const endUserIndex = indexOfLastUser < products.length ? indexOfLastUser : products.length;
   const [offCanvas, setOffCanvas] = useState(false);
-
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [offCanvas]);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -57,6 +64,19 @@ const AdminCategories = () => {
     } else {
       setAvaName("");
     }
+  };
+
+  const [productStatuses, setProductStatuses] = useState(
+    products.reduce((acc, product) => {
+      acc[product.id] = product.status;
+      return acc;
+    }, {})
+  );
+  const handleStatusChange = (id) => {
+    setProductStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [id]: !prevStatuses[id],
+    }));
   };
 
   return (
@@ -378,7 +398,6 @@ const AdminCategories = () => {
               ))}
             </tbody>
           </table>
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               <div className="soni">

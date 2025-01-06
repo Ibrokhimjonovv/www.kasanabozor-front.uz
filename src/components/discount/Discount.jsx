@@ -1,8 +1,6 @@
 import React from "react";
 import "./discount.scss";
-
 const Discount = ({ product }) => {
-
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };

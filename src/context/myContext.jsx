@@ -2,9 +2,7 @@ import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { usersServerUrl, eCommerseServerUrl } from '../SuperVars.js';
 
-
 export const MyContext = createContext(null);
-
 export const MyContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -13,8 +11,8 @@ export const MyContextProvider = ({ children }) => {
   const [courses] = useState([]);
   const [announcements] = useState([]);
   const [followedCourses, setFollowedCourses] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState("UZ"); // Boshlang'ich til
-  const [languages, setLanguages] = useState(["RU", "EN"]); // Dropdowndagi boshqa tillar
+  const [selectedLanguage, setSelectedLanguage] = useState("UZ");
+  const [languages, setLanguages] = useState(["RU", "EN"]);
   const [isOpen, setIsOpen] = useState(false);
   const [signupSuccess, setSignUpSuccess] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -85,7 +83,7 @@ export const MyContextProvider = ({ children }) => {
         setIsOpen,
         signupSuccess,
         setSignUpSuccess,
-	categories
+        categories
       }}
     >
       {children}

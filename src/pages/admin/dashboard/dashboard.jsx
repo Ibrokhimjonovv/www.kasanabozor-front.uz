@@ -4,15 +4,12 @@ import { NavLink, Link } from "react-router-dom";
 import profile from "./profile.png";
 import { MyContext } from "../../../context/myContext";
 import Logout from "../../../components/logout/logout";
-
 const Dashboard = () => {
   const {isOpen, setIsOpen} = useContext(MyContext);
-  
 
   const sideBarFunction = () => {
     setIsOpen(!isOpen);
   };
-
   const [dropdownStates, setDropdownStates] = useState({
     menu2: false,
     menu3: false,
@@ -21,7 +18,6 @@ const Dashboard = () => {
     menu6: false,
     menu7: false,
   });
-
   const toggleDropdown = (event, menu) => {
     event.preventDefault();
     setDropdownStates((prevState) => ({
@@ -29,7 +25,6 @@ const Dashboard = () => {
       [menu]: !prevState[menu],
     }));
   };
-
   return (
     <div id="dashboard">
       <div
@@ -292,7 +287,6 @@ const Dashboard = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-
                     <span>Mahsulotlar</span>
                     <div className="notification"></div>
                   </div>
@@ -386,7 +380,7 @@ const Dashboard = () => {
               <NavLink
                 to="a"
                 className={({ isActive }) => (isActive ? "active" : "")}
-                onClick={() => toggleDropdown("menu5")}
+                onClick={(event) => toggleDropdown(event, "menu5")}
               >
                 <div className="item-inner">
                   <div className="item-left-side">

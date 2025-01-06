@@ -6,7 +6,6 @@ import axios from 'axios';
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
 import { eCommerseServerUrl } from "../../SuperVars";
-
 import AddComments from "../../components/addComments/addComments";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
 
@@ -23,7 +22,7 @@ const ProductDetails = () => {
     setImages([mainImage, ...images.filter((_, i) => i !== index)]);
     setMainImage(selectedImage);
   };
-
+  
   const loadProductData = async () => {
     try {
       const productsResponse = await axios.post(`${eCommerseServerUrl}products/exact/`, {'id': parseInt(id)}, {'headers': {'Content-Type': 'application/json'}});
@@ -54,10 +53,17 @@ const ProductDetails = () => {
     };
   }, []); // Ensure usersServerUrl is a dependency if it's dynamic
 
+  if (!product) {
+    return (
+      <p>
+        <Loading />
+      </p>
+    );
+  }
+
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
   };
-
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };

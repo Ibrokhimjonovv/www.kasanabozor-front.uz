@@ -6,7 +6,6 @@ import InputMask from "react-input-mask";
 import { usersServerUrl } from '../../../SuperVars';
 import axios from "axios";
 
-
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -21,7 +20,6 @@ const Signup = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
   const [formData, setFormData] = useState({
     first_name: "",
     phone: "",
@@ -38,7 +36,6 @@ const Signup = () => {
   };
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
-
     return () => {
       document.removeEventListener("click", closeDropdown);
     };

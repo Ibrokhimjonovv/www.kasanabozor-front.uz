@@ -1,14 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./usersMessaging.scss";
 import productImg from "./product.png";
-import Picker from "emoji-picker-react"; // emoji tanlovchilari uchun kutubxona
+import Picker from "emoji-picker-react";
 import chatsNot from "./Frame.png";
 import axios, {formToJSON} from "axios";
 
-
-
 const messagingServerUrl = "http://127.0.0.1:8905/";
-
 
 const UsersMessaging = () => {
   const messagesDiv = useRef(null);
@@ -22,7 +19,6 @@ const UsersMessaging = () => {
   const [selectedChatIndex, setSelectedChatIndex] = useState(null);
   const [countdown, setCountdown] = useState(5);
   const [isDeleting, setIsDeleting] = useState(false);
-
   const [usersChats, setUsersChats] = useState([]);
   const [me, setMe] = useState({});
 
@@ -101,11 +97,9 @@ const UsersMessaging = () => {
       messagesDiv.current.scroll({top: messagesDiv.current.scrollY, behavior: 'smooth'});
     }
   };
-
   const handleChatScreen = () => {
     setFullChatScreen(!fullChatScreen);
   };
-
   const handleChatClick = (index) => {
     setUsersChats((prevChats) =>
       prevChats.map((chat, i) =>
@@ -114,18 +108,15 @@ const UsersMessaging = () => {
     );
     setActiveChat(index); // Aktiv chatni o'zgartiradi
   };
-  const countdownInterval = useRef(null); // Refni e'lon qilamiz
-
+  const countdownInterval = useRef(null);
   const userInfo = () => {
     setShowUserInfo(!showUserInfo);
   };
-
   const handleDeleteChat = (index) => {
     setSelectedChatIndex(index);
     setShowDeleteModal(true);
     setShowUserInfo(false);
   };
-
   const confirmDeleteChat = () => {
     setIsDeleting(true);
     let timer = 5;
@@ -146,20 +137,17 @@ const UsersMessaging = () => {
       }
     }, 1000);
   };
-
   const cancelDelete = () => {
-    clearInterval(countdownInterval.current); // `countdownInterval.current`ni to'xtatish
+    clearInterval(countdownInterval.current);
     setShowDeleteModal(false);
-    setCountdown(5); // Timerni qayta tiklash
-    setIsDeleting(false); // Deletion holatini reset qilish
+    setCountdown(5);
+    setIsDeleting(false);
   };
-
   const closeDeleteModal = () => {
-    clearInterval(countdownInterval.current); // Modalni yopishdan oldin timerni to'xtatish
+    clearInterval(countdownInterval.current);
     setShowDeleteModal(false);
-    setCountdown(5); // Timerni qayta tiklash
+    setCountdown(5);
   };
-
   return (
     <div>
       {usersChats.length > 0 ? (
