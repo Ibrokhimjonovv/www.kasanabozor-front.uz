@@ -1,62 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./topProducts.scss";
-import category1 from "./Cup_perspective_matte.png";
-import category2 from "./E-mail_perspective_matte.png";
-import category3 from "./Heart_rate_perspective_matte.png";
-import category4 from "./Gym_perspective_matte.png";
-import category5 from "./Paints_perspective_matte.png";
-import category6 from "./Radio_perspective_matte.png";
-import category7 from "./Star_perspective_matte.png";
-import category8 from "./Tools_perspective_matte.png";
-import category9 from "./Grid.png";
-import downArrow from "./Chevron down.png";
+
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
+import category9 from "./Cup_perspective_matte.png";
+import downArrow from "./Chevron down.png";
 import Discount from "../discount/Discount";
 const TopProducts = () => {
-  const { products } = useContext(MyContext);
-  const catgories = [
-    {
-      id: 1,
-      category: "Kasanachilik",
-      img: category1,
-    },
-    {
-      id: 2,
-      category: "Kulolchilik",
-      img: category2,
-    },
-    {
-      id: 3,
-      category: "Pillachilik",
-      img: category3,
-    },
-    {
-      id: 4,
-      category: "Dehqonchilik",
-      img: category4,
-    },
-    {
-      id: 5,
-      category: "Beshinchi",
-      img: category5,
-    },
-    {
-      id: 6,
-      category: "Oltinchi",
-      img: category6,
-    },
-    {
-      id: 7,
-      category: "Yettinchi",
-      img: category7,
-    },
-    {
-      id: 8,
-      category: "Sakkizinchi",
-      img: category8,
-    },
-  ];
+  const { products, categories } = useContext(MyContext);
   const [visibleProducts, setVisibleProducts] = useState(8);
   const handleShowMore = () => {
     setVisibleProducts((prevVisible) => prevVisible + 8);
@@ -84,10 +35,9 @@ const TopProducts = () => {
     <div id="topProductss">
       <div className="categories">
         <div className="custom-catgories">
-          {catgories.map((category, index) => (
+          {categories.map((category, index) => (
             <Link to={`categories/${category.category}`} key={index}>
-              <img src={category.img} alt="" />
-              <span>{category.category}</span>
+              <span>{category.title}</span>
             </Link>
           ))}
         </div>
@@ -109,14 +59,15 @@ const TopProducts = () => {
             <Link to={`product/${product.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={product.img} alt="" />
+            { console.log(product) }
+                  <img src={'http://127.0.0.1:8901' + String(product.product_image_Ecommerce_product_images[0] ? product.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." />
                 </div>
-                <div className="productTitle">{product.title}</div>
+                <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
                 <Discount product={product} />
                 <div className="details">
                   <div className="rating">
-                    <span>{product.rating}</span>
+                    <span>{product.average_rating}</span>
                     <svg
                       width="20"
                       height="21"
@@ -163,8 +114,8 @@ const TopProducts = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={product.authorImg} alt="" />
-                  <span>{product.authorName}</span>
+                  <img src={product.user.pfp} alt="" />
+                  <span>{product.user.first_name} {product.user.last_name}</span>
                 </div>
               </div>
             </Link>

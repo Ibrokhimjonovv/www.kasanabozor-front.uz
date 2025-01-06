@@ -1,13 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./usersMessaging.scss";
-import userImg from "./user-chat-img.png";
-import userImg2 from "./user-chat-img-2.png";
 import productImg from "./product.png";
 import Picker from "emoji-picker-react";
 import chatsNot from "./Frame.png";
+import axios, {formToJSON} from "axios";
+
+const messagingServerUrl = "http://127.0.0.1:8905/";
+
 const UsersMessaging = () => {
+  const messagesDiv = useRef(null);
   const [activeChat, setActiveChat] = useState(null);
-  const [messages, setMessages] = useState({});
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [fullChatScreen, setFullChatScreen] = useState(false);
@@ -16,42 +19,82 @@ const UsersMessaging = () => {
   const [selectedChatIndex, setSelectedChatIndex] = useState(null);
   const [countdown, setCountdown] = useState(5);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [usersChats, setUsersChats] = useState([
-    {
-      id: 1,
-      userImg: userImg,
-      userName: "Aziz Karimov",
-      userJob: "Temirchi",
-      star: true,
-      unread: true,
-    },
-    {
-      id: 2,
-      userImg: userImg2,
-      userName: "Dilnoza Karimova",
-      userJob: "Tikuvchi",
-      star: false,
-      unread: false,
-    },
-  ]);
-  const getCurrentTime = () =>
-    new Date().toLocaleString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-  });
+  const [usersChats, setUsersChats] = useState([]);
+  const [me, setMe] = useState({});
+
+  const loadUsers = async () => {
+    try {
+      const usersListResponse = await axios.post(`${messagingServerUrl}api/chats/`);
+      console.log(usersListResponse);
+      if (usersListResponse.data.status === "ok") {
+        setMe(usersListResponse.data.user);
+        setUsersChats(usersListResponse.data.results);
+        setActiveChat(0);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const [ws, setWs] = useState(null);
+
+  useEffect(() => {
+    loadUsers();
+
+    const headers = {
+      Authorization: `Bearer `
+    }
+    
+    const websocket = new WebSocket(`ws://127.0.0.1:8905/ws/chat/`, ["authorization", localStorage.getItem('access')]);
+    websocket.onopen = () => {
+      console.log('WebSocket is connected');
+    };
+
+    websocket.onmessage = (evt) => {
+      const message = (evt.data);
+      if (JSON.parse(message).text) {
+        setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
+      };
+    };
+
+    websocket.onclose = () => {
+      console.log('WebSocket is closed');
+    };
+
+    setWs(websocket);
+
+    return () => { websocket.close(); };
+  }, []);
+
+  const notMe = (chat) => {
+    if (chat.user_a.phone === me.phone) {
+      return chat.user_b;
+    }
+    return chat.user_a;
+  }
+
   const handleSendMessage = () => {
     if (newMessage.trim()) {
-      setMessages((prev) => ({
-        ...prev,
-        [activeChat]: [
-          ...(prev[activeChat] || []),
-          { text: newMessage, sender: "self", time: getCurrentTime() },
-        ],
-      }));
+      ws.send(
+        JSON.stringify({
+          "set_chat": 1,
+          "chat": usersChats[activeChat].id
+        })
+      );
+      
+      ws.send(
+        JSON.stringify({
+          "message": {
+            "text": newMessage.trim()
+          }
+        })
+      );
+
       setNewMessage("");
+    }
+
+    if (messagesDiv.current) {
+      messagesDiv.current.scroll({top: messagesDiv.current.scrollY, behavior: 'smooth'});
     }
   };
   const handleChatScreen = () => {
@@ -137,10 +180,10 @@ const UsersMessaging = () => {
                   onClick={() => handleChatClick(index)} // Chat ustiga bosilganda ishlaydi
                 >
                   <div className="user">
-                    <img src={chat.userImg} alt="" />
+                    <img src={notMe(chat).pfp} alt="" />
                     <div className="about-user">
-                      <div className="name">{chat.userName}</div>
-                      <div className="job">{chat.userJob}</div>
+                      <div className="name">{notMe(chat).first_name} {notMe(chat).last_name}</div>
+                      <div className="job">Kasblar to'liq qo'shilmagan</div>
                     </div>
                   </div>
                   <div className="star">
@@ -193,13 +236,13 @@ const UsersMessaging = () => {
                       </svg>
                     </button>
                     <div className="currentUser">
-                      <img src={usersChats[activeChat]?.userImg} alt="" />
+                      <img src={notMe(usersChats[activeChat]).pfp} alt="" />
                       <div className="about-user">
                         <div className="name">
-                          {usersChats[activeChat]?.userName}
+                          {notMe(usersChats[activeChat]).first_name} {notMe(usersChats[activeChat]).last_name}
                         </div>
                         <div className="job">
-                          {usersChats[activeChat]?.userJob}
+                          Kasblar to'liq qoshilmagan
                         </div>
                       </div>
                     </div>
@@ -335,24 +378,15 @@ const UsersMessaging = () => {
                     </>
                   )}
                 </div>
-                <div className="middle">
+                <div className="middle" ref={messagesDiv}>
                   <div className="replied-product">
                     <img src={productImg} alt="" />
                     <span>Chust hunarmand pichoqlari</span>
                   </div>
                   <div className="messages">
-                    {messages[activeChat]?.map((msg, i) => (
-                      <div
-                        key={i}
-                        className={`message ${
-                          msg.sender === "self" ? "sent" : "received"
-                        }`}
-                      >
-                        <div
-                          className={`text ${
-                            msg.sender === "self" ? "sent" : "received"
-                          }`}
-                        >
+                    {messages.map((msg, i) => (
+                      <div key={i} className={`message ${msg.sender?.phone === me.phone ? "sent" : "received"}`}>
+                        <div className={`text ${msg.sender?.phone === me.phone ? "sent" : "received"}`}>
                           {msg.text}
                         </div>
                         <div className="time">{msg.time}</div>

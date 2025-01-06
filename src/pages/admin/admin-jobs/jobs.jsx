@@ -1,107 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./jobs.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-import img from "./img.png";
+import axios from 'axios';
+import { usersServerUrl } from "../../../SuperVars";
+
+
 const Jobs = () => {
-  const isOpen = useContext(MyContext);
-  const jobs = [
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-    {
-      id: "K212",
-      jobName: "Kasanachilik",
-      icon: img,
-      status: "Aktiv",
-    },
-  ];
+  const { isOpen } = useContext(MyContext);
+  const [jobs, setJobs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -109,9 +23,24 @@ const Jobs = () => {
     if (currentPage < Math.ceil(jobs.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+
+  const fetchData = async () => {
+    try {
+      const jobsListResponse = await axios.post(`${usersServerUrl}dashboard/jobs/list/`);
+      if (jobsListResponse.data.status === "ok") {
+        setJobs(jobsListResponse.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentJobs = jobs.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(jobs.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
@@ -122,6 +51,22 @@ const Jobs = () => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
+
+  const [newJobName, setNewJobName] = useState("");
+  // const [newJobIcon, setNewJobIcon] = useState("");
+
+  const createJob = async (e) => {
+    e.preventDefault();
+    const newJobRequest = await axios.post(`${usersServerUrl}dashboard/jobs/create/`, {
+      title: newJobName,
+      is_active: true
+    }, {headers: {"Content-Type": "application/json"}});
+    if (newJobRequest.data.status === "ok" && newJobRequest.data.details === "Created with 100% success") {
+      await fetchData();
+      setOffCanvas(false);
+    }
+  }
+
   useEffect(() => {
     if (offCanvas) {
       document.body.style.overflow = 'hidden';
@@ -132,6 +77,7 @@ const Jobs = () => {
       document.body.style.overflow = 'auto';
     };
   }, [offCanvas]);
+
   return (
     <div id="admin-users-jobs">
       <Dashboard />
@@ -180,7 +126,7 @@ const Jobs = () => {
               </Link>
                 <div className={`offcanvas ${offCanvas ? "show" : ""}`}>
                   <h1>Yangi kasb qo'shish</h1>
-                  <form action="">
+                  <form action="" onSubmit={createJob}>
                     <div className="input-row">
                       <label htmlFor="firstName">Kasb nomi</label>
                       <div className="inputs">
@@ -203,11 +149,11 @@ const Jobs = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        <input type="text" placeholder="Nomini kiriting" />
+                        <input type="text" onChange={ (e) => setNewJobName(e.target.value) } value={ newJobName } placeholder="Nomini kiriting" />
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-                    <div className="input-row">
+	  {/*<div className="input-row">
                       <label htmlFor="firstName">Meta nomi</label>
                       <div className="inputs">
                         <svg
@@ -225,7 +171,7 @@ const Jobs = () => {
                         <input type="text" placeholder="Nomini kiriting" />
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
-                    </div>
+                    </div>*/}
                     <div className="input-row">
                       <label htmlFor="status">Belgi</label>
                       <div className="inputs">
@@ -256,7 +202,7 @@ const Jobs = () => {
 
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-                    <div className="input-row">
+	  {/*<div className="input-row">
                       <label htmlFor="status">Holati</label>
                       <div className="inputs">
                         <svg
@@ -285,7 +231,7 @@ const Jobs = () => {
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
-                    </div>
+                    </div>*/}
                     <div className="button">
                       <button type="submit" id="sub">
                         Qo'shish
@@ -365,13 +311,13 @@ const Jobs = () => {
               </tr>
             </thead>
             <tbody>
-              {currentJobs.map((job, index) => (
+              {jobs.map((job, index) => (
                 <tr key={index}>
                   <td>
                     <input type="checkbox" />
                   </td>
                   <td>{job.id}</td>
-                  <td>{job.jobName}</td>
+                  <td>{job.title}</td>
                   <td>
                     <img src={job.icon} alt="" />
                   </td>

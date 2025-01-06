@@ -1,52 +1,47 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./admin-categories.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-import img from "../admin-jobs/img.png";
-import profileImg from "./profileImg.png";
+import { eCommerseServerUrl } from "../../../SuperVars";
+import axios from "axios";
+
 const AdminCategories = () => {
-  const isOpen = useContext(MyContext);
+  const { isOpen } = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
-  const products = [
-    {
-      id: 1,
-      img: profileImg,
-      category: "#Kategoriya",
-      icon: img,
-      subcategories: 3,
-      products: 186,
-      status: true,
-    },
-    {
-      id: 2,
-      img: profileImg,
-      category: "#Kategoriya",
-      icon: img,
-      subcategories: 3,
-      products: 186,
-      status: false,
-    },
-  ];
+
+  const [categories, setCategories] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
   const nextPage = () => {
-    if (currentPage < Math.ceil(products.length / usersPerPage))
+    if (currentPage < Math.ceil(categories.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+
+  const fetchData = async () => {
+    const responseCategoriesList = await axios.post(`${eCommerseServerUrl}dashboard/categories/list/`);
+    if (responseCategoriesList.data && responseCategoriesList.data.status === "ok") {
+      setCategories(responseCategoriesList.data.data);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const adminProducts = products.slice(indexOfFirstUser, indexOfLastUser);
-  const totalPages = Math.ceil(products.length / usersPerPage);
+  const adminProducts = categories.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(categories.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < products.length ? indexOfLastUser : products.length;
+  const endUserIndex = indexOfLastUser < products.length ? indexOfLastUser : products.length;
   const [offCanvas, setOffCanvas] = useState(false);
   const handleCanvas = (e) => {
     e.preventDefault();
@@ -70,6 +65,7 @@ const AdminCategories = () => {
       setAvaName("");
     }
   };
+
   const [productStatuses, setProductStatuses] = useState(
     products.reduce((acc, product) => {
       acc[product.id] = product.status;
@@ -82,6 +78,7 @@ const AdminCategories = () => {
       [id]: !prevStatuses[id],
     }));
   };
+
   return (
     <div id="admin-categories">
       <Dashboard />
@@ -327,21 +324,18 @@ const AdminCategories = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   <input type="checkbox" />
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/*<th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Rasmi
-                </th>
+                </th>*/}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Kategoriya
                 </th>
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Belgisi
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/*<th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Subkategoriyalar
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Aktivligi
-                </th>
+                </th>*/}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
@@ -353,15 +347,15 @@ const AdminCategories = () => {
                   <td>
                     <input type="checkbox" />
                   </td>
-                  <td>
-                    <img id="profImg" src={product.img} alt="" />
-                  </td>
-                  <td>{product.category}</td>
+                {/*<td>
+                    <img id="profImg" src={product} alt="" />
+                  </td>*/}
+                  <td>{product.title}</td>
                   <td>
                     <img src={product.icon} alt="" />
                   </td>
-                  <td>{product.subcategories}</td>
-                  <td>
+                {/*<td>{product.subcategories}</td>*/}
+                {/*<td>
                     <input
                       type="checkbox"
                       id={`status-${product.id}`}
@@ -375,7 +369,7 @@ const AdminCategories = () => {
                     >
                       <span className={productStatuses[product.id] ? 'active' : ''}></span>
                     </label>
-                  </td>
+                  </td>*/}
                   <td>
                     <button className="btn btn-secondary">
                       <svg
@@ -407,7 +401,7 @@ const AdminCategories = () => {
           {totalPages > 1 && (
             <div className="pagination">
               <div className="soni">
-                {products.length} tadan {startUserIndex} - {endUserIndex} lar
+                {categories.length} tadan {startUserIndex} - {endUserIndex} lar
                 ko’rsatilmoqda
               </div>
               <div className="users-pages-buttons">
@@ -428,7 +422,7 @@ const AdminCategories = () => {
                 <button
                   onClick={nextPage}
                   disabled={
-                    currentPage === Math.ceil(products.length / usersPerPage)
+                    currentPage === Math.ceil(categories.length / usersPerPage)
                   }
                 >
                   <img src={right} alt="" />

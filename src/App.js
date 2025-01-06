@@ -50,6 +50,9 @@ import AdminNewsCategories from "./pages/admin/admin-news-categories/admin-news-
 import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 import Services from "./pages/services/services";
 import AddAnnounce from "./pages/addAnnounce/addAnnounce";
+
+import './createAxiosClient';
+
 import Products from "./pages/profilePages/products/Products";
 import EditProfile from "./pages/profilePages/editProfile/EditProfile";
 import AddProducts from "./pages/profilePages/addProduct/addProduct";

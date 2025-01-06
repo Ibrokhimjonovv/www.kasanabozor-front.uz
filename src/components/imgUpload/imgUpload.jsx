@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import "./imgUpload.scss";
+
 const ImageUpload = ({ changeLocal }) => {
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -17,22 +18,25 @@ const ImageUpload = ({ changeLocal }) => {
       alert("Maksimal 4 ta rasm yuklash mumkin!");
       return;
     }
+    
     const newImages = validFiles.map((file) =>{
       let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
       console.log(a);
       return a
     });
+
     setImages((prevImages) => [...prevImages, ...newImages]);
     if (changeLocal) {
       changeLocal((prevImages) => [...prevImages, ...newImages]);
     }
-    setIsDragging(false);
+
+    setIsDragging(false); // Rasm qo'shilgandan keyin holatni tiklaymi
   };
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     onDragEnter: () => setIsDragging(true),
     onDragLeave: () => setIsDragging(false),
-    accept: "image/png, image/jpeg, image/gif",
+    accept: "image/png, image/jpeg, image/webp, image/gif",
     multiple: true,
   });
   const handleRemoveImage = (index) => {
@@ -55,6 +59,7 @@ const ImageUpload = ({ changeLocal }) => {
       });
     }
   };
+
   return (
     <div>
       <div

@@ -1,38 +1,58 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./productDetails.scss";
-import img1 from "./productImg1.png";
-import img2 from "./productImg2.png";
-import img3 from "./productImg3.png";
-import img4 from "./productImg4.png";
-import img5 from "./productImg5.png";
+import axios from 'axios';
+
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
+import { eCommerseServerUrl } from "../../SuperVars";
+import AddComments from "../../components/addComments/addComments";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
+
 const ProductDetails = () => {
   const { isAuthenticated } = useContext(MyContext);
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
-  const { products } = useContext(MyContext);
-  const [mainImage, setMainImage] = useState(img1);
-  const [images, setImages] = useState([img2, img3, img4, img5, img5]);
+  const [mainImage, setMainImage] = useState(null);
+  const [images, setImages] = useState([]);
+
   const handleImageClick = (selectedImage, index) => {
     setImages([mainImage, ...images.filter((_, i) => i !== index)]);
     setMainImage(selectedImage);
   };
-  useEffect(() => {
-    const foundProduct = products.find((item) => item.id === parseInt(id));
-    setProduct(foundProduct);
-    if (foundProduct) {
-      const filteredProducts = products.filter(
-        (item) =>
-          item.category === foundProduct.category && item.id !== foundProduct.id
-      );
-      setSimilarProducts(filteredProducts);
+  
+  const loadProductData = async () => {
+    try {
+      const productsResponse = await axios.post(`${eCommerseServerUrl}products/exact/`, {'id': parseInt(id)}, {'headers': {'Content-Type': 'application/json'}});
+
+      setProduct(productsResponse.data.product);
+      setSimilarProducts(productsResponse.data.related);
+      setImages(productsResponse.data.product.product_image_Ecommerce_product_images);
+      setMainImage(productsResponse.data.product.product_image_Ecommerce_product_images[0]);
+    } catch (err) {
+      console.error(err);
     }
-  }, [id]);
+  };
+
+  useEffect(() => {
+    let isMounted = true; // To prevent setting state on unmounted component
+
+    const loadData = async () => {
+      if (isMounted) {
+        await loadProductData();
+      }
+    };
+
+    loadData();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Ensure usersServerUrl is a dependency if it's dynamic
+
   if (!product) {
     return (
       <p>
@@ -40,15 +60,15 @@ const ProductDetails = () => {
       </p>
     );
   }
+
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
-    console.log(selectedDep);
   };
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
-  return (
-    <div className="product-details">
+
+  return (product ? <><div className="product-details">
       <div className="to-back">
         <div className="inner">
           <Link to="/online-shop">
@@ -103,7 +123,7 @@ const ProductDetails = () => {
               />
             </svg>
           </span>
-          <span>{product.title}</span>
+          <span>{product.name}</span>
         </div>
       </div>
 
@@ -114,7 +134,7 @@ const ProductDetails = () => {
               {images.map((image, index) => (
                 <img
                   key={index}
-                  src={image}
+                  src={ `http://127.0.0.1:8901${image.image}` }
                   alt={`Image ${index + 2}`}
                   onClick={() => handleImageClick(image, index)}
                   style={{ cursor: "pointer" }}
@@ -122,49 +142,43 @@ const ProductDetails = () => {
               ))}
             </div>
             <div className="hero-image">
-              <img src={mainImage} alt="" />
+              <img src={ `http://127.0.0.1:8901${mainImage.image}` } alt="" />
             </div>
           </div>
         </div>
         <div className="texts">
-          <div className="title">{product.title}</div>
+          <div className="title">{product.name}</div>
 
           <div className="price">
             <span
               className={
-                product.newPrice === null ? "oldPrice active" : "oldPrice "
+                product.price_off === null ? "oldPrice active" : "oldPrice "
               }
             >
-              {formatPrice(product.oldPrice)} so'm
+              {formatPrice(product.price)} so'm
             </span>
-            <span className={product.newPrice ? "newPrice active" : "newPrice"}>
-              {product.newPrice ? `${formatPrice(product.newPrice)} so'm` : ""}
+            <span className={product.price_off ? "newPrice active" : "newPrice"}>
+              {product.price_off ? `${formatPrice(product.price_off)} so'm` : ""}
             </span>
-            {product.newPrice && (
+            {product.price_off && (
               <div className="chegirma">
                 {Math.round(
-                  ((product.oldPrice - product.newPrice) / product.oldPrice) *
+                  ((product.price - product.price_off) / product.price) *
                     100
                 )}
                 % CHEGIRMA
               </div>
             )}
           </div>
+
           <div className="title">Qisqacha tafsilot</div>
-          <p>
-            Chust hunarmandchilik pichoqlari, asosan, o'ziga xos dizayni va
-            yuqori sifatli materiallari bilan ajralib turadi. Ushbu pichoqlar,
-            an'anaviy usullar bilan ishlab chiqarilib, hunarmandlar tomonidan
-            qo'l mehnati bilan tayyorlanadi. Chust pichoqlari, o'zining kesish
-            qobiliyati va mustahkamligi bilan mashhur bo'lib, ko'plab oshpazlar
-            va hunarmandlar tomonidan qadrlanadi.
-          </p>
+          <p>{product.description}</p>
           <div className="with-author">
             <div className="author">
-              <img src={product.authorImg} alt="" />
+              <img src={product.user.pfp} alt="" />
               <div className="text">
-                <div className="name">{product.authorName}</div>
-                <div className="work">{product.work}</div>
+                <div className="name">{product.user.first_name} {product.user.last_name}</div>
+	  	{/* <div className="work">{product.work}</div> */}
               </div>
             </div>
             {isAuthenticated ? (
@@ -234,28 +248,8 @@ const ProductDetails = () => {
               selectedDep === "tarriff" ? "active" : ""
             }`}
           >
-            <p className="title">{product.title}</p>
-            <p>
-              Chust hunarmandchilik pichoqlari, o'ziga xos dizayni va yuqori
-              sifatli materiallari bilan ajralib turadi. Ushbu pichoqlar,
-              an'anaviy usullar bilan ishlab chiqarilib, hunarmandlar tomonidan
-              qo'l mehnati bilan tayyorlanadi. Chust pichoqlari, o'zining kesish
-              qobiliyati va mustahkamligi bilan mashhur bo'lib, ko'plab
-              oshpazlar va hunarmandlar tomonidan qadrlanadi. Chust pichoqlari
-              tarixi asrlar davomida shakllangan bo'lib, bu yerda hunarmandlar
-              o'z mahoratlarini avloddan-avlodga o'tkazib kelishgan. Ularning
-              har biri o'ziga xos uslub va an'analarga ega bo'lib, pichoqlarni
-              yaratishda tabiiy materiallardan foydalanishadi. Chust pichoqlari,
-              nafaqat amaliyotda, balki san'at asari sifatida ham qadrlanadi.
-              Har bir pichoq, o'zining o'ziga xos shakli va dizayni bilan
-              ajralib turadi, bu esa ularni boshqa pichoqlardan farqlaydi. Ushbu
-              pichoqlar, nafaqat oshpazlar uchun, balki san'atkorlar va
-              kollektorlar uchun ham qimmatli bo'lib, ularning har biri o'ziga
-              xos hikoyaga ega. Chust hunarmandlari, o'z ishlarida an'anaviy
-              usullarni saqlab qolish bilan birga, zamonaviy dizayn
-              elementlarini ham qo'shib, pichoqlarni yanada jozibador va
-              funksional qilishga intiladilar.
-            </p>
+            <p className="title">{product.name}</p>
+            <p>{product.description}</p>
             <div className="hashtags">
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
@@ -278,26 +272,26 @@ const ProductDetails = () => {
         <div className="littleTitle">Yangi mahsulotlarni sinab ko'ring!</div>
         <div className="similar-products">
           {similarProducts.map((similarProduct, index) => (
-            <Link to={`product/${similarProduct.id}`} key={index}>
+            <a href={`/online-shop/product/${similarProduct.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={similarProduct.img} alt="" />
+                <img src={'http://127.0.0.1:8901' + String(similarProduct.product_image_Ecommerce_product_images[0] ? similarProduct.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." />
                 </div>
-                <div className="productTitle">{similarProduct.title}</div>
+                <div className="productTitle">{similarProduct.name}</div>
                 <div className="productDescription">
                   {similarProduct.description}
                 </div>
                 <div className="price">
                   <span className="oldPrice">
-                    {similarProduct.oldPrice} so'm
+                    {similarProduct.price} so'm
                   </span>
                   <span className="newPrice">
-                    {similarProduct.newPrice} so'm
+                    {similarProduct.price_off} so'm
                   </span>
                 </div>
                 <div className="details">
                   <div className="rating">
-                    <span>{similarProduct.rating}</span>
+                    <span>{similarProduct.average_rating}</span>
                     <svg
                       width="20"
                       height="21"
@@ -316,15 +310,15 @@ const ProductDetails = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={similarProduct.authorImg} alt="" />
-                  <span>{similarProduct.authorName}</span>
+                  <img src={similarProduct.user.pfp} alt="" />
+                  <span>{similarProduct.user.first_name} {similarProduct.user.last_name}</span>
                 </div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>
-    </div>
+    </div></> : <Loading />
   );
 };
 
