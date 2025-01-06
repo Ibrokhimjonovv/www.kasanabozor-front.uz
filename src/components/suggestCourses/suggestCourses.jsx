@@ -2,11 +2,9 @@ import React, { useContext, useState } from "react";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 import Discount from "../discount/Discount";
-
 const SuggestCourses = () => {
-    const { courses } = useContext(MyContext)
+  const { courses } = useContext(MyContext)
   const [visibleCourses2, setVisibleCourses2] = useState(4);
-
   const handleShowMore2 = () => {
     setVisibleCourses2((prevVisible) => prevVisible + 4);
   };
@@ -19,7 +17,6 @@ const SuggestCourses = () => {
           <Link to={`/courses/course/${course.id}`} key={index}>
             <div
               className="course-card"
-              // style={{ transitionDelay: `${delay}ms` }}
             >
               <div className="card-img">
                 <img src={course.img} alt={course.title} />

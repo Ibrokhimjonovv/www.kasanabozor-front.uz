@@ -12,7 +12,6 @@ const NewsInnerRight = () => {
     { id: 6, category: "Video yangiliklar" },
     { id: 7, category: "Meyoriy huquqiy hujjatlar" },
   ];
-
   return (
     <div className="right-side">
       <div className="categories">

@@ -7,23 +7,16 @@ import Loading from "../../components/loading/loading";
 
 const AnnounceDetail = () => {
   const [selectedDep, setSelectedDep] = useState("announce");
-  const { announcements, activeLink, setActiveLink } = useContext(MyContext);
+  const { announcements } = useContext(MyContext);
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
   const [savedAnnouncements, setSavedAnnouncements] = useState([]);
-
   const { id } = useParams();
-
-  const handleChange = (event) => {
-    setSelectedDep(event.target.id);
-  };
-
-  // useEffect ni har doim chaqirish kerak
   useEffect(() => {
     const foundAnnounce = announcements.find(
       (item) => item.id === parseInt(id)
     );
     setCurrentAnnounce(foundAnnounce);
-  }, [id, announcements]); // announcement o'zgarganda va id o'zgarganda qayta ishlaydi
+  }, [id, announcements]);
 
   if (!currentAnnounce) {
     return (
@@ -32,24 +25,17 @@ const AnnounceDetail = () => {
       </p>
     );
   }
-
-  // Tanlangan e'lonlarni saqlash uchun state
-
   const saveAnnouncement = (announcement) => {
     setSavedAnnouncements((prevAnnouncements) => {
-      // E'lon allaqachon saqlangan bo'lsa, uni o'chirish
       if (prevAnnouncements.some((a) => a.id === announcement.id)) {
-        return prevAnnouncements.filter((a) => a.id !== announcement.id); // O'chirish
+        return prevAnnouncements.filter((a) => a.id !== announcement.id);
       }
-      // Aks holda, e'lonni qo'shish
-      return [...prevAnnouncements, announcement]; // Yangi e'lonni qo'shish
+      return [...prevAnnouncements, announcement]; 
     });
   };
-
   const isSaved = (announcement) => {
     return savedAnnouncements.some((a) => a.id === announcement.id);
   };
-
   return (
     <div id="announceDetail">
       <div className="announceSelect">

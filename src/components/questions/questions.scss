@@ -63,3 +63,12 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #questions {
+        padding: 30px 20px;
+        .question {
+            width: 100% !important;
+        }
+    }
+}

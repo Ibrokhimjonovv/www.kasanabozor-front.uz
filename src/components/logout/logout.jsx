@@ -5,11 +5,9 @@ import "./Logout.scss";
 import axios from 'axios';
 
 const Logout = () => {
-  const { setSelectedLanguage, setLanguages, setIsAuthenticated } = useContext(MyContext);
+  const { setSelectedLanguage, setIsAuthenticated } = useContext(MyContext);
   const navigate = useNavigate();
-
   const handleLogout = () => {
-    // Tokenlarni localStorage'dan o'chirish
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
 
@@ -21,9 +19,10 @@ const Logout = () => {
     axios.defaults.headers.common['Authorization'] = `No-Authorization`;
 
     // Tizimdan chiqqandan so'ng foydalanuvchini login sahifasiga yo'naltirish
+    setSelectedLanguage("");
+    setIsAuthenticated(false)
     navigate("/");
   };
-
   return (
     <div>
       <button id="logout" onClick={handleLogout}>Logout</button>

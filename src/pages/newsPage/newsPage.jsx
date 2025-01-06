@@ -3,11 +3,9 @@ import "./newsPage.scss";
 import backgroundImg from "./backgroundImg.png";
 import posterImg from "./newsimg.png";
 import { Link } from "react-router-dom";
-import heroImg from "./heroImg.png";
 import { MyContext } from "../../context/myContext";
 import posterImg2 from "./posterImg2.png";
 import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess";
-
 const NewsPage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -16,7 +14,6 @@ const NewsPage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
-
   const { newsList } = useContext(MyContext);
   const legislativeNews = newsList.filter(
     (news) => news.category === "Qonunchilik"
@@ -24,28 +21,15 @@ const NewsPage = () => {
   const normativeLegalNews = newsList.filter(
     (news) => news.category === "Meyoriy huquqiy hujjatlar"
   );
-
   const [visibleNews, setVisibleNews] = useState(4);
-
-  const handleShowMore = () => {
-    setVisibleNews((prevVisible) => prevVisible + 4);
-  };
-
   const [visibleNews2, setVisibleNews2] = useState(4);
-
-  const handleShowMore2 = () => {
-    setVisibleNews2((prevVisible) => prevVisible + 4);
-  };
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".news-card:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9; 
         if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
           revealElement.classList.add("revealed");
         }
@@ -60,7 +44,6 @@ const NewsPage = () => {
     // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="newsDetail">
       <div className="newsFirstPoster" style={backgroundStyle}>

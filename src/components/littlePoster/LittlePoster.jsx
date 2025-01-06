@@ -5,7 +5,6 @@ import backgroundImg from "./backgroundImg.png";
 import people1 from "./people (1).png";
 import people2 from "./people (2).png";
 import people3 from "./people (3).png"; 
-
 const LittlePoster = () => {
     const backgroundStyle = {
         backgroundImage: `url(${backgroundImg})`,
@@ -28,5 +27,4 @@ const LittlePoster = () => {
     </div>
   )
 }
-
 export default LittlePoster

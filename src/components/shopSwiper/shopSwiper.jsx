@@ -4,7 +4,6 @@ import shopSwiper1 from "./swiperImg1.png";
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-
 const ShopSwiper = () => {
   return (
     <div id='shopSwiper'>
@@ -90,5 +89,4 @@ const ShopSwiper = () => {
     </div>
   )
 }
-
 export default ShopSwiper

@@ -9,7 +9,6 @@ import { eCommerseServerUrl } from "../../SuperVars";
 
 import AddComments from "../../components/addComments/addComments";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
-
 const ProductDetails = () => {
   const { isAuthenticated } = useContext(MyContext);
   const { id } = useParams();
@@ -57,7 +56,6 @@ const ProductDetails = () => {
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
   };
-
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };

@@ -5,9 +5,8 @@ import img2 from "./img2.png";
 import img3 from "./img3.png";
 import img4 from "./img4.png";
 import Loading from "../loading/loading";
-
 const Success = () => {
-  const [successPeople, setSuccessPeople] = useState([
+  const successPeople = [
     {
       id: 1,
       image: img1,
@@ -40,8 +39,7 @@ const Success = () => {
       successMessage: "Sentabrning eng yaxshi sotuvchisi",
       income: "$25k+ umumiy daromadlar",
     },
-  ]);
-
+  ];
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".scroll-fade-effect:not(.revealed)");
@@ -49,7 +47,6 @@ const Success = () => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
         const revealPoint = windowHeight * 0.9;
-
         if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
           revealElement.classList.add("revealed");
         }
@@ -59,7 +56,6 @@ const Success = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="successPeople">
       <h1>Muvaffaqiyatga erishganlar</h1>

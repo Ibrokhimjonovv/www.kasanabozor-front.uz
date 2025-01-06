@@ -1,9 +1,7 @@
 import React from 'react';
 import "./History.scss";
-
 import flag from "./flag.png";
 import president from "./president.png";
-
 const History = () => {
   return (
     <div
@@ -14,9 +12,7 @@ const History = () => {
         backgroundPosition: "-250px top",
         height: "400px",
       }}
-
-      id='history'
-    >
+      id='history'>
         <div id="bgColor"></div>
         <div className="img">
             <img src={president} alt="" />

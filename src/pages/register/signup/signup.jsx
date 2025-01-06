@@ -21,7 +21,6 @@ const Signup = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
   const [formData, setFormData] = useState({
     first_name: "",
     phone: "",
@@ -38,7 +37,6 @@ const Signup = () => {
   };
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
-
     return () => {
       document.removeEventListener("click", closeDropdown);
     };

@@ -44,3 +44,25 @@
         }
     }
 }
+
+
+@media screen and (max-width: 500px) {
+    #history {
+        flex-direction: column-reverse;
+        height: unset !important;
+        padding: 40px 20px 0;
+
+        .text {
+            width: unset;
+            text-align: center;
+            
+            p {
+                font-size: 20px;
+            }
+        }
+
+        #bgColor {
+            background-image: linear-gradient(to right top, #41a58ed2, #41a58ed2, #41a58e88);
+        }
+    }   
+}

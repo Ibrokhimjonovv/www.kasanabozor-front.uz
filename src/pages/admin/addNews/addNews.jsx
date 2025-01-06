@@ -1,12 +1,10 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import Dashboard from "../dashboard/dashboard";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./addNews.scss";
-import { globalApi } from "../../../App";
-
 const AddNews = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
+  const isOpen = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -16,7 +14,6 @@ const AddNews = () => {
       setAvaName("");
     }
   };
-
   return (
     <div id="admin-add-news">
       <Dashboard />

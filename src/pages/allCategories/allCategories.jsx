@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { Slider, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./allCategories.scss";
-
 import aaa from "./Без имени-2 1.png";
 import Offers from "../../components/offers/Offers";
-
 const AllCategories = () => {
   const categories = [
     { id: 1, title: "Kasanachilik" },
@@ -15,30 +13,25 @@ const AllCategories = () => {
     { id: 5, title: "Kulolchilik" },
     { id: 6, title: "Kategoriya" },
   ];
-
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPaid, setSelectedPaid] = useState([]);
   const [ratingRange, setRatingRange] = useState([0, 5]);
-
   const handleCategoryChange = (event) => {
     const { checked, name } = event.target;
     setSelectedCategories((prev) =>
       checked ? [...prev, name] : prev.filter((category) => category !== name)
     );
-  };
-
+  };  
   const handlePaidChange = (event) => {
     const { checked, id } = event.target;
     setSelectedPaid((prev) =>
       checked ? [...prev, id] : prev.filter((paid) => paid !== id)
     );
   };
-
   const handleRatingChange = (event, newValue) => {
     setRatingRange(newValue);
     console.log(newValue);
   };
-
   return (
     <div id="allCategories">
       <div className="to-back">

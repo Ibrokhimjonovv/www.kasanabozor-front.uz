@@ -5,7 +5,6 @@ import "./allCourseCategory.scss";
 import { MyContext } from "../../context/myContext";
 import Discount from "../../components/discount/Discount";
 import aaa from "./Без имени-2 1.png";
-
 const AllCourseCategory = () => {
   const categories = [
     { id: 1, title: "Kasanachilik" },
@@ -15,30 +14,25 @@ const AllCourseCategory = () => {
     { id: 5, title: "Kulolchilik" },
     { id: 6, title: "Kategoriya" },
   ];
-
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPaid, setSelectedPaid] = useState([]);
   const [ratingRange, setRatingRange] = useState([0, 5]);
   const { courses } = useContext(MyContext);
-
   const handleCategoryChange = (event) => {
     const { checked, name } = event.target;
     setSelectedCategories((prev) =>
       checked ? [...prev, name] : prev.filter((category) => category !== name)
     );
   };
-
   const handlePaidChange = (event) => {
     const { checked, id } = event.target;
     setSelectedPaid((prev) =>
       checked ? [...prev, id] : prev.filter((paid) => paid !== id)
     );
   };
-
-  const handleRatingChange = (event, newValue) => {
+  const handleRatingChange = (newValue) => {
     setRatingRange(newValue);
   };
-
   const filteredCourses = courses.filter((course) => {
     const categoryMatch =
       selectedCategories.length === 0 ||
@@ -53,16 +47,13 @@ const AllCourseCategory = () => {
 
     return categoryMatch && paidMatch && ratingMatch;
   });
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".course-card:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9;
         if (
           revealTop < revealPoint &&
           !revealElement.classList.contains("revealed")
@@ -73,14 +64,9 @@ const AllCourseCategory = () => {
     };
 
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="allCategories">
       <div className="to-back">

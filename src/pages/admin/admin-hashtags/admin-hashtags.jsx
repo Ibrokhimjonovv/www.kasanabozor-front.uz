@@ -1,12 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./admin-hashtags.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import Dashboard from "../dashboard/dashboard";
-
 const AdminHashtags = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
-
+  const isOpen = useContext(MyContext);
   return (
     <div id="admin-hashtags">
       <Dashboard />

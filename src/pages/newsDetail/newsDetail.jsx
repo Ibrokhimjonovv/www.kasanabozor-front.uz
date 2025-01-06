@@ -3,41 +3,33 @@ import "./newsDetail.scss";
 import { useParams, Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import heroImg from "./heroImg.jpg";
-import authorImg from "./authorImg.png";
 import q from "./“.png";
 import AddComments from "../../components/addComments/addComments";
 import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import posterImg2 from "./posterImg2.png";
 import Weather from "../../components/weather/weather";
 import Loading from "../../components/loading/loading";
-
 const NewsDetail = () => {
   const { newsList } = useContext(MyContext);
   const { category, id } = useParams();
-  const [newsItem, setNewsItem] = useState(null); // Ma'lumotni saqlash uchun useState
-
+  const [newsItem, setNewsItem] = useState(null);
   function formatCategory(category) {
-    if (!category) return ""; // Agar kategoriya bo'sh bo'lsa, bo'sh string qaytariladi
+    if (!category) return "";
     const formattedCategory = category
-      .replace(/-/g, " ") // Chiziqlarni bo'shliq bilan almashtirish
-      .split(" "); // Bo'shliq orqali so'zlarga ajratish
+      .replace(/-/g, " ") 
+      .split(" ");
     formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1); // Birinchi harfni katta qilish
-    return formattedCategory.join(" "); // So'zlarni qayta birlashtirish
+      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
+    return formattedCategory.join(" ");
   }
-
   useEffect(() => {
-    // ID ga mos yangilikni topish
     const selectedNews = newsList.find((item) => item.id === Number(id));
-    setNewsItem(selectedNews); // Tanlangan yangilikni saqlash
-  }, [id]); // id o'zgarganda qayta chaqiriladi
-
+    setNewsItem(selectedNews);
+  }, [id]);
   const similliarNews = newsList.filter(
     (news) => formatCategory(news.category) === formatCategory(category)
   );
-
-  if (!newsItem) return <div><Loading /></div>; // Agar ma'lumot hali kelmasa
-
+  if (!newsItem) return <div><Loading /></div>;
   return (
     <div id="newsInnerDetail">
       <div className="to-back">

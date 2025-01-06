@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import "./addAnnounce.scss";
 import EditorBar from "../../components/Editor/Editor";
 import ImageUpload from "../../components/imgUpload/imgUpload";
-
 const AddAnnounce = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isNegotiable, setIsNegotiable] = useState(false);
-  const [announceType, setAnnounceType] = useState("Xizmat e'loni"); // Dropdown tanlov holati
-
+  const [announceType, setAnnounceType] = useState("Xizmat e'loni");
   const handleNegotiableChange = () => {
     setIsNegotiable(!isNegotiable);
     if (!isNegotiable) {
@@ -17,25 +15,19 @@ const AddAnnounce = () => {
       setMaxPrice("");
     }
   };
-
   const regionsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
   const districtsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
   const villagesURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/villages.json";
-
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
-
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
-
   const [filteredDistricts, setFilteredDistricts] = useState([]);
   const [filteredVillages, setFilteredVillages] = useState([]);
-
-  // Ma'lumotlarni yuklash
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -68,8 +60,6 @@ const AddAnnounce = () => {
 
     fetchData();
   }, []);
-
-  // Viloyat o'zgarganda tumanlarni filtrlash
   useEffect(() => {
     if (selectedRegion) {
       const filtered = districts.filter(
@@ -84,8 +74,6 @@ const AddAnnounce = () => {
       setFilteredVillages([]);
     }
   }, [selectedRegion, districts]);
-
-  // Tuman o'zgarganda qishloqlarni filtrlash
   useEffect(() => {
     if (selectedDistrict) {
       const filtered = villages.filter(
@@ -97,7 +85,6 @@ const AddAnnounce = () => {
       setFilteredVillages([]);
     }
   }, [selectedDistrict, villages]);
-
   return (
     <div id="addAnnounce">
       <div className="announceSelect">
@@ -158,7 +145,6 @@ const AddAnnounce = () => {
           E'lon berish
         </Link>
       </div>
-
       <div className="announce-from-container">
         <h1 className="big-title">E'lon berish</h1>
         <form action="">

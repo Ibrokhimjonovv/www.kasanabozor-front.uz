@@ -9,26 +9,21 @@ import { Editor } from "@tinymce/tinymce-react";
 const AddProductsComments = ({ com }) => {
   const [comments, setComments] = useState({});
   const [productComment, setProductComment] = useState("");
-  const [replyingTo, setReplyingTo] = useState(null); // reply uchun yangi holat
-  const [currentReplyTo, setCurrentReplyTo] = useState(null); // replyga reply yozish uchun
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [currentReplyTo, setCurrentReplyTo] = useState(null);
   const { id } = useParams();
   const { isAuthenticated } = useContext(MyContext);
-
-  // Izohlarni localStorage'dan olish
   useEffect(() => {
     const storedComments = localStorage.getItem("product-comments");
     if (storedComments) {
       setComments(JSON.parse(storedComments));
     }
   }, []);
-
-  // Izohlarni localStorage'ga saqlash
   useEffect(() => {
     if (Object.keys(comments).length > 0) {
       localStorage.setItem("product-comments", JSON.stringify(comments));
     }
   }, [comments]);
-
   useEffect(() => {
     if (com) {
       setComments((prevComments) => ({
@@ -37,7 +32,6 @@ const AddProductsComments = ({ com }) => {
       }));
     }
   }, [id, com]);
-
   const handleAddComment = () => {
     if (productComment.trim() === "") return;
 
@@ -48,7 +42,6 @@ const AddProductsComments = ({ com }) => {
       replies: [],
     };
 
-    // Asosiy izohni qo'shish
     setComments((prevComments) => {
       const updatedComments = {
         ...prevComments,
@@ -57,9 +50,8 @@ const AddProductsComments = ({ com }) => {
       return updatedComments;
     });
 
-    setProductComment(""); // Inputni tozalash
+    setProductComment("");
   };
-
   const handleReply = () => {
     if (productComment.trim() === "") return;
 
@@ -67,10 +59,8 @@ const AddProductsComments = ({ com }) => {
     let commentToReply = null;
 
     if (currentReplyTo) {
-      // Replyga reply qo'shish
       commentToReply = findCommentById(updatedComments[com.id], currentReplyTo);
     } else {
-      // Asosiy reply
       commentToReply = findCommentById(updatedComments[com.id], replyingTo);
     }
 
@@ -84,11 +74,10 @@ const AddProductsComments = ({ com }) => {
     }
 
     setComments(updatedComments);
-    setProductComment(""); // Inputni tozalash
-    setReplyingTo(null); // reply holatini tozalash
-    setCurrentReplyTo(null); // current reply holatini tozalash
+    setProductComment("");
+    setReplyingTo(null);
+    setCurrentReplyTo(null);
   };
-
   const findCommentById = (commentsArray, commentId) => {
     for (let comment of commentsArray) {
       if (comment.id === commentId) {
@@ -101,13 +90,11 @@ const AddProductsComments = ({ com }) => {
     }
     return null;
   };
-
   const handleCancelReply = () => {
-    setReplyingTo(null); // Javobni bekor qilish
-    setCurrentReplyTo(null); // Replyga reply holatini bekor qilish
-    setProductComment(""); // Inputni tozalash
+    setReplyingTo(null); 
+    setCurrentReplyTo(null);
+    setProductComment("");
   };
-
   const renderReplies = (replies) => {
     return replies.map((reply) => (
       <div key={reply.id} className="replied-messages">
@@ -134,7 +121,6 @@ const AddProductsComments = ({ com }) => {
       </div>
     ));
   };
-
   return (
     <div id="comments">
       <h2>Izohlar</h2>
@@ -186,13 +172,13 @@ const AddProductsComments = ({ com }) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (productComment.trim() === "") return; // Izoh bo'sh bo'lsa hech narsa qilmasin
+            if (productComment.trim() === "") return;
             if (currentReplyTo) {
-              handleReply(); // Agar javobga reply qo'shish bo'lsa
+              handleReply(); 
             } else if (replyingTo) {
-              handleReply(); // Agar replyga javob berish bo'lsa
+              handleReply(); 
             } else {
-              handleAddComment(); // Asosiy izohni qo'shish
+              handleAddComment();
             }
           }}
         >
@@ -253,7 +239,7 @@ const AddProductsComments = ({ com }) => {
                     : replyingTo
                     ? "Javob yozing..."
                     : "Izoh yozing..."
-                }`, // Placeholder qo'shildi
+                }`,
               }}
               value={productComment}
               onEditorChange={(content) => setProductComment(content)}

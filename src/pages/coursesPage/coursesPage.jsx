@@ -12,7 +12,6 @@ import ProTeachers from "../../components/goodTeachers/goodTeachers";
 import SuggestCourses from "../../components/suggestCourses/suggestCourses";
 import Success from "../../components/success/Success";
 import LittlePoster from "../../components/littlePoster/LittlePoster";
-
 const CoursesPage = () => {
   const { courses } = useContext(MyContext);
   const backgroundStyle = {
@@ -22,22 +21,17 @@ const CoursesPage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
-
   const [visibleCourses, setVisibleCourses] = useState(4);
-
   const handleShowMore = () => {
     setVisibleCourses((prevVisible) => prevVisible + 4);
   };
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".course-card:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9;
         if (
           revealTop < revealPoint &&
           !revealElement.classList.contains("revealed")
@@ -46,16 +40,10 @@ const CoursesPage = () => {
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-  
   return (
     <div id="coursesPage">
       <div className="miniPoster" style={backgroundStyle}>

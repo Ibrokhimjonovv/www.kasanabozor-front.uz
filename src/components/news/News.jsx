@@ -1,16 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import "./News.scss";
-import newsImg1 from "./newsImg1.png";
-import newsImg2 from "./newsImg2.png";
-import newsImg3 from "./newsImg3.png";
-import newsImg4 from "./newsImg4.png";
 import { MyContext } from "../../context/myContext";
-
 const News = () => {
   const { newsList } = useContext(MyContext);
-
   return (
     <div className="nn">
       <div id="news">
@@ -29,17 +23,15 @@ const News = () => {
     </div>
   );
 };
-
-const NewsCard = ({ news, index }) => {
+const NewsCard = ({ news }) => {
   const { ref, inView } = useInView({
-    threshold: 0.1, // 10% element ko'rinishi bilan trigger ishlaydi
-    triggerOnce: true, // faqat bir marta trigger qilish
+    threshold: 0.1,
+    triggerOnce: true,
   });
-
   return (
     <div
       ref={ref}
-      className={`news-card ${inView ? "visible" : ""}`} // "visible" klassini faqat ko'rinadigan elementlarga qo'shamiz
+      className={`news-card ${inView ? "visible" : ""}`}
     >
       <div className="img-cont">
         <img src={news.img} alt={news.title} />

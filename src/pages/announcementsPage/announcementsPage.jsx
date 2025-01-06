@@ -5,7 +5,6 @@ import "./announcementsPage.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import defaultImg from "./default.png";
-
 const AnnouncementsPage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -14,9 +13,7 @@ const AnnouncementsPage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
-
   const { announcements } = useContext(MyContext);
-
   useEffect(() => {
     window.addEventListener("scroll", reveal);
     function reveal() {
@@ -35,28 +32,21 @@ const AnnouncementsPage = () => {
       }
     }
   });
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".service-card:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
+        const revealPoint = windowHeight * 0.9;
 
         if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
           revealElement.classList.add("revealed");
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
   return (

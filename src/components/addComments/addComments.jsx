@@ -6,30 +6,24 @@ import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-
 const AddComments = ({ news }) => {
   const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState("");
-  const [replyingTo, setReplyingTo] = useState(null); // reply uchun yangi holat
-  const [currentReplyTo, setCurrentReplyTo] = useState(null); // replyga reply yozish uchun
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [currentReplyTo, setCurrentReplyTo] = useState(null);
   const { id } = useParams();
   const { isAuthenticated } = useContext(MyContext);
-
-  // Izohlarni localStorage'dan olish
   useEffect(() => {
     const storedComments = localStorage.getItem("comments");
     if (storedComments) {
       setComments(JSON.parse(storedComments));
     }
   }, []);
-
-  // Izohlarni localStorage'ga saqlash
   useEffect(() => {
     if (Object.keys(comments).length > 0) {
       localStorage.setItem("comments", JSON.stringify(comments));
     }
   }, [comments]);
-
   useEffect(() => {
     if (news) {
       setComments((prevComments) => ({
@@ -38,7 +32,6 @@ const AddComments = ({ news }) => {
       }));
     }
   }, [id, news]);
-
   const handleAddComment = () => {
     if (newComment.trim() === "") return;
 
@@ -49,7 +42,6 @@ const AddComments = ({ news }) => {
       replies: [],
     };
 
-    // Asosiy izohni qo'shish
     setComments((prevComments) => {
       const updatedComments = {
         ...prevComments,
@@ -58,9 +50,8 @@ const AddComments = ({ news }) => {
       return updatedComments;
     });
 
-    setNewComment(""); // Inputni tozalash
+    setNewComment("");
   };
-
   const handleReply = () => {
     if (newComment.trim() === "") return;
 
@@ -68,13 +59,11 @@ const AddComments = ({ news }) => {
     let commentToReply = null;
 
     if (currentReplyTo) {
-      // Replyga reply qo'shish
       commentToReply = findCommentById(
         updatedComments[news.id],
         currentReplyTo
       );
     } else {
-      // Asosiy reply
       commentToReply = findCommentById(updatedComments[news.id], replyingTo);
     }
 
@@ -88,11 +77,10 @@ const AddComments = ({ news }) => {
     }
 
     setComments(updatedComments);
-    setNewComment(""); // Inputni tozalash
-    setReplyingTo(null); // reply holatini tozalash
-    setCurrentReplyTo(null); // current reply holatini tozalash
+    setNewComment(""); 
+    setReplyingTo(null);
+    setCurrentReplyTo(null);
   };
-
   const findCommentById = (commentsArray, commentId) => {
     for (let comment of commentsArray) {
       if (comment.id === commentId) {
@@ -105,13 +93,11 @@ const AddComments = ({ news }) => {
     }
     return null;
   };
-
   const handleCancelReply = () => {
-    setReplyingTo(null); // Javobni bekor qilish
-    setCurrentReplyTo(null); // Replyga reply holatini bekor qilish
-    setNewComment(""); // Inputni tozalash
+    setReplyingTo(null);
+    setCurrentReplyTo(null);
+    setNewComment("");
   };
-
   const renderReplies = (replies) => {
     return replies.map((reply) => (
       <div key={reply.id} className="replied-messages">
@@ -138,7 +124,6 @@ const AddComments = ({ news }) => {
       </div>
     ));
   };
-
   return (
     <div id="comments" className="news-comment">
       <h2>Izohlar</h2>
@@ -190,13 +175,13 @@ const AddComments = ({ news }) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (newComment.trim() === "") return; // Izoh bo'sh bo'lsa hech narsa qilmasin
+            if (newComment.trim() === "") return;
             if (currentReplyTo) {
-              handleReply(); // Agar javobga reply qo'shish bo'lsa
+              handleReply(); 
             } else if (replyingTo) {
-              handleReply(); // Agar replyga javob berish bo'lsa
+              handleReply(); 
             } else {
-              handleAddComment(); // Asosiy izohni qo'shish
+              handleAddComment(); 
             }
           }}
         >
@@ -258,22 +243,22 @@ const AddComments = ({ news }) => {
                       : replyingTo
                       ? "Javob yozing..."
                       : "Izoh yozing..."
-                  }`, // Placeholder qo'shildi
+                  }`, 
                 }}
                 value={newComment}
                 onEditorChange={(content) => setNewComment(content)}
               />
               {/* <textarea
-                          value={productComment}
-                          onChange={(e) => setProductComment(e.target.value)}
-                          placeholder={
-                            currentReplyTo
-                              ? "Javob yozing..."
-                              : replyingTo
-                              ? "Javob yozing..."
-                              : "Izoh yozing..."
-                          }
-                        /> */}
+                value={productComment}
+                onChange={(e) => setProductComment(e.target.value)}
+                placeholder={
+                  currentReplyTo
+                    ? "Javob yozing..."
+                    : replyingTo
+                    ? "Javob yozing..."
+                    : "Izoh yozing..."
+                }
+              /> */}
             </div>
           </div>
           {isAuthenticated ? (

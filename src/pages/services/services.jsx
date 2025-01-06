@@ -4,19 +4,15 @@ import { Link, useParams } from "react-router-dom";
 import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
 import "./services.scss";
-
 const Services = () => {
-  const { services, activeLink, setActiveLink } = useContext(MyContext);
+  const { services} = useContext(MyContext);
   const [currentService, setCurrentService] = useState(null);
   const { id } = useParams();
   const [savedServices, setSavedServices] = useState([]);
-
-  // useEffect ni har doim chaqirish kerak
   useEffect(() => {
     const foundService = services.find((item) => item.id === parseInt(id));
     setCurrentService(foundService);
-  }, [id, services]); // announcement o'zgarganda va id o'zgarganda qayta ishlaydi
-
+  }, [id, services]);
   if (!currentService) {
     return (
       <p>
@@ -24,25 +20,19 @@ const Services = () => {
       </p>
     );
   }
-
   const handleSaveClick = (e, service) => {
-    e.preventDefault(); // Link'ni ochilishini to'xtatish
-
+    e.preventDefault();
     setSavedServices((prevServices) => {
       if (prevServices.some((saved) => saved.id === service.id)) {
-        // Agar xizmat allaqachon saqlangan bo'lsa, uni olib tashlash
         return prevServices.filter((saved) => saved.id !== service.id);
       } else {
-        // Aks holda, xizmatni qo'shish
         return [...prevServices, service];
       }
     });
   };
-
   const isSaved = (announcement) => {
     return savedServices.some((a) => a.id === announcement.id);
   };
-
   return (
     <div id="announceDetail">
       <div className="announceSelect">

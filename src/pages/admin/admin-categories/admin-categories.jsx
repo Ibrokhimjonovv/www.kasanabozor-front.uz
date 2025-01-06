@@ -41,15 +41,22 @@ const AdminCategories = () => {
   const totalPages = Math.ceil(categories.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < categories.length ? indexOfLastUser : categories.length;
-
+  const endUserIndex = indexOfLastUser < categories.length ? indexOfLastUser : categories.length;
   const [offCanvas, setOffCanvas] = useState(false);
-
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [offCanvas]);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -58,7 +65,20 @@ const AdminCategories = () => {
       setAvaName("");
     }
   };
-
+  
+  /* const [productStatuses, setProductStatuses] = useState(
+    categories.reduce((acc, product) => {
+      acc[product.id] = product.status;
+      return acc;
+    }, {})
+  );
+  const handleStatusChange = (id) => {
+    setProductStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [id]: !prevStatuses[id],
+    }));
+  }; */
+  
   return (
     <div id="admin-categories">
       <Dashboard />
@@ -378,7 +398,6 @@ const AdminCategories = () => {
               ))}
             </tbody>
           </table>
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               <div className="soni">

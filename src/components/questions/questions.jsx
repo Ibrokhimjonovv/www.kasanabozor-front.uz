@@ -1,72 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "./questions.scss";
-
 const Questions = () => {
-  const [openIndex, setOpenIndex] = useState(null); // Faqat bitta ochilgan indeksni saqlaymiz
-
+  const [openIndex, setOpenIndex] = useState(null);
   const toggleQuestion = (index) => {
-    setOpenIndex(openIndex === index ? null : index); // Ochilgan indeksni o'zgartiramiz
+    setOpenIndex(openIndex === index ? null : index);
   };
-
   const questionsData = [
     {
       question: "Savol 1: Bu yerda savol matni bo'ladi",
-      answer: "Savol 1 ga javob shu yerda bo'ladi."
+      answer: "Savol 1 ga javob shu yerda bo'ladi.",
     },
     {
       question: "Savol 2: Bu yerda savol matni bo'ladi",
-      answer: "Savol 2 ga javob shu yerda bo'ladi."
+      answer: "Savol 2 ga javob shu yerda bo'ladi.",
     },
     {
       question: "Savol 3: Qo'shimcha savol matni shu yerda bo’ladi",
-      answer: "Savol 3 ga javob shu yerda yozilgan."
+      answer: "Savol 3 ga javob shu yerda yozilgan.",
     },
     {
       question: "Savol 4: Qo'shimcha savol matni shu yerda bo’ladi",
-      answer: "Savol 4 ga javob shu yerda yozilgan."
+      answer: "Savol 4 ga javob shu yerda yozilgan.",
     },
   ];
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".question:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
-        if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
+        const revealPoint = windowHeight * 0.9;
+        if (
+          revealTop < revealPoint &&
+          !revealElement.classList.contains("revealed")
+        ) {
           revealElement.classList.add("revealed");
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="questions">
       <h1>Tez-tez beriladigan savollar</h1>
       <div className="questions">
         {questionsData.map((item, index) => (
-          <div
-            className="question"
-            key={index}
-            style={{ width: "49%" }} // Savollarni 2 ta qilib joylashtirish uchun
-          >
+          <div className="question" key={index} style={{ width: "49%" }}>
             <div className="title" onClick={() => toggleQuestion(index)}>
               {item.question}
               <span
                 style={{
-                  transform: openIndex === index ? "rotate(180deg)" : "rotate(0deg)",
+                  transform:
+                    openIndex === index ? "rotate(180deg)" : "rotate(0deg)",
                   transition: "transform 0.5s ease",
+                  display: "inline-block",
+                  transformOrigin: "center",
                 }}
               >
                 <svg
@@ -77,6 +67,9 @@ const Questions = () => {
                   height="1em"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
+                  style={{
+                    transformOrigin: "center",
+                  }}
                 >
                   <path
                     fillRule="evenodd"

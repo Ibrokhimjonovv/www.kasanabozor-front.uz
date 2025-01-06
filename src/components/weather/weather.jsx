@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./weather.scss";
 import Loading from "../loading/loading";
-
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
-
   useEffect(() => {
-    // API dan ob-havo ma'lumotlarini olish
     fetch("https://api.openweathermap.org/data/2.5/forecast?q=Tashkent&appid=d66a3a2f03bbb26656d45fa20fb11454&units=metric")
       .then(response => response.json())
       .then(data => setWeatherData(data));
   }, []);
-
   if (!weatherData) {
     return <div>
       <Loading />
     </div>;
   }
-
   return (
     <div className="weather-widget">
       <div className="current-weather">
@@ -32,7 +27,6 @@ const Weather = () => {
           </div>
         </div>
       </div>
-
       <div className="forecast">
         <h3>Hourly Forecast</h3>
         <div className="forecast-hours">

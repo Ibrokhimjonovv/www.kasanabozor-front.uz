@@ -8,7 +8,6 @@ import posterImg2 from "./posterImg2.png";
 import News from "../../components/newsFromWorkers/News";
 import Offers from "../../components/offers/Offers";
 import Success from "../../components/success/Success";
-
 const OnlineShop = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -17,7 +16,6 @@ const OnlineShop = () => {
     backgroundPosition: "center",
     width: "100%",
   };
-
   return (
     <div id="onlineShop">
       <div className="miniPoster" style={backgroundStyle}>

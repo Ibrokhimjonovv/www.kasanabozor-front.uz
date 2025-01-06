@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-
 const AdminNews = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
+  const isOpen = useContext(MyContext);
   const news = [
     {
       id: 1,

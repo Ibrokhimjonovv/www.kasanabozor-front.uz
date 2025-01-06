@@ -1,14 +1,12 @@
 import React from "react";
 import "./Footer.scss";
 import { Link } from "react-router-dom";
-
 import facebook from "./Facebook.png";
 import whatsapp from "./whatsapp.png";
 import telegram from "./TelegramLogo.png";
 import twitter from "./Twitter.png";
 import youtube from "./Youtube.png";
 import backgroundImg from "./backgroundImg.png";
-
 const Footer = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -16,7 +14,6 @@ const Footer = () => {
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
   };
-
   return (
     <div id="footer" style={backgroundStyle}>
       <div className="details">
@@ -37,7 +34,7 @@ const Footer = () => {
             <Link to="#">Maxfiylik siyosati</Link>
           </div>
         </div>
-        <div className="detail">
+        <div className="detail d-ver">
           <ul>
             <li>Loyiha</li>
             <li>
@@ -51,7 +48,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="detail">
+        <div className="detail d-ver">
           <ul>
             <li>Yo'nalishlar</li>
             <li>
@@ -68,7 +65,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="detail">
+        <div className="detail d-ver">
           <ul>
             <li>Ma'lumotlar</li>
             <li>

@@ -2,36 +2,31 @@ import React, { useContext, useEffect } from "react";
 import "./coursesCategory.scss";
 import { useParams, Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
-import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import aaa from "./Без имени-2 1.png";
 import Discount from "../../components/discount/Discount";
 
 const CoursesCategory = () => {
   const { category } = useParams();
   const { courses } = useContext(MyContext);
-
-  // Birinchi so'zning birinchi harfini katta qilish funksiyasi
   function formatCategory(category) {
-    if (!category) return ""; // Agar kategoriya bo'sh bo'lsa, bo'sh string qaytariladi
+    if (!category) return "";
     const formattedCategory = category
-      .replace(/-/g, " ") // Chiziqlarni bo'shliq bilan almashtirish
-      .split(" "); // Bo'shliq orqali so'zlarga ajratish
+      .replace(/-/g, " ") 
+      .split(" ");
     formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1); // Birinchi harfni katta qilish
-    return formattedCategory.join(" "); // So'zlarni qayta birlashtirish
+      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
+    return formattedCategory.join(" ");
   }
-
   const filteredCourses = courses.filter(
     (course) => course.category === formatCategory(category)
   );
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".course-card:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
+        const revealPoint = windowHeight * 0.9;
 
         if (
           revealTop < revealPoint &&
@@ -41,16 +36,10 @@ const CoursesCategory = () => {
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="courseCategory">
       <div className="to-back">

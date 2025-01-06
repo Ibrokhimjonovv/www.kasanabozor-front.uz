@@ -12,7 +12,6 @@ const Login = () => {
   const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess, setIsAuthenticated } = useContext(MyContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
@@ -47,11 +46,8 @@ const Login = () => {
   const [usernot] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let hasError = false;
     const newError = { phone: "", password: "", general: "" };
-
-    // Phone tekshirish
     if (!phone) {
       newError.phone = "Telefon raqamni kiritish shart!";
       hasError = true;
@@ -60,13 +56,10 @@ const Login = () => {
       "Telefon raqam noto'g'ri yoki to'liq emas.";
       hasError = true;
     }
-
-    // Parolni tekshirish
     if (!password) {
       newError.password = "Parolni kiritish shart!";
       hasError = true;
     }
-
     if (hasError) {
       setError(newError);
       return;
@@ -102,8 +95,7 @@ const Login = () => {
       setLoading(false)
     }
   };
-  
-  return (
+   return (
     <div id="login">
       <div className="login-header">
         <div className="logo">

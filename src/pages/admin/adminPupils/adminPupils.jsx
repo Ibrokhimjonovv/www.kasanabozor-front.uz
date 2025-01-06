@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-
 const AdminPupils = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
+  const isOpen = useContext(MyContext);
   const pupils = [
     {
       id: 123,
@@ -105,13 +104,11 @@ const AdminPupils = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < pupils.length ? indexOfLastUser : pupils.length;
-
   return (
     <div id="admin-pupils">
       <Dashboard />
       <div className={`admin-item ${isOpen ? "wd" : ""}`}>
         <h2 className="title">O'quvchilar</h2>
-
         <div className="users-list">
           <div className="tool">
             <div className="tool-left">

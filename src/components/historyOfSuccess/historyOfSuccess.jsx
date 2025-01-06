@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./historyOfSuccess.scss";
-
 import img1 from "./img1.jpg";
 import img2 from "./img2.jpg";
-
 const HistoryOfSuccess = () => {
-  // Muvaffaqiyat tarixi uchun ma'lumotlar ro'yxati
-  const [successStories, setSuccessStories] = useState([
+  const successStories = useState([
     {
       id: 1,
       img: img1,
@@ -34,36 +31,26 @@ const HistoryOfSuccess = () => {
       description: "Madaniyatga asoslangan hunarmandchilik muvaffaqiyati.",
     },
   ]);
-
-  const [visibleCount, setVisibleCount] = useState(2); // Boshlang'ich ko'rsatish miqdori
-
+  const [visibleCount, setVisibleCount] = useState(2);
   const handleShowMore = () => {
-    setVisibleCount((prevCount) => prevCount + 2); // Har safar 2 ta qo‘shiladi
+    setVisibleCount((prevCount) => prevCount + 2);
   };
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".hito:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9;
         if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
           revealElement.classList.add("revealed");
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="success-history">
       <h2 className="title">Bir muvaffaqiyat tarixi</h2>
@@ -89,5 +76,4 @@ const HistoryOfSuccess = () => {
     </div>
   );
 };
-
 export default HistoryOfSuccess;

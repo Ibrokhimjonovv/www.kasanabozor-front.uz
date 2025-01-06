@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import "./AboutKasana.scss";
-
 import img1 from "./img1.png";
 import img2 from "./img2.png";
 import img3 from "./img3.jfif";
@@ -11,7 +10,6 @@ import arrow from "./arrow.png";
 import Counter from "../Counter/Counter";
 
 const AboutKasana = () => {
-  // Har bir element uchun alohida useInView ishlatamiz
   const { ref: ref1, inView: inView1 } = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -28,7 +26,22 @@ const AboutKasana = () => {
     threshold: 0.1,
     triggerOnce: true,
   });
-
+  const { ref: ref5, inView: inView5 } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  const { ref: ref6, inView: inView6 } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  const { ref: ref7, inView: inView7 } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  const { ref: ref8, inView: inView8 } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
   return (
     <div id="AboutKasana">
       <div className="images-container">
@@ -53,13 +66,13 @@ const AboutKasana = () => {
       </div>
 
       <div className="texts-container">
-        <h1 ref={ref1} className={`${inView1 ? "visible" : ""}`}>
+        <h1 ref={ref5} className={`${inView5 ? "visible" : ""}`}>
           Kasanachilikni rivojlantirish, bu sohada yangi imkoniyatlar yaratish va mahalliy iqtisodiyotga hissa qo'shish uchun muhimdir.
         </h1>
-        <p id="desc" ref={ref2} className={`${inView2 ? "visible" : ""}`}>
+        <p id="desc" ref={ref6} className={`${inView6 ? "visible" : ""}`}>
           Kasanachilikni rivojlantirish, bu sohada yangi imkoniyatlar yaratish va mahalliy iqtisodiyotga hissa qo'shish uchun muhimdir. Kasanachilikni rivojlantirish orqali, biz an'anaviy hunarmandchilikni zamonaviy texnologiyalar bilan birlashtirib, yangi mahsulotlar va xizmatlar taklif etishimiz mumkin.
         </p>
-        <div ref={ref3} className={`two-text ${inView3 ? "visible" : ""}`}>
+        <div ref={ref7} className={`two-text ${inView7 ? "visible" : ""}`}>
           <div className="two-text-inner">
             <div className="first">
               <div className="about-shape">
@@ -90,7 +103,7 @@ const AboutKasana = () => {
           </div>
         </div>
         <div className="about-link-cont">
-          <Link to="about-project" ref={ref4} className={`${inView4 ? "visible" : ""}`}>
+          <Link to="about-project" ref={ref8} className={`${inView8 ? "visible" : ""}`}>
             Loyiha haqida <img src={arrow} alt="" />
           </Link>
         </div>

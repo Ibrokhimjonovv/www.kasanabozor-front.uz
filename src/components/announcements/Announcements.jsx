@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Announcements.scss";
 import { Link } from "react-router-dom";
 import defaultImg from "./default.png";
@@ -6,7 +6,6 @@ import { MyContext } from "../../context/myContext";
 
 const Announcements = () => {
   const { announcements } = useContext(MyContext);
-
   //   const [announcements, setAnnouncements] = useState([]);
 
   // API dan ma'lumot olish
@@ -28,7 +27,6 @@ const Announcements = () => {
   //   threshold: 0.1,
   //   triggerOnce: true,
   // });
-
   useEffect(() => {
     window.addEventListener("scroll", reveal);
     function reveal() {
@@ -47,7 +45,6 @@ const Announcements = () => {
       }
     }
   });
-
   return (
     <div className="pp">
       <div id="announcements">

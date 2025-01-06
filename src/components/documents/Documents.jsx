@@ -5,34 +5,19 @@ import { MyContext } from "../../context/myContext";
 
 const Documents = () => {
   const { documents } = useContext(MyContext);
-
   const legislativeDoc = documents.filter(
     (doc) => doc.category === "Qonunchilik hujjatlari"
   );
-
   const bussinessDoc = documents.filter(
     (doc) => doc.category === "Kichik biznes loyihalar"
   );
-
-  function formatCategory(category) {
-    if (!category) return ""; // Agar kategoriya bo'sh bo'lsa, bo'sh string qaytariladi
-    const formattedCategory = category
-      .replace(/-/g, " ") // Chiziqlarni bo'shliq bilan almashtirish
-      .split(" "); // Bo'shliq orqali so'zlarga ajratish
-    formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1); // Birinchi harfni katta qilish
-    return formattedCategory.join(" "); // So'zlarni qayta birlashtirish
-  }
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".doc-cont:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9;
         if (
           revealTop < revealPoint &&
           !revealElement.classList.contains("revealed")
@@ -43,14 +28,9 @@ const Documents = () => {
     };
 
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="documents">
       <div className="left-side">

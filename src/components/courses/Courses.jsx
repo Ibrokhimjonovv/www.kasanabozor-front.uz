@@ -17,21 +17,19 @@ const Courses = () => {
           <CourseCard key={course.id} course={course} />
         ))}
       </div>
+      <Link id="more" to="#">Ko'proq ko'rish</Link>
     </div>
   );
 };
-
 const CourseCard = ({ course }) => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
-
   return (
     <Link to={`/courses/course/${course.id}`} ref={ref}>
       <div
         className={`course-card ${inView ? "visible" : ""}`}
-        // style={{ transitionDelay: `${delay}ms` }}
       >
         <div className="card-img">
           <img src={course.img} alt={course.title} />

@@ -5,15 +5,11 @@ import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./addPupil.scss";
 import eye from "../addUser/eye.png";
-
 const AddPupil = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
-
+  const isOpen = useContext(MyContext);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const [avaName, setAvaName] = useState("");
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -22,25 +18,19 @@ const AddPupil = () => {
       setAvaName("");
     }
   };
-
   const regionsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
   const districtsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
   const villagesURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/villages.json";
-
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
-
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
-
   const [filteredDistricts, setFilteredDistricts] = useState([]);
   const [filteredVillages, setFilteredVillages] = useState([]);
-
-  // Ma'lumotlarni yuklash
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,11 +48,9 @@ const AddPupil = () => {
         ) {
           throw new Error("Ma'lumotlarni yuklashda xatolik yuz berdi!");
         }
-
         const regionsData = await regionsResponse.json();
         const districtsData = await districtsResponse.json();
         const villagesData = await villagesResponse.json();
-
         setRegions(regionsData);
         setDistricts(districtsData);
         setVillages(villagesData);
@@ -73,8 +61,6 @@ const AddPupil = () => {
 
     fetchData();
   }, []);
-
-  // Viloyat o'zgarganda tumanlarni filtrlash
   useEffect(() => {
     if (selectedRegion) {
       const filtered = districts.filter(
@@ -82,15 +68,13 @@ const AddPupil = () => {
           parseInt(district.region_id, 10) === parseInt(selectedRegion, 10)
       );
       setFilteredDistricts(filtered);
-      setSelectedDistrict(""); // Tumanni tanlamagan holatga qaytarish
-      setFilteredVillages([]); // Qishloqlarni tozalash
+      setSelectedDistrict(""); 
+      setFilteredVillages([]); 
     } else {
       setFilteredDistricts([]);
       setFilteredVillages([]);
     }
   }, [selectedRegion, districts]);
-
-  // Tuman o'zgarganda qishloqlarni filtrlash
   useEffect(() => {
     if (selectedDistrict) {
       const filtered = villages.filter(

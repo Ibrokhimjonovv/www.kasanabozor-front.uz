@@ -134,3 +134,36 @@
     transform: translateX(-30px);
     transform: all 1s;
 }
+
+@media screen and (max-width: 500px) {
+    #kasanaTypes {
+        flex-direction: column;
+        padding: 0 10px 20px;
+        
+        .left-side, .k-right-side {
+            flex-direction: column;
+            width: 100%;
+
+            h1 {
+                text-align: center;
+                width: 100%;
+            }
+
+            .cub {
+                width: 100% !important;
+                height: unset !important;
+                background-color: #F5F5F5;
+                margin-top: 10px;
+
+                p {
+                    width: 50% !important;
+
+                    span {
+                        margin-top: 15px;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}

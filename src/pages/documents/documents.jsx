@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import "./documents.scss";
 import { MyContext } from "../../context/myContext";
 import { useParams, Link } from "react-router-dom";
@@ -6,32 +6,25 @@ import aaa from "./Без имени-2 1.png";
 import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess";
 import LittlePoster from "../../components/littlePoster/LittlePoster";
 import Weather from "../../components/weather/weather";
-
 const Documents = () => {
   const { category } = useParams();
   const { documents } = useContext(MyContext);
-
   const legislativeDoc = documents.filter(
     (doc) => doc.category === formatCategory(category)
   );
-  console.log(category);
-
   function formatCategory(category) {
-    if (!category) return ""; // Agar kategoriya bo'sh bo'lsa, bo'sh string qaytariladi
+    if (!category) return "";
     const formattedCategory = category
-      .replace(/-/g, " ") // Chiziqlarni bo'shliq bilan almashtirish
-      .split(" "); // Bo'shliq orqali so'zlarga ajratish
+      .replace(/-/g, " ") 
+      .split(" "); 
     formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1); // Birinchi harfni katta qilish
-    return formattedCategory.join(" "); // So'zlarni qayta birlashtirish
+      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
+    return formattedCategory.join(" ");
   }
-
   const [visibleNews, setVisibleNews] = useState(6);
-
   const handleShowMore = () => {
     setVisibleNews((prevVisible) => prevVisible + 6);
   };
-
   return (
     <div id="documentsPage">
       <div className="to-back">

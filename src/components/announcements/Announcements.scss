@@ -121,3 +121,26 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #announcements {
+        padding: 30px 10px;
+
+        .title {
+            justify-content: center;
+            a {
+                display: none;
+            }
+        }
+
+        .announcements-cards {
+            .scroll-fade-effect {
+                width: 100%;
+
+                .card {
+                    width: 100%;
+                }
+            }
+        }
+    }   
+}

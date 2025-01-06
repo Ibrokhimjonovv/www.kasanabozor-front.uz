@@ -13,10 +13,8 @@ import downArrow from "./Chevron down.png";
 import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
 import "./topCourses.scss";
-
 const TopCourses = () => {
   const { courses } = useContext(MyContext);
-
   const catgories = [
     {
       id: 1,
@@ -59,22 +57,17 @@ const TopCourses = () => {
       img: category8,
     },
   ];
-
   const [visibleCourses, setVisibleCourses] = useState(4);
-
   const handleShowMore = () => {
     setVisibleCourses((prevVisible) => prevVisible + 4);
   };
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".course-card:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9;
         if (
           revealTop < revealPoint &&
           !revealElement.classList.contains("revealed")
@@ -83,16 +76,10 @@ const TopCourses = () => {
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   return (
     <div id="topCourses">
       <div className="categories">
@@ -112,17 +99,14 @@ const TopCourses = () => {
           </div>
         </Link>
       </div>
-
       <div className="courses">
         <div className="title">Top kurslar 🔥</div>
         <div className="littleTitle">Yuqori baholangan kurlar</div>
-
         <div className="courses-cards">
           {courses.slice(0, visibleCourses).map((course, index) => (
             <Link to={`/courses/course/${course.id}`} key={index}>
               <div
                 className="course-card"
-                // style={{ transitionDelay: `${delay}ms` }}
               >
                 <div className="card-img">
                   <img src={course.img} alt={course.title} />
@@ -225,5 +209,4 @@ const TopCourses = () => {
     </div>
   );
 };
-
 export default TopCourses;

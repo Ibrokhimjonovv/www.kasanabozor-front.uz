@@ -221,3 +221,30 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #documents {
+        flex-direction: column;
+        padding: 10px;
+
+        .left-side, .doc-right-side {
+            width: 100%;
+            border: none;
+            padding: 0;
+            .title-link {
+                flex-direction: column;
+                text-align: center;
+                
+                a {
+                    margin-top: 15px;
+                }
+            }
+            #top {
+                margin-top: 20px;
+            }
+        }
+        .doc-right-side {
+            margin-top: 25px;
+        }
+    }   
+}

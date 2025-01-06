@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./adminSubcategories.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
@@ -7,11 +7,9 @@ import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import img from "../admin-jobs/img.png";
 import profileImg from "../admin-categories/profileImg.png";
-
 const AdminSubcategories = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
+  const isOpen = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
-
   const products = [
     {
       id: 1,
@@ -49,13 +47,21 @@ const AdminSubcategories = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < products.length ? indexOfLastUser : products.length;
-
   const [offCanvas, setOffCanvas] = useState(false);
-
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto'; 
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [offCanvas]);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -64,20 +70,16 @@ const AdminSubcategories = () => {
       setAvaName("");
     }
   };
-
-  // Har bir mahsulotning statusini saqlash uchun state
   const [productStatuses, setProductStatuses] = useState(
     products.reduce((acc, product) => {
-      acc[product.id] = product.status; // Initial holatni mahsulotdan olish
+      acc[product.id] = product.status;
       return acc;
     }, {})
   );
-
-  // Checkbox holatini yangilash funksiyasi
   const handleStatusChange = (id) => {
     setProductStatuses((prevStatuses) => ({
       ...prevStatuses,
-      [id]: !prevStatuses[id], // Statusni teskari qilish
+      [id]: !prevStatuses[id],
     }));
   };
   return (
@@ -455,9 +457,8 @@ const AdminSubcategories = () => {
               ))}
             </tbody>
           </table>
-          {/* Pagination */}
           {totalPages > 1 && (
-            <div className="pagination">
+            <div className="pagination-admin">
               <div className="soni">
                 {products.length} tadan {startUserIndex} - {endUserIndex} lar
                 ko’rsatilmoqda

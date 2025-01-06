@@ -47,9 +47,7 @@ const Jobs = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < jobs.length ? indexOfLastUser : jobs.length;
-
   const [offCanvas, setOffCanvas] = useState(false);
-
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
@@ -70,12 +68,23 @@ const Jobs = () => {
     }
   }
 
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [offCanvas]);
+  
+
   return (
     <div id="admin-users-jobs">
       <Dashboard />
       <div className={`admin-item ${isOpen ? "wd" : ""}`}>
         <h2 className="title">Kasblar</h2>
-
         <div className="users-list">
           <div className="tool">
             <div className="tool-left">
@@ -343,7 +352,6 @@ const Jobs = () => {
               ))}
             </tbody>
           </table>
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               <div className="soni">

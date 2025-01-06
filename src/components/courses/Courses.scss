@@ -30,7 +30,7 @@
         flex-wrap: wrap;
         justify-content: space-between;
         row-gap: 15px;
-        
+
         .course-card {
             opacity: 0;
             transform: translateY(30px);
@@ -48,6 +48,7 @@
                     border-radius: 10px;
                 }
             }
+
             a {
                 color: #118E71;
                 margin: 10px 0 0;
@@ -115,4 +116,40 @@
 .visible {
     opacity: 1;
     transform: unset;
+}
+
+#more {
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    #courses {
+        padding: 20px 10px;
+
+        .title {
+            justify-content: center;
+
+            a {
+                display: none;
+            }
+        }
+
+        .course-cards {
+            justify-content: center;
+        }
+
+        #more {
+            display: inline-block;
+            color: #41A58D;
+            padding: 8px 15px;
+            border: 1px solid #F3F3F3;
+            border-radius: 7px;
+            margin-left: 12px;
+
+            &:hover {
+                background-color: #41A58D;
+                color: #fff;
+            }
+        }
+    }
 }

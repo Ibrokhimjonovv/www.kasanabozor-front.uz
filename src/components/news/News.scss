@@ -118,3 +118,19 @@
     opacity: 1;
     transform: unset;
 }
+
+@media screen and (max-width: 500px) {
+    #news {
+        padding: 30px 20px;
+        .title {
+            justify-content: center;
+            a {
+                display: none;
+            }
+        }
+
+        .news-cards {
+            justify-content: center;
+        }
+    }
+}

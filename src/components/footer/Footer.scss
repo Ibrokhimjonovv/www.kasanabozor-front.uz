@@ -11,7 +11,6 @@
         background-image: linear-gradient(to left, #f0f2f1f1, #f0f2f1f1);
         z-index: 2;
     }
-    
 
     .details {
         display: flex;
@@ -111,6 +110,27 @@
                             border: 2px solid #fff;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+
+
+@media screen and (max-width: 500px) {
+    #footer {
+        padding-bottom: 70px;
+        .details {
+            .d-ver {
+                display: none;
+            }
+
+            .links {
+                width: 100%;
+                
+                ul {
+                    justify-content: center;
                 }
             }
         }

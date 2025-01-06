@@ -29,32 +29,21 @@ const Admins = () => {
     fetchData();
   }, []);
 
-
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-
   const nextPage = () => {
     if (currentPage < Math.ceil(users.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
-
-  // Calculate the index range for the current page
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-
-  // Calculate total pages
   const totalPages = Math.ceil(users.length / usersPerPage);
-
-  // Handle page change
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Ko'rsatilayotgan foydalanuvchilarni xabar shaklida chiqarish
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < users.length ? indexOfLastUser : users.length;
-
   return (
     <div id="admin-admins">
       <Dashboard />

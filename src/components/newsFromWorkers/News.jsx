@@ -3,20 +3,17 @@ import "./News.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
-
 const News = () => {
   const { products } = useContext(MyContext);
   const [visibleProducts, setVisibleProducts] = useState(8);
   const handleShowMore = () => {
     setVisibleProducts((prevVisible) => prevVisible + 8);
   };
-
   return (
     <div id="topNews">
       <div className="products">
         <div className="title">Kasanachilarimizdan yangilik🚀</div>
         <div className="littleTitle">Yangi mahsulotlarni sinab koring!</div>
-
         <div className="productsInner">
           {products.slice(0, visibleProducts).map((product, index) => (
             <Link to={`product/${product.id}`} key={index}>

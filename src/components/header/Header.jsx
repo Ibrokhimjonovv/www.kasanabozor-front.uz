@@ -4,8 +4,6 @@ import { Link, NavLink } from "react-router-dom";
 import SearchBar from "../searchBar/searchBar";
 import { MyContext } from "../../context/myContext";
 import langImg from "./Icon (3).png";
-import NotFound from "../../pages/404Page/404Page";
-
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -15,24 +13,22 @@ const Header = () => {
     languages,
     setLanguages,
     isAuthenticated,
+    user,
   } = useContext(MyContext);
-
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
-
   const closeDropdown = (e) => {
     if (!e.target.closest(".dropdown")) {
       setIsOpen(false);
     }
   };
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1) {
-        setScrolled(true); // Agar pastga 1px yoki undan ko'p harakatlansa
+        setScrolled(true);
       } else {
-        setScrolled(false); // Agar yuqoriga qaytsa
+        setScrolled(false);
       }
     };
 
@@ -44,20 +40,16 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [help, setHelp] = useState(false);
   const handleLanguageChange = (newLanguage) => {
-    // O'rnini almashtirish
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
-    updatedLanguages.push(selectedLanguage); // Avvalgi tanlangan tilni qayta qo‘shish
-    setSelectedLanguage(newLanguage); // Yangi tanlangan tilni yangilash
-    setLanguages(updatedLanguages); // Dropdowndagi tillarni yangilash
-    setIsOpen(false); // Dropdownni yopish
+    updatedLanguages.push(selectedLanguage);
+    setSelectedLanguage(newLanguage);
+    setLanguages(updatedLanguages);
+    setIsOpen(false);
   };
-
   const [menuOpen, setMenuOpen] = useState(false);
-
   const openClick = () => {
     setMenuOpen((prev) => !prev);
   };
@@ -66,11 +58,9 @@ const Header = () => {
       "url('https://s3-alpha-sig.figma.com/img/e29b/0345/71d5eb106854cbcd44ebf165f629d407?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EclVj312JUpAKTqEVRughAEUjJY~A9eEnWNjLxbBK9BSyPZ7gh051YOdK0dGoL-MOpwiAOFYUrgXNKwwgpgKcEFfM1UxFEFD7e8eOLkNczW1YsQwIoucXABko7jH3sLnIh4i3FEBDsExDapk3MqaQOT3efWZdTlUEPiCNGUBJFgsipYvTmSA~Lwgm0y~YhEdJPXxqKNEbiGLpnqHrWxgmJIZKGwUuDvzivavDslKxtwYHQfFss~s7NraVca08QPo1MR3N1H1RASYV6W5h3Bbz99mSdS6kdZs8z37rfID8FPB5D9p5398x6ZUTG7YvIVC1qrl6nHWXBwqUTqmLz5PbQ__')",
     backgroundSize: "60px 60px",
   };
-
   const notF = (e) => {
-    e.preventDefault()
-  }
-
+    e.preventDefault();
+  };
   return (
     <div className={`tyu ${scrolled ? "scrolled" : ""}`}>
       <header className="header">
@@ -261,7 +251,6 @@ const Header = () => {
         </div>
         <div className="bottom-side">
           <div className="logo">
-            {/* <img src="" alt="" /> */}
             <NavLink
               to="/"
               className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -420,14 +409,8 @@ const Header = () => {
             </li>
           </ul>
           <ul id="rightt">
-            <li>
+            <li id="ser">
               <form action="">
-                {/* <input
-                  type="text"
-                  placeholder="Type something..."
-                  className={help ? "width" : ""}
-                /> */}
-
                 <button type="button" onClick={() => setHelp(!help)}>
                   <svg
                     stroke="currentColor"
@@ -448,13 +431,90 @@ const Header = () => {
             </li>
             <li id="login-top">
               {isAuthenticated ? (
-                <Link to="/dashboard"> <svg width="25" height="25" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.3307 24.5V22.1667C23.3307 20.929 22.8391 19.742 21.9639 18.8668C21.0887 17.9917 19.9017 17.5 18.6641 17.5H9.33073C8.09305 17.5 6.90607 17.9917 6.0309 18.8668C5.15573 19.742 4.66406 20.929 4.66406 22.1667V24.5M18.6641 8.16667C18.6641 10.744 16.5747 12.8333 13.9974 12.8333C11.4201 12.8333 9.33073 10.744 9.33073 8.16667C9.33073 5.58934 11.4201 3.5 13.9974 3.5C16.5747 3.5 18.6641 5.58934 18.6641 8.16667Z" stroke="#41A58D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Shaxsiy kabinet</Link>
+                user.role === "admin" ? (
+                  <Link to="/dashboard">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
+                        stroke="#118E71"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                    Admin Dashboard
+                  </Link>
+                ) : (
+                  <Link to="/profile/prof">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
+                        stroke="#118E71"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                    Shaxsiy kabinet
+                  </Link>
+                )
               ) : (
                 <Link to="/login">Kirish</Link>
               )}
+            </li>
+            <li className="mob-ver">
+              <NavLink
+                to="/mail"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6M22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6M22 6L12 13L2 6"
+                    stroke="#767676"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </NavLink>
+            </li>
+            <li className="mob-ver">
+              <NavLink
+                to="/notification"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.73 21C13.5542 21.3031 13.3018 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
+                    stroke="#767676"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </NavLink>
             </li>
             <li>
               <div
@@ -786,10 +846,9 @@ const Header = () => {
             </li>
           </ul>
         </div>
-
         <div className="menus">
           <div className="details">
-          <div className="detail">
+            <div className="detail">
               <ul>
                 <li>Onlayn bozor</li>
                 <li>
@@ -849,7 +908,6 @@ const Header = () => {
                 <li>
                   <Link to="#">So'nngi yangiliklar</Link>
                 </li>
-
               </ul>
             </div>
             <div className="detail">

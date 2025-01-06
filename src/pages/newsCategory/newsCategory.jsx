@@ -9,22 +9,18 @@ import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 const NewsCategory = () => {
   const { category } = useParams();
   const { newsList } = useContext(MyContext);
-
-  // Birinchi so'zning birinchi harfini katta qilish funksiyasi
   function formatCategory(category) {
-    if (!category) return ""; // Agar kategoriya bo'sh bo'lsa, bo'sh string qaytariladi
+    if (!category) return "";
     const formattedCategory = category
-      .replace(/-/g, " ") // Chiziqlarni bo'shliq bilan almashtirish
-      .split(" "); // Bo'shliq orqali so'zlarga ajratish
+      .replace(/-/g, " ") 
+      .split(" ");
     formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1); // Birinchi harfni katta qilish
-    return formattedCategory.join(" "); // So'zlarni qayta birlashtirish
+      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
+    return formattedCategory.join(" "); 
   }
-
   const legislativeNews = newsList.filter(
     (news) => news.category === formatCategory(category)
   );
-
   return (
     <div id="newsCategory">
       <div className="to-back">

@@ -5,12 +5,8 @@ import "./imgUpload.scss";
 const ImageUpload = ({ changeLocal }) => {
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
-
-  // Fayllarni qo'shish funksiyasi
   const onDrop = (acceptedFiles) => {
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-
-    // Yangi fayllarni filtrlaymiz
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const validFiles = acceptedFiles.filter((file) => {
       if (file.size > MAX_FILE_SIZE) {
         alert(`${file.name} hajmi 5 MB dan katta!`);
@@ -18,22 +14,23 @@ const ImageUpload = ({ changeLocal }) => {
       }
       return true;
     });
-
-    // Maksimal fayllar sonini tekshirish
     if (images.length + validFiles.length > 4) {
       alert("Maksimal 4 ta rasm yuklash mumkin!");
       return;
     }
 
-    const newImages = validFiles.map((file) => {let a = new Blob([file], file.type);return {'blob': a, 'file': file};});
+    const newImages = validFiles.map((file) =>{
+      let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
+      console.log(a);
+      return a
+    });
     setImages((prevImages) => [...prevImages, ...newImages]);
     if (changeLocal) {
       changeLocal((prevImages) => [...prevImages, ...newImages]);
     }
-    // Rasmlarni qo'shamiz
-    setIsDragging(false); // Rasm qo'shilgandan keyin holatni tiklaymiz
+    setIsDragging(false);
   };
-
+  
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     onDragEnter: () => setIsDragging(true),
@@ -41,13 +38,11 @@ const ImageUpload = ({ changeLocal }) => {
     accept: "image/png, image/jpeg, image/webp, image/gif",
     multiple: true,
   });
-
-  // Rasm o'chirish funksiyasi
+  
   const handleRemoveImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
-
-  // Muqova qilish funksiyasi
+  
   const handleSetAsCover = (index) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
@@ -66,9 +61,9 @@ const ImageUpload = ({ changeLocal }) => {
     }
   };
 
+
   return (
     <div>
-      {/* Drag-and-Drop joyi */}
       <div
         {...getRootProps()}
         className={`upload-image-container ${isDragging ? "dragging" : ""}`}
@@ -96,13 +91,11 @@ const ImageUpload = ({ changeLocal }) => {
           </p>
         </div>
       </div>
-
-      {/* Yuklangan rasmlar */}
       <div id="loaded-img">
         {images.map((image, index) => (
           <div key={index} className="image-item">
             <img src={image.preview} alt="preview" />
-            <button onClick={() => handleRemoveImage(index)}>
+            <button type="button" onClick={() => handleRemoveImage(index)}>
               <svg
                 width="12"
                 height="12"
@@ -160,5 +153,4 @@ const ImageUpload = ({ changeLocal }) => {
     </div>
   );
 };
-
 export default ImageUpload;

@@ -1,15 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./admin-news-categories.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-
 const AdminNewsCategories = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
-  const [avaName, setAvaName] = useState("");
-
+  const isOpen = useContext(MyContext);
   const newsCategories = [
     {
       id: 1,
@@ -35,35 +32,31 @@ const AdminNewsCategories = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < newsCategories.length ? indexOfLastUser : newsCategories.length;
-
   const [offCanvas, setOffCanvas] = useState(false);
-
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setAvaName(file.name);
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
     } else {
-      setAvaName("");
+      document.body.style.overflow = 'auto';
     }
-  };
-
-  // Har bir mahsulotning statusini saqlash uchun state
+    return () => {
+      document.body.style.overflow = 'auto'; //
+    };
+  }, [offCanvas]);
   const [productStatuses, setProductStatuses] = useState(
     newsCategories.reduce((acc, product) => {
-      acc[product.id] = product.status; // Initial holatni mahsulotdan olish
+      acc[product.id] = product.status;
       return acc;
     }, {})
   );
-
-  // Checkbox holatini yangilash funksiyasi
   const handleStatusChange = (id) => {
     setProductStatuses((prevStatuses) => ({
       ...prevStatuses,
-      [id]: !prevStatuses[id], // Statusni teskari qilish
+      [id]: !prevStatuses[id],
     }));
   };
   return (

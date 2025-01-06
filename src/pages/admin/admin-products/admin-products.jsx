@@ -50,9 +50,7 @@ const AdminProducts = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < products.length ? indexOfLastUser : products.length;
-
   const [offCanvas, setOffCanvas] = useState(false);
-
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
@@ -86,6 +84,30 @@ const AdminProducts = () => {
   }
 
 
+  useEffect(() => {
+    if (offCanvas) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto'; 
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [offCanvas]);
+ 
+  const [productStatuses, setProductStatuses] = useState(
+    products.reduce((acc, product) => {
+      acc[product.id] = product.status;
+      return acc;
+    }, {})
+  );
+  const handleStatusChange = (id) => {
+    setProductStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [id]: !prevStatuses[id],
+    }));
+  };
+  
   return (
     <div id="admin-products">
       <Dashboard />
@@ -466,7 +488,6 @@ const AdminProducts = () => {
               ))}
             </tbody>
           </table>
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               <div className="soni">
@@ -504,5 +525,4 @@ const AdminProducts = () => {
     </div>
   );
 };
-
 export default AdminProducts;

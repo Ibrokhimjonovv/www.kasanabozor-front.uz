@@ -6,9 +6,8 @@ import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import StarRating from "../../../components/starRating/starRating";
-
 const AdminTeachers = () => {
-  const { isOpen, setIsOpen } = useContext(MyContext);
+  const isOpen = useContext(MyContext);
   const teachers = [
     {
       id: 123,
@@ -124,13 +123,11 @@ const AdminTeachers = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < teachers.length ? indexOfLastUser : teachers.length;
-
   return (
     <div id="admin-teachers">
       <Dashboard />
       <div className={`admin-item ${isOpen ? "wd" : ""}`}>
         <h2 className="title">O'qituvchilar</h2>
-
         <div className="users-list">
           <div className="tool">
             <div className="tool-left">

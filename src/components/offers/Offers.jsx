@@ -3,56 +3,43 @@ import "./Offers.scss";
 import { Link, useLocation } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
-
 const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
   const { products } = useContext(MyContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [visibleProducts, setVisibleProducts] = useState(8);
-
   useEffect(() => {
     if (!Array.isArray(ratingRange) || ratingRange.length !== 2) {
       console.error("ratingRange is not valid:", ratingRange);
       return;
     }
-  
     const filterProducts = () => {
       const [minRating, maxRating] = ratingRange;
-  
       const filtered = products.filter((product) => {
         const matchesCategory =
           selectedCategories.length === 0 ||
           selectedCategories.includes(product.category);
-  
         const matchesPaid =
           selectedPaid.length === 0 ||
           selectedPaid.includes(product.paid ? "paid" : "free");
-  
         const matchesRating =
           product.rating >= minRating && product.rating <= maxRating;
-  
         return matchesCategory && matchesPaid && matchesRating;
       });
   
       setFilteredProducts(filtered);
     };
-  
     filterProducts();
   }, [selectedCategories, selectedPaid, ratingRange, products]);
-  
-
   const handleShowMore = () => {
     setVisibleProducts(visibleProducts + 8);
   };
-
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".link-a:not(.revealed)");
-
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; // 90% ko‘rinish sharti
-
+        const revealPoint = windowHeight * 0.9;
         if (
           revealTop < revealPoint &&
           !revealElement.classList.contains("revealed")
@@ -61,30 +48,22 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-
   const [className, setClassName] = useState('');
   const location = useLocation();
   const [hideElements, setHideElements] = useState(false);
-
   useEffect(() => {
     if (location.pathname === '/online-shop/all-categories') {
-      setClassName('asz'); // ikkinchi sahifaga o'tganda class qo'shish
+      setClassName('asz');
       setHideElements(true);
     } else {
-      setClassName(''); // boshqa sahifalarda class ni olib tashlash
+      setClassName('');
       setHideElements(false);
     }
   }, [location.pathname]);
-
   return (
     <div id="topOffers" className={className}>
       <div className={`products ${hideElements ? 'sze' : ''}`}>
@@ -144,5 +123,4 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
     </div>
   );
 };
-
 export default Offers;

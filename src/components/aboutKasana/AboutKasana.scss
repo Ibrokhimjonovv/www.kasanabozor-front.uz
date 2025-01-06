@@ -12,7 +12,6 @@
     .images-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        // grid-template-rows: repeat(2, 1fr);
         gap: 10px;
         align-items: center;
 
@@ -131,8 +130,8 @@
         h1 {
             color: #1E1E1E;
             font-weight: 600;
-            transform: translateY(30px);
-            opacity: 0;
+            // transform: translateY(30px);
+            // opacity: 0;
             transition: var(--fade-transition);
         }
 
@@ -225,4 +224,71 @@
 .visible {
     opacity: 1 !important;
     transform: unset !important;
+}
+
+@media screen and (max-width: 500px) {
+    #AboutKasana {
+        flex-direction: column;
+        padding: 50px 10px;
+
+        .images-container {
+            display: flex;
+            justify-content: center;
+            div {
+                border-radius: 5px !important;
+            }
+
+            .tile:nth-child(1) {
+                width: 100px;
+                height: 140px;
+            }
+
+            .tile:nth-child(2) {
+                width: 120px;
+                height: 220px;
+            }
+
+            .column {
+                .tile:nth-child(1) {
+                    width: 110px;
+                    height: 110px;
+                    
+                    .text {
+                        span:first-child {
+                            font-size: 24px;
+                        }
+                        span:last-child {
+                            font-size: 15px;
+                        }
+                    }
+                }
+                .tile:nth-child(2) {
+                    width: 90px;
+                    height: 90px;
+                }
+            }
+        }
+
+        .texts-container {
+            h1 {
+                font-size: 20px;
+                text-align: center;
+            }
+            p {
+                text-align: center;
+            }
+
+            .two-text {
+                flex-direction: column;
+
+                .two-text-inner {
+                    .second {
+                        h1, p {
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
