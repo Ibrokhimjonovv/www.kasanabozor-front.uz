@@ -54,8 +54,8 @@ const Categories = () => {
       <div className="productsInner">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <Link to={`/online-shop/product/${product.id}`} key={product.id}>
-              <div className="product">
+            <Link to={`/online-shop/product/${product.id}`} key={product.id} className="category-product-link">
+              <div className="product revealed">
                 <div className="imgContainer">
                   <img src={product.img} alt="" />
                 </div>
