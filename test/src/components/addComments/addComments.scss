@@ -1,0 +1,347 @@
+.news-comment {
+    padding: 20px 30px !important;
+}
+
+#comments {
+    background-color: #fff;
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 10px;
+    color: #1E1E1E;
+
+    & * {
+        list-style: unset;
+        text-decoration: unset;
+    }
+
+    .commentsInner {
+        margin-top: 20px;
+        max-height: 500px;
+        overflow: auto;
+        padding-right: 8px;
+
+        &::-webkit-scrollbar {
+            width: 5px; /* Scrollning kengligi */
+            height: 5px
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Foni */
+            border-radius: 10px;
+        }
+        
+        /* Scrollning o'zi (dragger) */
+        &::-webkit-scrollbar-thumb {
+            background: #888; /* Scrollning rangi */
+            border-radius: 10px;
+        }
+        
+        /* Hover paytida scrollning o'zgarishi */
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Hover rangi */
+        }
+
+        .user-comment {
+            display: flex;
+            flex-direction: column;
+            // row-gap: 15px;
+            margin-top: 15px;
+
+            .who {
+                display: flex;
+                justify-content: space-between;
+
+                .user {
+                    display: flex;
+                    gap: 10px;
+
+                    img {
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .texts {
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 5px;
+                        color: #757575;
+
+                        .date {
+                            display: flex;
+                            gap: 30px;
+
+                            span {
+                                display: flex;
+                                align-items: center;
+                                gap: 5px;
+                            }
+                        }
+                    }
+                }
+
+                .reply-button {
+                    button {
+                        border: 1px solid #F3F3F3;
+                        border-radius: 7px;
+                        padding: 9px 15px;
+                        color: #767676;
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        cursor: pointer;
+                        font-size: 16px;
+
+                        &:hover {
+                            background-color: #41A58D;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+
+            .message {
+                color: #757575;
+                // margin-top: 10px;
+                padding: 15px 0;
+
+                ul, ol {
+                    padding-left: 30px;
+
+                    list-style: decimal;
+                }
+
+                s {
+                    text-decoration: line-through;
+                }
+            }
+
+            .replied-messages {
+                background-color: #F5F5F5;
+                border-left: 2px solid #41A58D;
+                padding: 20px 20px 20px 30px;
+
+
+                .reply-button {
+                    // background-color: #fff;
+
+                    button {
+                        // border: 1px solid #fff;
+                        border-radius: 7px;
+                        // padding: 9px 15px;
+                        color: #767676;
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        background-color: #fff;
+
+                        &:hover {
+                            background-color: #41A58D;
+                            color: #fff;
+                        }
+                    }
+                }
+
+                .message {
+                    margin-top: 10px;
+                    padding: 0 !important;
+                }
+            }
+
+
+        }
+
+    }
+
+    .addComment {
+        margin-top: 20px;
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+
+            span {
+                color: #4B4B4B;
+                font-size: 22px;
+                font-weight: 600;
+            }
+
+            a {
+                color: #41A58D;
+                font-size: 18px;
+                font-weight: 600;
+            }
+        }
+
+        form {
+            margin-top: 20px;
+
+            .type {
+                // border-radius: 6px;
+                // background-color: #F8F8F8;
+                // border: 1px solid #F2F2F2;
+                // padding: 20px;
+
+
+                textarea {
+                    width: 100%;
+                    height: 200px;
+                    border-radius: 5px;
+                    background-color: transparent;
+                    resize: none;
+                    border: none;
+                    padding: 10px 0;
+                    outline: none;
+                    font-size: 16px;
+                }
+            }
+
+            #submit {
+                background-color: #41A58D;
+                border: none;
+                cursor: pointer;
+                padding: 12px 25px;
+                border-radius: 7px;
+                color: #fff;
+                font-size: 16px;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+.sub-reply {
+    background-color: #F5F5F5;
+    border-left: 2px solid #41A58D;
+    padding: 20px 20px 20px 30px;
+    display: block;
+    margin-top: 10px;
+
+    .reply-button {
+        background-color: #fff;
+
+        button {
+
+            &:hover {
+                background-color: #41A58D;
+                color: #fff;
+            }
+        }
+    }
+
+    .message {
+        margin-top: 10px;
+        padding: 0 !important;
+    }
+}
+
+.cancel-reply {
+    background: #F5F5F5;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 9px 15px;
+    color: #757575;
+    margin: 10px 0;
+
+    &:hover {
+        color: red;
+        border-color: red;
+        background-color: #fff;
+    }
+}
+
+.tox {
+    height: 250px !important;
+    .tox-menubar {
+        display: none !important;
+    }
+
+    .tox-statusbar {
+        display: none !important;
+    }
+
+    .tox-edit-area__iframe {
+        background-color: #F8F8F8 !important;
+        border: 1px solid #f2f2f2 !important;
+        outline: unset !important;
+        border: unset !important;
+        font-size: 20px !important;
+    }
+
+    &:not(.tox-tinymce-inline) .tox-editor-header {
+        box-shadow: unset !important;
+        padding: unset !important;
+    }
+
+    .tox-toolbar__primary {
+        border: unset !important;
+    }
+}
+
+.tox .tox-toolbar-overlord {
+    background-color: #f8f8f8 !important;
+}
+
+.tox .tox-toolbar,
+.tox .tox-toolbar__overflow,
+.tox .tox-toolbar__primary {
+    background-color: #F8F8F8 !important;
+    background-image: unset !important;
+}
+
+.tox .tox-tbtn {
+    background: #f8f8f8 !important;
+    height: 40px !important;
+    width: 40px !important;
+    cursor: pointer;
+    transition: all 0.5s !important;
+
+    svg {
+    transition: all 0.5s !important;
+
+    }
+
+    &:hover {
+        background-color: #41A58D !important;
+
+        span {
+
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+
+    &.tox-tbtn--enabled {
+        background-color: #41A58D !important;
+        color: #fff !important;
+        
+        span {
+
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+}
+
+.tox.tox-edit-focus .tox-edit-area::before {
+    opacity: 0 !important;
+}
+
+.mce-content-body {
+    margin: 0 !important;
+
+    p {
+        margin: 0 !important;
+    }
+}
+
+.tox-notifications-container {
+    display: none !important;
+}
