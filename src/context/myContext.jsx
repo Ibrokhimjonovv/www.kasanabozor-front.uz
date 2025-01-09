@@ -16,16 +16,50 @@ export const MyContextProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [signupSuccess, setSignUpSuccess] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({});
+  const [loadStart, setLoadStart] = useState(false);
+  const [loadSuccess, setLoadSuccess] = useState(false);
 
-  const loadContextData = async () => {
+  const uploadUserPhoto = async (image) => {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    try {
+      const response = await axios.post(`${usersServerUrl}profile/photo/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.data.status === "ok" && response.data.result) {
+        setUser((prev) => {
+          prev.pfp = response.data.result;
+          return prev;
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const loadUserData = async () => {
     try {
       const userResponse = await axios.post(`${usersServerUrl}accounts/get-me/`);
+      console.log(userResponse.data);
+      setUser(userResponse.data.results);
       setIsAuthenticated(userResponse.data.status === 'ok');
     } catch (err) {
       console.error(err);
       setIsAuthenticated(false);
       return 0;
     }
+  }
+
+  const loadContextData = async () => {
+    setLoadStart(true);
+    setLoadSuccess(false);
+
+    await loadUserData();
 
     try {
       const productsResponse = await axios.get(`${eCommerseServerUrl}products/popular/`);
@@ -44,24 +78,20 @@ export const MyContextProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     }
+
+    setLoadStart(false);
+    setLoadSuccess(true);
   };
 
   useEffect(() => {
-    let isMounted = true; // To prevent setting state on unmounted component
-
-    const loadData = async () => {
-      if (isMounted) {
-        await loadContextData();
-      }
-    };
-
-    loadData();
-
-    // Cleanup function
+    const interval = setInterval(() => {
+      loadContextData();
+    }, (!loadSuccess && !loadStart) ? 100 : 5000);
+    
     return () => {
-      isMounted = false;
+      clearInterval(interval);
     };
-  }, [usersServerUrl]); // Ensure usersServerUrl is a dependency if it's dynamic
+  }); // Ensure usersServerUrl is a dependency if it's dynamic
 
     return (
     <MyContext.Provider
@@ -83,7 +113,10 @@ export const MyContextProvider = ({ children }) => {
         setIsOpen,
         signupSuccess,
         setSignUpSuccess,
-        categories
+        categories,
+        user,
+        loadUserData,
+        uploadUserPhoto
       }}
     >
       {children}

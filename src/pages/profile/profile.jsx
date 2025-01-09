@@ -1,69 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import "./profile.scss";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProfileSideBar from "../../components/profileSideBar/profileSideBar";
 import { MyContext } from "../../context/myContext";
-import profileImage from "../../assets/profileImage.png";
+
+
 const Profile = () => {
-  const { user, setUser } = useContext(MyContext);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { param } = useParams()
-  // const fetchUserData = async () => {
-  //   const token = localStorage.getItem("access_token");
-  //   if (!token) {
-  //     setError("Token topilmadi. Iltimos, qayta login qiling.");
-  //     setLoading(false);
-  //     return;
-  //   }
+  const {user, uploadUserPhoto} = useContext(MyContext);
 
-  //   try {
-  //     const response = await fetch(`${globalApi}/users/`, {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (response.status === 401) {
-  //       localStorage.removeItem("token");
-  //       setError("Token yaroqsiz yoki muddati tugagan. Qayta login qiling.");
-  //       setLoading(false);
-  //       return;
-  //     }
-  //     console.log(response);
-
-  //     if (!response.ok) {
-  //       setError("Ma'lumotlarni olishda xatolik yuz berdi.");
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     const data = await response.json();
-
-  //     // Role qo'shish agar API javobida kelmasa
-  //     const userDataWithRole = {
-  //       ...data, // API'dan kelgan foydalanuvchi ma'lumotlari
-  //       role: data.role || "user", // Agar "role" bo'lmasa, 'user' qilib qo'yamiz
-  //     };
-
-  //     setUser(userDataWithRole);
-  //   } catch (err) {
-  //     console.error("Server bilan bog‘lanishda xatolik:", err);
-  //     setError("Server bilan bog‘lanishda xatolik yuz berdi.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchUserData();
-  // }, []);
-
-  // if (loading) return <p>Yuklanmoqda...</p>;
-
-  // if (error) return <p>{error}</p>;
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -155,8 +99,11 @@ const Profile = () => {
             </Link>
           </div>
           <div className="profile-img">
-            <img src={profileImage} alt="" />
-            <input type="file" id="photo" />
+            <img src={ user.pfp || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
+            <input type="file" id="photo" onChange={ (ev) => {
+              ev.preventDefault();
+              uploadUserPhoto(ev.target.file);
+            } }/>
             <label htmlFor="photo">
               <svg
                 width="12"
@@ -179,56 +126,45 @@ const Profile = () => {
             <ul>
               <li>
                 <span>Ismi</span>
-                <p>Abdulrahmon</p>
+                <p>{ user.first_name }</p>
               </li>
               <li>
                 <span>Telefon raqami</span>
-                <p>+99891 234 56 78</p>
+                <p>{ user.phone || "Juda maxfiy!" }</p>
               </li>
               <li>
                 <span>Familiya</span>
-                <p>Abdurahimov</p>
+                <p>{ user.last_name }</p>
               </li>
               <li>
                 <span>El-pochta</span>
-                <p>Yo'q</p>
+                <p>{ user.email || 'Juda maxfiy!' }</p>
               </li>
               <li>
                 <span>Tug'ilgan kuni</span>
-                <p>01.01.1991</p>
+                <p>{ user.birthday || "Umrini bersin!" }</p>
               </li>
               <li>
                 <span>Faoliyati</span>
-                <p>Tandirchilik</p>
+                <p>{ user.job || "Ishida professional" }</p>
               </li>
               <li>
                 <span>Viloyat</span>
-                <p>Toshkent</p>
+                <p>{ user.region || "O'zbekiston" }</p>
               </li>
               <li>
                 <span>Manzil</span>
-                <p>Yakkasaroy tumani, Jahonbaxsh mahallasi</p>
+                <p>{ user.address || "Karavotingiz ostida" }</p>
               </li>
             </ul>
           </div>
           <div className="about-me">
             <span>Men haqimda</span>
-            <p>
-              Men Azamat Axrorov – kasanachilik bilan shug‘ullanaman. Toshkent
-              shahrida faoliyat yurityapman.{" "}
-            </p>
+            <p>{ user.about_me || "Qay usulda odamlarga qiziq bo'lishini o'ylamoqda." }</p>
           </div>
           <div className="bio">
             <span>Biografiya</span>
-            <p>
-              Men Azamat Axrorov – kasanachilik bilan shug‘ullanaman. Toshkent
-              shahrida faoliyat yurityapman. Ishimni sidqidildan bajarishga va
-              har doim o‘zimni rivojlantirishga harakat qilaman. Men uchun halol
-              mehnat va oila qadriyatlari eng muhim o‘rin tutadi. Bo‘sh
-              vaqtlarimda kitob o‘qish va tabiat qo‘ynida dam olishni
-              yoqtiraman. Mening hayotiy shiorim: "Har bir kichik qadam – katta
-              muvaffaqiyat sari yo‘l."
-            </p>
+            <p>{ user.biography || "Bu inson juda taniqli, ular o'zi haqida malumot yozishi shart emas." }</p>
           </div>
         </div>
       </div>

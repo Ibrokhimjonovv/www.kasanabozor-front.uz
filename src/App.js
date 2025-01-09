@@ -47,7 +47,7 @@ import AddPupil from "./pages/admin/addPupil/addPupil";
 import AdminNews from "./pages/admin/adminNews/adminNews";
 import AddNews from "./pages/admin/addNews/addNews";
 import AdminNewsCategories from "./pages/admin/admin-news-categories/admin-news-categories";
-import UsersMessaging from "./pages/usersMessaging/usersMessaging";
+// import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 import Services from "./pages/services/services";
 import AddAnnounce from "./pages/addAnnounce/addAnnounce";
 import Products from "./pages/profilePages/products/Products";
@@ -61,19 +61,9 @@ import MenuTool from "./components/menu-tool/menuTool";
 
 import './createAxiosClient';
 
-import Products from "./pages/profilePages/products/Products";
-import EditProfile from "./pages/profilePages/editProfile/EditProfile";
-import AddProducts from "./pages/profilePages/addProduct/addProduct";
-import LikedProducts from "./pages/profilePages/likedProducts/likedProducts";
-import LikedAnnounces from "./pages/profilePages/announce/likedAnnounces";
-import MyAnnounces from "./pages/profilePages/myAnnounces/myAnnounces";
-import MessagesContainer from "./pages/profilePages/messagesContainer/messagesContainer";
-import MenuTool from "./components/menu-tool/menuTool";
 
-// Global API
-export const globalApi = "http://bk.kasanabozor.uz";
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
-  if (!isAuthenticated && userRole !== allowedRole) {
+  if (!isAuthenticated && (userRole !== allowedRole || userRole !== "ksn")) {
     return <NotFound />;
   }
   return children;
@@ -140,6 +130,7 @@ function AppContent() {
         <Route path="announcements/:id" element={<AnnounceDetail />} />
         <Route path="services/:id" element={<Services />} />
         <Route path="add-announce" element={<AddAnnounce />} />
+        
         {/* Profile start */}
         <Route
           path="profile/prof"

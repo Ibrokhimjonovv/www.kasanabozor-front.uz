@@ -82,30 +82,6 @@ const AdminProducts = () => {
       console.log(err);
     }
   }
-
-  useEffect(() => {
-    if (offCanvas) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto'; 
-    }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [offCanvas]);
-  const [productStatuses, setProductStatuses] = useState(
-    products.reduce((acc, product) => {
-      acc[product.id] = product.status;
-      return acc;
-    }, {})
-  );
-  const handleStatusChange = (id) => {
-    setProductStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [id]: !prevStatuses[id],
-    }));
-  };
-
   useEffect(() => {
     if (offCanvas) {
       document.body.style.overflow = 'hidden';
@@ -117,7 +93,7 @@ const AdminProducts = () => {
     };
   }, [offCanvas]);
  
-  const [productStatuses, setProductStatuses] = useState(
+  /* const [productStatuses, setProductStatuses] = useState(
     products.reduce((acc, product) => {
       acc[product.id] = product.status;
       return acc;
@@ -128,7 +104,7 @@ const AdminProducts = () => {
       ...prevStatuses,
       [id]: !prevStatuses[id],
     }));
-  };
+  }; */
   
   return (
     <div id="admin-products">

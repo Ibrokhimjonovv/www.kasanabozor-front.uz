@@ -18,13 +18,6 @@ const ImageUpload = ({ changeLocal }) => {
       alert("Maksimal 4 ta rasm yuklash mumkin!");
       return;
     }
-    
-    const newImages = validFiles.map((file) =>{
-      let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
-      console.log(a);
-      return a
-    });
-
     const newImages = validFiles.map((file) =>{
       let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
       console.log(a);
