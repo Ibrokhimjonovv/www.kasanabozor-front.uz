@@ -63,7 +63,7 @@ import './createAxiosClient';
 
 
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
-  if (!isAuthenticated && (userRole !== allowedRole || userRole !== "ksn")) {
+  if (!isAuthenticated && (userRole !== allowedRole)) {
     return <NotFound />;
   }
   return children;

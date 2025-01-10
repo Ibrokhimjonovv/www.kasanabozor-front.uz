@@ -19,7 +19,7 @@ const ImageUpload = ({ changeLocal }) => {
       return;
     }
     const newImages = validFiles.map((file) =>{
-      let a = Object.assign(file, { preview: URL.createObjectURL(file), blobp: new Blob([file]) })
+      let a = Object.assign(file, { preview: URL.createObjectURL(file), file: file })
       console.log(a);
       return a
     });

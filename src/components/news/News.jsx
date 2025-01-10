@@ -3,8 +3,11 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import "./News.scss";
 import { MyContext } from "../../context/myContext";
+
+
 const News = () => {
   const { newsList } = useContext(MyContext);
+  
   return (
     <div className="nn">
       <div id="news">
@@ -23,6 +26,8 @@ const News = () => {
     </div>
   );
 };
+
+
 const NewsCard = ({ news }) => {
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -96,3 +101,4 @@ const NewsCard = ({ news }) => {
 };
 
 export default News;
+

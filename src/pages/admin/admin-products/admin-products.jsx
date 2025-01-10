@@ -67,21 +67,28 @@ const AdminProducts = () => {
     e.preventDefault();
 
     try {
-      const createNewProductResponse = await axios.post(`${eCommerseServerUrl}dashboard/products/create/`, {
-        name: newProductName,
-        price: newProductPrice,
-        price_off: newProductPriceOff,
-        description: newProductDescription,
-        category: newProductCategory,
-        images: newProductImages
-      });
+      const formData = new FormData();
+      formData.append('name', newProductName);
+      formData.append('price', newProductPrice);
+      formData.append('price_off', newProductPriceOff);
+      formData.append('description', newProductDescription);
+      formData.append('category', newProductCategory);
+      for (let i = 0;i<newProductImages.length;i++) {
+        formData.append(`image${i}`, newProductImages[i]);
+      }
+      
+      const createNewProductResponse = await axios.post(`${eCommerseServerUrl}dashboard/products/create/`, formData);
+      
       if (createNewProductResponse.data.status === "ok") {
         console.log(createNewProductResponse);
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      fetchData();
     }
   }
+
   useEffect(() => {
     if (offCanvas) {
       document.body.style.overflow = 'hidden';
@@ -222,7 +229,33 @@ const AdminProducts = () => {
                             stroke-width="2"
                           />
                         </svg>
-                        <input type="text" placeholder="Narx kiriting" value={newProductPrice} onChange={ (e) => { setNewProductPrice(parseInt(e.target.value));setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
+                        <input type="number" placeholder="Narx kiriting" value={newProductPrice} onChange={ (e) => { setNewProductPrice(parseInt(e.target.value));setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
+                      </div>
+
+                      <div className="error-message">To'ldirilishi shart</div>
+                    </div>
+                  <div className="input-row">
+                      <label htmlFor="price">Chegirma narxi</label>
+                      <div className="inputs">
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12.0003 21.6004C12.0003 21.6004 19.5134 14.9221 19.5134 9.91343C19.5134 5.76409 16.1497 2.40039 12.0003 2.40039C7.85101 2.40039 4.4873 5.76409 4.4873 9.91343C4.4873 14.9221 12.0003 21.6004 12.0003 21.6004Z"
+                            stroke="#B2B2B2"
+                            stroke-width="2"
+                          />
+                          <path
+                            d="M14.4007 9.60054C14.4007 10.926 13.3261 12.0005 12.0007 12.0005C10.6752 12.0005 9.60066 10.926 9.60066 9.60054C9.60066 8.27506 10.6752 7.20054 12.0007 7.20054C13.3261 7.20054 14.4007 8.27506 14.4007 9.60054Z"
+                            stroke="#B2B2B2"
+                            stroke-width="2"
+                          />
+                        </svg>
+                        <input type="number" placeholder="Chegirma narx kiriting" value={newProductPriceOff} onChange={ (e) => { setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
@@ -271,7 +304,7 @@ const AdminProducts = () => {
                         </svg>
 
                         <select name="category" id="category" value={ newProductCategory } onChange={ (e) => { setNewProductCategory(e.target.value); } }>
-                          {categories.map((value, index) => <option value={ value.id } key={ index }>{ value.name }</option>)}
+                          {categories.map((value, index) => <option value={ value.id } key={ index }>{ value.title }</option>)}
                         </select>
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
@@ -433,7 +466,7 @@ const AdminProducts = () => {
                   </td>
                   <td>{product.name}</td>
 		  <td>
-                    <img className="authorImg" src={product.user.pfp} alt="" />
+                    <img className="authorImg" src={`http://127.0.0.1:8900${product.user.pfp}`} alt="" />
                   </td>
                   {/* <td className="sku">{product.sku}</td> */}
                   <td>{product.category.title}</td>

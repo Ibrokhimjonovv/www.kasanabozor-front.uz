@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Products.scss";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
@@ -6,132 +6,29 @@ import authorImg from "../../admin/admin-products/authorImg.png";
 import StarRating from "../../../components/starRating/starRating";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
+import axios from 'axios';
+import { MyContext } from '../../../context/myContext';
+import { eCommerseServerUrl } from '../../../SuperVars';
+
+
 const Products = () => {
-  const products = [
-    {
-      id: 1,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 4,
-      status: true,
-    },
-    {
-      id: 2,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 3,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 4,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 5,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 6,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 7,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 8,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 9,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 10,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-    {
-      id: 11,
-      productImg: authorImg,
-      productTitle: "Mahsulot nomi",
-      authorImg: authorImg,
-      sku: "HG5A532QS",
-      category: "#Kategoriya",
-      price: 200000,
-      rating: 2.7,
-      status: false,
-    },
-  ];
+  const {user} = useContext(MyContext);
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+
+  const loadData = async () => {
+    const response = await axios.post(`${eCommerseServerUrl}products/filtered/`, {'filters': {'user': user.id}}, {headers:{'Content-Type': 'application/json'}});
+    if (response.data.status === "ok") {
+      setProducts(response.data.results);
+    }
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => { clearTimeout(timeout); };
+  }, []);
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -139,26 +36,30 @@ const Products = () => {
     if (currentPage < Math.ceil(products.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentProducts = products.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(products.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < products.length ? indexOfLastUser : products.length;
+  const endUserIndex = indexOfLastUser < products.length ? indexOfLastUser : products.length;
+
   const [productStatuses, setProductStatuses] = useState(
     products.reduce((acc, product) => {
       acc[product.id] = product.status;
       return acc;
     }, {})
   );
+  
   const handleStatusChange = (id) => {
     setProductStatuses((prevStatuses) => ({
       ...prevStatuses,
       [id]: !prevStatuses[id],
     }));
   };
+  
+
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -286,9 +187,9 @@ const Products = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Reyting
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/* <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Aktivligi
-                </th>
+                </th> */}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
@@ -303,17 +204,17 @@ const Products = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={product.productImg}
+                      src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ""}
                       alt=""
                     />
                   </td>
-                  <td>{product.productTitle}</td>
-                  <td className="td-category"><span>{product.category}</span></td>
+                  <td>{product.name}</td>
+                  <td className="td-category"><span>{product.category ? product.category.title : "No category"}</span></td>
                   <td>{product.price} UZS</td>
                   <td>
-                    <StarRating rating={product.rating} />
+                    <StarRating rating={product.average_rating} />
                   </td>
-                  <td>
+                {/*<td>
                     <input
                       type="checkbox"
                       id={`status-${product.id}`}
@@ -329,7 +230,7 @@ const Products = () => {
                         className={productStatuses[product.id] ? "active" : ""}
                       ></span>
                     </label>
-                  </td>
+                  </td>*/}
                   <td>
                     <button className="btn btn-secondary">
                       <svg

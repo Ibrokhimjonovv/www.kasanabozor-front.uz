@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./Offers.scss";
 import { Link, useLocation } from "react-router-dom";
-import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
+// import axios from 'axios';
+// import { eCommerseServerUrl } from '../../SuperVars';
+
+
 const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
-  const { products } = useContext(MyContext);
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, /*setFilteredProducts*/] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState(8);
-  useEffect(() => {
+
+  /* useEffect(() => {
     if (!Array.isArray(ratingRange) || ratingRange.length !== 2) {
       console.error("ratingRange is not valid:", ratingRange);
       return;
@@ -30,12 +33,34 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
     };
     filterProducts();
   }, [selectedCategories, selectedPaid, ratingRange, products]);
+  
+  */
+
   const handleShowMore = () => {
     setVisibleProducts(visibleProducts + 8);
   };
-  useEffect(() => {
+  /* useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".link-a:not(.revealed)");
+      reveals.forEach((revealElement) => {
+        const windowHeight = window.innerHeight;
+        const revealTop = revealElement.getBoundingClientRect().top;
+        const revealPoint = windowHeight * 0.6;
+        if (
+          revealTop < revealPoint &&
+          !revealElement.classList.contains("revealed")
+        ) {
+          revealElement.classList.add("revealed");
+        }
+      });
+    };
+    window.addEventListener("scroll", reveal);
+    reveal();
+    return () => window.removeEventListener("scroll", reveal);
+  }, []);
+  useEffect(() => {
+    const reveal = () => {
+      const reveals = document.querySelectorAll(".product:not(.revealed)");
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
@@ -51,10 +76,12 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
     window.addEventListener("scroll", reveal);
     reveal();
     return () => window.removeEventListener("scroll", reveal);
-  }, []);
+  }, []); */
+
   const [className, setClassName] = useState('');
   const location = useLocation();
   const [hideElements, setHideElements] = useState(false);
+  
   useEffect(() => {
     if (location.pathname === '/online-shop/all-categories') {
       setClassName('asz');
@@ -64,6 +91,7 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
       setHideElements(false);
     }
   }, [location.pathname]);
+  
   return (
     <div id="topOffers" className={className}>
       <div className={`products ${hideElements ? 'sze' : ''}`}>
@@ -75,20 +103,20 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
               <Link
                 to={`/online-shop/product/${product.id}`}
                 key={product.id}
-                className="link-a"
+                className="link-a revealed"
               >
-                <div className="product">
+                <div className="product revealed">
                   <div className="imgContainer">
-                    <img src={product.img} alt={product.title} />
+                    <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
                   </div>
-                  <div className="productTitle">{product.title}</div>
+                  <div className="productTitle">{product.name}</div>
                   <div className="productDescription">
                     {product.description}
                   </div>
                   <Discount product={product} />
                   <div className="details">
                     <div className="rating">
-                      <span>{product.rating}</span>
+                      <span>{product.average_rating}</span>
                       <svg
                         width="20"
                         height="21"
@@ -104,8 +132,8 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
                     </div>
                   </div>
                   <div className="author">
-                    <img src={product.authorImg} alt={product.authorName} />
-                    <span>{product.authorName}</span>
+                    <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt={`${product.first_name} ${product.last_name}`} />
+                    <span>{product.user.first_name} {product.user.last_name}</span>
                   </div>
                 </div>
               </Link>

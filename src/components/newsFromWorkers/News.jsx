@@ -3,12 +3,17 @@ import "./News.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
+
+
 const News = () => {
   const { products } = useContext(MyContext);
   const [visibleProducts, setVisibleProducts] = useState(8);
+  
   const handleShowMore = () => {
     setVisibleProducts((prevVisible) => prevVisible + 8);
   };
+
+
   return (
     <div id="topNews">
       <div className="products">
@@ -19,14 +24,14 @@ const News = () => {
             <Link to={`product/${product.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={product.img} alt="" />
+                  <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
                 </div>
-                <div className="productTitle">{product.title}</div>
+                <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
                 <Discount product={product} />
                 <div className="details">
                   <div className="rating">
-                    <span>{product.rating}</span>
+                    <span>{product.average_rating}</span>
                     <svg
                       width="20"
                       height="21"
@@ -45,8 +50,8 @@ const News = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={product.authorImg} alt="" />
-                  <span>{product.authorName}</span>
+                  <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt="" />
+                  <span>{product.user.first_name} {product.user.last_name}</span>
                 </div>
               </div>
             </Link>

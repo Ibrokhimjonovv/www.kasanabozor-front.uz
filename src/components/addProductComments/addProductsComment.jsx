@@ -13,17 +13,23 @@ const AddProductsComments = ({ com }) => {
   const [currentReplyTo, setCurrentReplyTo] = useState(null);
   const { id } = useParams();
   const { isAuthenticated } = useContext(MyContext);
+
+
   useEffect(() => {
     const storedComments = localStorage.getItem("product-comments");
     if (storedComments) {
       setComments(JSON.parse(storedComments));
     }
   }, []);
+  
+
   useEffect(() => {
     if (Object.keys(comments).length > 0) {
       localStorage.setItem("product-comments", JSON.stringify(comments));
     }
   }, [comments]);
+  
+
   useEffect(() => {
     if (com) {
       setComments((prevComments) => ({
@@ -32,6 +38,8 @@ const AddProductsComments = ({ com }) => {
       }));
     }
   }, [id, com]);
+  
+
   const handleAddComment = () => {
     if (productComment.trim() === "") return;
 
@@ -52,6 +60,8 @@ const AddProductsComments = ({ com }) => {
 
     setProductComment("");
   };
+  
+
   const handleReply = () => {
     if (productComment.trim() === "") return;
 
@@ -78,6 +88,8 @@ const AddProductsComments = ({ com }) => {
     setReplyingTo(null);
     setCurrentReplyTo(null);
   };
+  
+
   const findCommentById = (commentsArray, commentId) => {
     for (let comment of commentsArray) {
       if (comment.id === commentId) {
@@ -90,11 +102,15 @@ const AddProductsComments = ({ com }) => {
     }
     return null;
   };
+  
+
   const handleCancelReply = () => {
     setReplyingTo(null); 
     setCurrentReplyTo(null);
     setProductComment("");
   };
+  
+
   const renderReplies = (replies) => {
     return replies.map((reply) => (
       <div key={reply.id} className="replied-messages">
@@ -121,6 +137,8 @@ const AddProductsComments = ({ com }) => {
       </div>
     ));
   };
+  
+
   return (
     <div id="comments">
       <h2>Izohlar</h2>
