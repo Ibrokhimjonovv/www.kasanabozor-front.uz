@@ -99,7 +99,7 @@ const Profile = () => {
             </Link>
           </div>
           <div className="profile-img">
-            <img src={ user.pfp || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
+            <img src={ `http://127.0.0.1:8900${user.pfp}` || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
             <input type="file" id="photo" onChange={ (ev) => {
               ev.preventDefault();
               uploadUserPhoto(ev.target.file);

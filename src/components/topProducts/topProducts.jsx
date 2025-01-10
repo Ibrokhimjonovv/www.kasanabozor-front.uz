@@ -10,9 +10,11 @@ import Discount from "../discount/Discount";
 const TopProducts = () => {
   const { products, categories } = useContext(MyContext);
   const [visibleProducts, setVisibleProducts] = useState(8);
+
   const handleShowMore = () => {
     setVisibleProducts((prevVisible) => prevVisible + 8);
   };
+  
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".product:not(.revealed)");
@@ -32,12 +34,13 @@ const TopProducts = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+  
   return (
     <div id="topProductss">
       <div className="categories">
         <div className="custom-catgories">
           {categories.map((category, index) => (
-            <Link to={`categories/${category.category}`} key={index}>
+            <Link to={`categories/${category.id}`} key={index}>
               <span>{category.title}</span>
             </Link>
           ))}
@@ -115,7 +118,7 @@ const TopProducts = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={product.user.pfp} alt="" />
+                  <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt="" />
                   <span>{product.user.first_name} {product.user.last_name}</span>
                 </div>
               </div>

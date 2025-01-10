@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import "./likedProducts.scss";
@@ -6,25 +6,48 @@ import { MyContext } from "../../../context/myContext";
 import Discount from "../../../components/discount/Discount";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
+import axios from 'axios';
+import { eCommerseServerUrl } from '../../../SuperVars';
+
+
 const LikedProducts = () => {
-  const { products } = useContext(MyContext);
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 8;
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+  
   const nextPage = () => {
     if (currentPage < Math.ceil(products.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentProducts = products.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(products.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < products.length ? indexOfLastUser : products.length;
+  const endUserIndex = indexOfLastUser < products.length ? indexOfLastUser : products.length;
+ 
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${eCommerseServerUrl}profile/liked/`);
+      if (response.data.status === "ok") {
+        setProducts(response.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => { clearTimeout(timeout); };
+  });
+
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".product:not(.revealed)");
@@ -42,8 +65,12 @@ const LikedProducts = () => {
     };
     window.addEventListener("scroll", reveal);
     reveal();
+  
+
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+  
+
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -114,16 +141,16 @@ const LikedProducts = () => {
               <Link to={`/online-shop/product/${product.id}`} key={index}>
                 <div className="product">
                   <div className="imgContainer">
-                    <img src={product.img} alt="" />
+                    <img src={'http://127.0.0.1:8901' + String(product.product_image_Ecommerce_product_images[0] ? product.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." />
                   </div>
-                  <div className="productTitle">{product.title}</div>
+                  <div className="productTitle">{product.name}</div>
                   <div className="productDescription">
                     {product.description}
                   </div>
                   <Discount product={product} />
                   <div className="details">
                     <div className="rating">
-                      <span>{product.rating}</span>
+                      <span>{product.average_rating}</span>
                       <svg
                         width="20"
                         height="21"
@@ -170,8 +197,8 @@ const LikedProducts = () => {
                     </div>
                   </div>
                   <div className="author">
-                    <img src={product.authorImg} alt="" />
-                    <span>{product.authorName}</span>
+                    <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt="" />
+                    <span>{product.user.first_name} {product.user.last_name}</span>
                   </div>
                 </div>
               </Link>

@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./productDetails.scss";
 import axios from 'axios';
-
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
 import { eCommerseServerUrl } from "../../SuperVars";
-import AddComments from "../../components/addComments/addComments";
+// import AddComments from "../../components/addComments/addComments";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
+
+
 const ProductDetails = () => {
   const { isAuthenticated } = useContext(MyContext);
   const { id } = useParams();
@@ -174,10 +175,10 @@ const ProductDetails = () => {
           <p>{product.description}</p>
           <div className="with-author">
             <div className="author">
-              <img src={product.user.pfp} alt="" />
+              <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt="" />
               <div className="text">
                 <div className="name">{product.user.first_name} {product.user.last_name}</div>
-	  	{/* <div className="work">{product.work}</div> */}
+                <div className="work">{product.job}</div>
               </div>
             </div>
             {isAuthenticated ? (
@@ -249,13 +250,13 @@ const ProductDetails = () => {
           >
             <p className="title">{product.name}</p>
             <p>{product.description}</p>
-            <div className="hashtags">
+            { /*<div className="hashtags">
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
-            </div>
+            </div> */ }
           </div>
           <div
             className={`datas-container ${
@@ -309,7 +310,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={similarProduct.user.pfp} alt="" />
+                  <img src={`http://127.0.0.1:8900${similarProduct.user.pfp}`} alt="" />
                   <span>{similarProduct.user.first_name} {similarProduct.user.last_name}</span>
                 </div>
               </div>

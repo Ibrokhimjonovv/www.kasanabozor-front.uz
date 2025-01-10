@@ -1,84 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import InputMask from "react-input-mask";
 import eye from "../../admin/addUser/eye.png";
 import "./EditProfile.scss";
 import EditorBar from "../../../components/Editor/Editor";
+import { MyContext } from "../../../context/myContext";
+import axios from 'axios';
+import { usersServerUrl } from '../../../SuperVars';
+
 
 const EditProfile = () => {
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [selectedVillage, setSelectedVillage] = useState("");
+  const { user, loadUserData } = useContext(MyContext);
+  const [selectedRegion, setSelectedRegion] = useState(user.region || "");
+  const [selectedDistrict, setSelectedDistrict] = useState(user.district || "");
+  const [selectedVillage, setSelectedVillage] = useState(user.village || "");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    dateBirth: "",
-    gender: "",
-    faoliyati: "",
-    phone: "",
-    email: "",
-    region: selectedRegion,
-    district: "",
-    village: "",
-    content: "",
-    bio: "",
+    first_name       : String(user.first_name),
+    last_name        : String(user.last_name),
+    birthday         : String(user.brithday),
+    gender           : String("male"),
+    faoliyati        : String("Hozircha yuq"),
+    phone            : String(user.phone),
+    email            : String(user.email),
+    region           : String(user.region),
+    district         : String(user.district),
+    village          : String(user.village),
+    about_me         : String(user.about_me || ""),
+    biography        : String(user.biography || ""),
   });
   const handleChange = (e) => {
     const { name, value } = e.target || { name: "content", value: e };
     setFormData({ ...formData, [name]: value });
   };
-  //   const handleProfileUpdate = async (e) => {
-  //     e.preventDefault();
-  //     console.log(formData);
 
-  //     console.log("Submitting the profile update..."); // Konsolda yangilash jarayoni haqida xabar
-
-  //     try {
-  //       const response = await fetch(
-  //         "https://your-api-url.com/api/update-profile",
-  //         {
-  //           method: "PUT", // Profilni yangilash uchun PUT metodi
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${localStorage.getItem("token")}`, // Agar autentifikatsiya kerak bo'lsa
-  //           },
-  //           body: JSON.stringify({
-  //             ...formData, // formData obyekti to'liq yuboriladi
-  //           }),
-  //         }
-  //       );
-
-  //       console.log("Response received:", response); // Konsolda API javobini ko'rsatish
-
-  //       const data = await response.json();
-
-  //       if (response.ok) {
-  //         console.log("Profile updated successfully:", data); // Profil yangilandi
-  //         setError(""); // Hato bo'lsa, xatolikni tozalash
-  //       } else {
-  //         console.log("Profile update failed:", data);
-  //         setError(data.message || "Profile update failed!"); // Xatolik haqida xabar
-  //       }
-  //     } catch (err) {
-  //       console.error("Error occurred while updating profile:", err); // Konsolda xatolikni ko'rsatish
-  //       setError("An error occurred while updating profile.");
-  //     }
-  //   };
-
-  // Loaction start
-  // Loaction start
   const regionsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
   const districtsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
   const villagesURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/villages.json";
+  
+
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
   const [filteredDistricts, setFilteredDistricts] = useState([]);
   const [filteredVillages, setFilteredVillages] = useState([]);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -111,6 +80,8 @@ const EditProfile = () => {
 
     fetchData();
   }, []);
+  
+
   useEffect(() => {
     if (selectedRegion) {
       const filtered = districts.filter(
@@ -127,6 +98,8 @@ const EditProfile = () => {
       setFilteredVillages([]);
     }
   }, [selectedRegion, districts]);
+  
+
   useEffect(() => {
     if (selectedDistrict) {
       const filtered = villages.filter(
@@ -139,6 +112,8 @@ const EditProfile = () => {
       setFilteredVillages([]);
     }
   }, [selectedDistrict, villages]);
+  
+
   const handleRegionChange = (e) => {
     const selected = regions.find((region) => region.id === e.target.value);
 
@@ -150,6 +125,8 @@ const EditProfile = () => {
       village: "",
     });
   };
+  
+
   const handleDistrictChange = (e) => {
     const selected = districts.find(
       (district) => district.id === e.target.value
@@ -157,11 +134,23 @@ const EditProfile = () => {
     setSelectedDistrict(selected);
     setFormData({ ...formData, district: selected.name_uz, village: "" });
   };
+  
+
   const handleVillageChange = (e) => {
     const selected = villages.find((village) => village.id === e.target.value);
     setSelectedVillage(selected);
     setFormData({ ...formData, village: selected.name_uz });
   };
+  
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(`${usersServerUrl}profile/update/`, formData);
+    if (response.data.status === "ok") {
+      loadUserData();
+    }
+      console.log(response);
+  }
+
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -228,9 +217,7 @@ const EditProfile = () => {
             <h2>Profilni tahrirlash</h2>
           </div>
           <div className="form-list">
-            <form action="" style={{marginTop: "unset"}}>
-              {" "}
-              {/* onSubmit={handleProfileUpdate} */}
+            <form action="" onSubmit={ handleFormSubmit } style={{marginTop: "unset"}}>
               <div className="input-row">
                 <label htmlFor="firstName">Ism</label>
                 <div className="inputs">
@@ -258,8 +245,8 @@ const EditProfile = () => {
                   <input
                     type="text"
                     placeholder="Ismi"
-                    name="firstName"
-                    value={formData.firstName}
+                    name="first_name"
+                    value={formData.first_name}
                     onChange={handleChange}
                     required
                   />
@@ -292,8 +279,8 @@ const EditProfile = () => {
 
                   <input
                     type="text"
-                    name="lastName"
-                    value={formData.lastName}
+                    name="last_name"
+                    value={formData.last_name}
                     required
                     placeholder="Sharifi"
                     onChange={handleChange}
@@ -324,8 +311,8 @@ const EditProfile = () => {
 
                   <InputMask
                     mask="99.99.9999"
-                    value={formData.dateBirth}
-                    name="dateBirth"
+                    value={formData.birthday}
+                    name="birthday"
                     onChange={handleChange}
                     placeholder="KK.OO.YYYY"
                   />
@@ -333,7 +320,7 @@ const EditProfile = () => {
 
                 <div className="error-message">To'ldirilishi shart</div>
               </div>
-              <div className="input-row">
+              { /* <div className="input-row">
                 <label htmlFor="gender">Jinsi</label>
                 <div className="inputs">
                   <svg
@@ -466,7 +453,7 @@ const EditProfile = () => {
                 </div>
 
                 <div className="error-message">To'ldirilishi shart</div>
-              </div>
+              </div> */ }
               <div className="location">
                 {/* Viloyat */}
                 <div className="input-row w-smaller">
@@ -577,7 +564,7 @@ const EditProfile = () => {
                     </svg>
 
                     <select
-                      id="villages"
+                      id="village"
                       disabled={!selectedDistrict}
                       value={selectedVillage}
                       onChange={handleVillageChange}
@@ -605,8 +592,8 @@ const EditProfile = () => {
                   ></textarea> */}
                     <EditorBar
                       id="my-editor"
-                      name="content"
-                      initialValue={formData.content}
+                      name="about_me"
+                      initialValue={formData.about_me}
                       onChange={handleChange}
                     />
                   </div>
@@ -619,9 +606,9 @@ const EditProfile = () => {
                     {/* <textarea name="bio" id="bio" placeholder="Text"></textarea> */}
                     <EditorBar
                       id="edit-profile-editor-2"
-                      name="bio"
+                      name="biography"
                       onChange={handleChange} // Function to handle user input
-                      value={formData.bio}
+                      value={formData.biography}
                     />
                   </div>
                   <div className="error-message">To'ldirilishi shart</div>

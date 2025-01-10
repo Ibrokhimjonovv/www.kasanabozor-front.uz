@@ -1,37 +1,52 @@
-import React, { useState } from "react";
-import { Slider, Box, Typography } from "@mui/material";
+import React, { useState, useContext } from "react";
+// import { Slider, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./allCategories.scss";
 import aaa from "./Без имени-2 1.png";
-import Offers from "../../components/offers/Offers";
+import Discount from "../../components/discount/Discount";
+import { MyContext } from '../../context/myContext';
+import axios from 'axios';
+import { eCommerseServerUrl } from '../../SuperVars';
+
+
+
 const AllCategories = () => {
-  const categories = [
-    { id: 1, title: "Kasanachilik" },
-    { id: 2, title: "Kategoriya" },
-    { id: 3, title: "Ipakchilik" },
-    { id: 4, title: "Tandirchilik" },
-    { id: 5, title: "Kulolchilik" },
-    { id: 6, title: "Kategoriya" },
-  ];
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedPaid, setSelectedPaid] = useState([]);
-  const [ratingRange, setRatingRange] = useState([0, 5]);
-  const handleCategoryChange = (event) => {
-    const { checked, name } = event.target;
-    setSelectedCategories((prev) =>
-      checked ? [...prev, name] : prev.filter((category) => category !== name)
-    );
+  const { categories } = useContext(MyContext);
+  const [products, setProducts] = useState([]);
+
+  const fetchData = async (id) => {
+      try {
+        const response = await axios.post(`${eCommerseServerUrl}products/filtered/`, {'filters': {'category': id}}, {
+          headers: {'Content-Type': 'application/json'}
+        });
+        console.log(response);
+        if (response.data.status === "ok") {
+          setProducts(response.data.results);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+  }
+
+  const handleCategoryChange = async (event) => {
+    const { id } = event.target;
+    fetchData(id);
   };  
-  const handlePaidChange = (event) => {
+  
+  /* const handlePaidChange = (event) => {
     const { checked, id } = event.target;
     setSelectedPaid((prev) =>
       checked ? [...prev, id] : prev.filter((paid) => paid !== id)
     );
   };
+  
   const handleRatingChange = (event, newValue) => {
     setRatingRange(newValue);
     console.log(newValue);
   };
+
+  */
+  
   return (
     <div id="allCategories">
       <div className="to-back">
@@ -84,11 +99,11 @@ const AllCategories = () => {
             <div className="first-select">
               <p>Kategoriyalar</p>
               <ul>
-                {categories.map((category) => (
+                {categories.map((category, index) => (
                   <li key={category.id}>
                     <input
-                      type="checkbox"
-                      name={category.title}
+                      type="radio"
+                      name="category"
                       onChange={handleCategoryChange}
                       id={category.id}
                     />
@@ -98,7 +113,7 @@ const AllCategories = () => {
                 ))}
               </ul>
             </div>
-            <div className="second-select">
+    { /* <div className="second-select">
               <p>Narx bo’yicha</p>
               <ul>
                 <li>
@@ -120,8 +135,8 @@ const AllCategories = () => {
                   <label htmlFor="free">Bepul</label>
                 </li>
               </ul>
-            </div>
-            <div className="third-select">
+            </div> */ }
+    { /* <div className="third-select">
               <Box sx={{ width: 300, padding: "20px" }}>
                 <p>Reyting bo'yicha</p>
                 <Box
@@ -154,18 +169,65 @@ const AllCategories = () => {
                   }}
                 />
               </Box>
-            </div>
+            </div> */ }
           </div>
           <div className="right-side">
-            <Offers
-              selectedCategories={selectedCategories}
-              selectedPaid={selectedPaid}
-              ratingRange={ratingRange}
-            />
+        <div className={`productsInner sze`}>
+          {products.length > 0 ? (
+            products.map((product) => (
+              <Link
+                to={`/online-shop/product/${product.id}`}
+                key={product.id}
+                className="link-a revealed"
+              >
+                <div className="product revealed">
+                  <div className="imgContainer">
+                    <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
+                  </div>
+                  <div className="productTitle">{product.name}</div>
+                  <div className="productDescription">
+                    {product.description}
+                  </div>
+                  <Discount product={product} />
+                  <div className="details">
+                    <div className="rating">
+                      <span>{product.average_rating}</span>
+                      <svg
+                        width="20"
+                        height="21"
+                        viewBox="0 0 20 21"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.99935 2.16666L12.5743 7.38333L18.3327 8.225L14.166 12.2833L15.1494 18.0167L9.99935 15.3083L4.84935 18.0167L5.83268 12.2833L1.66602 8.225L7.42435 7.38333L9.99935 2.16666Z"
+                          fill="#FEC967"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="author">
+                    <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt={`${product.first_name} ${product.last_name}`} />
+                    <span>{product.user.first_name} {product.user.last_name}</span>
+                  </div>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p>Hech qanday mahsulot topilmadi</p>
+          )}
+        </div>
+        {/*visibleProducts < filteredProducts.length && (
+          <div className="showMoreBtn">
+            <button onClick={handleShowMore}>Ko'proq ko'rish</button>
+          </div>
+        )*/}
+      </div>
+          
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

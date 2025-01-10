@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./addProduct.scss";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import EditorBar from "../../../components/Editor/Editor";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
+import axios from 'axios';
+import { eCommerseServerUrl } from '../../../SuperVars';
+import { MyContext } from '../../../context/myContext';
+
+
 const AddProducts = () => {
+  const {categories} = useContext(MyContext);
   const [isChecked, setIsChecked] = useState(false);
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
   const [finalPrice, setFinalPrice] = useState(null);
   const [error, setError] = useState({ price: "", discount: "" });
   const [productName, setProductName] = useState("");
-  const [category, setCategory] = useState("Kategoriya 1");
-  const [status, setStatus] = useState("active");
+  const [category, setCategory] = useState(null);
   const [description, setDescription] = useState("");
   const [newProductImages, setNewProductImages] = useState([]);
+
+
   const handleDescriptionChange = (newDescription) => {
     setDescription(newDescription);
   };
+  
   const handleStatusChange = () => {
     setIsChecked((prev) => !prev);
     setDiscount("");
     setFinalPrice(null);
   };
+  
   const handleInputChange = (e, type) => {
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
@@ -56,28 +65,23 @@ const AddProducts = () => {
       }
     }
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const productData = {
-      name: productName,
-      price,
-      discount: isChecked ? discount : "",
-      finalPrice: finalPrice || price,
-      category,
-      status,
-      description,
-      images: newProductImages,
-    };
     try {
-      const response = await fetch("API_URL", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
-      });
+      const formData = new FormData();
+      formData.append('name', productName);
+      formData.append('description', description);
+      formData.append('price', price);
+      formData.append('price_off', finalPrice);
+      formData.append('category', category);
+      for (let i=0;i<newProductImages.length;i++) {
+        formData.append(`image${i}`, newProductImages[i]);
+      }
 
-      if (response.ok) {
+      const response = await axios.post(`${eCommerseServerUrl}dashboard/products/create/`, formData);
+
+      if (response.data.status === "ok") {
         alert("Mahsulot muvaffaqiyatli qo'shildi");
       } else {
         alert("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
@@ -86,6 +90,7 @@ const AddProducts = () => {
       console.error("APIga yuborishda xatolik:", error);
     }
   };
+  
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -200,7 +205,6 @@ const AddProducts = () => {
                       required
                     />
                     <input
-                      className="p-left-10"
                       type="checkbox"
                       id="status-check"
                       checked={isChecked}
@@ -283,11 +287,10 @@ const AddProducts = () => {
                   required
                   style={{ marginTop: "5px" }}
                 >
-                  <option value="active">Kategoriya 1</option>
-                  <option value="non-active">Kategoriya 2</option>
+                  {categories.map((value, index) => <option key={ index } value={ value.id }>{ value.title }</option>)}
                 </select>
               </div>
-              <div className="inputs" style={{ width: "50%" }}>
+              { /* <div className="inputs" style={{ width: "50%" }}>
                 <label htmlFor="status">Holati</label>
                 <select
                   className="p-left-10"
@@ -301,7 +304,7 @@ const AddProducts = () => {
                   <option value="active">Aktiv</option>
                   <option value="non-active">Aktiv emas</option>
                 </select>
-              </div>
+              </div> */ }
             </div>
             <div className="button">
               <button type="submit" id="sub">
