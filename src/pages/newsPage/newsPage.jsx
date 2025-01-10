@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import posterImg2 from "./posterImg2.png";
 import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess";
+import newsCardImage from "./news-card-image.png"
 const NewsPage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -35,13 +36,8 @@ const NewsPage = () => {
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
   return (
@@ -53,11 +49,10 @@ const NewsPage = () => {
       <div className="newsInner">
         <div className="left-side">
           <div className="img-container">
-            {/* <img src={heroImg} alt="" /> */}
+            <img src={newsCardImage} alt="" />
             <div className="texts">
               <h1>
-                O‘zini o‘zi band qilgan shaxslar O‘zini o‘zi band qilgan
-                shaxslar
+                O‘zini o‘zi band qilgan shaxslar
               </h1>
               <p>
                 «Kasanachilikni yanada rivojlantirishga oid qo‘shimcha
@@ -125,7 +120,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -190,7 +185,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -255,7 +250,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -320,7 +315,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">

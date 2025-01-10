@@ -163,3 +163,40 @@
         padding: 20px 0;
     }
 }
+
+
+@media screen and (max-width: 500px) {
+    #documentsPage {
+        .to-back {
+            margin-top: 85px;
+
+            .inner {
+                padding: 0 20px;
+            }
+        }     
+        
+        .allProductsPoster {
+            .inner {
+                padding: 0 20px;
+                h2 {
+                    font-size: 18px;
+                }
+
+                img {
+                    display: none;
+                }
+            }
+        }
+
+        .docs {
+            padding: 0 20px;
+            
+            .left-side {
+                padding: 0;
+                .container {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

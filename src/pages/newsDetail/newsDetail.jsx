@@ -84,7 +84,7 @@ const NewsDetail = () => {
               />
             </svg>
           </span>
-          <Link to={`/news/${category}`}>{formatCategory(category)}</Link>
+          <Link className="three-dot" to={`/news/${category}`}>{formatCategory(category)}</Link>
           <span>
             <svg
               width="16"
@@ -101,7 +101,7 @@ const NewsDetail = () => {
               />
             </svg>
           </span>
-          <span>{newsItem.title}</span>
+          <span className="three-dot">{newsItem.title}</span>
         </div>
       </div>
       <div className="new-details">
@@ -320,6 +320,7 @@ const NewsDetail = () => {
         <NewsInnerRight />
       </div>
       <div className="simillar">
+        <h2>O'xshash yangiliklar</h2>
         <div className="news-cards">
           {similliarNews.length > 0 ? (
             similliarNews.map((news, index) => (

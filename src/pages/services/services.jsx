@@ -4,8 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
 import "./services.scss";
+import SearchBar from "../../components/searchBar/searchBar";
 const Services = () => {
-  const { services} = useContext(MyContext);
+  const { services } = useContext(MyContext);
   const [currentService, setCurrentService] = useState(null);
   const { id } = useParams();
   const [savedServices, setSavedServices] = useState([]);
@@ -34,7 +35,83 @@ const Services = () => {
     return savedServices.some((a) => a.id === announcement.id);
   };
   return (
-    <div id="announceDetail">
+    <div id="announceDetail" className="servicecDetail">
+      <div className="to-back services-mobile-version">
+        <div className="backInner">
+          <Link to="/">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.5 18.3334V10H12.5V18.3334M2.5 7.50002L10 1.66669L17.5 7.50002V16.6667C17.5 17.1087 17.3244 17.5326 17.0118 17.8452C16.6993 18.1578 16.2754 18.3334 15.8333 18.3334H4.16667C3.72464 18.3334 3.30072 18.1578 2.98816 17.8452C2.67559 17.5326 2.5 17.1087 2.5 16.6667V7.50002Z"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+          <span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 12L10 8L6 4"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <Link to="/announcements">E'lonlar</Link>
+          <span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 12L10 8L6 4"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className="three-dot">Xizmatlar</span>
+        </div>
+      </div>
+      <div className="search-container services-mobile-version">
+        <SearchBar />
+        <Link to="/add-announce">
+          <svg
+            width="21"
+            height="20"
+            viewBox="0 0 21 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.4974 6.66669V13.3334M7.16406 10H13.8307M18.8307 10C18.8307 14.6024 15.0998 18.3334 10.4974 18.3334C5.89502 18.3334 2.16406 14.6024 2.16406 10C2.16406 5.39765 5.89502 1.66669 10.4974 1.66669C15.0998 1.66669 18.8307 5.39765 18.8307 10Z"
+              stroke="#5A5A5A"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          E'lon berish
+        </Link>
+      </div>
       <div className="announceSelect">
         <Link to="/announcements/1">
           <svg
@@ -74,7 +151,7 @@ const Services = () => {
           Xizmatlar
         </Link>
 
-        <Link to="/add-announce">
+        <Link to="/add-announce" className="add-announce-link">
           <svg
             width="21"
             height="20"
@@ -119,7 +196,7 @@ const Services = () => {
                         >
                           <path
                             d="M25.3337 28L16.0003 21.3333L6.66699 28V6.66667C6.66699 5.95942 6.94794 5.28115 7.44804 4.78105C7.94814 4.28095 8.62641 4 9.33366 4H22.667C23.3742 4 24.0525 4.28095 24.5526 4.78105C25.0527 5.28115 25.3337 5.95942 25.3337 6.66667V28Z"
-                            stroke="#757575"
+                            stroke="currentColor"
                             strokeWidth="1.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"

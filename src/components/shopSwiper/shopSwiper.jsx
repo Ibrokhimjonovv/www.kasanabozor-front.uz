@@ -31,11 +31,11 @@ const ShopSwiper = () => {
           },
           1024: {
             slidesPerView: 5,
-            spaceBetween: 0,
+            spaceBetween: 30,
           },
           1200: {
             slidesPerView: 6,
-            spaceBetween: 0,
+            spaceBetween: 30,
           },
           1400: {
             slidesPerView: 7,

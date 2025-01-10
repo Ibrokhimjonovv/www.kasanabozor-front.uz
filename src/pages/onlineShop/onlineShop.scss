@@ -174,11 +174,15 @@
     }
 }
 
+.search-bar-mobile-version {
+    display: none;
+}
+
 @media screen and (max-width: 500px) {
     #onlineShop {
         padding: 100px 0 30px;
         .miniPoster {
-            margin-top: 15px;
+            margin-top: 0;
             flex-direction: column;
             justify-content: center;
             align-items: center;

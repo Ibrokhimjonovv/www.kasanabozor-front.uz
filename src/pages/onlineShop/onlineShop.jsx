@@ -19,7 +19,9 @@ const OnlineShop = () => {
   };
   return (
     <div id="onlineShop">
-      <SearchBar />
+      <div className="search-bar-container search-bar-mobile-version">
+        <SearchBar />
+      </div>
       <div className="miniPoster" style={backgroundStyle}>
         <div className="text">Kasanachilik onlayn bozori</div>
         <img src={img} alt="" />

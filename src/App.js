@@ -160,9 +160,7 @@ function AppContent() {
             </ProfileRoute>
           }
         />
-        
         {/* Profile end */}
-
         {/* Admin Routes */}
         <Route
           path="dashboard"
