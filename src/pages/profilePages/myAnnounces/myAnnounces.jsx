@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./myAnnounces.scss";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
@@ -6,47 +6,61 @@ import authorImg from "../../admin/admin-products/authorImg.png";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
 import myAnnounceImage from "../../../assets/myAnnounceImage.png";
+import axios from 'axios';
+import { announcementsServerUrl } from '../../../SuperVars';
+
+
 const MyAnnounces = () => {
-  const announcements = [
-    {
-        id: 1,
-        announceImage: myAnnounceImage,
-        title: "E'lon nomi",
-        authorImage: authorImg,
-        price: "100 000 - 200 000",
-        applicationsCount: "235",
-        announceDate: "22.22.2022"
-    },
-  ] 
+  const [announcements, setAnnouncements] = useState([]); 
+
+  const loadData = async () => {
+    const response = await axios.post(`${announcementsServerUrl}profile/announcements/list/`);
+    if (response.data.status === "ok") {
+      setAnnouncements(response.data.results);
+    }
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+  
   const nextPage = () => {
     if (currentPage < Math.ceil(announcements.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentAnnounces = announcements.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(announcements.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < announcements.length ? indexOfLastUser : announcements.length;
+  
+  const endUserIndex = indexOfLastUser < announcements.length ? indexOfLastUser : announcements.length;
   const [announceStatuses, setAnnounceStatuses] = useState(
     announcements.reduce((acc, announce) => {
       acc[announce.id] = announce.status;
       return acc;
     }, {})
   );
+  
   const handleStatusChange = (id) => {
     setAnnounceStatuses((prevStatuses) => ({
       ...prevStatuses,
       [id]: !prevStatuses[id],
     }));
   };
+  
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -177,9 +191,9 @@ const MyAnnounces = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   E'lon sanasi
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                { /* <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Aktivligi
-                </th>
+                </th> */ }
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
@@ -194,7 +208,7 @@ const MyAnnounces = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={announce.announceImage}
+                      src={`http://127.0.0.1:8903${announce.thumbnail}`}
                       alt=""
                     />
                   </td>
@@ -205,7 +219,7 @@ const MyAnnounces = () => {
                   <td className="announce-price">{announce.price} UZS</td>
                   <td>{announce.applicationsCount}</td>
                   <td>{announce.announceDate}</td>
-                  <td>
+                  { /* <td>
                     <input
                       type="checkbox"
                       id={`status-${announce.id}`}
@@ -221,7 +235,7 @@ const MyAnnounces = () => {
                         className={announceStatuses[announce.id] ? "active" : ""}
                       ></span>
                     </label>
-                  </td>
+                  </td> */}
                   <td>
                     <button className="btn btn-secondary">
                       <svg
