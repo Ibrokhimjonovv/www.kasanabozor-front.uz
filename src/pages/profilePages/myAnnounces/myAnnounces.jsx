@@ -185,9 +185,9 @@ const MyAnnounces = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Narx
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                { /* <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Arizalar soni
-                </th>
+                </th> */ }
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   E'lon sanasi
                 </th>
@@ -208,17 +208,17 @@ const MyAnnounces = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={`http://127.0.0.1:8903${announce.thumbnail}`}
+                      src={announce.thumbnail ? `http://127.0.0.1:8903${announce.thumbnail}` : 'http://127.0.0.1:8901/static/404.png'}
                       alt=""
                     />
                   </td>
                   <td className="announce-title">{announce.title}</td>
                   <td>
-                    <img className="productImg" src={announce.authorImage} alt="" />
+                    <img className="productImg" src={`http://127.0.0.1:8900${announce.user.pfp}`} alt="" />
                   </td>
-                  <td className="announce-price">{announce.price} UZS</td>
-                  <td>{announce.applicationsCount}</td>
-                  <td>{announce.announceDate}</td>
+                  <td className="announce-price">{announce.price_max} UZS</td>
+                  { /* <td>{announce.applicationsCount}</td> */ }
+                  <td>{announce.created_at.split('T')[0]}</td>
                   { /* <td>
                     <input
                       type="checkbox"
