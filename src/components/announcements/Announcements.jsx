@@ -40,11 +40,11 @@ const Announcements = () => {
                 <p className="title">{announcement.title}</p>
                 <p className="price">{announcement.price}</p>
                 <div className="details">
-                  {announcement.details.map((detail, index) => (
+                  {/*announcement.details.map((detail, index) => (
                     <div className="detail" key={index}>
                       {detail}
                     </div>
-                  ))}
+                  ))*/}
                 </div>
                 <div className="author">
                   <img

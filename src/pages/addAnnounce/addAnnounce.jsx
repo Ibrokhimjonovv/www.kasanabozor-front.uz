@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import "./addAnnounce.scss";
 import EditorBar from "../../components/Editor/Editor";
 import ImageUpload from "../../components/imgUpload/imgUpload";
+import axios from 'axios';
+import { announcementsServerUrl } from '../../SuperVars';
+
+
 const AddAnnounce = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isNegotiable, setIsNegotiable] = useState(false);
   const [announceType, setAnnounceType] = useState("Xizmat e'loni");
+
   const handleNegotiableChange = () => {
     setIsNegotiable(!isNegotiable);
     if (!isNegotiable) {
@@ -15,12 +20,14 @@ const AddAnnounce = () => {
       setMaxPrice("");
     }
   };
+  
   const regionsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
   const districtsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
   const villagesURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/villages.json";
+  
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
@@ -28,6 +35,7 @@ const AddAnnounce = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [filteredDistricts, setFilteredDistricts] = useState([]);
   const [filteredVillages, setFilteredVillages] = useState([]);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,6 +68,7 @@ const AddAnnounce = () => {
 
     fetchData();
   }, []);
+  
   useEffect(() => {
     if (selectedRegion) {
       const filtered = districts.filter(
@@ -74,6 +83,7 @@ const AddAnnounce = () => {
       setFilteredVillages([]);
     }
   }, [selectedRegion, districts]);
+  
   useEffect(() => {
     if (selectedDistrict) {
       const filtered = villages.filter(
@@ -85,6 +95,38 @@ const AddAnnounce = () => {
       setFilteredVillages([]);
     }
   }, [selectedDistrict, villages]);
+
+  const [announceTitle, setAnnounceTitle] = useState("");
+  const [fAddress, setFAddress] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    formData.append('p_type', announceType === "Xizmat e'loni" ? "service_announcement" : "job_announcement")
+    formData.append('title', announceTitle);
+    formData.append('price_min', minPrice);
+    formData.append('price_max', maxPrice);
+    console.log(selectedRegion);
+    console.log(selectedDistrict);
+    formData.append('region', selectedRegion.name_uz);
+    formData.append('district', selectedDistrict.name_uz);
+    formData.append('argued', isNegotiable);
+    formData.append('address', fAddress);
+    formData.append('experience', 'No experience');
+    formData.append('type_type', 'Kechgi payt');
+    formData.append('description', description);
+
+    const response = await axios.post(`${announcementsServerUrl}announcements/create/`, formData);
+    if (response.data.status === "ok") {
+      alert('Good job bro!');
+    } else {
+      alert('Xatolik yuz berdi!');
+    }
+    console.log(response, "sdfasdfahskdjfja");
+  }
+
   return (
     <div id="addAnnounce">
       <div className="announceSelect">
@@ -147,7 +189,7 @@ const AddAnnounce = () => {
       </div>
       <div className="announce-from-container">
         <h1 className="big-title">E'lon berish</h1>
-        <form action="">
+        <form action="" onSubmit={ handleSubmit }>
           <div className="input-col">
             <label htmlFor="announce-type">E'lon turi</label>
             <div className="input-icon">
@@ -183,6 +225,8 @@ const AddAnnounce = () => {
                 placeholder="Nomini kiriting"
                 className="input-p-0"
                 id="announce-name"
+                value={ announceTitle }
+                onChange={ (e) => { setAnnounceTitle(e.target.value); } }
               />
             </div>
           </div>
@@ -352,6 +396,8 @@ const AddAnnounce = () => {
                 type="text"
                 className="input-p-0"
                 placeholder="Manzil to'liq holda"
+                value={ fAddress }
+                onChange={ (e) => { setFAddress(e.target.value); } }
               />
             </div>
           </div>
@@ -432,7 +478,7 @@ const AddAnnounce = () => {
               </div>
             </>
           )}
-          <div className="input-col" style={{ marginTop: "10px" }}>
+    {/*<div className="input-col" style={{ marginTop: "10px" }}>
             <label
               htmlFor="status"
               style={{ display: "flex", alignItems: "center", gap: "10px" }}
@@ -482,7 +528,7 @@ const AddAnnounce = () => {
                 <option value="de-active">Aktiv emas</option>
               </select>
             </div>
-          </div>
+          </div>*/}
           <div className="input-col">
             <div className="input-icons">
               <button type="submit">Qo'shish +</button>

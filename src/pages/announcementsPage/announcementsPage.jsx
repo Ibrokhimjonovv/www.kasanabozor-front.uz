@@ -5,6 +5,8 @@ import "./announcementsPage.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import defaultImg from "./default.png";
+
+
 const AnnouncementsPage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -13,7 +15,9 @@ const AnnouncementsPage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
+
   const { announcements } = useContext(MyContext);
+  
   useEffect(() => {
     window.addEventListener("scroll", reveal);
     function reveal() {
@@ -71,13 +75,13 @@ const AnnouncementsPage = () => {
           <Link to={`${announcement.id}`} key={announcement.id} className="scroll-fade-effect">
             <div className="card ">
               <p className="title">{announcement.title}</p>
-              <p className="price">{announcement.price}</p>
+              <p className="price">{announcement.price_max}</p>
               <div className="details">
-                {announcement.details.map((detail, index) => (
+                {/*announcement.details.map((detail, index) => (
                   <div className="detail" key={index}>
                     {detail}
                   </div>
-                ))}
+                ))*/}
               </div>
               <div className="author">
                 <img src={announcement.authorImg || defaultImg} alt="" />

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { usersServerUrl, eCommerseServerUrl } from '../SuperVars.js';
+import { usersServerUrl, eCommerseServerUrl, announcementsServerUrl } from '../SuperVars.js';
 
 export const MyContext = createContext(null);
 export const MyContextProvider = ({ children }) => {
@@ -9,7 +9,8 @@ export const MyContextProvider = ({ children }) => {
   const [newsList] = useState([]);
   const [documents] = useState([]);
   const [courses] = useState([]);
-  const [announcements] = useState([]);
+  const [services, serServices] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
   const [followedCourses, setFollowedCourses] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("UZ");
   const [languages, setLanguages] = useState(["RU", "EN"]);
@@ -45,7 +46,6 @@ export const MyContextProvider = ({ children }) => {
   const loadUserData = async () => {
     try {
       const userResponse = await axios.post(`${usersServerUrl}accounts/get-me/`);
-      console.log(userResponse.data);
       setUser(userResponse.data.results);
       setIsAuthenticated(userResponse.data.status === 'ok');
     } catch (err) {
@@ -79,6 +79,16 @@ export const MyContextProvider = ({ children }) => {
       console.error(err);
     }
 
+    try {
+      const announcementsResponse = await axios.get(`${announcementsServerUrl}announcements/list/jobs/`);
+      console.log(announcementsResponse);
+      if (announcementsResponse.data.status === "ok") {
+        setAnnouncements(announcementsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
     setLoadStart(false);
     setLoadSuccess(true);
   };
@@ -105,6 +115,7 @@ export const MyContextProvider = ({ children }) => {
         followedCourses,
         setFollowedCourses,
         announcements,
+        services,
         selectedLanguage,
         setSelectedLanguage,
         languages,

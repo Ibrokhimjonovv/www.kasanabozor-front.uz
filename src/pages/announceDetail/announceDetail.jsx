@@ -11,6 +11,7 @@ const AnnounceDetail = () => {
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
   const [savedAnnouncements, setSavedAnnouncements] = useState([]);
   const { id } = useParams();
+
   useEffect(() => {
     const foundAnnounce = announcements.find(
       (item) => item.id === parseInt(id)
@@ -25,6 +26,7 @@ const AnnounceDetail = () => {
       </p>
     );
   }
+  
   const saveAnnouncement = (announcement) => {
     setSavedAnnouncements((prevAnnouncements) => {
       if (prevAnnouncements.some((a) => a.id === announcement.id)) {
@@ -33,9 +35,11 @@ const AnnounceDetail = () => {
       return [...prevAnnouncements, announcement]; 
     });
   };
+  
   const isSaved = (announcement) => {
     return savedAnnouncements.some((a) => a.id === announcement.id);
   };
+  
   return (
     <div id="announceDetail">
       <div className="announceSelect">
@@ -113,11 +117,11 @@ const AnnounceDetail = () => {
                     <p className="title">{announcement.title}</p>
                     <p className="price">{announcement.price}</p>
                     <div className="details">
-                      {announcement.details.map((detail, index) => (
+                      {/*announcement.details.map((detail, index) => (
                         <div className="detail" key={index}>
                           {detail}
                         </div>
-                      ))}
+                      ))*/}
                     </div>
                     <div className="author">
                       <img src={announcement.authorImg || defaultImg} alt="" />
