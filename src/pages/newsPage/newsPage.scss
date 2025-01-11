@@ -502,6 +502,22 @@
             }
         }
     }
+
+    .currency-title {
+        font-weight: 600;
+        padding: 5px 50px;
+    }
+
+    .currency-little-title {
+        padding: 0 50px;
+    }
+
+    .g-container {
+        margin-top: 15px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -623,6 +639,18 @@
             .news-cards {
                 justify-content: center;
             }
+        }
+
+        .currency-title {
+            padding-left: 20px;
+        }
+        
+        .currency-little-title {
+            padding-left: 20px;
+        }
+
+        .g-container {
+            flex-direction: column;
         }
     }
 }

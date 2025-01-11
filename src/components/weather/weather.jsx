@@ -16,6 +16,8 @@ const Weather = () => {
   const [error, setError] = useState(null);
   const [currentTime, setCurrentTime] = useState("");
   const [currentDay, setCurrentDay] = useState("");
+  const [locationDenied, setLocationDenied] = useState(false); // Joylashuvni rad etish holati
+
 
   useEffect(() => {
     // Geolocation API
@@ -24,10 +26,12 @@ const Weather = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           fetchWeather(latitude, longitude);
+          setLocationDenied(false); // Ruxsat berildi, rad etilganligini o'chirish
         },
         (error) => {
+          setLocationDenied(true); // Foydalanuvchi ruxsat bermadi
           setError(
-            "Joylashuv ma'lumotlari olinmadi. Tashkent ma'lumotlari ko'rsatilmoqda."
+            "Joylashuv ma'lumotlari olinmadi. Obi-havo ma'lumotlarini ko'rish uchun 'Sozlamalar'dan joylashuv uchun ruxsat bering yoki sahifani qayta yuklang"
           );
           fetchWeather(41.2995, 69.2401); // Default to Tashkent
         }
@@ -37,7 +41,6 @@ const Weather = () => {
       fetchWeather(41.2995, 69.2401); // Default to Tashkent
     }
   }, []);
-
   const fetchWeather = (lat, lon) => {
     console.log(`Latitude: ${lat}, Longitude: ${lon}`);
 
@@ -81,10 +84,24 @@ const Weather = () => {
     return () => clearInterval(timer); // Clear interval on component unmount
   };
 
-  console.log(weatherData);
-
+  const requestLocationAgain = () => {
+    // Geolocation so'rovini qayta yuborish
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchWeather(latitude, longitude);
+          setLocationDenied(false); // Ruxsat berildi, rad etilganligini o'chirish
+        },
+        (error) => {
+          setLocationDenied(true); // Foydalanuvchi yana rad etsa
+          setError("Joylashuv ma'lumotlari olinmadi.");
+        }
+      );
+    }
+  };
   if (error) {
-    return <p className="error">{error}</p>;
+    return <p style={{width: '55%'}} className="location-error">{error}</p>;
   }
 
   if (!weatherData) {

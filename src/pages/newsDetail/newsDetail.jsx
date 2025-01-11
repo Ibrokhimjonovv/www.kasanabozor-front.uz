@@ -9,6 +9,8 @@ import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import posterImg2 from "./posterImg2.png";
 import Weather from "../../components/weather/weather";
 import Loading from "../../components/loading/loading";
+import CurrencyConverter from "../../components/converter/converter";
+import CurrencyRates from "../../components/converter/converter";
 const NewsDetail = () => {
   const { newsList } = useContext(MyContext);
   const { category, id } = useParams();
@@ -418,7 +420,13 @@ const NewsDetail = () => {
           </div>
         </div>
       </div>
-      <Weather />
+      <h2 className="currency-title">Foydali ma'lumotlar</h2>
+      <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
+      
+      <div className="g-container">
+        <Weather />
+        <CurrencyRates />
+      </div>
       <br />
     </div>
   );

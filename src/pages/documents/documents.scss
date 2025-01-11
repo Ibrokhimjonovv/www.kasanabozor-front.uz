@@ -159,8 +159,20 @@
         }
     }
 
-    #weather {
-        padding: 20px 0;
+    .currency-title {
+        font-weight: 600;
+        padding: 5px 50px;
+    }
+
+    .currency-little-title {
+        padding: 0 50px;
+    }
+
+    .g-container {
+        margin-top: 15px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
     }
 }
 
@@ -197,6 +209,17 @@
                     width: 100%;
                 }
             }
+        }
+
+        .currency-title {
+            padding-left: 20px;
+        }
+        
+        .currency-little-title {
+            padding-left: 20px;
+        }
+        .g-container {
+            flex-direction: column;
         }
     }
 }

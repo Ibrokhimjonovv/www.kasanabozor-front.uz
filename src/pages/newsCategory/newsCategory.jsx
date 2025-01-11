@@ -6,6 +6,7 @@ import { MyContext } from "../../context/myContext";
 import Weather from "../../components/weather/weather";
 import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import SearchBar from "../../components/searchBar/searchBar";
+import CurrencyRates from "../../components/converter/converter";
 
 const NewsCategory = () => {
   const { category } = useParams();
@@ -214,9 +215,13 @@ const NewsCategory = () => {
         <NewsInnerRight />
       </div>
 
-      <div className="weather-data">
+      <h2 className="currency-title">Foydali ma'lumotlar</h2>
+      <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
+      <div className="g-container">
         <Weather />
+        <CurrencyRates />
       </div>
+      <br />
     </div>
   );
 };
