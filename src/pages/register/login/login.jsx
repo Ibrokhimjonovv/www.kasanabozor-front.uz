@@ -38,7 +38,6 @@ const Login = () => {
     setLanguages(updatedLanguages); // Dropdowndagi tillarni yangilash
     setIsOpen(false); // Dropdownni yopish
   };
-
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

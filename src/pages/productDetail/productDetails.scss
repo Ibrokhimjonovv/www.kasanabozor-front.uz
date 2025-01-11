@@ -77,7 +77,6 @@
                 }
             }
 
-            
         }
 
         .texts {
@@ -445,6 +444,101 @@
                             margin-top: 10px;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .product-details {
+
+        .to-back {
+            margin-top: 90px;
+
+            .inner {
+                padding: 0 20px;
+            }
+        }
+
+        .about-product {
+            padding: 20px;
+            flex-direction: column;
+
+            .images-container {
+                width: 100%;
+
+                .images {
+                    width: 100%;
+                    gap: 10px;
+
+                    .vertical-images {
+                        img {
+                            width: 48px;
+                            height: 48px;
+                        }
+                    }
+
+                    .hero-image {
+                        width: 300px;
+                        height: 280px;
+                    }
+                }
+            }
+
+            .texts {
+                width: 100%;
+            }
+
+        }
+
+
+        .similar {
+            padding: 10px 20px 30px;
+
+            .title {
+                font-size: 18px;
+            }
+
+            .littleTitle {
+                font-size: 17px;
+            }
+
+            .similar-products {
+                .product-link {
+                    width: 47%;
+
+                    .product {
+                        width: 100%;
+
+                        .imgContainer {
+                            height: 200px;
+                        }
+
+                        .price {
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .about-product-bottom {
+        padding: 20px;
+
+        .dep {
+            width: 100%;
+        }
+
+        .dep-container {
+            width: 100%;
+
+            .hashtags {
+                gap: 5px;
+
+                .hashtag {
+                    font-size: 14px;
                 }
             }
         }

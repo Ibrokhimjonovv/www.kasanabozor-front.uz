@@ -3,7 +3,7 @@ import "./historyOfSuccess.scss";
 import img1 from "./img1.jpg";
 import img2 from "./img2.jpg";
 const HistoryOfSuccess = () => {
-  const successStories = useState([
+  const successStories = [
     {
       id: 1,
       img: img1,
@@ -30,7 +30,7 @@ const HistoryOfSuccess = () => {
       title: "Milliy madaniyat va hunarmandchilik",
       description: "Madaniyatga asoslangan hunarmandchilik muvaffaqiyati.",
     },
-  ]);
+  ];
   const [visibleCount, setVisibleCount] = useState(2);
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 2);

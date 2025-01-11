@@ -47,7 +47,7 @@ import AddPupil from "./pages/admin/addPupil/addPupil";
 import AdminNews from "./pages/admin/adminNews/adminNews";
 import AddNews from "./pages/admin/addNews/addNews";
 import AdminNewsCategories from "./pages/admin/admin-news-categories/admin-news-categories";
-// import UsersMessaging from "./pages/usersMessaging/usersMessaging";
+import UsersMessaging from "./pages/usersMessaging/usersMessaging";
 import Services from "./pages/services/services";
 import AddAnnounce from "./pages/addAnnounce/addAnnounce";
 import Products from "./pages/profilePages/products/Products";
@@ -58,16 +58,19 @@ import LikedAnnounces from "./pages/profilePages/announce/likedAnnounces";
 import MyAnnounces from "./pages/profilePages/myAnnounces/myAnnounces";
 import MessagesContainer from "./pages/profilePages/messagesContainer/messagesContainer";
 import MenuTool from "./components/menu-tool/menuTool";
+import Notifications from "./pages/profilePages/notifications/notifications";
+import LikedCourses from "./pages/profilePages/likedCourses/likedCourses";
+import MyCourses from "./pages/profilePages/myCourses/myCourses";
 
 import './createAxiosClient';
 
-
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
-  if (!isAuthenticated && (userRole !== allowedRole)) {
+  if (!isAuthenticated && userRole !== allowedRole) {
     return <NotFound />;
   }
   return children;
 };
+
 const ProfileRoute = ({ children, userRole, allowedRole }) => {
   if (userRole !== allowedRole) {
     return <NotFound />;
@@ -114,6 +117,7 @@ function AppContent() {
           element={<Categories />}
         />
         <Route path="online-shop/all-categories" element={<AllCategories />} />
+        <Route path="messaging" element={<UsersMessaging />} />
         <Route path="news" element={<NewsPage />} />
         <Route path="news/:category" element={<NewsCategory />} />
         <Route path="news/:category/:id" element={<NewsDetail />} />
@@ -150,6 +154,9 @@ function AppContent() {
                 <Route path="my-announces" element={<MyAnnounces />} />
                 <Route path="liked-announces" element={<LikedAnnounces />} />
                 <Route path="messages" element={<MessagesContainer />} />
+                <Route path="notifications" element={<Notifications />}/>
+                <Route path="liked-courses" element={<LikedCourses />}/>
+                <Route path="my-courses" element={<MyCourses />}/>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ProfileRoute>

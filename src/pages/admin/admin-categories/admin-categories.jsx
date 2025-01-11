@@ -65,7 +65,6 @@ const AdminCategories = () => {
       setAvaName("");
     }
   };
-
   return (
     <div id="admin-categories">
       <Dashboard />

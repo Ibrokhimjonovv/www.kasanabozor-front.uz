@@ -6,15 +6,11 @@ const Discount = ({ product }) => {
   };
   return (
     <div className="priceD">
-      <span
-        className={product.price === null ? "oldPrice active" : "oldPrice "}
-      >
+      <span className={product.price === null ? "oldPrice active" : "oldPrice "}>
         {formatPrice(product.price)} so'm
       </span>
       <span className={product.price_off ? "newPrice active" : "newPrice"}>
-      {product.price_off
-      ? `${formatPrice(product.price_off)} so'm`
-      : ""}
+      {product.price_off ? `${formatPrice(product.price_off)} so'm` : ""}
       </span>
     </div>
   );

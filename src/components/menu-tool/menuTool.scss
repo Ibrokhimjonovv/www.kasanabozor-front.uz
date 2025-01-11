@@ -22,6 +22,7 @@
                 height: 100%;
 
                 a {
+                    flex-direction: column;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -30,7 +31,7 @@
                     color: #303030;
                     font-size: 14px;
 
-                    &.active {
+                    &.active-link {
                         color: #41A58D;
                     }
                 }

@@ -33,7 +33,6 @@ const EditProfile = () => {
     const { name, value } = e.target || { name: "content", value: e };
     setFormData({ ...formData, [name]: value });
   };
-
   const regionsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
   const districtsURL =

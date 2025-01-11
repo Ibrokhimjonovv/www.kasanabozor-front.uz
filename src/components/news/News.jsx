@@ -101,4 +101,3 @@ const NewsCard = ({ news }) => {
 };
 
 export default News;
-

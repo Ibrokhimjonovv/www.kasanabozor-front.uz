@@ -6,27 +6,7 @@ import { MyContext } from "../../context/myContext";
 
 const Announcements = () => {
   const { announcements } = useContext(MyContext);
-  //   const [announcements, setAnnouncements] = useState([]);
 
-  // API dan ma'lumot olish
-  //   useEffect(() => {
-  //     const fetchAnnouncements = async () => {
-  //       try {
-  //         const response = await fetch("https://your-api-endpoint.com/announcements"); // API endpointni o'zgartiring
-  //         const data = await response.json();
-  //         setAnnouncements(data); // Ma'lumotlarni saqlash
-  //       } catch (error) {
-  //         console.error("E'lonlarni yuklashda xatolik:", error);
-  //       }
-  //     };
-
-  //     fetchAnnouncements();
-  //   }, []);
-
-  // const { ref, inView } = useInView({
-  //   threshold: 0.1,
-  //   triggerOnce: true,
-  // });
   useEffect(() => {
     window.addEventListener("scroll", reveal);
     function reveal() {
@@ -45,6 +25,7 @@ const Announcements = () => {
       }
     }
   });
+
   return (
     <div className="pp">
       <div id="announcements">
@@ -54,7 +35,7 @@ const Announcements = () => {
         </div>
         <div className="announcements-cards">
           {announcements.map((announcement, index) => (
-            <Link to="#" key={announcement.id} className="scroll-fade-effect">
+            <Link to="#" key={announcement.id} className="scroll-fade-effect home-news">
               <div className="card ">
                 <p className="title">{announcement.title}</p>
                 <p className="price">{announcement.price}</p>

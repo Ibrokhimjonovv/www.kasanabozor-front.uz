@@ -173,7 +173,7 @@ const ProfileSideBar = () => {
         </li>
         <li>
           <NavLink
-            to="/profile/courses"
+            to="/profile/my-courses"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
           >
             <svg
@@ -247,7 +247,7 @@ const ProfileSideBar = () => {
         </li>
         <li>
           <NavLink
-            to="/profile/messages"
+            to="/profile/notifications"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
           >
             <svg

@@ -6,7 +6,7 @@ import img3 from "./img3.png";
 import img4 from "./img4.png";
 import Loading from "../loading/loading";
 const ProTeachers = () => {
-  const proTeachers = useState([
+  const proTeachers = [
     {
       id: 1,
       image: img1,
@@ -39,7 +39,8 @@ const ProTeachers = () => {
       successMessage: "Sentabrning eng yaxshi sotuvchisi",
       income: "$25k+ umumiy daromadlar",
     },
-  ]);
+  ];
+  
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".scroll-fade-effect:not(.revealed)");
@@ -56,6 +57,7 @@ const ProTeachers = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+  
   return (
     <div id="successPeople">
       <h1>Mohir ustozlar</h1>

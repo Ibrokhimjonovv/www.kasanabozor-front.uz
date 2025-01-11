@@ -36,6 +36,8 @@
         display: flex;
         justify-content: center;
         gap: 20px;
+        max-width: 1366px;
+        margin: 0 auto;
 
         .left {
             width: 25%;

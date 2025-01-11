@@ -28,3 +28,13 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .priceD {
+        flex-direction: column;
+        
+        .newPrice {
+            font-size: 15px;
+        }
+    }
+}

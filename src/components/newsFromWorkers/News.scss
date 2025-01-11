@@ -139,3 +139,38 @@
         }
     }
 }
+
+
+@media screen and (max-width: 500px) {
+    #topNews {
+        padding: 10px 20px 30px;
+
+        .products {
+            .title {
+                font-size: 18px;
+            }
+            .littleTitle {
+                font-size: 17px;
+            }
+            
+            .productsInner {
+
+                .product-link {
+                    width: 47%;
+
+                    .product {
+                        width: 100%;
+                    
+                        .imgContainer {
+                            height: 200px;
+                        }
+
+                        .price {
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

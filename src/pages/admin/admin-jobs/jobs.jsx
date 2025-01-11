@@ -77,7 +77,6 @@ const Jobs = () => {
       document.body.style.overflow = 'auto';
     };
   }, [offCanvas]);
-
   return (
     <div id="admin-users-jobs">
       <Dashboard />

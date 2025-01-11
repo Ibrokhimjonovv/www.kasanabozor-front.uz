@@ -153,3 +153,43 @@
         }
     }
 }
+
+
+
+@media screen and (max-width: 500px) {
+    #topOffers {
+        padding: 10px 20px 30px;
+
+        .categories {
+            display: none;
+        }
+
+        .products {
+            .title {
+                font-size: 18px;
+            }
+            .littleTitle {
+                font-size: 17px;
+            }
+            
+            .productsInner {
+
+                .link-a {
+                    width: 47%;
+
+                    .product {
+                        width: 100%;
+                    
+                        .imgContainer {
+                            height: 200px;
+                        }
+
+                        .price {
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

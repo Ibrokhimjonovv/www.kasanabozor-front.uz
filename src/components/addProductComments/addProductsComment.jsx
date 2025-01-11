@@ -21,7 +21,6 @@ const AddProductsComments = ({ com }) => {
       setComments(JSON.parse(storedComments));
     }
   }, []);
-  
 
   useEffect(() => {
     if (Object.keys(comments).length > 0) {
@@ -29,7 +28,6 @@ const AddProductsComments = ({ com }) => {
     }
   }, [comments]);
   
-
   useEffect(() => {
     if (com) {
       setComments((prevComments) => ({
@@ -39,7 +37,6 @@ const AddProductsComments = ({ com }) => {
     }
   }, [id, com]);
   
-
   const handleAddComment = () => {
     if (productComment.trim() === "") return;
 
@@ -61,7 +58,6 @@ const AddProductsComments = ({ com }) => {
     setProductComment("");
   };
   
-
   const handleReply = () => {
     if (productComment.trim() === "") return;
 
@@ -88,7 +84,6 @@ const AddProductsComments = ({ com }) => {
     setReplyingTo(null);
     setCurrentReplyTo(null);
   };
-  
 
   const findCommentById = (commentsArray, commentId) => {
     for (let comment of commentsArray) {
@@ -102,7 +97,6 @@ const AddProductsComments = ({ com }) => {
     }
     return null;
   };
-  
 
   const handleCancelReply = () => {
     setReplyingTo(null); 
@@ -110,7 +104,6 @@ const AddProductsComments = ({ com }) => {
     setProductComment("");
   };
   
-
   const renderReplies = (replies) => {
     return replies.map((reply) => (
       <div key={reply.id} className="replied-messages">
@@ -137,7 +130,6 @@ const AddProductsComments = ({ com }) => {
       </div>
     ));
   };
-  
 
   return (
     <div id="comments">

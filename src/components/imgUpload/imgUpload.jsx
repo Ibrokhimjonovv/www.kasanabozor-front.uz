@@ -61,7 +61,6 @@ const ImageUpload = ({ changeLocal }) => {
     }
   };
 
-
   return (
     <div>
       <div
