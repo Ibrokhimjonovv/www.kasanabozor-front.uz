@@ -119,10 +119,15 @@ const Weather = () => {
     <div className="weather-widget">
       <div className="current-weather">
         <div className="current-temp">
-          <img src={weatherIcon} alt={currentWeather.weather[0].description} />
-          <h1>
-            {Math.round(weatherData.list[0].main.temp)} <span>°C</span>
-          </h1>
+          <div className="weather-left">
+            <img
+              src={weatherIcon}
+              alt={currentWeather.weather[0].description}
+            />
+            <h1>
+              {Math.round(weatherData.list[0].main.temp)} <span>°C</span>
+            </h1>
+          </div>
           <div className="nam">
             <p>Namlik: {weatherData.list[0].main.humidity}%</p>
             <p>Shamol: {weatherData.list[0].wind.speed} km/h</p>
@@ -140,9 +145,14 @@ const Weather = () => {
         <div className="forecast-hours">
           {weatherData.list.slice(0, 8).map((hour, index) => (
             <div key={index} className="hour">
-              <p className="date-hour">{new Date(hour.dt * 1000).getHours()}:00</p>
+              <p className="date-hour">
+                {new Date(hour.dt * 1000).getHours()}:00
+              </p>
               <img
-                src={iconMapping[hour.weather[0].icon] || `https://openweathermap.org/img/wn/${hour.weather[0].icon}.png`}
+                src={
+                  iconMapping[hour.weather[0].icon] ||
+                  `https://openweathermap.org/img/wn/${hour.weather[0].icon}.png`
+                }
                 alt={hour.weather[0].description}
               />
               <p>{Math.round(hour.main.temp)}°C</p>
