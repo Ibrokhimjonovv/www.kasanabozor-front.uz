@@ -169,17 +169,23 @@
     .currency-title {
         font-weight: 600;
         padding: 5px 50px;
+        max-width: 1366px;
+        margin: 0 auto;
     }
-
+    
     .currency-little-title {
         padding: 0 50px;
+        max-width: 1366px;
+        margin: 0 auto;
     }
 
     .g-container {
-        margin-top: 15px;
         display: flex;
         gap: 20px;
         justify-content: center;
+        max-width: 1366px;
+        margin: 0 auto;
+        margin-top: 15px;
     }
 }
 

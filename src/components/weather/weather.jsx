@@ -42,7 +42,6 @@ const Weather = () => {
     }
   }, []);
   const fetchWeather = (lat, lon) => {
-    console.log(`Latitude: ${lat}, Longitude: ${lon}`);
 
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=d66a3a2f03bbb26656d45fa20fb11454&units=metric`
