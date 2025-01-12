@@ -9,7 +9,7 @@ export const MyContextProvider = ({ children }) => {
   const [newsList] = useState([]);
   const [documents] = useState([]);
   const [courses] = useState([]);
-  const [services, serServices] = useState([]);
+  const [services, setServices] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [followedCourses, setFollowedCourses] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("UZ");
@@ -81,9 +81,19 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const announcementsResponse = await axios.get(`${announcementsServerUrl}announcements/list/jobs/`);
-      console.log(announcementsResponse);
+      console.log(announcementsResponse, "jobs");
       if (announcementsResponse.data.status === "ok") {
         setAnnouncements(announcementsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      const servicesResponse = await axios.get(`${announcementsServerUrl}announcements/list/services/`);
+      console.log(servicesResponse, "services");
+      if (servicesResponse.data.status === "ok") {
+        setServices(servicesResponse.data.results);
       }
     } catch (err) {
       console.error(err);

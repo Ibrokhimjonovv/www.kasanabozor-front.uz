@@ -16,7 +16,7 @@ const AnnouncementsPage = () => {
     width: "100%",
   };
 
-  const { announcements } = useContext(MyContext);
+  const { announcements, services } = useContext(MyContext);
   
   useEffect(() => {
     window.addEventListener("scroll", reveal);
@@ -36,6 +36,7 @@ const AnnouncementsPage = () => {
       }
     }
   });
+
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".service-card:not(.revealed)");
@@ -53,6 +54,7 @@ const AnnouncementsPage = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+  
   return (
     <div id="announcementsPage">
       <div className="miniPoster" style={backgroundStyle}>
@@ -84,8 +86,8 @@ const AnnouncementsPage = () => {
                 ))*/}
               </div>
               <div className="author">
-                <img src={announcement.authorImg || defaultImg} alt="" />
-                <span>{announcement.author}</span>
+                <img src={`http://127.0.0.1:8900${announcement.user.pfp}`} alt="" />
+                <span>{announcement.user.first_name} {announcement.user.last_name}</span>
               </div>
               <div className="date-count">
                 <span>
@@ -111,7 +113,7 @@ const AnnouncementsPage = () => {
                       </clipPath>
                     </defs>
                   </svg>
-                  {announcement.date || "Aniq emas"}
+                  {announcement.created_at || "Aniq emas"}
                 </span>
                 <span>
                   <svg
@@ -165,7 +167,7 @@ const AnnouncementsPage = () => {
           <Link to="#">Ko'proq ko'rish</Link>
         </div>
         <div className="services-cards">
-          <Link to="#">
+          {services.map((value, index) => <Link to="#" key={ index }>
             <div className="service-card">
               <div className="img-card">{/* <img src="" alt="" /> */}</div>
               <div className="service-title">Tandir yasash</div>
@@ -176,7 +178,7 @@ const AnnouncementsPage = () => {
               <div className="author-location">
                 <div className="author">
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/c870/b001/e095367b2478bb59d0ad913ccd2fd1f5?Expires=1734307200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=W2p6XYgFJUwnnYcLvM~QmWkx6SzBNHO4lmGITJvaXJZsAAwR9OaQ7SV-KagLrHcRDIsikzqu5Dk3OSpIYgVILoOJKyWHgdBo-XtIJj6s3pBjgL1Iil5nZzWzi-GO3ZXP-fgjlKuqO5Xchy8K3ogS1K1Ow9Xs4d-bbMCXf2UesphmmRBcyFA6x3XupJkPqAWz79eCNJO3pW1z1AnoIeRJ5GIINjw8T-3jrSeUOAqYHbVgF~Kz~9bZeREBswL26P7SAxgnVUeEMn7I2qufO6oT688ggtJBn5quJxWc~e1EhetyL3EsQ~mtD8QfDM60v1gptUfU~juF6rs6wDkT4fEOrg__"
+                    src={ `http://127.0.0.1:8900${value.user.pfp}` }
                     alt=""
                   />
                   <span>Otabek Rajabov</span>
@@ -229,7 +231,7 @@ const AnnouncementsPage = () => {
                 </span>
               </div>
             </div>
-          </Link>
+          </Link>)}
         </div>
       </div>
     </div>

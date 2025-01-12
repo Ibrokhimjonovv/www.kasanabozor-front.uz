@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./addAnnounce.scss";
 import EditorBar from "../../components/Editor/Editor";
 import ImageUpload from "../../components/imgUpload/imgUpload";
@@ -8,16 +8,17 @@ import { announcementsServerUrl } from '../../SuperVars';
 
 
 const AddAnnounce = () => {
+  const navigation = useNavigate();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isNegotiable, setIsNegotiable] = useState(false);
-  const [announceType, setAnnounceType] = useState("Xizmat e'loni");
+  const [announceType, setAnnounceType] = useState("service_announcement");
 
   const handleNegotiableChange = () => {
     setIsNegotiable(!isNegotiable);
     if (!isNegotiable) {
-      setMinPrice("");
-      setMaxPrice("");
+      setMinPrice("0");
+      setMaxPrice("0");
     }
   };
   
@@ -98,13 +99,13 @@ const AddAnnounce = () => {
 
   const [announceTitle, setAnnounceTitle] = useState("");
   const [fAddress, setFAddress] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("Example description until i will update github!");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
-    formData.append('p_type', announceType === "Xizmat e'loni" ? "service_announcement" : "job_announcement")
+    formData.append('p_type', announceType);
     formData.append('title', announceTitle);
     formData.append('price_min', minPrice);
     formData.append('price_max', maxPrice);
@@ -120,11 +121,10 @@ const AddAnnounce = () => {
 
     const response = await axios.post(`${announcementsServerUrl}announcements/create/`, formData);
     if (response.data.status === "ok") {
-      alert('Good job bro!');
+      navigation('/announcements/');
     } else {
-      alert('Xatolik yuz berdi!');
+      alert("Xatolik yuz berdi.");
     }
-    console.log(response, "sdfasdfahskdjfja");
   }
 
   return (
@@ -211,8 +211,8 @@ const AddAnnounce = () => {
                 value={announceType}
                 onChange={(e) => setAnnounceType(e.target.value)}
               >
-                <option value="service-announce">Xizmat e'loni</option>
-                <option value="work-announce">Ish e'loni</option>
+                <option value="service_announcement">Xizmat e'loni</option>
+                <option value="job_announcement">Ish e'loni</option>
               </select>
             </div>
           </div>
