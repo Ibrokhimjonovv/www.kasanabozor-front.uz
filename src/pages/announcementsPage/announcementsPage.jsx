@@ -169,7 +169,7 @@ const AnnouncementsPage = () => {
         <div className="services-cards">
           {services.map((value, index) => <Link to="#" key={ index }>
             <div className="service-card">
-              <div className="img-card">{/* <img src="" alt="" /> */}</div>
+              <div className="img-card"><img src={ value.thumbnail ? `http://127.0.0.1:8903${value.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png' } alt="" /></div>
               <div className="service-title">Tandir yasash</div>
               <div className="service-desc">
                 An'anaviy usulda tayyorlangan bilaguzuk, juda chiroyli va
