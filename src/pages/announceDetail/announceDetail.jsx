@@ -4,6 +4,9 @@ import { MyContext } from "../../context/myContext";
 import { Link, useParams } from "react-router-dom";
 import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
+import { announcementsServerUrl } from '../../SuperVars';
+import axios from 'axios';
+
 
 const AnnounceDetail = () => {
   const [selectedDep, setSelectedDep] = useState("announce");
@@ -12,12 +15,24 @@ const AnnounceDetail = () => {
   const [savedAnnouncements, setSavedAnnouncements] = useState([]);
   const { id } = useParams();
 
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${announcementsServerUrl}announcements/exact/`, {'id': id});
+      if (response.data.status === "ok") {
+        console.log(response.data, "announce");
+        setCurrentAnnounce(response.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
-    const foundAnnounce = announcements.find(
-      (item) => item.id === parseInt(id)
-    );
-    setCurrentAnnounce(foundAnnounce);
-  }, [id, announcements]);
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [id]);
 
   if (!currentAnnounce) {
     return (
@@ -115,7 +130,7 @@ const AnnounceDetail = () => {
                 >
                   <div className="card ">
                     <p className="title">{announcement.title}</p>
-                    <p className="price">{announcement.price}</p>
+                    { /* <p className="price">{announcement.price}</p> */ }
                     <div className="details">
                       {/*announcement.details.map((detail, index) => (
                         <div className="detail" key={index}>
@@ -124,8 +139,8 @@ const AnnounceDetail = () => {
                       ))*/}
                     </div>
                     <div className="author">
-                      <img src={announcement.authorImg || defaultImg} alt="" />
-                      <span>{announcement.author} </span>
+                      <img src={`http://127.0.0.1:8900${announcement.user.pfp}`} alt="" />
+                      <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                     </div>
                     <div className="date-count">
                       <span>
@@ -200,8 +215,8 @@ const AnnounceDetail = () => {
             <div className="top-side">
               <div className="top-left">
                 <div className="author">
-                  <img src={currentAnnounce?.authorImg || defaultImg} alt="" />
-                  <span>{currentAnnounce?.author || "undefinde"}</span>
+                  <img src={`http://127.0.0.1:8900${currentAnnounce.user.pfp}`} alt="" />
+                  <span>{currentAnnounce.user.first_name} {currentAnnounce.user.last_name}</span>
                 </div>
                 <div className="cur-title">{currentAnnounce.title}</div>
               </div>
@@ -291,7 +306,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Lokatsiya</p>
-                  <p>{currentAnnounce?.location || "Kiritilmagan"}</p>
+                  <p>{currentAnnounce.address}</p>
                 </div>
               </li>
               <li>
@@ -321,7 +336,7 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish vaqti</p>
-                  <p>{currentAnnounce?.timeWork || "Kiritilmagan"}</p>
+                  <p>{currentAnnounce.type_type}</p>
                 </div>
               </li>
               <li>
@@ -344,54 +359,15 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish haqqi</p>
-                  <p>{currentAnnounce?.price || "Kiritilmagan"}</p>
+                  <p>{currentAnnounce.price_min} SO'M</p>
                 </div>
               </li>
             </ul>
             <div className="other-details">
-              <h2>Ish vazifalari</h2>
-              <ul>
-                <li>
-                  Novvoyga yordam berish: xamir tayyorlash, pishirish
-                  jarayonlariga yordam.
-                </li>
-                <li>
-                  Novvoyga yordam berish: xamir tayyorlash, pishirish
-                  jarayonlariga yordam.
-                </li>
-                <li>Ish joyini toza va tartibli saqlash.</li>
-              </ul>
+              <h2>Ko'proq malumot</h2>
+              <p>{currentAnnounce.description}</p>
             </div>
-            <div className="other-details">
-              <h2>Talablar</h2>
-              <ul>
-                <li>
-                  Novvoychilik sohasida tajriba afzal, lekin yangi
-                  o‘rganuvchilar ham qabul qilinadi.
-                </li>
-                <li>Jismoniy jihatdan sog‘lom va mehnatsevar bo‘lish.</li>
-                <li>Jamoada ishlash ko‘nikmasi.</li>
-              </ul>
-            </div>
-            <div className="other-details">
-              <h2>Taklif qilamiz</h2>
-              <ul>
-                <li>Barqaror oylik maosh.</li>
-                <li>O‘rganish va professional rivojlanish imkoniyati.</li>
-                <li>Do‘stona va hamkorlikka asoslangan jamoa.</li>
-              </ul>
-            </div>
-            <div className="other-details">
-              <h2>Aloqa:</h2>
-              <ul>
-                <li>
-                  Ishga qiziqqanlar o‘z rezyumesini [email yoki telefon raqamini
-                  kiriting] ga yuborishlari yoki [manzilni kiriting] ga
-                  kelishlari mumkin.
-                </li>
-              </ul>
-            </div>
-
+            
             <div className="hashtags">
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>

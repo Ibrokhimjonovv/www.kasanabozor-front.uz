@@ -2,12 +2,16 @@ import React, { useContext, useState } from "react";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 import Discount from "../discount/Discount";
+
+
 const SuggestCourses = () => {
   const { courses } = useContext(MyContext)
   const [visibleCourses2, setVisibleCourses2] = useState(4);
+
   const handleShowMore2 = () => {
     setVisibleCourses2((prevVisible) => prevVisible + 4);
   };
+  
   return (
     <div className="suggest-courses">
       <div className="title">Tavsiya qilamiz</div>
@@ -26,7 +30,7 @@ const SuggestCourses = () => {
               <p className="card-description">{course.description}</p>
               <div className="rat">
                 <div className="detail">
-                  <span>{course.details.rating}</span>
+                  <span>{course.average_rating}</span>
                   <svg
                     width="20"
                     height="21"
@@ -40,9 +44,9 @@ const SuggestCourses = () => {
                     />
                   </svg>
                 </div>
-                <Link to="#">{course.category}</Link>
+                <Link to="#">{course.category.title}</Link>
               </div>
-              <Discount product={course} />
+          { /* Add discound here  */}
               <div className="line"></div>
               <div className="about-card">
                 <div className="detail">
@@ -61,7 +65,7 @@ const SuggestCourses = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <span>{course.details.users}</span>
+                  <span>{ /* course.details.users */}</span>
                 </div>
                 <div className="detail">
                   <svg
@@ -79,7 +83,7 @@ const SuggestCourses = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <span>{course.details.duration}</span>
+                  <span>{ /* course.details.duration */ }</span>
                 </div>
                 <div className="detail">
                   <svg
@@ -97,7 +101,7 @@ const SuggestCourses = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <span>{course.details.lessons}</span>
+                  <span>{ /* course.details.lessons */ }</span>
                 </div>
               </div>
               <div className="author">
@@ -120,3 +124,4 @@ const SuggestCourses = () => {
 };
 
 export default SuggestCourses;
+

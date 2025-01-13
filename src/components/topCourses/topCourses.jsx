@@ -62,7 +62,7 @@ const TopCourses = () => {
                 className="course-card"
               >
                 <div className="card-img">
-                  <img src={course.img} alt={course.title} />
+                  <img src={course.thumbnail ? `http://127.0.0.1:8902${course.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png'} alt={course.title} />
                 </div>
 
                 <p className="card-title">{course.title}</p>
@@ -85,7 +85,7 @@ const TopCourses = () => {
                   </div>
                   <Link to="#">{course.category.title}</Link>
                 </div>
-                <Discount product={course} />
+                { /* <Discount product={course} /> */ }
                 <div className="line"></div>
                 <div className="about-card">
                   <div className="detail">
@@ -145,9 +145,9 @@ const TopCourses = () => {
                 </div>
                 <div className="author">
                   <div className="author-img">
-                    <img src={course.profileImg} alt={course.author} />
+                    <img src={`http://127.0.0.1:8900${course.user.pfp}`} alt={course.user.pfp} />
                   </div>
-                  <p className="author-name">{course.author}</p>
+                  <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                 </div>
               </div>
             </Link>

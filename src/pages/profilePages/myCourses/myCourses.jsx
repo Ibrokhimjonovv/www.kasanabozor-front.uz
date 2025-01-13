@@ -1,39 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import "./myCourses.scss";
+import axios from 'axios';
+import { coursesServerUrl } from '../../../SuperVars';
 
-import authorImage from "../../../context/authorImg.png"
-import courseImage from "../../../context/cardImg1.png"
 
-const myCourses = () => {
-  const courses = [
-    {
-      image: courseImage,
-      title: "Kasanachilik bo‘yicha eng yaxshi kurs",
-      category: "kategoriya",
-      progress: 30,
-      authorName: "Ketti Perriy",
-      authorImage: authorImage,
-    },
-    {
-      image: courseImage,
-      title: "Tandirchilik",
-      category: "kategoriya",
-      progress: 50,
-      authorName: "Ketti Perriy",
-      authorImage: authorImage,
-    },
-    {
-      image: courseImage,
-      title: "Gazlamachilik",
-      category: "kategoriya",
-      progress: 50,
-      authorName: "Ketti Perriy",
-      authorImage: authorImage,
-    },
-    
-  ];
+const MyCourses = () => {
+  const [courses, setCourses] = useState([]);
+
+  const loadData = async () => {
+    const response = await axios.get(`${coursesServerUrl}profile/courses/list/`);
+    if (response.data.status === "ok") {
+      setCourses(response.data.results);
+    }
+  }
+  
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
   return (
     <div className="profile-container ">
       <div className="to-back">
@@ -101,7 +90,7 @@ const myCourses = () => {
               <img src={course.image} alt={course.title} className="my-course-card__image" />
               <div className="my-course-card__content">
                 <h3 className="my-course-card__content__title">{course.title}</h3>
-                <Link to="#" className="my-course-card__content__category">#{course.category}</Link>
+                <Link to="#" className="my-course-card__content__category">#{course.category.title}</Link>
                 <div className="d-flex">
                     <div className="progress_count">% {course.progress}</div>
                     <div className="my-course-card__content__progress-bar">
@@ -128,4 +117,4 @@ const myCourses = () => {
   );
 };
 
-export default myCourses;
+export default MyCourses;

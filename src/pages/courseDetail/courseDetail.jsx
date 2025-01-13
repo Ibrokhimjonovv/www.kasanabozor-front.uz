@@ -7,6 +7,7 @@ import lock from "./lockImg.png";
 import q from "./“.png";
 import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
+
 const CourseDetail = () => {
   const { id } = useParams();
   const { courses, isAuthenticated, followedCourses, setFollowedCourses } = useContext(MyContext);
@@ -15,6 +16,8 @@ const CourseDetail = () => {
   const [lessons, setLessons] = useState([]);
   const [selectedDep, setSelectedDep] = useState("about-select");
   const [ isFollow, setIsFollow ] = useState(false)
+
+
   useEffect(() => {
     const foundCourse = courses.find((item) => item.id === parseInt(id));
     if (foundCourse) {
@@ -26,17 +29,23 @@ const CourseDetail = () => {
       setLessons(initializedLessons);
     }
   }, [id, courses]);
+  
+
   useEffect(() => {
     const storedLessons = localStorage.getItem(`course-${id}-lessons`);
     if (storedLessons) {
       setLessons(JSON.parse(storedLessons));
     }
   }, [id]);
+  
+
   useEffect(() => {
     if (lessons.length > 0) {
       localStorage.setItem(`course-${id}-lessons`, JSON.stringify(lessons));
     }
   }, [lessons]);
+  
+
   const handleVideoEnd = () => {
     setLessons((prev) =>
       prev.map((lesson, index) =>
@@ -44,6 +53,8 @@ const CourseDetail = () => {
       )
     );
   };
+  
+
   const handleNextLesson = (index) => {
     if (index === 0 || lessons[index - 1]?.watched) {
       setCurrentLesson(index);
@@ -51,16 +62,22 @@ const CourseDetail = () => {
       alert("Avvalgi darsni ko'rib tugating!");
     }
   };
+  
+
   const formatNumber = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
+  
+
   if (!course) {
     return <p><Loading /></p>;
   }
+
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
     console.log(selectedDep);
   };
+  
   const handleFollow = (courseId) => {
     if (followedCourses.includes(courseId)) {
       setFollowedCourses(followedCourses.filter((id) => id !== courseId));
@@ -70,6 +87,7 @@ const CourseDetail = () => {
       setIsFollow(true)
     }
   };
+  
   return (
     <div id="courseDetail">
       <div className="to-back">
@@ -124,8 +142,8 @@ const CourseDetail = () => {
               />
             </svg>
           </span>
-          <Link to={`/courses/categories/${course.category}`}>
-            {course.category}
+          <Link to={`/courses/categories/${course.category.id}`}>
+            {course.category.title}
           </Link>
           <span>
             <svg
@@ -159,7 +177,7 @@ const CourseDetail = () => {
           <div className="video-details">
             <ul>
               <li>
-                <span>{course.rating}</span>
+                <span>{course.average_rating}</span>
               </li>
               <li>
                 <svg
@@ -195,7 +213,7 @@ const CourseDetail = () => {
                     stroke-linejoin="round"
                   />
                 </svg>
-                <span>{course.category}</span>
+                <span>{course.category.title}</span>
               </li>
               <li>
                 <svg
@@ -227,7 +245,7 @@ const CourseDetail = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                {formatNumber(course.viewsCount)}
+                { /* formatNumber(course.viewsCount) */ }
               </li>
               <li>
                 <svg

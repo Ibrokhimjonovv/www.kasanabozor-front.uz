@@ -167,23 +167,20 @@ const AnnouncementsPage = () => {
           <Link to="#">Ko'proq ko'rish</Link>
         </div>
         <div className="services-cards">
-          {services.map((value, index) => <Link to="#" key={ index }>
+          {services.map((value, index) => <Link to={`/announcements/${value.id}`} key={ index }>
             <div className="service-card">
               <div className="img-card"><img src={ value.thumbnail ? `http://127.0.0.1:8903${value.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png' } alt="" /></div>
-              <div className="service-title">Tandir yasash</div>
-              <div className="service-desc">
-                An'anaviy usulda tayyorlangan bilaguzuk, juda chiroyli va
-                naqshli.
-              </div>
+              <div className="service-title">{value.title}</div>
+              <div className="service-desc"></div>
               <div className="author-location">
                 <div className="author">
                   <img
                     src={ `http://127.0.0.1:8900${value.user.pfp}` }
                     alt=""
                   />
-                  <span>Otabek Rajabov</span>
+                  <span>{value.user.first_name} {value.user.last_name}</span>
                 </div>
-                <div className="location">Toshkent shaxri</div>
+                <div className="location">{value.region}</div>
               </div>
               <div className="service-date">
                 <span>
@@ -202,7 +199,7 @@ const AnnouncementsPage = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <span>Bugun</span>
+                  <span>{value.created_at.split('T')[0]}</span>
                 </span>
                 <span>
                   <svg
@@ -227,7 +224,7 @@ const AnnouncementsPage = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <span>456</span>
+                  <span></span>
                 </span>
               </div>
             </div>

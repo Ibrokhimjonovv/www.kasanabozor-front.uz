@@ -114,9 +114,9 @@ const CoursesPage = () => {
                       />
                     </svg>
                   </div>
-                  <Link to="#">{course.category}</Link>
+                  <Link to="#">{course.category.title}</Link>
                 </div>
-                <Discount product={course} />
+                { /* <Discount product={course} /> */ }
                 <div className="line"></div>
                 <div className="about-card">
                   <div className="detail">
