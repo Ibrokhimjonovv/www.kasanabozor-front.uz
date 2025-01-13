@@ -1,62 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import category1 from "./Cup_perspective_matte.png";
-import category2 from "./E-mail_perspective_matte.png";
-import category3 from "./Heart_rate_perspective_matte.png";
-import category4 from "./Gym_perspective_matte.png";
-import category5 from "./Paints_perspective_matte.png";
-import category6 from "./Radio_perspective_matte.png";
-import category7 from "./Star_perspective_matte.png";
-import category8 from "./Tools_perspective_matte.png";
 import category9 from "./Grid.png";
 import { Link } from "react-router-dom";
 import downArrow from "./Chevron down.png";
 import { MyContext } from "../../context/myContext";
 import Discount from "../discount/Discount";
 import "./topCourses.scss";
+
+
 const TopCourses = () => {
-  const { courses } = useContext(MyContext);
-  const catgories = [
-    {
-      id: 1,
-      category: "Kasanachilik",
-      img: category1,
-    },
-    {
-      id: 2,
-      category: "Kulolchilik",
-      img: category2,
-    },
-    {
-      id: 3,
-      category: "Pillachilik",
-      img: category3,
-    },
-    {
-      id: 4,
-      category: "Dehqonchilik",
-      img: category4,
-    },
-    {
-      id: 5,
-      category: "Beshinchi",
-      img: category5,
-    },
-    {
-      id: 6,
-      category: "Oltinchi",
-      img: category6,
-    },
-    {
-      id: 7,
-      category: "Yettinchi",
-      img: category7,
-    },
-    {
-      id: 8,
-      category: "Sakkizinchi",
-      img: category8,
-    },
-  ];
+  const { courses, courseCategories } = useContext(MyContext);
   const [visibleCourses, setVisibleCourses] = useState(4);
   const handleShowMore = () => {
     setVisibleCourses((prevVisible) => prevVisible + 4);
@@ -80,14 +32,15 @@ const TopCourses = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+  
   return (
     <div id="topCourses">
       <div className="categories">
         <div className="custom-catgories">
-          {catgories.map((category, index) => (
-            <Link to={`/courses/categories/${category.category}`} key={index}>
-              <img src={category.img} alt="" />
-              <span>{category.category}</span>
+          {courseCategories.map((category, index) => (
+            <Link to={`/courses/categories/${category.id}`} key={index}>
+              { /* <img src={category.img} alt="" /> */ }
+              <span>{category.title}</span>
             </Link>
           ))}
         </div>
@@ -116,7 +69,7 @@ const TopCourses = () => {
                 <p className="card-description">{course.description}</p>
                 <div className="rat">
                   <div className="detail">
-                    <span>{course.details.rating}</span>
+                    { /* <span>{course.details.rating}</span> */ }
                     <svg
                       width="20"
                       height="21"
@@ -130,7 +83,7 @@ const TopCourses = () => {
                       />
                     </svg>
                   </div>
-                  <Link to="#">{course.category}</Link>
+                  <Link to="#">{course.category.title}</Link>
                 </div>
                 <Discount product={course} />
                 <div className="line"></div>
@@ -151,7 +104,7 @@ const TopCourses = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span>{course.details.users}</span>
+                    { /* <span>{course.details.users}</span> */ }
                   </div>
                   <div className="detail">
                     <svg
@@ -169,7 +122,7 @@ const TopCourses = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span>{course.details.duration}</span>
+                    { /* <span>{course.details.duration}</span> */ }
                   </div>
                   <div className="detail">
                     <svg
@@ -187,7 +140,7 @@ const TopCourses = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span>{course.details.lessons}</span>
+                  { /* <span>{course.details.lessons}</span> */ }
                   </div>
                 </div>
                 <div className="author">

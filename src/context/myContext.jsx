@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { usersServerUrl, eCommerseServerUrl, announcementsServerUrl } from '../SuperVars.js';
+import { usersServerUrl, eCommerseServerUrl, announcementsServerUrl, coursesServerUrl } from '../SuperVars.js';
 
 export const MyContext = createContext(null);
 export const MyContextProvider = ({ children }) => {
@@ -8,7 +8,8 @@ export const MyContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [newsList] = useState([]);
   const [documents] = useState([]);
-  const [courses] = useState([]);
+  const [courseCategories, setCourseCategories] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [services, setServices] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [followedCourses, setFollowedCourses] = useState([]);
@@ -99,6 +100,26 @@ export const MyContextProvider = ({ children }) => {
       console.error(err);
     }
 
+    try {
+      const ccategoriesResponse = await axios.get(`${coursesServerUrl}categories/list/`);
+      console.log(ccategoriesResponse, "ccategories");
+      if (ccategoriesResponse.data.status === "ok") {
+        setCourseCategories(ccategoriesResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      const coursesResponse = await axios.get(`${coursesServerUrl}courses/popular/`);
+      console.log(coursesResponse, "courses");
+      if (coursesResponse.data.status === "ok") {
+        setCourses(coursesResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
     setLoadStart(false);
     setLoadSuccess(true);
   };
@@ -120,6 +141,7 @@ export const MyContextProvider = ({ children }) => {
         newsList,
         documents,
         courses,
+        courseCategories,
         isAuthenticated,
         setIsAuthenticated,
         followedCourses,

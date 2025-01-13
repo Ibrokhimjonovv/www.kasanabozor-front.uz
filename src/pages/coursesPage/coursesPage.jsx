@@ -12,8 +12,12 @@ import ProTeachers from "../../components/goodTeachers/goodTeachers";
 import SuggestCourses from "../../components/suggestCourses/suggestCourses";
 import Success from "../../components/success/Success";
 import LittlePoster from "../../components/littlePoster/LittlePoster";
+
+
 const CoursesPage = () => {
   const { courses } = useContext(MyContext);
+
+
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
     backgroundSize: "cover",
@@ -21,10 +25,14 @@ const CoursesPage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
+  
+
   const [visibleCourses, setVisibleCourses] = useState(4);
   const handleShowMore = () => {
     setVisibleCourses((prevVisible) => prevVisible + 4);
   };
+  
+
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".course-card:not(.revealed)");
@@ -44,6 +52,7 @@ const CoursesPage = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+
   return (
     <div id="coursesPage">
       <div className="miniPoster" style={backgroundStyle}>
@@ -91,7 +100,7 @@ const CoursesPage = () => {
                 <p className="card-description">{course.description}</p>
                 <div className="rat">
                   <div className="detail">
-                    <span>{course.details.rating}</span>
+                    { /* <span>{course.details.rating}</span> */ }
                     <svg
                       width="20"
                       height="21"
@@ -126,7 +135,7 @@ const CoursesPage = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span>{course.details.users}</span>
+                    { /* <span>{course.details.users}</span> */ }
                   </div>
                   <div className="detail">
                     <svg
@@ -144,7 +153,7 @@ const CoursesPage = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span>{course.details.duration}</span>
+                    { /* <span>{course.details.duration}</span> */ }
                   </div>
                   <div className="detail">
                     <svg
@@ -162,7 +171,7 @@ const CoursesPage = () => {
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span>{course.details.lessons}</span>
+                    { /* <span>{course.details.lessons}</span> */ }
                   </div>
                 </div>
                 <div className="author">
