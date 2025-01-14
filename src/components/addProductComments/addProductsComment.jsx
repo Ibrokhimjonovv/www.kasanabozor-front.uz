@@ -122,7 +122,7 @@ const AddProductsComments = ({ com }) => {
             </div>
           </div>
         </div>
-        <div className="message">reply.text</div>
+        <div className="message">{reply.text}</div>
       </div>
     ));
   };
