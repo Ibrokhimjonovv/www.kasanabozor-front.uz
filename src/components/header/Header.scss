@@ -629,7 +629,7 @@ header {
                 justify-content: space-between;
                 padding-right: 50px;
                 margin-top: 4px;
-                border-bottom: 1px solid #fff;
+                border-bottom: 1px solid #FFFFFF1A;
 
                 .logo {
                     a {
@@ -643,44 +643,42 @@ header {
             .mob-menu-middle {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                gap: 10px;
                 margin: 10px 0;
-
-                .dropdown-mob-color {
-                    background-color: #29997F;
-
-                    ul {
-                        z-index: 9999999999999999999;
-                    }
-                }
-
                 a {
+                    border-radius: 5px;
+                    padding: 5px 10px;
                     display: flex;
                     align-items: center;
-                    gap: 5px;
                     color: #fff;
-                }
-            }
-            .department {
-                border: 2px solid transparent;
-                
-                &.active-department {
-                    border-color: #fff;
-                    border-radius: 7px;
+                    border: 1px solid #41A58D;
+                    
+                    &:hover, &.active-lang {
+                        background-color: #41A58D;
+                    }
                 }
             }
 
-            button {
+            a {
                 width: 100%;
-                padding: 7px 5px;
+                padding: 8px 7px;
                 background-color: transparent;
                 color: #fff;
                 display: flex;
                 align-items: center;
-                border-radius: 7px;
+                // border-radius: 7px;
                 gap: 5px;
                 border: none;
                 cursor: pointer;
+                border-bottom: 1px solid #FFFFFF1A;
+                display: flex;
+                justify-content: space-between;
+
+                img {
+                    &.rotate {
+                        transform: rotate(90deg);
+                    }
+                }
             }
             .dropdown-mob {
                 overflow: hidden;
@@ -689,21 +687,27 @@ header {
                 background-color: transparent;
                 padding-left: 20px;
 
-                a {
-                    color: #fff;
-                    display: block;
-                    margin: 5px 0;
+                .department {
+                    margin-bottom: 0 !important;
 
-                    &:hover {
-                        text-decoration: underline;
+                    a {
+                        color: #fff;
+                        display: block;
+                        margin: 5px 0;
+    
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
                 }
+
             }
 
             .dropdown-mob.open {
                 max-height: 500px;
                 /* Katta qiymat qo'yamiz, haqiqiy balandligi shunga yetguncha ko'rsatadi */
                 padding: 10px;
+                background-color: #41a58eb0;
             }
 
             .dropdown-mob.closed {

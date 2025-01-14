@@ -105,7 +105,7 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
                 key={product.id}
                 className="link-a revealed"
               >
-                <div className="product revealed">
+                <div className="product link-a-product revealed">
                   <div className="imgContainer">
                     <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
                   </div>

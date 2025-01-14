@@ -13,8 +13,8 @@ export const MyContextProvider = ({ children }) => {
   const [services, setServices] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [followedCourses, setFollowedCourses] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState("UZ");
-  const [languages, setLanguages] = useState(["RU", "EN"]);
+  const [selectedLanguage, setSelectedLanguage] = useState("uz");
+  const [languages, setLanguages] = useState(["ru", "en"]);
   const [isOpen, setIsOpen] = useState(false);
   const [signupSuccess, setSignUpSuccess] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);

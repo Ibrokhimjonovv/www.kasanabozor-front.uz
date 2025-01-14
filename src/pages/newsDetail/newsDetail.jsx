@@ -422,7 +422,6 @@ const NewsDetail = () => {
       </div>
       <h2 className="currency-title">Foydali ma'lumotlar</h2>
       <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
-      
       <div className="g-container">
         <Weather />
         <CurrencyRates />

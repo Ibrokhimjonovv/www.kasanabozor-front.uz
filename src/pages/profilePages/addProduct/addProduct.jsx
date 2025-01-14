@@ -206,11 +206,11 @@ const AddProducts = () => {
                       required
                     />
                     <input
+                      className="check-inp p-left-10"
                       type="checkbox"
                       id="status-check"
                       checked={isChecked}
                       onChange={handleStatusChange}
-                      className="check-inp"
                     />
                     <label htmlFor="status-check" className="checkbox">
                       <span className={isChecked ? "active" : ""}></span>
@@ -255,13 +255,21 @@ const AddProducts = () => {
             <div className="input-row">
               <label htmlFor="status">Mahsulot haqida</label>
               <div className="inputs">
-                <EditorBar
+                {/* <EditorBar
                   className="p-left-10"
                   id="product-editor"
                   name="description"
                   initialValue={description} // Pass initial value for the editor
                   onChange={handleDescriptionChange} // Handle the content change
-                />
+                /> */}
+                <textarea
+                  className="p-left-10"
+                  name="description"
+                  placeholder="Mahsulot haqida"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  id="product-editor"
+                ></textarea>
               </div>
               <div className="error-message">To'ldirilishi shart</div>
             </div>

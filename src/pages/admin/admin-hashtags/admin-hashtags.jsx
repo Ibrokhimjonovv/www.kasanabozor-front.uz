@@ -4,7 +4,7 @@ import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import Dashboard from "../dashboard/dashboard";
 const AdminHashtags = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   return (
     <div id="admin-hashtags">
       <Dashboard />

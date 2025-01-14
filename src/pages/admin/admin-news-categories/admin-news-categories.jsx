@@ -6,7 +6,7 @@ import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 const AdminNewsCategories = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   const newsCategories = [
     {
       id: 1,

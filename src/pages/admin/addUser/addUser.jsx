@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import "./addUser.scss";
 import eye from "./eye.png";
 const AddUser = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [avaName, setAvaName] = useState("");
