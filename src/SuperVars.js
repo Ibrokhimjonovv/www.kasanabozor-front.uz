@@ -1,9 +1,9 @@
 
 
-const usersServerUrl            = "http://127.0.0.1:8900/api/";
-const eCommerseServerUrl        = "http://127.0.0.1:8901/api/";
-const coursesServerUrl          = "http://127.0.0.1:8902/api/";
-const announcementsServerUrl    = "http://127.0.0.1:8903/api/";
+const usersServerUrl            = "http://5.75.178.236:4900/api/";
+const eCommerseServerUrl        = "http://5.75.178.236:4901/api/";
+const coursesServerUrl          = "http://5.75.178.236:4902/api/";
+const announcementsServerUrl    = "http://5.75.178.236:4903/api/";
 
 
 export {
