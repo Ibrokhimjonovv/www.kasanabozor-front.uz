@@ -333,72 +333,82 @@ export const MyContextProvider = ({ children }) => {
     {
       id: 1,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 1",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Qonunchilik hujjatlari",
+      pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 2,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 2",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Qonunchilik hujjatlari",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 3,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 3",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Qonunchilik hujjatlari",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 4,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 4",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 5,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 5",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 6,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 6",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 7,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 7",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 8,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 8",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 9,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 9",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
     {
       id: 10,
       title:
-        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida",
+        "Kasanachilikni yanada rivojlantirishga oid qo‘shimcha chora-tadbirlar to‘g‘risida 10",
       smallTitle: "Kasanachilikni rivojlantirish, bu sohada yangi",
       category: "Kichik biznes loyihalar",
+      // pdf: "https://gallereya.uz/uploads/images/arts/NiyozovaRano.pdf"
     },
   ];
   const courses = [
@@ -985,7 +995,7 @@ export const MyContextProvider = ({ children }) => {
   const [data, setData] = useState(null);
   const [activeLink, setActiveLink] = useState(1);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [user, setUser] = useState({role: 'admin'})
+  const [user, setUser] = useState({role: 'user'})
   useEffect(() => {
     const tokenn = localStorage.getItem("access_token");
     if (tokenn) {

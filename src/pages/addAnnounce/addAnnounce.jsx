@@ -516,7 +516,8 @@ const AddAnnounce = () => {
           >
             Qisqacha ma'lumot
           </label>
-          <EditorBar />
+          {/* <EditorBar /> */}
+          <textarea name="" id="" placeholder="Qisqacha ma'lumot"></textarea>
           {announceType === "Xizmat e'loni" && (
             <>
               <p>Xizmat rasmlari</p>
