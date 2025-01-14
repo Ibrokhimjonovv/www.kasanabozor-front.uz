@@ -7,7 +7,7 @@ import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import img from "./img.png";
 const Jobs = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   const jobs = [
     {
       id: "K212",

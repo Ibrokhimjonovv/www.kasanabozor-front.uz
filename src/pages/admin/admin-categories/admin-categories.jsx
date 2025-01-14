@@ -8,7 +8,7 @@ import Dashboard from "../dashboard/dashboard";
 import img from "../admin-jobs/img.png";
 import profileImg from "./profileImg.png";
 const AdminCategories = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
   const products = [
     {

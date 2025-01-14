@@ -5,6 +5,8 @@ import SearchBar from "../searchBar/searchBar";
 import { MyContext } from "../../context/myContext";
 import langImg from "./Icon (3).png";
 import cart from "./mobile-menu-cart.png";
+import menuBackgroundImage from "./menuImg.png"
+import cheveronIcon from "./menu-cheveron-icon.png"
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +21,13 @@ const Header = () => {
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
-  const closeDropdown = (e) => {
-    if (!e.target.closest(".dropdown")) {
-      setIsOpen(false);
-    } else if (!e.target.closest(".dropdown-mob-color")) {
-      setIsOpen(false);
-    }
-  };
+  // const closeDropdown = (e) => {
+  //   if (!e.target.closest(".dropdown")) {
+  //     setIsOpen(false);
+  //   } else if (!e.target.closest(".dropdown-mob-color")) {
+  //     setIsOpen(false);
+  //   }
+  // };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1) {
@@ -35,11 +37,11 @@ const Header = () => {
       }
     };
 
-    document.addEventListener("click", closeDropdown);
+    // document.addEventListener("click", closeDropdown);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      document.removeEventListener("click", closeDropdown);
+      // document.removeEventListener("click", closeDropdown);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -57,8 +59,7 @@ const Header = () => {
     setMenuOpen((prev) => !prev);
   };
   const divStyle = {
-    backgroundImage:
-      "url('https://s3-alpha-sig.figma.com/img/e29b/0345/71d5eb106854cbcd44ebf165f629d407?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EclVj312JUpAKTqEVRughAEUjJY~A9eEnWNjLxbBK9BSyPZ7gh051YOdK0dGoL-MOpwiAOFYUrgXNKwwgpgKcEFfM1UxFEFD7e8eOLkNczW1YsQwIoucXABko7jH3sLnIh4i3FEBDsExDapk3MqaQOT3efWZdTlUEPiCNGUBJFgsipYvTmSA~Lwgm0y~YhEdJPXxqKNEbiGLpnqHrWxgmJIZKGwUuDvzivavDslKxtwYHQfFss~s7NraVca08QPo1MR3N1H1RASYV6W5h3Bbz99mSdS6kdZs8z37rfID8FPB5D9p5398x6ZUTG7YvIVC1qrl6nHWXBwqUTqmLz5PbQ__')",
+    backgroundImage: `url(${menuBackgroundImage})`,
     backgroundSize: "60px 60px",
   };
   const notF = (e) => {
@@ -97,6 +98,19 @@ const Header = () => {
 
   const toggleMenu = (index) => {
     setActiveMenu(activeMenu === index ? null : index);
+  };
+
+  const getContentByLanguage = (lang) => {
+    switch (lang) {
+      case "ru":
+        return "Russian";
+      case "en":
+        return "English";
+      case "uz":
+        return "O'zbek";
+      default:
+        return "Language not supported";
+    }
   };
   return (
     <div className={`tyu ${scrolled ? "scrolled" : ""}`}>
@@ -1077,149 +1091,18 @@ const Header = () => {
             </div>
           </div>
           <div className="mob-menu-middle">
-            <Link to="/">
-              <svg
-                width="18"
-                height="20"
-                viewBox="0 0 18 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M6.5 18.3334V10H11.5V18.3334M1.5 7.50002L9 1.66669L16.5 7.50002V16.6667C16.5 17.1087 16.3244 17.5326 16.0118 17.8452C15.6993 18.1578 15.2754 18.3334 14.8333 18.3334H3.16667C2.72464 18.3334 2.30072 18.1578 1.98816 17.8452C1.67559 17.5326 1.5 17.1087 1.5 16.6667V7.50002Z"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              Bosh sahifa
+            <Link to={selectedLanguage} className="active-lang">
+              <span>{getContentByLanguage(selectedLanguage)}</span>
             </Link>
-            <Link to="#">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            {languages.map((lang) => (
+              <Link
+                key={lang}
+                to={lang}
+                onClick={() => handleLanguageChange(lang)}
               >
-                <g clip-path="url(#clip0_1267_31671)">
-                  <path
-                    d="M0.664062 8.00002C0.664062 8.00002 3.33073 2.66669 7.9974 2.66669C12.6641 2.66669 15.3307 8.00002 15.3307 8.00002C15.3307 8.00002 12.6641 13.3334 7.9974 13.3334C3.33073 13.3334 0.664062 8.00002 0.664062 8.00002Z"
-                    stroke="white"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M7.9974 10C9.10196 10 9.9974 9.10459 9.9974 8.00002C9.9974 6.89545 9.10196 6.00002 7.9974 6.00002C6.89283 6.00002 5.9974 6.89545 5.9974 8.00002C5.9974 9.10459 6.89283 10 7.9974 10Z"
-                    stroke="white"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1267_31671">
-                    <rect width="16" height="16" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-            </Link>
-            <Link to="#">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.33073 12L0.664062 14.6666V3.99998L5.33073 1.33331M5.33073 12L10.6641 14.6666M5.33073 12V1.33331M10.6641 14.6666L15.3307 12V1.33331L10.6641 3.99998M10.6641 14.6666V3.99998M10.6641 3.99998L5.33073 1.33331"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </Link>
-            <li className="dropdown-mob-color">
-              <Link to="#" onClick={toggleDropDown}>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M14.6693 7.99998C14.6693 11.6819 11.6845 14.6666 8.0026 14.6666M14.6693 7.99998C14.6693 4.31808 11.6845 1.33331 8.0026 1.33331M14.6693 7.99998H1.33594M8.0026 14.6666C4.32071 14.6666 1.33594 11.6819 1.33594 7.99998M8.0026 14.6666C9.67012 12.8411 10.6178 10.472 10.6693 7.99998C10.6178 5.528 9.67012 3.15888 8.0026 1.33331M8.0026 14.6666C6.33508 12.8411 5.38744 10.472 5.33594 7.99998C5.38744 5.528 6.33508 3.15888 8.0026 1.33331M1.33594 7.99998C1.33594 4.31808 4.32071 1.33331 8.0026 1.33331"
-                    stroke="white"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <span>{selectedLanguage}</span>
-                <svg
-                  className="down-arrow"
-                  stroke="currentColor"
-                  fill="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 1024 1024"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                </svg>
+                <span>{getContentByLanguage(lang)}</span>
               </Link>
-              {isOpen && (
-                <ul>
-                  {languages.map((lang) => (
-                    <li key={lang}>
-                      <Link to="#" onClick={() => handleLanguageChange(lang)}>
-                        <span>{lang}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-            <Link to="#">
-              <svg
-                width="22"
-                height="18"
-                viewBox="0 0 22 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M21 3C21 1.9 20.1 1 19 1H3C1.9 1 1 1.9 1 3M21 3V15C21 16.1 20.1 17 19 17H3C1.9 17 1 16.1 1 15V3M21 3L11 10L1 3"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </Link>
-            <Link to="#">
-              <svg
-                width="20"
-                height="22"
-                viewBox="0 0 20 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11.73 20C11.5542 20.3031 11.3018 20.5547 10.9982 20.7295C10.6946 20.9044 10.3504 20.9965 10 20.9965C9.64962 20.9965 9.30539 20.9044 9.00177 20.7295C8.69816 20.5547 8.44581 20.3031 8.27 20M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </Link>
+            ))}
           </div>
           {menus.map((menu, index) => (
             <div
@@ -1229,11 +1112,14 @@ const Header = () => {
                 activeMenu === index ? "active-department" : ""
               }`}
             >
-              <button onClick={() => toggleMenu(index)}>
-                <img src={menu.image} alt="" />
-                {menu.title}
-              </button>
-              <ul
+              <Link to="/online-shop">
+                <span>Onlayn bozor</span>
+                <img src={cheveronIcon} alt="" />
+              </Link>
+              {/* <button onClick={() => toggleMenu(index)}>
+                <span>{menu.title}</span>
+              </button> */}
+              {/* <ul
                 className={`dropdown-mob ${
                   activeMenu === index ? "open" : "closed"
                 }`}
@@ -1243,7 +1129,7 @@ const Header = () => {
                     <a href="#">{link}</a>
                   </li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
           ))}
         </div>

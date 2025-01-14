@@ -334,7 +334,7 @@ const AnnounceDetail = () => {
                   </button>
                 </span>
                 <Link to="#">Ariza qoldirish</Link>
-                <Link to="#">Ariza qoldirish</Link>
+                {/* <Link to="#">Ariza qoldirish</Link> */}
               </div>
             </div>
             <div className="mobile-announce-title">

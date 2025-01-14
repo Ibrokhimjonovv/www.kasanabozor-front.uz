@@ -77,7 +77,7 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
                 key={product.id}
                 className="link-a"
               >
-                <div className="product">
+                <div className="product link-a-product">
                   <div className="imgContainer">
                     <img src={product.img} alt={product.title} />
                   </div>

@@ -183,7 +183,7 @@ const AddProductsComments = ({ com }) => {
           }}
         >
           <div className="type">
-            <Editor
+            {/* <Editor
               id="Editor"
               apiKey="qdqrf5hsllrkplvd2x0u6imudcp9wj4dz3xw9ezkm8awydo8"
               init={{
@@ -243,8 +243,8 @@ const AddProductsComments = ({ com }) => {
               }}
               value={productComment}
               onEditorChange={(content) => setProductComment(content)}
-            />
-            {/* <textarea
+            /> */}
+            <textarea
               value={productComment}
               onChange={(e) => setProductComment(e.target.value)}
               placeholder={
@@ -254,7 +254,7 @@ const AddProductsComments = ({ com }) => {
                   ? "Javob yozing..."
                   : "Izoh yozing..."
               }
-            /> */}
+            />
           </div>
           {isAuthenticated ? (
             <button id="submit" type="submit">

@@ -976,8 +976,8 @@ export const MyContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [refresh, setRefresh] = useState("");
   const [followedCourses, setFollowedCourses] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState("UZ");
-  const [languages, setLanguages] = useState(["RU", "EN"]);
+  const [selectedLanguage, setSelectedLanguage] = useState("uz");
+  const [languages, setLanguages] = useState(["ru", "en"]);
   const [isOpen, setIsOpen] = useState(false);
   const [signupSuccess, setSignUpSuccess] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
@@ -985,7 +985,7 @@ export const MyContextProvider = ({ children }) => {
   const [data, setData] = useState(null);
   const [activeLink, setActiveLink] = useState(1);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [user, setUser] = useState({role: 'user'})
+  const [user, setUser] = useState({role: 'admin'})
   useEffect(() => {
     const tokenn = localStorage.getItem("access_token");
     if (tokenn) {

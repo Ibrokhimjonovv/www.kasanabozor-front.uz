@@ -7,7 +7,7 @@ import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import StarRating from "../../../components/starRating/starRating";
 const AdminTeachers = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   const teachers = [
     {
       id: 123,

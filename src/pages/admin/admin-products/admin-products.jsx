@@ -9,7 +9,7 @@ import authorImg from "./authorImg.png";
 import StarRating from "../../../components/starRating/starRating";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
 const AdminProducts = () => {
-  const isOpen = useContext(MyContext);
+  const {isOpen} = useContext(MyContext);
   const products = [
     {
       id: 1,

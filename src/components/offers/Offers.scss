@@ -62,6 +62,9 @@
                 width: 300px;
                 overflow: hidden;
                 border-radius: 10px;
+                &.link-a-product {
+                    opacity: 1 !important;
+                }
 
                 // &:hover {
                 //     box-shadow: 0 0 20px #00000038;
