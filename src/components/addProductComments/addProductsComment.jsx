@@ -4,82 +4,84 @@ import user from "../addComments/userImg.png";
 import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import axios from 'axios';
+import { eCommerseServerUrl } from '../../SuperVars';
+
 
 const AddProductsComments = ({ com }) => {
-  const [comments, setComments] = useState({});
+  const [comments, setComments] = useState([]);
   const [productComment, setProductComment] = useState("");
   const [replyingTo, setReplyingTo] = useState(null);
   const [currentReplyTo, setCurrentReplyTo] = useState(null);
   const { id } = useParams();
   const { isAuthenticated } = useContext(MyContext);
 
+  const loadData = async () => {
+    const response = await axios.post(`${eCommerseServerUrl}products/comments/list/`, {'id': id});
+    if (response.data.status === "ok") {
+      console.log(response.data.results, "product comments");
+      setComments(response.data.results);
+    }
+  }
 
   useEffect(() => {
-    const storedComments = localStorage.getItem("product-comments");
-    if (storedComments) {
-      setComments(JSON.parse(storedComments));
-    }
+    const fetchComments = async () => {
+      await loadData();
+    };
+    fetchComments();
+  }, [id]);
+
+  useEffect(() => {
+    const interval = setInterval(loadData, 15000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
-  useEffect(() => {
-    if (Object.keys(comments).length > 0) {
-      localStorage.setItem("product-comments", JSON.stringify(comments));
-    }
-  }, [comments]);
-  
-  useEffect(() => {
-    if (com) {
-      setComments((prevComments) => ({
-        ...prevComments,
-        [com.id]: prevComments[com.id] || [],
-      }));
-    }
-  }, [id, com]);
-  
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (productComment.trim() === "") return;
 
     const comment = {
-      id: Date.now(),
       text: productComment,
-      author: "Foydalanuvchi",
-      replies: [],
+      product: com.id
     };
 
-    setComments((prevComments) => {
-      const updatedComments = {
-        ...prevComments,
-        [com.id]: [...(prevComments[com.id] || []), comment],
-      };
-      return updatedComments;
-    });
+    try {
+      const response = await axios.post(`${eCommerseServerUrl}products/comments/create/`, comment);
+      console.log(response);
+      if (response.data.status === "ok") {
+        setComments((prevComments) => {
+          return [...prevComments, response.data.results]
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
     setProductComment("");
   };
   
-  const handleReply = () => {
+  const handleReply = async () => {
     if (productComment.trim() === "") return;
 
-    const updatedComments = { ...comments };
-    let commentToReply = null;
-
-    if (currentReplyTo) {
-      commentToReply = findCommentById(updatedComments[com.id], currentReplyTo);
-    } else {
-      commentToReply = findCommentById(updatedComments[com.id], replyingTo);
-    }
-
-    if (commentToReply) {
-      commentToReply.replies.push({
-        id: Date.now(),
+    if (replyingTo) {
+      const comment = {
         text: productComment,
-        author: "Foydalanuvchi",
-        replies: [],
-      });
+        product: com.id,
+        reply_to: replyingTo
+      };
+
+      try {
+        const response = await axios.post(`${eCommerseServerUrl}products/comments/reply/`, comment);
+        console.log(response);
+        if (response.data.status === "ok") {
+          loadData();
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
 
-    setComments(updatedComments);
     setProductComment("");
     setReplyingTo(null);
     setCurrentReplyTo(null);
@@ -109,24 +111,18 @@ const AddProductsComments = ({ com }) => {
       <div key={reply.id} className="replied-messages">
         <div className="who">
           <div className="user">
-            <img src={user} alt="" />
+          <img src={`http://5.75.178.236:4900${reply.user.pfp}`} alt="" />
             <div className="texts">
               <div className="name">
-                {reply.author} {reply.author === com.authorName && "(muallif)"}
+              {reply.user.first_name} {reply.user.last_name} {reply.user.id === com.user.id && "(muallif)"}
               </div>
               <div className="date">
-                <span>{new Date(reply.id).toLocaleDateString()}</span>
+              <span>{new Date(reply.created_at).toLocaleDateString()}</span>
               </div>
             </div>
           </div>
-          <div className="reply-button">
-            <button onClick={() => setCurrentReplyTo(reply.id)}>
-              Javob berish
-            </button>
-          </div>
         </div>
-        <div className="message" dangerouslySetInnerHTML={{__html: reply.text}}></div>
-        {reply.replies && renderReplies(reply.replies)}
+        <div className="message">reply.text</div>
       </div>
     ));
   };
@@ -135,35 +131,29 @@ const AddProductsComments = ({ com }) => {
     <div id="comments">
       <h2>Izohlar</h2>
       <div className="commentsInner">
-        {comments[com.id] && comments[com.id].length > 0 ? (
-          comments[com.id].map((comment) => (
-            <div className="user-comment" key={comment.id}>
-              <div className="who">
-                <div className="user">
-                  <img src={user} alt="" />
-                  <div className="texts">
-                    <div className="name">
-                      {comment.author}{" "}
-                      {comment.author === com.authorName && "(muallif)"}
-                    </div>
-                    <div className="date">
-                      <span>{new Date(comment.id).toLocaleDateString()}</span>
-                    </div>
+        {comments.length > 0 ? <>{comments.map((comment) => <div className="user-comment" key={comment.id}>
+            <div className="who">
+              <div className="user">
+                <img src={`http://5.75.178.236:4900${comment.user.pfp}`} alt="" />
+                <div className="texts">
+                  <div className="name">
+                    {comment.user.first_name} {comment.user.last_name} {comment.user.id === com.user.id && "(muallif)"}
+                  </div>
+                  <div className="date">
+                    <span>{new Date(comment.created_at).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="reply-button">
-                  <button onClick={() => setReplyingTo(comment.id)}>
-                    Javob berish
-                  </button>
-                </div>
               </div>
-              <div className="message" dangerouslySetInnerHTML={{__html: comment.text}}></div>
-              {comment.replies && renderReplies(comment.replies)}
+              <div className="reply-button">
+                <button onClick={() => setReplyingTo(comment.id)}>
+                  Javob berish
+                </button>
+              </div>
             </div>
-          ))
-        ) : (
-          <div>Birinch izohni bildiring!</div>
-        )}
+            <div className="message">{comment.text}</div>
+            {comment.product_comment_Ecommerce_comment_replies && renderReplies(comment.product_comment_Ecommerce_comment_replies)}
+          </div>)}</> : <div>Birinch izohni bildiring!</div>
+        }
       </div>
       <div className="addComment">
         <div className="title">
