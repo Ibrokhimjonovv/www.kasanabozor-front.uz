@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./addAnnounce.scss";
-import EditorBar from "../../components/Editor/Editor";
 import ImageUpload from "../../components/imgUpload/imgUpload";
 import axios from 'axios';
 import { announcementsServerUrl } from '../../SuperVars';
@@ -99,7 +98,7 @@ const AddAnnounce = () => {
 
   const [announceTitle, setAnnounceTitle] = useState("");
   const [fAddress, setFAddress] = useState("");
-  const [description, setDescription] = useState("Example description until i will update github!");
+  const [description, setDescription] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -562,7 +561,7 @@ const AddAnnounce = () => {
             Qisqacha ma'lumot
           </label>
           {/* <EditorBar /> */}
-          <textarea name="" id="" placeholder="Qisqacha ma'lumot"></textarea>
+          <textarea name="" id="" placeholder="Qisqacha ma'lumot" value={ description } onChange={ (e) => setDescription(e.target.value) }></textarea>
           {announceType === "Xizmat e'loni" && (
             <>
               <p>Xizmat rasmlari</p>
