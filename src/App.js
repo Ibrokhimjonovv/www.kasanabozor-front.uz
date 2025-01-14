@@ -122,7 +122,7 @@ function AppContent() {
         <Route path="news/:category" element={<NewsCategory />} />
         <Route path="news/:category/:id" element={<NewsDetail />} />
         <Route path="news/documents/:category" element={<Documents />} />
-        <Route path="news/documents/pdf" element={<PDFViewer />} />
+        <Route path="news/documents/:category/:pdf" element={<PDFViewer />} />
         <Route path="courses" element={<CoursesPage />} />
         <Route path="courses/all-categories/" element={<AllCourseCategory />} />
         <Route
