@@ -204,7 +204,7 @@ const Products = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ""}
+                      src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ""}
                       alt=""
                     />
                   </td>

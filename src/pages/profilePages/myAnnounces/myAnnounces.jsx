@@ -208,13 +208,13 @@ const MyAnnounces = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={announce.thumbnail ? `http://127.0.0.1:8903${announce.thumbnail}` : 'http://127.0.0.1:8901/static/404.png'}
+                      src={announce.thumbnail ? `http://5.75.178.236:4903${announce.thumbnail}` : 'http://5.75.178.236:4901/static/404.png'}
                       alt=""
                     />
                   </td>
                   <td className="announce-title">{announce.title}</td>
                   <td>
-                    <img className="productImg" src={`http://127.0.0.1:8900${announce.user.pfp}`} alt="" />
+                    <img className="productImg" src={`http://5.75.178.236:4900${announce.user.pfp}`} alt="" />
                   </td>
                   <td className="announce-price">{announce.price_max} UZS</td>
                   { /* <td>{announce.applicationsCount}</td> */ }

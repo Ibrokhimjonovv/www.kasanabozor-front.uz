@@ -93,7 +93,7 @@ const AnnouncementsPage = () => {
                 ))*/}
               </div>
               <div className="author">
-                <img src={`http://127.0.0.1:8900${announcement.user.pfp}`} alt="" />
+                <img src={`http://5.75.178.236:4900${announcement.user.pfp}`} alt="" />
                 <span>{announcement.user.first_name} {announcement.user.last_name}</span>
               </div>
               <div className="date-count">
@@ -176,13 +176,13 @@ const AnnouncementsPage = () => {
         <div className="services-cards">
           {services.map((value, index) => <Link to={`/announcements/${value.id}`} key={ index }>
             <div className="service-card">
-              <div className="img-card"><img src={ value.thumbnail ? `http://127.0.0.1:8903${value.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png' } alt="" /></div>
+              <div className="img-card"><img src={ value.thumbnail ? `http://5.75.178.236:4903${value.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png' } alt="" /></div>
               <div className="service-title">{value.title}</div>
               <div className="service-desc"></div>
               <div className="author-location">
                 <div className="author">
                   <img
-                    src={ `http://127.0.0.1:8900${value.user.pfp}` }
+                    src={ `http://5.75.178.236:4900${value.user.pfp}` }
                     alt=""
                   />
                   <span>{value.user.first_name} {value.user.last_name}</span>

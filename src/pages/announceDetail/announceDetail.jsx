@@ -214,7 +214,7 @@ const AnnounceDetail = () => {
                       ))*/}
                     </div>
                     <div className="author">
-                      <img src={`http://127.0.0.1:8900${announcement.user.pfp}`} alt="" />
+                      <img src={`http://5.75.178.236:4900${announcement.user.pfp}`} alt="" />
                       <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                     </div>
                     <div className="date-count">
@@ -290,7 +290,7 @@ const AnnounceDetail = () => {
             <div className="top-side">
               <div className="top-left">
                 <div className="author">
-                  <img src={`http://127.0.0.1:8900${currentAnnounce.user.pfp}`} alt="" />
+                  <img src={`http://5.75.178.236:4900${currentAnnounce.user.pfp}`} alt="" />
                   <span>{currentAnnounce.user.first_name} {currentAnnounce.user.last_name}</span>
                 </div>
                 <div className="cur-title">{currentAnnounce.title}</div>

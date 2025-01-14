@@ -62,7 +62,7 @@ const TopCourses = () => {
                 className="course-card"
               >
                 <div className="card-img">
-                  <img src={course.thumbnail ? `http://127.0.0.1:8902${course.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png'} alt={course.title} />
+                  <img src={course.thumbnail ? `http://5.75.178.236:4902${course.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png'} alt={course.title} />
                 </div>
 
                 <p className="card-title">{course.title}</p>
@@ -145,7 +145,7 @@ const TopCourses = () => {
                 </div>
                 <div className="author">
                   <div className="author-img">
-                    <img src={`http://127.0.0.1:8900${course.user.pfp}`} alt={course.user.pfp} />
+                    <img src={`http://5.75.178.236:4900${course.user.pfp}`} alt={course.user.pfp} />
                   </div>
                   <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                 </div>

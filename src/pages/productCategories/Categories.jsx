@@ -98,7 +98,7 @@ const Categories = () => {
             <Link to={`/online-shop/product/${product.id}`} key={product.id}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://127.0.0.1:8901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
+                  <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
                 </div>
                 <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
@@ -124,7 +124,7 @@ const Categories = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={`http://127.0.0.1:8900${product.user.pfp}`} alt="" />
+                  <img src={`http://5.75.178.236:4900${product.user.pfp}`} alt="" />
                   <span>{product.user.first_name} {product.user.last_name}</span>
                 </div>
               </div>
