@@ -610,5 +610,220 @@
         height: 2px !important;
         background-color: #41A58D !important;
         // display: block;
-    }    
+    }
+}
+
+.services-mobile-version {
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    #announceDetail {
+        &.servicecDetail {
+            margin-top: 85px;
+
+            .to-back {
+                background-color: #41A58D;
+                height: 50px;
+
+                .backInner {
+                    margin: 0 auto;
+                    max-width: 1366px;
+                    align-items: center;
+                    display: flex;
+                    height: 100%;
+                    padding: 0 20px;
+                    color: #fff;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    a {
+                        color: #fff;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+            }
+            .search-container {
+                display: flex;
+                gap: 5px;
+                padding: 10px 20px;
+                background-color: #fff;
+                align-items: center;
+
+                a  {
+                    background-color: #41A58D;
+                    color: #fff;
+                    padding: 7px 7px;
+                    border-radius: 7px;
+                    font-size: 13px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 3px;
+
+                    svg {
+                        path {
+                            stroke: #fff !important;
+                        }
+                    }
+                }
+
+                #search-bar {
+                    width: 64%;
+
+                    form {
+                        input {
+                            width: 100%;
+                            font-size: 15px;
+                            border-radius: 20px 0 0 20px;
+                            height: 40px;
+                            padding-right: 0;
+                        }
+
+                        button {
+                            border-radius: 0 20px 20px 0;
+                            background-color: #f2f2f2;
+                            height: 40px;
+
+                            svg {
+                                path  {
+                                    stroke: #41A58D; 
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .announceSelect {
+            .add-announce-link {
+                display: none;
+            }
+        }
+
+        .dep-container {
+            .announceDetail {
+                flex-direction: column-reverse;
+                padding: 20px;
+
+                .left-side {
+                    width: 100%;
+
+                    .announcements-cards {
+                        a {
+                            width: 100%;
+                            opacity: 1;
+                            transform: unset;
+
+                            .card {
+                                width: 100%;
+
+                                #save-btn {
+                                    svg {
+                                        path {
+                                            stroke: #fff !important;
+                                        }
+                                    }
+                                }
+
+                                .hero-img-title {
+                                    flex-direction: column;
+
+                                    img {
+                                        width: 100%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .right-side {
+                    width: 100%;
+                    height: unset;
+
+                    .hero-img-detail {
+                        height: 250px;
+                    }
+
+                    .top-side {
+                        .top-left {
+                            .cur-title {
+                                display: none;
+                            }
+                        }
+
+                        .top-right {
+                            a {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    .mobile-announce-title {
+                        display: unset;
+
+                        .cur-title {
+                            font-size: 22px;
+                            font-weight: 600;
+                            margin-top: 10px;
+                        }
+
+                        a {
+                            padding: 9px 15px;
+                            background-color: #41A58D;
+                            color: #fff;
+                            border: 2px solid transparent;
+                            border-radius: 7px;
+                            display: block;
+                            text-align: center;
+                            margin-top: 5px;
+
+                            &:hover {
+                                background-color: transparent;
+                                border-color: #41A58D;
+                                color: #41A58D;
+                            }
+                        }
+                    }
+
+                    .about-detail {
+                        row-gap: 15px;
+                        flex-direction: column;
+
+                        li {
+                            .text {
+                                p {
+                                    &:first-child {
+                                        color: #757575;
+                                        font-size: 17px;
+                                    }
+
+                                    &:last-child {
+                                        font-weight: 600;
+                                        color: #303030;
+                                        font-size: 16px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .other-details {
+                        h2 {
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

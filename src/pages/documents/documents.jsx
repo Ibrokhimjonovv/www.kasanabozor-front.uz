@@ -6,6 +6,7 @@ import aaa from "./Без имени-2 1.png";
 import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess";
 import LittlePoster from "../../components/littlePoster/LittlePoster";
 import Weather from "../../components/weather/weather";
+import CurrencyRates from "../../components/converter/converter";
 const Documents = () => {
   const { category } = useParams();
   const { documents } = useContext(MyContext);
@@ -150,9 +151,15 @@ const Documents = () => {
       </div>
       <HistoryOfSuccess />
       <LittlePoster />
-      <div id="weather">
+      <br />
+      <h2 className="currency-title">Foydali ma'lumotlar</h2>
+      <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
+      
+      <div className="g-container">
         <Weather />
+        <CurrencyRates/>
       </div>
+      <br />
     </div>
   );
 };

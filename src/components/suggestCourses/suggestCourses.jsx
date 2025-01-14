@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 import Discount from "../discount/Discount";
+import "./suggestCourses.scss"
 
 
 const SuggestCourses = () => {

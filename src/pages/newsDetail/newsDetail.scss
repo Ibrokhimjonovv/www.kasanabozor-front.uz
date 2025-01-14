@@ -1,7 +1,5 @@
 #newsInnerDetail {
     background-color: #F5F5F5;
-
-
     .to-back {
         background-color: #41A58D;
         height: 50px;
@@ -31,7 +29,6 @@
         }
     
     }
-
     .new-details {
         display: flex;
         gap: 20px;
@@ -393,6 +390,168 @@
                     background-color: #77F9DA4D;
                 }
             }
+        }
+    }
+
+    .currency-title {
+        font-weight: 600;
+        padding: 5px 50px;
+        max-width: 1366px;
+        margin: 0 auto;
+    }
+    
+    .currency-little-title {
+        padding: 0 50px;
+        max-width: 1366px;
+        margin: 0 auto;
+    }
+
+    .g-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        max-width: 1366px;
+        margin: 0 auto;
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #newsInnerDetail {
+        .to-back {
+            margin-top: 85px;
+            .backInner {
+                padding: 0 20px;
+
+                a, span {
+                    font-size: 14px;
+
+                    &.three-dot {
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;  
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;                       
+                    }
+                }
+            }
+        }
+
+        .new-details {
+            flex-direction: column;
+            padding: 10px;
+
+            .left-side {
+                width: 100%;
+                
+                .left-top-side {
+                    padding: 10px;
+
+                    .hero-new {
+                        .hero-img {
+                            height: 300px;
+                        }
+
+                        .hero-new-details {
+                            flex-direction: column;
+                            row-gap: 9px;
+                            ul {
+                                flex-wrap: wrap;
+                            }
+                        }
+                    }
+
+                    .about-hero {
+                        .hero-title {
+                            font-size: 22px !important;
+                        }
+
+                        .other-text {
+                            margin: 10px 0;
+                            width: 100%;
+                            padding: 20px;
+                        }
+
+                    }
+                    .hashtags {
+                        ul {
+                            flex-wrap: wrap;
+                        }
+                    }
+                }
+            }
+        }
+
+        .simillar {
+            padding: 20px;
+            
+            .news-cards {
+                justify-content: center;
+            }
+        }
+
+        .poster {
+            flex-direction: column;
+            height: 500px;
+            padding: 30px 20px;
+
+            .left-side {
+                width: 100%;
+                margin: 0;
+
+                .bigText {
+                    p {
+                        width: 100%;
+                        font-size: 22px;
+                        text-align: center;
+                    }
+                    .name {
+                        display: none;
+                    }
+                }
+
+                .smallText {
+                    margin-top: 10px;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            .right-side {
+                width: 100%;
+                padding: 0;
+                margin-bottom: -60px;
+
+                img {
+                    width: 190px;
+                    left: 50%;
+                    transform:  translateX( -50% );
+                }
+            
+                .shape {
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 200px;
+                    height: 200px;
+
+                    &::after {
+                        width: 170px;
+                        height: 170px;
+                    }
+                }
+            }
+        }
+
+        .currency-title {
+            padding-left: 20px;
+        }
+        
+        .currency-little-title {
+            padding-left: 20px;
+        }
+
+        .g-container {
+            flex-direction: column;
         }
     }
 }

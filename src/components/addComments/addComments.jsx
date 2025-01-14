@@ -77,7 +77,7 @@ const AddComments = ({ news }) => {
     }
 
     setComments(updatedComments);
-    setNewComment(""); 
+    setNewComment("");
     setReplyingTo(null);
     setCurrentReplyTo(null);
   };
@@ -119,7 +119,10 @@ const AddComments = ({ news }) => {
             </button>
           </div>
         </div>
-        <div className="message" dangerouslySetInnerHTML={{__html: reply.text}}></div>
+        <div
+          className="message"
+          dangerouslySetInnerHTML={{ __html: reply.text }}
+        ></div>
         {reply.replies && renderReplies(reply.replies)}
       </div>
     ));
@@ -150,7 +153,10 @@ const AddComments = ({ news }) => {
                   </button>
                 </div>
               </div>
-              <div className="message" dangerouslySetInnerHTML={{__html: comment.text}}></div>
+              <div
+                className="message"
+                dangerouslySetInnerHTML={{ __html: comment.text }}
+              ></div>
               {comment.replies && renderReplies(comment.replies)}
             </div>
           ))
@@ -177,16 +183,16 @@ const AddComments = ({ news }) => {
             e.preventDefault();
             if (newComment.trim() === "") return;
             if (currentReplyTo) {
-              handleReply(); 
+              handleReply();
             } else if (replyingTo) {
-              handleReply(); 
+              handleReply();
             } else {
-              handleAddComment(); 
+              handleAddComment();
             }
           }}
         >
           <div className="type">
-            <div className="type">
+            {/* <div className="course-comments-desktop-version">
               <Editor
                 id="Editor"
                 apiKey="qdqrf5hsllrkplvd2x0u6imudcp9wj4dz3xw9ezkm8awydo8"
@@ -243,14 +249,16 @@ const AddComments = ({ news }) => {
                       : replyingTo
                       ? "Javob yozing..."
                       : "Izoh yozing..."
-                  }`, 
+                  }`,
                 }}
-                value={newComment}
-                onEditorChange={(content) => setNewComment(content)}
+                value={newComment || ""}
+                onEditorChange={(content) => setNewComment(content || "")}
               />
-              {/* <textarea
-                value={productComment}
-                onChange={(e) => setProductComment(e.target.value)}
+            </div> */}
+            
+            <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
                 placeholder={
                   currentReplyTo
                     ? "Javob yozing..."
@@ -258,8 +266,7 @@ const AddComments = ({ news }) => {
                     ? "Javob yozing..."
                     : "Izoh yozing..."
                 }
-              /> */}
-            </div>
+              />
           </div>
           {isAuthenticated ? (
             <button id="submit" type="submit">

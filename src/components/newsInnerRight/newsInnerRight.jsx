@@ -14,7 +14,7 @@ const NewsInnerRight = () => {
   ];
   return (
     <div className="right-side">
-      <div className="categories">
+      <div className="categories categories-desktop-version">
         <h2>Katgoriyalar</h2>
         <ul>
           {

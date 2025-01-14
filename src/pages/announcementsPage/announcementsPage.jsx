@@ -45,7 +45,10 @@ const AnnouncementsPage = () => {
         const revealTop = revealElement.getBoundingClientRect().top;
         const revealPoint = windowHeight * 0.9;
 
-        if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
+        if (
+          revealTop < revealPoint &&
+          !revealElement.classList.contains("revealed")
+        ) {
           revealElement.classList.add("revealed");
         }
       });
@@ -72,9 +75,13 @@ const AnnouncementsPage = () => {
         </div>
         <Link to="#">Ko'proq ko'rish</Link>
       </div>
-      <div className="announcements-cards">
+      <div className="announcements-cards ann">
         {announcements.map((announcement, index) => (
-          <Link to={`${announcement.id}`} key={announcement.id} className="scroll-fade-effect">
+          <Link
+            to={`${announcement.id}`}
+            key={announcement.id}
+            className="scroll-fade-effect"
+          >
             <div className="card ">
               <p className="title">{announcement.title}</p>
               <p className="price">{announcement.price_max}</p>
@@ -229,6 +236,72 @@ const AnnouncementsPage = () => {
               </div>
             </div>
           </Link>)}
+          {services.map((service, index) => (
+            <Link to="#" key={index}>
+              <div className="service-card">
+                <div className="img-card"><img src={service.heroImg} alt="" /></div>
+                <div className="service-title">{service.title}</div>
+                <div className="service-desc">
+                  {service.description}
+                </div>
+                <div className="author-location">
+                  <div className="author">
+                    <img
+                      src={service.authorImg}
+                      alt=""
+                    />
+                    <span>{service.author}</span>
+                  </div>
+                  <div className="location">{service.location}</div>
+                </div>
+                <div className="service-date">
+                  <span>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.9974 5.00002V10L13.3307 11.6667M18.3307 10C18.3307 14.6024 14.5998 18.3334 9.9974 18.3334C5.39502 18.3334 1.66406 14.6024 1.66406 10C1.66406 5.39765 5.39502 1.66669 9.9974 1.66669C14.5998 1.66669 18.3307 5.39765 18.3307 10Z"
+                        stroke="#767676"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span>{service.date}</span>
+                  </span>
+                  <span>
+                    <svg
+                      width="21"
+                      height="16"
+                      viewBox="0 0 21 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.17188 7.99998C1.17188 7.99998 4.50521 1.33331 10.3385 1.33331C16.1719 1.33331 19.5052 7.99998 19.5052 7.99998C19.5052 7.99998 16.1719 14.6666 10.3385 14.6666C4.50521 14.6666 1.17188 7.99998 1.17188 7.99998Z"
+                        stroke="#767676"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10.3385 10.5C11.7193 10.5 12.8385 9.38069 12.8385 7.99998C12.8385 6.61927 11.7193 5.49998 10.3385 5.49998C8.95783 5.49998 7.83854 6.61927 7.83854 7.99998C7.83854 9.38069 8.95783 10.5 10.3385 10.5Z"
+                        stroke="#767676"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span>{service.views}</span>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

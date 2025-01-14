@@ -72,7 +72,6 @@
         }
     }
 
-
     .titlee {
         display: flex;
         justify-content: space-between;
@@ -113,10 +112,17 @@
         max-width: 1366px;
         margin: 0 auto;
 
+        &.ann {
+            a {
+                width: unset;
+            }
+        }
+
         a {
             transform: translateX(-30px);
             opacity: 0;
             transition: all 1s;
+
             
             &.active {
                 transform: unset;
@@ -131,7 +137,7 @@
             display: flex;
             flex-direction: column;
             row-gap: 10px;
-            border: 1px solid #F3F3F3;
+            border: 1px solid #d9d9d9;
             border-radius: 7px;
 
             &:hover {
@@ -292,4 +298,71 @@
         }
     }
 
+}
+
+@media screen and (max-width: 500px) {
+    #announcementsPage {
+        padding-top: 85px;       
+        
+        .miniPoster {
+            .text {
+                padding-left: 20px;
+                z-index: 3;
+            }
+            img {
+                position: absolute;
+                z-index: 2;
+                width: 163%;
+                height: 280px;
+                object-fit: cover;
+                left: 75px;
+            }           
+        }
+        .to-announce {
+            flex-direction: column;
+            height: unset;
+            padding: 15px 20px;
+            align-items: flex-start;
+            row-gap: 10px;
+
+            a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .titlee {
+            padding: 20px;
+            a {
+                display: none;
+            }
+        }
+
+        .announcements-cards {
+            padding: 0 20px;
+
+            a {
+                width: 100%;
+                .card {
+                    width: 100%;
+                }
+            }
+        }
+
+        .services {
+            .services-cards {
+                padding: 20px;
+                a {
+                    width: 100%;
+                    .service-card {
+                        width: 100%;
+
+                        .location {
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+    }   
 }

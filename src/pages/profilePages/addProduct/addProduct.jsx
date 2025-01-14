@@ -86,6 +86,7 @@ const AddProducts = () => {
       } else {
         alert("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
       }
+      console.log(response, 'add product');
     } catch (error) {
       console.error("APIga yuborishda xatolik:", error);
     }

@@ -145,7 +145,7 @@ const CourseDetail = () => {
           <Link to={`/courses/categories/${course.category.id}`}>
             {course.category.title}
           </Link>
-          <span>
+          <span >
             <svg
               width="16"
               height="16"
@@ -161,7 +161,7 @@ const CourseDetail = () => {
               />
             </svg>
           </span>
-          <span>{course.title}</span>
+          <span className="three-dot">{course.title}</span>
         </div>
       </div>
       <div className="video-container">
@@ -271,7 +271,7 @@ const CourseDetail = () => {
               <span>{course.author}</span>
             </div>
           </div>
-          <div className="course-name">{course.title}</div>
+          <div className="course-name name-desktop-version">{course.title}</div>
         </div>
         <div className="video-right">
           <h3>Darslar</h3>
@@ -312,6 +312,7 @@ const CourseDetail = () => {
           </ul>
         </div>
       </div>
+      <div className="course-name name-mobile-version">{course.title}</div>
       <div className="about-courses">
         <div className="leftt">
           <div className="dep">
@@ -485,7 +486,6 @@ const CourseDetail = () => {
                 selectedDep === "comments-select" ? "active" : ""
               }`}
             >
-              <p className="title">Izohlar</p>
               <AddComments news={course} />
             </div>
           </div>

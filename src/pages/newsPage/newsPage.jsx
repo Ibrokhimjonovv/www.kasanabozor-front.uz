@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import posterImg2 from "./posterImg2.png";
 import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess";
+import newsCardImage from "./news-card-image.png";
+import Weather from "../../components/weather/weather";
+import CurrencyRates from "../../components/converter/converter";
 const NewsPage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -29,19 +32,17 @@ const NewsPage = () => {
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9; 
-        if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
+        const revealPoint = windowHeight * 0.9;
+        if (
+          revealTop < revealPoint &&
+          !revealElement.classList.contains("revealed")
+        ) {
           revealElement.classList.add("revealed");
         }
       });
     };
-
     window.addEventListener("scroll", reveal);
-
-    // Birinchi ochilish uchun chaqiriladi
     reveal();
-
-    // Scroll listenerni tozalash
     return () => window.removeEventListener("scroll", reveal);
   }, []);
   return (
@@ -53,12 +54,9 @@ const NewsPage = () => {
       <div className="newsInner">
         <div className="left-side">
           <div className="img-container">
-            {/* <img src={heroImg} alt="" /> */}
+            <img src={newsCardImage} alt="" />
             <div className="texts">
-              <h1>
-                O‘zini o‘zi band qilgan shaxslar O‘zini o‘zi band qilgan
-                shaxslar
-              </h1>
+              <h1>O‘zini o‘zi band qilgan shaxslar</h1>
               <p>
                 «Kasanachilikni yanada rivojlantirishga oid qo‘shimcha
                 chora-tadbirlar to‘g‘risida»gi
@@ -125,7 +123,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -190,7 +188,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -255,7 +253,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -320,7 +318,7 @@ const NewsPage = () => {
           <Link to="#">
             <div className="row">
               <div className="row-right">
-                {/* <img src={heroImg} alt="" /> */}
+                <img src={newsCardImage} alt="" />
               </div>
               <div className="row-left">
                 <div className="row-new-title">
@@ -392,10 +390,12 @@ const NewsPage = () => {
         <div className="news-cards">
           {legislativeNews.length > 0 ? (
             legislativeNews.slice(0, visibleNews).map((news, index) => (
-              <Link to={`${legislativeNews[0]?.category.replace(/\s+/g, '-').toLowerCase()}/${news.id}`}>
-                <div
-                  className={`news-card `}
-                >
+              <Link
+                to={`${legislativeNews[0]?.category
+                  .replace(/\s+/g, "-")
+                  .toLowerCase()}/${news.id}`}
+              >
+                <div className={`news-card `}>
                   <div className="img-cont">
                     <img src={news.img} alt={news.title} />
                   </div>
@@ -460,16 +460,20 @@ const NewsPage = () => {
           ) : (
             <p>Qonunchilikga oid Yangiliklar mavjud emas</p>
           )}
-        {visibleNews < legislativeNews.length && (
-          <div className="showMoreBtn">
-            {/* <button onClick={handleShowMore}>Ko'proq ko'rish</button> */}
+          {visibleNews < legislativeNews.length && (
             <div className="showMoreBtn">
-              <Link to={`${legislativeNews[0]?.category.replace(/\s+/g, '-').toLowerCase()}`}>
-                Ko'proq ko'rish
-              </Link>
+              {/* <button onClick={handleShowMore}>Ko'proq ko'rish</button> */}
+              <div className="showMoreBtn">
+                <Link
+                  to={`${legislativeNews[0]?.category
+                    .replace(/\s+/g, "-")
+                    .toLowerCase()}`}
+                >
+                  Ko'proq ko'rish
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
 
@@ -504,7 +508,11 @@ const NewsPage = () => {
         <div className="news-cards">
           {normativeLegalNews.length > 0 ? (
             normativeLegalNews.slice(0, visibleNews2).map((news, index) => (
-              <Link to={`${normativeLegalNews[0]?.category.replace(/\s+/g, '-').toLowerCase()}/${news.id}`}>
+              <Link
+                to={`${normativeLegalNews[0]?.category
+                  .replace(/\s+/g, "-")
+                  .toLowerCase()}/${news.id}`}
+              >
                 <div className="news-card">
                   <div className="img-cont">
                     <img src={news.img} alt={news.title} />
@@ -573,12 +581,23 @@ const NewsPage = () => {
         </div>
         {visibleNews2 < normativeLegalNews.length && (
           <div className="showMoreBtn">
-            <Link to={`${normativeLegalNews[0]?.category.replace(/\s+/g, '-').toLowerCase()}`}>
+            <Link
+              to={`${normativeLegalNews[0]?.category
+                .replace(/\s+/g, "-")
+                .toLowerCase()}`}
+            >
               Ko'proq ko'rish
             </Link>
           </div>
         )}
       </div>
+      <h2 className="currency-title">Foydali ma'lumotlar</h2>
+      <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
+      <div className="g-container">
+        <Weather />
+        <CurrencyRates />
+      </div>
+      <br />
     </div>
   );
 };

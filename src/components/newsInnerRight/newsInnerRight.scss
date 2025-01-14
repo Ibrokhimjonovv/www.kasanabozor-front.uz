@@ -148,3 +148,21 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .right-side {
+        width: 100%;
+
+        .categories-desktop-version {
+            display: none;
+        }
+
+        .last-news {
+            padding: 25px 10px;
+        }
+
+        .popularity {
+            padding: 25px 15px;
+        }
+    }
+}

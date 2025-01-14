@@ -101,3 +101,21 @@
     }
 
 }
+
+@media screen and (max-width: 500px) {
+    #success-history {
+        padding: 20px;
+        
+        .people {
+            flex-direction: column;
+    
+            .hito {
+                width: 100%;
+
+                .texts {
+                    padding: 20px 15px;
+                }
+            }
+        }
+    }   
+}

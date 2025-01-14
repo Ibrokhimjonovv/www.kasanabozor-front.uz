@@ -1,6 +1,5 @@
 #courseDetail {
     background-color: #F5F5F5;
-    
 
     .to-back {
         background-color: #41A58D;
@@ -54,9 +53,12 @@
                 display: flex;
                 justify-content: space-between;
                 margin-top: 10px;
+                flex-wrap: wrap;
+                row-gap: 10px;
 
                 ul {
                     display: flex;
+                    flex-wrap: wrap;
                     gap: 20px;
 
                     li {
@@ -410,6 +412,92 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.name-mobile-version {
+    display: none;
+}
+
+
+@media screen and (max-width: 500px) {
+    #courseDetail {
+        .to-back {
+            margin-top: 85px;
+
+            .inner {
+                padding: 0 20px;
+
+                a, span {
+                        
+                    &.three-dot {
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;  
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
+
+        .video-container {
+            flex-direction: column;
+            padding: 20px;
+
+            .video-left {
+                width: 100%;
+
+                video {
+                    height: 300px;                   
+                }
+            }
+
+            .video-right {
+                width: 100%;
+            }
+        }
+        .about-courses {
+            flex-direction: column;
+            padding: 20px 15px;
+
+            .leftt {
+                width: 100%;
+
+                .dep {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+            
+                .datas-container {
+                    .other-text {
+                        width: 95%;
+                        padding: 15px;
+                        
+                        h2 {
+                            font-size: 18px;
+                        }
+                    }
+
+                    
+                }
+            }
+
+            .follow {
+                width: 100%;
+            }
+        }
+        .name-desktop-version {
+            display: none;
+        }
+
+        .name-mobile-version {
+            display: unset;
+            color: #1E1E1E;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 10px 20px;
         }
     }
 }

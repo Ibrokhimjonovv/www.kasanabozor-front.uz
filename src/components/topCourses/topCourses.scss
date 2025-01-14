@@ -204,3 +204,31 @@
         color: #757575;
     }
 }
+
+@media screen and (max-width: 500px) {
+    #topCourses {
+        padding: 20px 0;
+        
+        .categories {
+            display: none;
+        }
+
+        .courses {
+            .title {
+                margin-top: 0;
+            }
+
+            .courses-cards {
+                justify-content: center;
+                padding: 0 20px;
+
+                .course-card {
+                    width: 100%;
+                }
+            }
+        }
+
+        
+        
+    } 
+}

@@ -9,6 +9,8 @@ import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import posterImg2 from "./posterImg2.png";
 import Weather from "../../components/weather/weather";
 import Loading from "../../components/loading/loading";
+import CurrencyConverter from "../../components/converter/converter";
+import CurrencyRates from "../../components/converter/converter";
 const NewsDetail = () => {
   const { newsList } = useContext(MyContext);
   const { category, id } = useParams();
@@ -84,7 +86,7 @@ const NewsDetail = () => {
               />
             </svg>
           </span>
-          <Link to={`/news/${category}`}>{formatCategory(category)}</Link>
+          <Link className="three-dot" to={`/news/${category}`}>{formatCategory(category)}</Link>
           <span>
             <svg
               width="16"
@@ -101,7 +103,7 @@ const NewsDetail = () => {
               />
             </svg>
           </span>
-          <span>{newsItem.title}</span>
+          <span className="three-dot">{newsItem.title}</span>
         </div>
       </div>
       <div className="new-details">
@@ -320,6 +322,7 @@ const NewsDetail = () => {
         <NewsInnerRight />
       </div>
       <div className="simillar">
+        <h2>O'xshash yangiliklar</h2>
         <div className="news-cards">
           {similliarNews.length > 0 ? (
             similliarNews.map((news, index) => (
@@ -417,7 +420,13 @@ const NewsDetail = () => {
           </div>
         </div>
       </div>
-      <Weather />
+      <h2 className="currency-title">Foydali ma'lumotlar</h2>
+      <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
+      
+      <div className="g-container">
+        <Weather />
+        <CurrencyRates />
+      </div>
       <br />
     </div>
   );

@@ -264,3 +264,94 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #coursesPage {
+        padding-top: 85px;
+        
+        .miniPoster {
+            .text {
+                padding-left: 15px;
+            }
+
+            img {
+                position: absolute;
+                z-index: 2;
+                width: 200%;
+                height: 267px;
+                object-fit: cover;
+                right: -465px;
+            }
+        }
+
+        .poster {
+            flex-direction: column;
+            height: 500px;
+            padding: 30px 20px;
+
+            .left-side {
+                width: 100%;
+                margin: 0;
+
+                .bigText {
+                    p {
+                        width: 100%;
+                        font-size: 22px;
+                        text-align: center;
+                    }
+                    .name {
+                        display: none;
+                    }
+                }
+
+                .smallText {
+                    margin-top: 10px;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            .right-side {
+                width: 100%;
+                padding: 0;
+                margin-bottom: -60px;
+
+                img {
+                    width: 190px;
+                    left: 50%;
+                    transform:  translateX( -50% );
+                }
+            
+                .shape {
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 200px;
+                    height: 200px;
+
+                    &::after {
+                        width: 170px;
+                        height: 170px;
+                    }
+                }
+            }
+        }
+
+        .new-courses {
+            padding: 20px;
+
+            .courses-cards {
+                justify-content: center;
+                padding: 20px;
+
+                .course-card {
+                    width: 100%;
+                }
+            }
+        }
+
+        .suggest-courses {
+            padding: 20px;
+            
+        }
+    }
+}

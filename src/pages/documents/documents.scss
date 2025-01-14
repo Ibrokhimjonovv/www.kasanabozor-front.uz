@@ -159,7 +159,73 @@
         }
     }
 
-    #weather {
-        padding: 20px 0;
+    .currency-title {
+        font-weight: 600;
+        padding: 5px 50px;
+        max-width: 1366px;
+        margin: 0 auto;
+    }
+    
+    .currency-little-title {
+        padding: 0 50px;
+        max-width: 1366px;
+        margin: 0 auto;
+    }
+
+    .g-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        max-width: 1366px;
+        margin: 0 auto;
+        margin-top: 15px;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    #documentsPage {
+        .to-back {
+            margin-top: 85px;
+
+            .inner {
+                padding: 0 20px;
+            }
+        }     
+        
+        .allProductsPoster {
+            .inner {
+                padding: 0 20px;
+                h2 {
+                    font-size: 18px;
+                }
+
+                img {
+                    display: none;
+                }
+            }
+        }
+
+        .docs {
+            padding: 0 20px;
+            
+            .left-side {
+                padding: 0;
+                .container {
+                    width: 100%;
+                }
+            }
+        }
+
+        .currency-title {
+            padding-left: 20px;
+        }
+        
+        .currency-little-title {
+            padding-left: 20px;
+        }
+        .g-container {
+            flex-direction: column;
+        }
     }
 }

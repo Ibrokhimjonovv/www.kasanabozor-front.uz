@@ -8,6 +8,7 @@ import posterImg2 from "./posterImg2.png";
 import News from "../../components/newsFromWorkers/News";
 import Offers from "../../components/offers/Offers";
 import Success from "../../components/success/Success";
+import SearchBar from "../../components/searchBar/searchBar";
 
 
 const OnlineShop = () => {
@@ -21,6 +22,9 @@ const OnlineShop = () => {
 
   return (
     <div id="onlineShop">
+      <div className="search-bar-container search-bar-mobile-version">
+        <SearchBar />
+      </div>
       <div className="miniPoster" style={backgroundStyle}>
         <div className="text">Kasanachilik onlayn bozori</div>
         <img src={img} alt="" />
