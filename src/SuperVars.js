@@ -8,6 +8,6 @@ const messagingServerUrl        = "http://5.75.178.236:4905/";
 
 
 export {
-  usersServerUrl, eCommerseServerUrl, coursesServerUrl, announcementsServerUrl
+  usersServerUrl, eCommerseServerUrl, coursesServerUrl, announcementsServerUrl, messagingServerUrl
 };
 
