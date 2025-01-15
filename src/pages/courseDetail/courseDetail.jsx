@@ -206,7 +206,7 @@ const CourseDetail = () => {
                 </svg>
                 { /* formatNumber(course.viewsCount) */ }
               </li>
-              <li>
+              { /* <li>
                 <svg
                   width="16"
                   height="16"
@@ -223,7 +223,7 @@ const CourseDetail = () => {
                   />
                 </svg>
                 {course.share}
-              </li>
+              </li> */ }
             </ul>
             <div className="author">
               <img src={`http://5.75.178.236:4900${course.user.pfp}`} alt="" />
@@ -314,7 +314,7 @@ const CourseDetail = () => {
             ) : (
               <></>
             )}
-            <input
+          { /* <input
               type="radio"
               name="dep"
               id="comments-select"
@@ -338,7 +338,7 @@ const CourseDetail = () => {
                 />
               </svg>
               Fikrlar
-            </label>
+            </label> */ }
           </div>
           <div className="dep-container">
             <div
@@ -370,13 +370,13 @@ const CourseDetail = () => {
               <p>Resurslar qo'shilmagan</p>
             </div>
 
-            <div
+            { /* <div
               className={`datas-container ${
                 selectedDep === "comments-select" ? "active" : ""
               }`}
             >
               <AddComments news={course} />
-            </div>
+            </div> */ }
           </div>
         </div>
         <div className="follow">
@@ -418,7 +418,7 @@ const CourseDetail = () => {
               </button>
             </li>
             <li className="other-func">
-              <button>
+              { /* <button>
                 <svg
                   width="24"
                   height="21"
@@ -451,7 +451,7 @@ const CourseDetail = () => {
                     stroke-linejoin="round"
                   />
                 </svg>
-              </button>
+              </button> */ }
             </li>
           </ul>
         </div>

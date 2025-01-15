@@ -135,7 +135,7 @@ export const MyContextProvider = ({ children }) => {
       const followedCoursesResponse = await axios.get(`${coursesServerUrl}profile/courses/list/`);
       console.log(followedCoursesResponse, "following courses");
       if (followedCoursesResponse.data.status === "ok") {
-        setFollowedCourses(followedCoursesResponse.data.results);
+        setFollowedCourses(followedCoursesResponse.data.results.map((value) => value.id));
       }
     } catch (err) {
       console.error(err);

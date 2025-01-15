@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../addComments/addComments.scss";
-import user from "../addComments/userImg.png";
 import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
