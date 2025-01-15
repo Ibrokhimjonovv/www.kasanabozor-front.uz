@@ -25,7 +25,7 @@ export const MyContextProvider = ({ children }) => {
 
   const uploadUserPhoto = async (image) => {
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('image', image.target.files[0]);
 
     try {
       const response = await axios.post(`${usersServerUrl}profile/photo/`, formData, {
