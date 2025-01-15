@@ -66,7 +66,7 @@ const Profile = () => {
   // if (error) return <p>{error}</p>;
   return (
     <div className="profile-container">
-      <div className="to-back">
+      <div className="to-back profile-to-back">
         <div className="backInner">
           <Link to="/">
             <svg
@@ -122,7 +122,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile-inner">
-        <div className="left">
+        <div className="left profile-left">
           <ProfileSideBar />
         </div>
         <div className="right">

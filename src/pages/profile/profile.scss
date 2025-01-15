@@ -169,3 +169,21 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        .profile-to-back {
+            display: none;
+        }
+        .profile-inner {
+            margin-top: 90px;
+            padding: 30px 20px !important;   
+            .profile-left {
+                width: 100% !important;
+            }
+            .right {
+                display: none;
+            }
+        }
+    }
+}

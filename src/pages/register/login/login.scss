@@ -232,3 +232,24 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #login {
+        margin: 0 13px 15px;
+        .login-header {
+            .login-header-right {
+                display: none;
+            }           
+        }       
+        .login-container {
+            .login-top-text {
+                text-align: start;
+
+                p {
+                    margin: 15px 0 0;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

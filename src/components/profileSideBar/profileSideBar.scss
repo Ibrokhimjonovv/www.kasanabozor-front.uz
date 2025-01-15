@@ -42,3 +42,26 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #profileSideBar {
+        width: 100%;
+
+        ul {
+            li {
+                a {
+                    &.active-link-prof {
+                        color: #5A5A5A;
+
+                        svg {
+                            stroke: #5A5A5A;
+                            path {
+                                stroke: #5A5A5A;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

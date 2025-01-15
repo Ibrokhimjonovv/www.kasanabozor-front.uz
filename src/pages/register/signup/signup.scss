@@ -234,3 +234,24 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    #signup-cont {
+        margin: 0 13px 15px;
+        .signup-header {
+            .signup-header-right {
+                display: none;
+            }           
+        }       
+        .signup-container {
+            .signup-top-text {
+                text-align: start;
+
+                p {
+                    margin: 15px 0 0;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

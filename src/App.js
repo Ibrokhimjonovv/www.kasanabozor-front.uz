@@ -61,6 +61,7 @@ import MenuTool from "./components/menu-tool/menuTool";
 import Notifications from "./pages/profilePages/notifications/notifications";
 import LikedCourses from "./pages/profilePages/likedCourses/likedCourses";
 import MyCourses from "./pages/profilePages/myCourses/myCourses";
+import ProfileSideBar from "./components/profileSideBar/profileSideBar";
 
 // Global API
 export const globalApi = "http://bk.kasanabozor.uz";
@@ -134,6 +135,7 @@ function AppContent() {
         <Route path="services/:id" element={<Services />} />
         <Route path="add-announce" element={<AddAnnounce />} />
         {/* Profile start */}
+        {/* <Route path="profile" element={<ProfileSideBar />} /> */}
         <Route
           path="profile/prof"
           element={

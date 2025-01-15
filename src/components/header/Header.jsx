@@ -5,8 +5,8 @@ import SearchBar from "../searchBar/searchBar";
 import { MyContext } from "../../context/myContext";
 import langImg from "./Icon (3).png";
 import cart from "./mobile-menu-cart.png";
-import menuBackgroundImage from "./menuImg.png"
-import cheveronIcon from "./menu-cheveron-icon.png"
+import menuBackgroundImage from "./menuImg.png";
+import cheveronIcon from "./menu-cheveron-icon.png";
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -21,13 +21,6 @@ const Header = () => {
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
-  // const closeDropdown = (e) => {
-  //   if (!e.target.closest(".dropdown")) {
-  //     setIsOpen(false);
-  //   } else if (!e.target.closest(".dropdown-mob-color")) {
-  //     setIsOpen(false);
-  //   }
-  // };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1) {
@@ -36,12 +29,9 @@ const Header = () => {
         setScrolled(false);
       }
     };
-
-    // document.addEventListener("click", closeDropdown);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      // document.removeEventListener("click", closeDropdown);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -66,34 +56,6 @@ const Header = () => {
     e.preventDefault();
   };
 
-  const menus = [
-    {
-      title: "Onlayn bozor",
-      image: cart,
-      links: ["Subject", "Subject", "Subject"],
-    },
-    {
-      title: "Yangiliklar",
-      image: cart,
-      links: ["Subject", "Subject"],
-    },
-    {
-      title: "Hujjatlar",
-      image: cart,
-      links: ["Subject", "Subject", "Subject", "Subject"],
-    },
-    {
-      title: "Onlayn darslar",
-      image: cart,
-      links: ["Subject", "Subject", "Subject", "Subject"],
-    },
-    {
-      title: "E'lonlar",
-      image: cart,
-      links: ["Subject", "Subject", "Subject", "Subject"],
-    },
-  ];
-
   const [activeMenu, setActiveMenu] = useState(null);
 
   const toggleMenu = (index) => {
@@ -103,11 +65,13 @@ const Header = () => {
   const getContentByLanguage = (lang) => {
     switch (lang) {
       case "ru":
-        return "Russian";
+        return "Русский";
       case "en":
         return "English";
       case "uz":
-        return "O'zbek";
+        return "O’zbekcha";
+      case "":
+        return "O’zbekcha";
       default:
         return "Language not supported";
     }
@@ -802,7 +766,7 @@ const Header = () => {
             </ul>
           </div>
         </div>
-        <div className="bottom-side">
+        <div className="bottom-side max-w-1366">
           <div className="logo">
             <NavLink
               to="/"
@@ -1104,34 +1068,69 @@ const Header = () => {
               </Link>
             ))}
           </div>
-          {menus.map((menu, index) => (
-            <div
-              key={index}
-              style={{ marginBottom: "10px" }}
-              className={`department ${
-                activeMenu === index ? "active-department" : ""
-              }`}
-            >
-              <Link to="/online-shop">
-                <span>Onlayn bozor</span>
-                <img src={cheveronIcon} alt="" />
-              </Link>
-              {/* <button onClick={() => toggleMenu(index)}>
-                <span>{menu.title}</span>
-              </button> */}
-              {/* <ul
-                className={`dropdown-mob ${
-                  activeMenu === index ? "open" : "closed"
-                }`}
-              >
-                {menu.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <a href="#">{link}</a>
-                  </li>
-                ))}
-              </ul> */}
-            </div>
-          ))}
+          <div className="mob-menu-menus">
+            <Link to="">
+              <span>Loyiha haqida</span>
+              <img src={cheveronIcon} alt="" />
+            </Link>
+            <Link to="">
+              <span>Hamkorlarimiz</span>
+              <img src={cheveronIcon} alt="" />
+            </Link>
+            <Link to="">
+              <span>Loyihalar</span>
+              <img src={cheveronIcon} alt="" />
+            </Link>
+            <Link to="">
+              <span>Kontaktlar</span>
+              <img src={cheveronIcon} alt="" />
+            </Link>
+          </div>
+          <div className="mob-menu-bottom">
+            <Link to={isAuthenticated ? "/notifications" : "/login"}>
+              <span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 20.6303C9.79613 21.2333 10.8475 21.6 12 21.6C13.1525 21.6 14.2039 21.2333 15 20.6303M3.57109 17.5273C3.09677 17.5273 2.83186 16.8208 3.11877 16.4282C3.78453 15.5174 4.42712 14.1815 4.42712 12.5728L4.45458 10.2418C4.45458 5.91091 7.83278 2.40002 12 2.40002C16.2286 2.40002 19.6566 5.96262 19.6566 10.3573L19.6291 12.5728C19.6291 14.1926 20.2495 15.5357 20.8882 16.4469C21.164 16.8404 20.8984 17.5273 20.43 17.5273H3.57109Z"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Xabarnomalar
+              </span>
+              <img src={cheveronIcon} alt="" />
+            </Link>
+            <Link to={isAuthenticated ? "/messages" : "/login"}>
+              <span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.19844 6.59999L11.3154 11.5271C11.7263 11.8116 12.2706 11.8116 12.6815 11.5271L19.7984 6.59999M4.79844 19.2H19.1984C20.5239 19.2 21.5984 18.1255 21.5984 16.8V7.19999C21.5984 5.8745 20.5239 4.79999 19.1984 4.79999H4.79844C3.47295 4.79999 2.39844 5.8745 2.39844 7.19999V16.8C2.39844 18.1255 3.47295 19.2 4.79844 19.2Z"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Xabarlar
+              </span>
+              <img src={cheveronIcon} alt="" />
+            </Link>
+            <Link id="to-profile" to={isAuthenticated ? "/profile/prof" : "/login"}>{isAuthenticated ? "Shaxsiy kabinet" : "Kirish"}</Link>
+          </div>
         </div>
       </div>
     </div>

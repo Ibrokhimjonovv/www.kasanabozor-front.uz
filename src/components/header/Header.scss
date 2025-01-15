@@ -378,6 +378,13 @@ header {
         align-items: center;
         margin-top: 15px;
 
+        &.max-w-1366 {
+            max-width: 1366px;
+            margin: 0 auto;
+            margin-top: 15px;
+            padding-right: 50px;
+        }
+
         .logo {
             a {
                 font-weight: 600;
@@ -645,19 +652,20 @@ header {
 
         .mob-menu {
             display: block;
+            height: 100%;
             .mob-menu-top {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 padding-right: 50px;
-                margin-top: 4px;
+                margin-top: 7px;
                 border-bottom: 1px solid #FFFFFF1A;
 
                 .logo {
                     a {
                         svg {
                             width: 120px;
-                            height: 50px;
+                            height: 40px;
                         }
                     }
                 }
@@ -667,6 +675,7 @@ header {
                 align-items: center;
                 gap: 10px;
                 margin: 10px 0;
+
                 a {
                     border-radius: 5px;
                     padding: 5px 10px;
@@ -681,62 +690,75 @@ header {
                 }
             }
 
-            a {
-                width: 100%;
-                padding: 8px 7px;
-                background-color: transparent;
-                color: #fff;
-                display: flex;
-                align-items: center;
-                // border-radius: 7px;
-                gap: 5px;
-                border: none;
-                cursor: pointer;
-                border-bottom: 1px solid #FFFFFF1A;
-                display: flex;
-                justify-content: space-between;
-
-                img {
-                    &.rotate {
-                        transform: rotate(90deg);
+            .mob-menu-menus {
+                margin-top: 15px;
+                a {
+                    width: 100%;
+                    padding: 12px 7px;
+                    background-color: transparent;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    border: none;
+                    cursor: pointer;
+                    border-bottom: 1px solid #FFFFFF1A;
+                    display: flex;
+                    justify-content: space-between;
+    
+                    &:hover {
+                        opacity: 0.6;
                     }
                 }
             }
-            .dropdown-mob {
-                overflow: hidden;
-                max-height: 0;
-                transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
-                background-color: transparent;
-                padding-left: 20px;
 
-                .department {
-                    margin-bottom: 0 !important;
+            .mob-menu-bottom {
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                a {
+                    width: 100%;
+                    padding: 12px 7px;
+                    background-color: transparent;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    border: none;
+                    cursor: pointer;
+                    border-bottom: 1px solid #FFFFFF1A;
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    &:hover {
+                        opacity: 0.6;
+                    }
 
-                    a {
-                        color: #fff;
-                        display: block;
-                        margin: 5px 0;
-    
+                    &#to-profile {
+                        background-color: #41A58D;
+                        border-radius: 6px;
+                        width: 95%;
+                        margin: 0 auto;
+                        margin-top: 15px;
+                        border: 2px solid #41A58D;
+                        justify-content: center;
+
                         &:hover {
-                            text-decoration: underline;
+                            background-color: transparent;
+                            opacity: 1;
                         }
                     }
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 5px;
+                    }
                 }
-
             }
-
-            .dropdown-mob.open {
-                max-height: 500px;
-                /* Katta qiymat qo'yamiz, haqiqiy balandligi shunga yetguncha ko'rsatadi */
-                padding: 10px;
-                background-color: #41a58eb0;
-            }
-
-            .dropdown-mob.closed {
-                max-height: 0;
-                padding: 0;
-            }
-
         }
     }
 }
