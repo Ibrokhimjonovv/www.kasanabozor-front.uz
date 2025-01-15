@@ -1,20 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./profileSideBar.scss";
 import { MyContext } from "../../context/myContext";
+import axios from 'axios';
+
+
 const ProfileSideBar = () => {
-  const { setSelectedLanguage, setToken, setIsAuthenticated } =
-    useContext(MyContext);
+  const { setIsAuthenticated } = useContext(MyContext);
   const navigate = useNavigate();
-  const handleLogout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    setSelectedLanguage("");
-    setToken(""); 
-    setIsAuthenticated(false);
+  
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
+    // Foydalanuvchi holatini yangilash (agar kontekstdan foydalanayotgan bo'lsangiz)
+    setIsAuthenticated(false)
+
+    axios.defaults.headers.common['Authorization'] = `No-Authorization`;
+    setIsAuthenticated(false)
     navigate("/");
   };
+
   return (
     <div id="profileSideBar">
       <ul>
@@ -40,7 +46,7 @@ const ProfileSideBar = () => {
             Shaxsiy ma'lumotlarim
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink
             to="/profile/statistic"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
@@ -66,7 +72,7 @@ const ProfileSideBar = () => {
             </svg>
             Statistika
           </NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink
             to="/profile/products"
@@ -191,7 +197,7 @@ const ProfileSideBar = () => {
             Kurslar
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink
             to="/profile/liked-courses"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
@@ -217,10 +223,10 @@ const ProfileSideBar = () => {
             </svg>
             Yoqqan kurslar
           </NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink
-            to="/profile/messages"
+            to="/messaging/"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
           >
             <svg
@@ -245,7 +251,7 @@ const ProfileSideBar = () => {
             Xabarlar
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink
             to="/profile/notifications"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
@@ -271,10 +277,10 @@ const ProfileSideBar = () => {
             </svg>
             Xabarnomalar
           </NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink
-            to="#"
+            to="/profile/edit-profile/"
             className={({ isActive }) => (isActive ? "active-link-prof" : "")}
           >
             <svg

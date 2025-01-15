@@ -87,8 +87,7 @@ const EditProfile = () => {
         (district) =>
           parseInt(district.region_id, 10) === parseInt(selectedRegion.id, 10)
       );
-      console.log(filtered);
-
+      
       setFilteredDistricts(filtered);
       setSelectedDistrict("");
       setFilteredVillages([]);
@@ -143,11 +142,14 @@ const EditProfile = () => {
   
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     const response = await axios.post(`${usersServerUrl}profile/update/`, formData);
     if (response.data.status === "ok") {
       loadUserData();
+      alert('Profil malumotlari yangilandi!');
+    } else {
+      alert('Xatolik yuz berdi yana qayta urinib ko\'ring');
     }
-      console.log(response);
   }
 
   return (
@@ -584,17 +586,7 @@ const EditProfile = () => {
                 <div className="input-row textarea profile-editor">
                   <label htmlFor="about-me">Men haqimda</label>
                   <div className="inputs">
-                    {/* <textarea
-                    name="about-me"
-                    id="about-me"
-                    placeholder="Text"
-                  ></textarea> */}
-                    <EditorBar
-                      id="my-editor"
-                      name="about_me"
-                      initialValue={formData.about_me}
-                      onChange={handleChange}
-                    />
+                    <textarea name="about_me" id="about-me" value={ formData.about_me } onChange={ handleChange } placeholder="O'zingiz haqingizda"></textarea>
                   </div>
 
                   <div className="error-message">To'ldirilishi shart</div>
@@ -602,13 +594,7 @@ const EditProfile = () => {
                 <div className="input-row textarea profile-editor">
                   <label htmlFor="bio">Biografiya</label>
                   <div className="inputs">
-                    {/* <textarea name="bio" id="bio" placeholder="Text"></textarea> */}
-                    <EditorBar
-                      id="edit-profile-editor-2"
-                      name="biography"
-                      onChange={handleChange} // Function to handle user input
-                      value={formData.biography}
-                    />
+                    <textarea name="biography" id="bio" value={ formData.biography } onChange={ handleChange } placeholder="O'zingiz haqingizda malumot"></textarea>
                   </div>
                   <div className="error-message">To'ldirilishi shart</div>
                 </div>

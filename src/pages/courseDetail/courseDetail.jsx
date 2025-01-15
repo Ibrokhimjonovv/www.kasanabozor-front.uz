@@ -244,7 +244,7 @@ const CourseDetail = () => {
                   onClick={() => handleNextLesson(index)}
                 >
                   <img src={play} alt="🔒" />
-                  {lesson.id}-dars
+                  {index+1}-dars
                 </li>)}
           </ul>
         </div>
