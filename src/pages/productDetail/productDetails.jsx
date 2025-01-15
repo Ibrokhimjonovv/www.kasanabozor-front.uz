@@ -4,7 +4,7 @@ import "./productDetails.scss";
 import axios from 'axios';
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
-import { eCommerseServerUrl, messaging } from "../../SuperVars";
+import { eCommerseServerUrl, messagingServerUrl } from "../../SuperVars";
 // import AddComments from "../../components/addComments/addComments";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
 
@@ -72,7 +72,8 @@ const ProductDetails = () => {
   const handleConnect = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`${messaging}`);
+    const response = await axios.post(`${messagingServerUrl}/api/connect/`);
+    console.log("Messaging connect", response);
   }
 
   return (product ? <><div className="product-details">
