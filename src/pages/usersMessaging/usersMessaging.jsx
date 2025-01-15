@@ -29,7 +29,7 @@ const UsersMessaging = () => {
       if (usersListResponse.data.status === "ok") {
         setMe(usersListResponse.data.user);
         setUsersChats(usersListResponse.data.results);
-        setActiveChat(0);
+        // setActiveChat(0);
       }
     } catch (err) {
       console.error(err);
@@ -96,14 +96,36 @@ const UsersMessaging = () => {
   const handleChatScreen = () => {
     setFullChatScreen(!fullChatScreen);
   };
+
+  const loadChatHistory = async (chat) => {
+    const historyResponse = await axios.post(`${messagingServerUrl}api/history/`, {'id': chat});
+    if (historyResponse.data.status === "ok") {
+      setMessages(historyResponse.data.results.map((value) => {
+        return {
+          'text': value.content,
+          'sender': value.sender,
+          'time': `${new Date(value.created_at).getHours()}:${new Date(value.created_at).getMinutes()}:${new Date(value.created_at).getSeconds()}`
+        };
+      }));
+    }
+  }
+
   const handleChatClick = (index) => {
     setUsersChats((prevChats) =>
-      prevChats.map((chat, i) =>
-        i === index ? { ...chat, unread: false } : chat
-      )
+      prevChats.map((chat, i) => i === index ? { ...chat, unread: false } : chat)
     );
-    setActiveChat(index); // Aktiv chatni o'zgartiradi
+    setActiveChat(index);
+
+    loadChatHistory(usersChats[index].id);
+
+    ws.send(
+      JSON.stringify({
+        "set_chat": 1,
+        "chat": usersChats[index].id
+      })
+    );
   };
+
   const countdownInterval = useRef(null);
   const userInfo = () => {
     setShowUserInfo(!showUserInfo);
@@ -133,12 +155,14 @@ const UsersMessaging = () => {
       }
     }, 1000);
   };
+
   const cancelDelete = () => {
     clearInterval(countdownInterval.current);
     setShowDeleteModal(false);
     setCountdown(5);
     setIsDeleting(false);
   };
+
   const closeDeleteModal = () => {
     clearInterval(countdownInterval.current);
     setShowDeleteModal(false);
