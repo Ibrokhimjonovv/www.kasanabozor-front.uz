@@ -155,16 +155,8 @@ const CourseDetail = () => {
       </div>
       <div className="video-container">
         <div className="video-left">
-          <video
-            controls
-            poster={course.img}
-            onEnded={handleVideoEnd}
-            src={lessons[currentLesson]?.videoUrl}
-          >
-            Sizning brauzeringiz video formatini qo'llab-quvvatlamaydi.
-          </video>
           <div>
-            <iframe width="511" height="287" src={lessons[currentLesson].yt_url} title="Soap&amp;Skin - Me And The Devil (SLOWED + ECO Remix)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe width="100%" height={526} src={lessons[currentLesson].yt_url} title="Soap&amp;Skin - Me And The Devil (SLOWED + ECO Remix)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <div className="video-details">
             <ul>
