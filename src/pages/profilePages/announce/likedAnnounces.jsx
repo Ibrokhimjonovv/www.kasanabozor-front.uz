@@ -1,31 +1,53 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import "./likedAnnounces.scss";
-import { MyContext } from "../../../context/myContext";
 import left from "../../../assets/left.png";
 import right from "../../../assets/right.png";
 import defaultImg from "../../announcementsPage/default.png";
+import axios from 'axios';
+import { announcementsServerUrl } from '../../../SuperVars';
+
+
 const LikedAnnounces = () => {
-  const { announcements } = useContext(MyContext);
+  const [announcements, setAnnouncements] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 8;
+
+  const loadData = async () => {
+    const request = await axios.post(`${announcementsServerUrl}profile/announcements/saved/`);
+    if (request.data.status === "ok") {
+      setAnnouncements(request.data.results);
+    }
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      loadData();
+    }, 100);
+  }, []);
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+  
   const nextPage = () => {
     if (currentPage < Math.ceil(announcements.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  
   const currentAnnounces = announcements.slice(
     indexOfFirstUser,
     indexOfLastUser
   );
+  
   const totalPages = Math.ceil(announcements.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
+  
   const endUserIndex =
     indexOfLastUser < announcements.length
       ? indexOfLastUser
@@ -47,6 +69,7 @@ const LikedAnnounces = () => {
         }
       }
     });
+  
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -123,15 +146,15 @@ const LikedAnnounces = () => {
                   <p className="title">{announcement.title}</p>
                   <p className="price">{announcement.price}</p>
                   <div className="details">
-                    {announcement.details.map((detail, index) => (
+                    { /* announcement.details.map((detail, index) => (
                       <div className="detail" key={index}>
                         {detail}
                       </div>
-                    ))}
+                    )) */ }
                   </div>
                   <div className="author">
-                    <img src={announcement.authorImg || defaultImg} alt="" />
-                    <span>{announcement.author}</span>
+                    <img src={`http://5.75.178.236:4900${announcement.user.pfp}`} alt="" />
+                    <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                   </div>
                   <div className="date-count">
                     <span>
@@ -157,7 +180,7 @@ const LikedAnnounces = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      {announcement.date || "Aniq emas"}
+                      {announcement.created_at.split('T')[0] || "Aniq emas"}
                     </span>
                     <span>
                       <svg

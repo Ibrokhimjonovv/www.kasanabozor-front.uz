@@ -7,6 +7,9 @@ import lock from "./lockImg.png";
 import q from "./“.png";
 import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
+import axios from 'axios';
+import { coursesServerUrl } from '../../SuperVars';
+
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -17,35 +20,21 @@ const CourseDetail = () => {
   const [selectedDep, setSelectedDep] = useState("about-select");
   const [ isFollow, setIsFollow ] = useState(false)
 
+  const loadData = async () => {
+    const response = await axios.post(`${coursesServerUrl}courses/exact/`, {'id': id});
+    if (response.data.status === "ok") {
+      setCourse(response.data.results);
+      setLessons(response.data.results.course_lesson_Learning_course_lessons);
+    }
+  }
 
   useEffect(() => {
-    const foundCourse = courses.find((item) => item.id === parseInt(id));
-    if (foundCourse) {
-      setCourse(foundCourse);
-      const initializedLessons = foundCourse.lessons.map((lesson, index) => ({
-        ...lesson,
-        watched: index === 0 ? false : null,
-      }));
-      setLessons(initializedLessons);
-    }
-  }, [id, courses]);
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   
-
-  useEffect(() => {
-    const storedLessons = localStorage.getItem(`course-${id}-lessons`);
-    if (storedLessons) {
-      setLessons(JSON.parse(storedLessons));
-    }
-  }, [id]);
-  
-
-  useEffect(() => {
-    if (lessons.length > 0) {
-      localStorage.setItem(`course-${id}-lessons`, JSON.stringify(lessons));
-    }
-  }, [lessons]);
-  
-
   const handleVideoEnd = () => {
     setLessons((prev) =>
       prev.map((lesson, index) =>
@@ -174,6 +163,9 @@ const CourseDetail = () => {
           >
             Sizning brauzeringiz video formatini qo'llab-quvvatlamaydi.
           </video>
+          <div>
+            <iframe width="511" height="287" src={lessons[currentLesson].yt_url} title="Soap&amp;Skin - Me And The Devil (SLOWED + ECO Remix)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
           <div className="video-details">
             <ul>
               <li>
@@ -195,7 +187,7 @@ const CourseDetail = () => {
                     stroke-linejoin="round"
                   />
                 </svg>
-                <span>{course.date}</span>
+                <span>{course.created_at.split('T')[0]}</span>
               </li>
               <li>
                 <svg
@@ -267,8 +259,8 @@ const CourseDetail = () => {
               </li>
             </ul>
             <div className="author">
-              <img src={course.profileImg} alt="" />
-              <span>{course.author}</span>
+              <img src={`http://5.75.178.236:4900${course.user.pfp}`} alt="" />
+              <span>{course.user.first_name} {course.user.last_name}</span>
             </div>
           </div>
           <div className="course-name name-desktop-version">{course.title}</div>
@@ -495,7 +487,7 @@ const CourseDetail = () => {
           <ul>
             <li>
               <span>Darslar soni:</span>
-              <span>{course.lessons.length} ta</span>
+              <span>{lessons.length} ta</span>
             </li>
             <li>
               <span>Ta'lim tili:</span>

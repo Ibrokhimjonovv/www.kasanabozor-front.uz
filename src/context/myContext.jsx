@@ -12,6 +12,7 @@ export const MyContextProvider = ({ children }) => {
   const [courses, setCourses] = useState([]);
   const [services, setServices] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [savedAnnouncements, setSavedAnnouncements] = useState([]);
   const [followedCourses, setFollowedCourses] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("uz");
   const [languages, setLanguages] = useState(["ru", "en"]);
@@ -120,6 +121,16 @@ export const MyContextProvider = ({ children }) => {
       console.error(err);
     }
 
+    try {
+      const announcementsResponse = await axios.get(`${announcementsServerUrl}profile/announcements/saved/`);
+      console.log(announcementsResponse, "saved announcements");
+      if (announcementsResponse.data.status === "ok") {
+        setSavedAnnouncements(announcementsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
     setLoadStart(false);
     setLoadSuccess(true);
   };
@@ -147,6 +158,7 @@ export const MyContextProvider = ({ children }) => {
         followedCourses,
         setFollowedCourses,
         announcements,
+        savedAnnouncements,
         services,
         selectedLanguage,
         setSelectedLanguage,

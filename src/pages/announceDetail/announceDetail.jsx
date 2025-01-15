@@ -11,9 +11,8 @@ import SearchBar from "../../components/searchBar/searchBar";
 
 const AnnounceDetail = () => {
   const [selectedDep, setSelectedDep] = useState("announce");
-  const { announcements } = useContext(MyContext);
+  const { announcements, savedAnnouncements } = useContext(MyContext);
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
-  const [savedAnnouncements, setSavedAnnouncements] = useState([]);
   const { id } = useParams();
 
   const loadData = async () => {
@@ -43,13 +42,13 @@ const AnnounceDetail = () => {
     );
   }
   
-  const saveAnnouncement = (announcement) => {
-    setSavedAnnouncements((prevAnnouncements) => {
-      if (prevAnnouncements.some((a) => a.id === announcement.id)) {
-        return prevAnnouncements.filter((a) => a.id !== announcement.id);
-      }
-      return [...prevAnnouncements, announcement];
-    });
+  const saveAnnouncement = async (announcement) => {
+    const response = await axios.post(`${announcementsServerUrl}profile/announcements/likes/`, {'id': announcement.id});
+    if (response.data.status === "ok") {
+      alert('Ushbu elon saqlab olindi');
+    } else {
+      alert('Xatolik yuz berdi. Birozdan so\'ng qayta urinib ko\'ring');
+    }
   };
   
   const isSaved = (announcement) => {
