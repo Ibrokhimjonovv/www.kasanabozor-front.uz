@@ -3,8 +3,9 @@ import "./usersMessaging.scss";
 import productImg from "./product.png";
 import Picker from "emoji-picker-react";
 import chatsNot from "./Frame.png";
-import axios, {formToJSON} from "axios";
-const messagingServerUrl = "http://127.0.0.1:8905/";
+import axios from "axios";
+import { messagingServerUrl } from '../../SuperVars';
+
 
 const UsersMessaging = () => {
   const messagesDiv = useRef(null);
@@ -40,11 +41,7 @@ const UsersMessaging = () => {
   useEffect(() => {
     loadUsers();
 
-    const headers = {
-      Authorization: `Bearer `
-    }
-    
-    const websocket = new WebSocket(`ws://127.0.0.1:8905/ws/chat/`, ["authorization", localStorage.getItem('access')]);
+    const websocket = new WebSocket(`ws://5.75.178.236:4905/ws/chat/`, ["authorization", localStorage.getItem('access')]);
     websocket.onopen = () => {
       console.log('WebSocket is connected');
     };

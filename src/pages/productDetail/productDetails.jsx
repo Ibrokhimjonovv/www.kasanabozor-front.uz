@@ -72,7 +72,7 @@ const ProductDetails = () => {
   const handleConnect = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`${messagingServerUrl}/api/connect/`);
+    const response = await axios.post(`${messagingServerUrl}api/connect/`, {'id': product.id});
     console.log("Messaging connect", response);
   }
 
