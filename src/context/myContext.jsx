@@ -24,15 +24,19 @@ export const MyContextProvider = ({ children }) => {
   const [loadSuccess, setLoadSuccess] = useState(false);
 
   const uploadUserPhoto = async (image) => {
+    console.log(image);
     const formData = new FormData();
     formData.append('image', image.target.files[0]);
-
+    console.log(image);
+    
     try {
       const response = await axios.post(`${usersServerUrl}profile/photo/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
+
+      console.log(response, "Upload photo");
 
       if (response.data.status === "ok" && response.data.result) {
         setUser((prev) => {
