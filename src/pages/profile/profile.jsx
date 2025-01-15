@@ -102,7 +102,7 @@ const Profile = () => {
             <img src={ `http://5.75.178.236:4900${user.pfp}` || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
             <input type="file" id="photo" onChange={ (ev) => {
               ev.preventDefault();
-              uploadUserPhoto(ev.target.file);
+              uploadUserPhoto(ev.target.files[-1]);
             } }/>
             <label htmlFor="photo">
               <svg
