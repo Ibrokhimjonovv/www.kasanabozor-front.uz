@@ -3,8 +3,6 @@ import "./courseDetail.scss";
 import { useParams, Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import play from "./playBtnImg.png";
-import lock from "./lockImg.png";
-import q from "./“.png";
 import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
 import axios from 'axios';
@@ -13,12 +11,11 @@ import { coursesServerUrl } from '../../SuperVars';
 
 const CourseDetail = () => {
   const { id } = useParams();
-  const { courses, isAuthenticated, followedCourses, setFollowedCourses } = useContext(MyContext);
+  const { isAuthenticated, followedCourses } = useContext(MyContext);
   const [course, setCourse] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(0);
   const [lessons, setLessons] = useState([]);
   const [selectedDep, setSelectedDep] = useState("about-select");
-  const [ isFollow, setIsFollow ] = useState(false)
 
   const loadData = async () => {
     const response = await axios.post(`${coursesServerUrl}courses/exact/`, {'id': id});
@@ -34,30 +31,11 @@ const CourseDetail = () => {
       clearTimeout(timeout);
     };
   }, []);
-  
-  const handleVideoEnd = () => {
-    setLessons((prev) =>
-      prev.map((lesson, index) =>
-        index === currentLesson ? { ...lesson, watched: true } : lesson
-      )
-    );
-  };
-  
-
+ 
   const handleNextLesson = (index) => {
-    if (index === 0 || lessons[index - 1]?.watched) {
       setCurrentLesson(index);
-    } else {
-      alert("Avvalgi darsni ko'rib tugating!");
-    }
   };
   
-
-  const formatNumber = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  };
-  
-
   if (!course) {
     return <p><Loading /></p>;
   }
@@ -67,13 +45,10 @@ const CourseDetail = () => {
     console.log(selectedDep);
   };
   
-  const handleFollow = (courseId) => {
-    if (followedCourses.includes(courseId)) {
-      setFollowedCourses(followedCourses.filter((id) => id !== courseId));
-      setIsFollow(false)
-    } else {
-      setFollowedCourses([...followedCourses, courseId]);
-      setIsFollow(true)
+  const handleFollow = async (courseId) => {
+    const response = await axios.post(`${coursesServerUrl}courses/register/`, {'id': courseId});
+    if (response.data.status === "ok") {
+      console.log(response, "following to course");
     }
   };
   
@@ -260,39 +235,17 @@ const CourseDetail = () => {
         <div className="video-right">
           <h3>Darslar</h3>
           <ul>
-            {lessons.map((lesson, index) => {
-              let className = "";
-              if (lesson.watched === true) {
-                className = "complete";
-              } else if (index === currentLesson) {
-                className = "watching";
-              } else {
-                className = "lock";
-              }
-
-              return (
-                <li
+            {lessons.map((lesson, index) => <li
                   key={lesson.id}
-                  className={className}
+                  className="watching"
                   style={{
-                    cursor:
-                      index === 0 || lessons[index - 1]?.watched
-                        ? "pointer"
-                        : "not-allowed",
-                    opacity:
-                      index === 0 || lessons[index - 1]?.watched ? 1 : 0.6,
+                    cursor: "pointer", opacity: index === currentLesson ? 1 : 0.6,
                   }}
                   onClick={() => handleNextLesson(index)}
                 >
-                  {lesson.watched === true || index === 0 ? (
-                    <img src={play} alt="✅" />
-                  ) : (
-                    <img src={lock} alt="🔒" />
-                  )}
-                  {lesson.id}-dars | {lesson.title}
-                </li>
-              );
-            })}
+                  <img src={play} alt="🔒" />
+                  {lesson.id}-dars
+                </li>)}
           </ul>
         </div>
       </div>
@@ -339,7 +292,7 @@ const CourseDetail = () => {
               checked={selectedDep === "resource-select"}
               onChange={handleChange}
             />
-            {isAuthenticated && isFollow ? (
+            {isAuthenticated && followedCourses.includes(course.id) ? (
               <label htmlFor="resource-select" className="resource_label">
                 <svg
                   width="19"
@@ -394,65 +347,15 @@ const CourseDetail = () => {
               }`}
             >
               <p className="title">Kurs haqida</p>
-              <p className="simpleText">
-                Kelib yetganingizda, xonada tabiiy yog'ochni tozalash uchun
-                ishlatiladigan limon balzamining yoqimli hididan zavqlanasiz, bu
-                esa muhitni tinchlantiruvchi atmosferaga aylantiradi. Mening
-                butun ruhimni ajoyib tinchlik egallab oldi, bahorning shirin
-                tonglari kabi, men buni butun qalbim bilan bahramand bo'laman.
-                Men yolg'izman va bu joyda mavjudlikning jozibasini his qilaman,
-                bu joy mening kabi ruhlar uchun baxt uchun yaratilgan. Men juda
-                baxtliman, aziz do'stim, noziklikka to'la.
-              </p>
-              <div className="other-text">
-                <img src={q} alt="" />
-                <h2>
-                  O‘zini o‘zi band qilgan shaxslar, o‘z maqsadlariga erishish
-                  uchun turli xil faoliyatlar
-                </h2>
-                <p>
-                  Hayajoningizni qondirishga tayyor bo'lganda, kurortning suv
-                  sportlari markazida mavjud bo'lgan suv sportlari
-                  imkoniyatlarini ko'rib chiqing. Stressingizni suvda
-                  qoldirmoqchimisiz? Kurortda kayaklar, paddleboardlar yoki
-                  tinch pedal qayiqchalari mavjud.
-                </p>
-              </div>
-              <h1 className="title">
-                Qancha vaqt emas, balki qanday yashaganingiz asosiy narsadir.
-              </h1>
-              <p className="simpleText">
-                Hayajoningizni qondirishga tayyor bo'lganda, kurortning suv
-                sportlari markazida mavjud bo'lgan suv sportlari imkoniyatlarini
-                ko'rib chiqing. Stressingizni suvda qoldirmoqchimisiz? Kurortda
-                kayaklar, paddleboardlar yoki tinch pedal qayiqchalari mavjud.
-                Shuningdek, siz doimiy o'zgarib turadigan dengiz osti muhitini
-                tajribadan o'tkazishingiz uchun snorkel uskunalari ham mavjud.
-                Yotoqxonalarga tashrif buyuruvchilar, tashrif buyurayotgan
-                joylari haqida noyob nuqtai nazar olish bilan birga, boshqa
-                mehmonxona sharoitlarida mavjud bo'lmagan maxsus paketlar uchun
-                variantlarga ega. Yotoqxonalarning mahalliy bizneslar bilan
-                hamkorlik qilishlari oson, bu esa yaxshi tashkil etilgan va
-                shaxsiylashtirilgan ta'til tajribasini ta'minlaydi. Fife va Drum
-                Inn tarixiy Uchburchak Paketini taklif etadi, bu esa Inn'da uch
-                kecha, nonushtalar va tarixiy Williamsburg, Jamestown va
-                Yorktown'ga kirish huquqini o'z ichiga oladi. Yotoqxonalarda
-                romantikaga ham mos keladi. Yotoqxonaning jozibasining bir qismi
-                - bu noyoblik; san'at, bezak va ovqat birlashtirilgan holda
-                to'liq tajribani yaratadi. Masalan, Fife va Drum mehmon
-                xonalarida hududning kolonial tuyg'usini saqlab qoladi. Maxsus
-                xususiyatlar orasida antik mebellar, ba'zi mehmon xonalarida
-                zamonaviy to'rt ustunli yotoqlar, shuningdek, mehmonlar uchun
-                tarixiy hududning tiklanish davridan qolgan xalq san'ati va
-                artefaktlar mavjud.
-              </p>
+              <p className="simpleText">{ course.description }</p>
             </div>
+
             <div
               className={`resource-container ${
                 selectedDep === "resource-select" ? "active" : ""
               }`}
             >
-              <ul>
+              { /* <ul>
                 <li>
                   <a href="Yuklanishi kerak bo'lgan file">
                     Tegishli-fayllar-I.zip
@@ -463,8 +366,10 @@ const CourseDetail = () => {
                     Tegishli-fayllar-I.zip
                   </a>
                 </li>
-              </ul>
+              </ul> */ }
+              <p>Resurslar qo'shilmagan</p>
             </div>
+
             <div
               className={`datas-container ${
                 selectedDep === "comments-select" ? "active" : ""
@@ -485,26 +390,26 @@ const CourseDetail = () => {
               <span>Ta'lim tili:</span>
               <span>O'zbek</span>
             </li>
-            <li>
+            { /* <li>
               <span>Reytingi:</span>
-              <span>{course.rating}</span>
-            </li>
+              <span>{course.avarege_rating}</span>
+            </li> */ }
             <li>
               <span>Ustoz:</span>
-              <span>{course.author}</span>
+              <span>{course.user.first_name} {course.user.last_name}</span>
             </li>
             <li>
               <span>Sertifikat:</span>
               <span>Bor</span>
             </li>
-            <li>
+            { /* <li>
               <span>Davomiyligi:</span>
               <span>18 soat</span>
             </li>
             <li>
               <span>Narxi:</span>
               <span className="price-type">Bepul</span>
-            </li>
+            </li> */ }
             <li>
               <button className="follow-btn" onClick={() => handleFollow(course.id)}>
 

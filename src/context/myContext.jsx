@@ -122,10 +122,20 @@ export const MyContextProvider = ({ children }) => {
     }
 
     try {
-      const announcementsResponse = await axios.get(`${announcementsServerUrl}profile/announcements/saved/`);
+      const announcementsResponse = await axios.post(`${announcementsServerUrl}profile/announcements/saved/`);
       console.log(announcementsResponse, "saved announcements");
       if (announcementsResponse.data.status === "ok") {
         setSavedAnnouncements(announcementsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      const followedCoursesResponse = await axios.get(`${coursesServerUrl}profile/courses/list/`);
+      console.log(followedCoursesResponse, "following courses");
+      if (followedCoursesResponse.data.status === "ok") {
+        setFollowedCourses(followedCoursesResponse.data.results);
       }
     } catch (err) {
       console.error(err);
