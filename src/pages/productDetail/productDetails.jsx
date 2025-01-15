@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./productDetails.scss";
 import axios from 'axios';
 import { MyContext } from "../../context/myContext";
@@ -12,6 +12,7 @@ import AddProductsComments from "../../components/addProductComments/addProducts
 const ProductDetails = () => {
   const { isAuthenticated } = useContext(MyContext);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
@@ -73,7 +74,11 @@ const ProductDetails = () => {
     e.preventDefault();
 
     const response = await axios.post(`${messagingServerUrl}api/connect/`, {'id': product.id});
-    console.log("Messaging connect", response);
+    if (response.data.status === "ok") {
+      navigate('/messaging/');
+    } else {
+      alert("Xatolik yuz berdi!\nKeyinroq urinib ko'ring.");
+    }
   }
 
   return (product ? <><div className="product-details">
