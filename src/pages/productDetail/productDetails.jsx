@@ -4,7 +4,7 @@ import "./productDetails.scss";
 import axios from 'axios';
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
-import { eCommerseServerUrl } from "../../SuperVars";
+import { eCommerseServerUrl, messaging } from "../../SuperVars";
 // import AddComments from "../../components/addComments/addComments";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
 
@@ -67,6 +67,13 @@ const ProductDetails = () => {
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
+
+
+  const handleConnect = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post(`${messaging}`);
+  }
 
   return (product ? <><div className="product-details">
       <div className="to-back">
@@ -182,7 +189,7 @@ const ProductDetails = () => {
               </div>
             </div>
             {isAuthenticated ? (
-              <Link to="#">Bog'lanish</Link>
+              <Link to="#" onClick={ handleConnect }>Bog'lanish</Link>
             ) : (
               <Link to="/login">Kirish</Link>
             )}
