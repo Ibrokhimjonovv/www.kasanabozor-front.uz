@@ -199,7 +199,8 @@ const EditProfile = () => {
               />
             </svg>
           </span>
-          <Link to="/profile">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">Shaxsiy kabinet</Link>
+          <Link to="/profile/menus" className="mobile-back-link">Shaxsiy kabinet</Link>
           <span>
             <svg
               width="16"
@@ -228,7 +229,7 @@ const EditProfile = () => {
             <h2>Profilni tahrirlash</h2>
           </div>
           <div className="form-list">
-            <form action="" style={{marginTop: "unset"}}>
+            <form action="" style={{ marginTop: "unset" }}>
               {" "}
               {/* onSubmit={handleProfileUpdate} */}
               <div className="input-row">
@@ -402,7 +403,6 @@ const EditProfile = () => {
                     <option value="activity2">Faoliyati 2</option>
                   </select>
                 </div>
-
                 <div className="error-message">To'ldirilishi shart</div>
               </div>
               <div className="input-row">
@@ -594,21 +594,26 @@ const EditProfile = () => {
                   <div className="error-message">To'ldirilishi shart</div>
                 </div>
               </div>
-              <div className="editors" style={{display: 'flex', justifyContent: "space-between"}}>
+              <div
+                className="editors"
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
                 <div className="input-row textarea profile-editor">
                   <label htmlFor="about-me">Men haqimda</label>
                   <div className="inputs">
-                    {/* <textarea
-                    name="about-me"
-                    id="about-me"
-                    placeholder="Text"
-                  ></textarea> */}
-                    <EditorBar
+                    <textarea
+                      name="about-me"
+                      id="about-me"
+                      placeholder="Text"
+                      value={formData.content}
+                      onChange={handleChange}
+                    ></textarea>
+                    {/* <EditorBar
                       id="my-editor"
                       name="content"
                       initialValue={formData.content}
                       onChange={handleChange}
-                    />
+                    /> */}
                   </div>
 
                   <div className="error-message">To'ldirilishi shart</div>
@@ -616,13 +621,19 @@ const EditProfile = () => {
                 <div className="input-row textarea profile-editor">
                   <label htmlFor="bio">Biografiya</label>
                   <div className="inputs">
-                    {/* <textarea name="bio" id="bio" placeholder="Text"></textarea> */}
-                    <EditorBar
+                    <textarea
+                      name="bio"
+                      id="bio"
+                      placeholder="Text"
+                      onChange={handleChange}
+                      value={formData.bio}
+                    ></textarea>
+                    {/* <EditorBar
                       id="edit-profile-editor-2"
                       name="bio"
                       onChange={handleChange} // Function to handle user input
                       value={formData.bio}
-                    />
+                    /> */}
                   </div>
                   <div className="error-message">To'ldirilishi shart</div>
                 </div>

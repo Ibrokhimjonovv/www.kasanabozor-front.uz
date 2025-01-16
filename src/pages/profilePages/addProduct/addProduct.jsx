@@ -123,7 +123,12 @@ const AddProducts = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"
@@ -157,14 +162,14 @@ const AddProducts = () => {
               />
             </svg>
           </span>
-          <span>Mahsulot qo'shish</span>
+          <Link to="#">Mahsulot qo'shish</Link>
         </div>
       </div>
       <div className="profile-inner">
         <div className="left">
           <ProfileSideBar />
         </div>
-        <div className="right">
+        <div className="right right-add-product">
           <div className="page-title">
             <h2>Mahsulot qo'shish</h2>
           </div>
@@ -206,10 +211,12 @@ const AddProducts = () => {
                       checked={isChecked}
                       onChange={handleStatusChange}
                     />
-                    <label htmlFor="status-check" className="checkbox">
-                      <span className={isChecked ? "active" : ""}></span>
-                    </label>
-                    <label htmlFor="status-check">Chegirma</label>
+                    <div className="cheg-label">
+                      <label htmlFor="status-check" className="checkbox">
+                        <span className={isChecked ? "active" : ""}></span>
+                      </label>
+                      <label htmlFor="status-check">Chegirma</label>
+                    </div>
                   </div>
                 </div>
                 {error.price && (
@@ -276,7 +283,7 @@ const AddProducts = () => {
             </div>
             <p style={{ fontWeight: 600, margin: "5px 0" }}>Kategoriyasi</p>
             <div
-              className="input-row"
+              className="input-row fd-column"
               style={{ flexDirection: "row", gap: "20px" }}
             >
               <div className="inputs" style={{ width: "50%" }}>

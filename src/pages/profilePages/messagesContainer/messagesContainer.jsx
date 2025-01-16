@@ -2,6 +2,7 @@ import React from "react";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import Messages from "../messages/messages";
+import "./messagesContainer.scss";
 
 const MessagesContainer = () => {
   return (
@@ -41,7 +42,12 @@ const MessagesContainer = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"
@@ -61,12 +67,12 @@ const MessagesContainer = () => {
           <span>Xabarlar</span>
         </div>
       </div>
-      <div className="profile-inner">
+      <div className="profile-inner message-container">
         <div className="left">
           <ProfileSideBar />
         </div>
         <div className="right">
-            <Messages />
+          <Messages />
         </div>
       </div>
     </div>

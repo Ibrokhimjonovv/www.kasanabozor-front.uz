@@ -4,8 +4,8 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import "./likedProducts.scss";
 import { MyContext } from "../../../context/myContext";
 import Discount from "../../../components/discount/Discount";
-import left from "../../../assets/left.png"
-import right from "../../../assets/right.png"
+import left from "../../../assets/left.png";
+import right from "../../../assets/right.png";
 const LikedProducts = () => {
   const { products } = useContext(MyContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,7 +81,12 @@ const LikedProducts = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"

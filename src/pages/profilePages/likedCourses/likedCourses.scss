@@ -85,3 +85,17 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        .liked-courses {
+            .right {
+                padding-top: 20px !important;
+                padding-bottom: 20px !important;
+                .liked-courses-cards {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}

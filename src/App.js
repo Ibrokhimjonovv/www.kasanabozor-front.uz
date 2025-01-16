@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { MyContext, MyContextProvider } from "./context/myContext";
 import Header from "./components/header/Header";
@@ -102,11 +97,47 @@ function AppContent() {
     "/dashboard/admin/admin-news",
     "/dashboard/admin/add-news",
     "/dashboard/admin/admin-news-categories",
+    "/profile/prof",
+    "/profile/menus",
+    "/profile/edit-profile",
+    "/profile/products",
+    "/profile/add-product",
+    "/profile/liked-products",
+    "/profile/my-announces",
+    "/profile/liked-announces",
+    "/profile/messages",
+    "/profile/notifications",
+    "/profile/liked-courses",
+    "/add-announce",
+    "/profile/my-courses",
+  ];
+
+  const noHeaderPaths_2 = [
+    "/login",
+    "/signup",
+    "/dashboard",
+    "/dashboard/admin/users",
+    "/dashboard/admin/homemakers",
+    "/dashboard/admin/admins",
+    "/dashboard/admin/moderators",
+    "/dashboard/admin/add-user",
+    "/dashboard/admin/jobs",
+    "/dashboard/admin/products",
+    "/dashboard/admin/categories",
+    "/dashboard/admin/subcategories",
+    "/dashboard/admin/hashtags",
+    "/dashboard/admin/teachers",
+    "/dashboard/admin/add-teacher",
+    "/dashboard/admin/pupils",
+    "/dashboard/admin/add-pupils",
+    "/dashboard/admin/admin-news",
+    "/dashboard/admin/add-news",
+    "/dashboard/admin/admin-news-categories",
   ];
 
   return (
     <div className="app">
-      {!noHeaderPaths.includes(location.pathname) && <Header />}
+      {!noHeaderPaths_2.includes(location.pathname) && <Header />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -135,7 +166,12 @@ function AppContent() {
         <Route path="services/:id" element={<Services />} />
         <Route path="add-announce" element={<AddAnnounce />} />
         {/* Profile start */}
-        {/* <Route path="profile" element={<ProfileSideBar />} /> */}
+        <Route
+          path="profile/menus"
+          element={
+            isAuthenticated && user.role === "user" ? <ProfileSideBar /> : <NotFound />
+          }
+        />
         <Route
           path="profile/prof"
           element={
@@ -149,14 +185,14 @@ function AppContent() {
               <Routes>
                 <Route path="products" element={<Products />} />
                 <Route path="edit-profile" element={<EditProfile />} />
-                <Route path="add-product" element={<AddProducts />}/>
+                <Route path="add-product" element={<AddProducts />} />
                 <Route path="liked-products" element={<LikedProducts />} />
                 <Route path="my-announces" element={<MyAnnounces />} />
                 <Route path="liked-announces" element={<LikedAnnounces />} />
                 <Route path="messages" element={<MessagesContainer />} />
-                <Route path="notifications" element={<Notifications />}/>
-                <Route path="liked-courses" element={<LikedCourses />}/>
-                <Route path="my-courses" element={<MyCourses />}/>
+                <Route path="notifications" element={<Notifications />} />
+                <Route path="liked-courses" element={<LikedCourses />} />
+                <Route path="my-courses" element={<MyCourses />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ProfileRoute>
@@ -177,7 +213,11 @@ function AppContent() {
         <Route
           path="dashboard/*"
           element={
-            <PrivateRoute userRole={user.role} allowedRole="admin" isAuthenticated={isAuthenticated}>
+            <PrivateRoute
+              userRole={user.role}
+              allowedRole="admin"
+              isAuthenticated={isAuthenticated}
+            >
               <Routes>
                 <Route path="admin/users" element={<Users />} />
                 <Route path="admin/homemakers" element={<Homemakers />} />
@@ -187,7 +227,10 @@ function AppContent() {
                 <Route path="admin/jobs" element={<Jobs />} />
                 <Route path="admin/products" element={<AdminProducts />} />
                 <Route path="admin/categories" element={<AdminCategories />} />
-                <Route path="admin/subcategories" element={<AdminSubcategories />} />
+                <Route
+                  path="admin/subcategories"
+                  element={<AdminSubcategories />}
+                />
                 <Route path="admin/hashtags" element={<AdminHashtags />} />
                 <Route path="admin/teachers" element={<AdminTeachers />} />
                 <Route path="admin/add-teacher" element={<AddTeacher />} />
@@ -213,7 +256,7 @@ function AppContent() {
       </Routes>
 
       {/* Footerni har doim ko'rsatamiz */}
-      {!noHeaderPaths.includes(location.pathname) && <MenuTool />}
+      {!noHeaderPaths_2.includes(location.pathname) && <MenuTool />}
       {!noHeaderPaths.includes(location.pathname) && <Footer />}
     </div>
   );

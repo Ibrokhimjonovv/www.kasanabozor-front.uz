@@ -3,8 +3,8 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import "./myCourses.scss";
 
-import authorImage from "../../../context/authorImg.png"
-import courseImage from "../../../context/cardImg1.png"
+import authorImage from "../../../context/authorImg.png";
+import courseImage from "../../../context/cardImg1.png";
 
 const myCourses = () => {
   const courses = [
@@ -32,7 +32,6 @@ const myCourses = () => {
       authorName: "Ketti Perriy",
       authorImage: authorImage,
     },
-    
   ];
   return (
     <div className="profile-container ">
@@ -71,7 +70,12 @@ const myCourses = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"
@@ -95,21 +99,29 @@ const myCourses = () => {
         <div className="left">
           <ProfileSideBar />
         </div>
-        <div className="right">
+        <div className="right my-courses-right">
           {courses.map((course, index) => (
             <div className="my-course-card" key={index}>
-              <img src={course.image} alt={course.title} className="my-course-card__image" />
+              <img
+                src={course.image}
+                alt={course.title}
+                className="my-course-card__image"
+              />
               <div className="my-course-card__content">
-                <h3 className="my-course-card__content__title">{course.title}</h3>
-                <Link to="#" className="my-course-card__content__category">#{course.category}</Link>
+                <h3 className="my-course-card__content__title">
+                  {course.title}
+                </h3>
+                <Link to="#" className="my-course-card__content__category">
+                  #{course.category}
+                </Link>
                 <div className="d-flex">
-                    <div className="progress_count">% {course.progress}</div>
-                    <div className="my-course-card__content__progress-bar">
-                        <div
-                            className="my-course-card__content__progress-bar__progress"
-                            style={{ width: `${course.progress}%` }}
-                        ></div>
-                    </div>
+                  <div className="progress_count">% {course.progress}</div>
+                  <div className="my-course-card__content__progress-bar">
+                    <div
+                      className="my-course-card__content__progress-bar__progress"
+                      style={{ width: `${course.progress}%` }}
+                    ></div>
+                  </div>
                 </div>
                 <div className="my-course-card__content__author">
                   <img

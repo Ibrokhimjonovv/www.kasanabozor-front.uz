@@ -4,8 +4,8 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import authorImg from "../../admin/admin-products/authorImg.png";
 import StarRating from "../../../components/starRating/starRating";
-import left from "../../../assets/left.png"
-import right from "../../../assets/right.png"
+import left from "../../../assets/left.png";
+import right from "../../../assets/right.png";
 const Products = () => {
   const products = [
     {
@@ -196,7 +196,12 @@ const Products = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"
@@ -213,7 +218,7 @@ const Products = () => {
               />
             </svg>
           </span>
-          <span>Mahsulotlarim</span>
+          <Link to="#">Mahsulotlarim</Link>
         </div>
       </div>
       <div className="profile-inner my-products">
@@ -240,7 +245,7 @@ const Products = () => {
             </div>
             <div className="tool-right">
               <form action="">
-                <input type="text" placeholder="ID, Tel nomer, Ism sharifi" />
+                <input type="text" placeholder="Nomi" />
                 <button type="submit">
                   <svg
                     width="22"
@@ -258,106 +263,108 @@ const Products = () => {
                   </svg>
                 </button>
               </form>
-              <Link
-                to="/profile/add-product"
-              >
-                +
-              </Link>
+              <Link to="/profile/add-product">+</Link>
             </div>
           </div>
-          <table className="user-table">
-            <thead>
-              <tr>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  <input type="checkbox" />
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Rasmi
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Nomi
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Kategoriya
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Narx
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Reyting
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Aktivligi
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Amallar
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentProducts.map((product, index) => (
-                <tr key={index}>
-                  <td>
+          <div className="for-mobile">
+            <table className="user-table">
+              <thead>
+                <tr>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                     <input type="checkbox" />
-                  </td>
-                  <td>
-                    <img
-                      className="productImg"
-                      src={product.productImg}
-                      alt=""
-                    />
-                  </td>
-                  <td>{product.productTitle}</td>
-                  <td className="td-category"><span>{product.category}</span></td>
-                  <td>{product.price} UZS</td>
-                  <td>
-                    <StarRating rating={product.rating} />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      id={`status-${product.id}`}
-                      checked={productStatuses[product.id]}
-                      onChange={() => handleStatusChange(product.id)}
-                      className="check-inp"
-                    />
-                    <label
-                      htmlFor={`status-${product.id}`}
-                      className="checkbox"
-                    >
-                      <span
-                        className={productStatuses[product.id] ? "active" : ""}
-                      ></span>
-                    </label>
-                  </td>
-                  <td>
-                    <button className="btn btn-secondary">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
-                          fill="#41A58D"
-                        />
-                        <path
-                          d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
-                          fill="#41A58D"
-                        />
-                        <path
-                          d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
-                          fill="#41A58D"
-                        />
-                      </svg>
-                    </button>
-                  </td>
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Rasmi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Nomi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Kategoriya
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Narx
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Reyting
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Aktivligi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Amallar
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentProducts.map((product, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>
+                      <img
+                        className="productImg"
+                        src={product.productImg}
+                        alt=""
+                      />
+                    </td>
+                    <td>{product.productTitle}</td>
+                    <td className="td-category">
+                      <span>{product.category}</span>
+                    </td>
+                    <td>{product.price} UZS</td>
+                    <td>
+                      <StarRating rating={product.rating} />
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        id={`status-${product.id}`}
+                        checked={productStatuses[product.id]}
+                        onChange={() => handleStatusChange(product.id)}
+                        className="check-inp"
+                      />
+                      <label
+                        htmlFor={`status-${product.id}`}
+                        className="checkbox"
+                      >
+                        <span
+                          className={
+                            productStatuses[product.id] ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                    </td>
+                    <td>
+                      <button className="btn btn-secondary">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
+                            fill="#41A58D"
+                          />
+                          <path
+                            d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
+                            fill="#41A58D"
+                          />
+                          <path
+                            d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
+                            fill="#41A58D"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination-prof for-p">
@@ -392,6 +399,26 @@ const Products = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className="edit-profile-mobile">
+        <Link to="/profile/add-product">
+          Mahsulot qo'shish
+          <svg
+            width="17"
+            height="16"
+            viewBox="0 0 17 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8.4987 3.33333V12.6667M3.83203 8H13.1654"
+              stroke="#E7F4F1"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </Link>
       </div>
     </div>
   );

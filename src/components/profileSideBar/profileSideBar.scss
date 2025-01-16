@@ -2,6 +2,7 @@
     background-color: #FFFFFF;
     padding: 30px 24px;
     border-radius: 7px;
+    margin: 140px 20px 20px;
 
     ul {
         li {
@@ -45,7 +46,9 @@
 
 @media screen and (max-width: 500px) {
     #profileSideBar {
-        width: 100%;
+        width: 94%;
+        margin: 0 10px;
+        margin-top: 90px;
 
         ul {
             li {

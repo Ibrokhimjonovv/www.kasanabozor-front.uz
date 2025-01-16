@@ -1087,49 +1087,105 @@ const Header = () => {
             </Link>
           </div>
           <div className="mob-menu-bottom">
-            <Link to={isAuthenticated ? "/notifications" : "/login"}>
-              <span>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9 20.6303C9.79613 21.2333 10.8475 21.6 12 21.6C13.1525 21.6 14.2039 21.2333 15 20.6303M3.57109 17.5273C3.09677 17.5273 2.83186 16.8208 3.11877 16.4282C3.78453 15.5174 4.42712 14.1815 4.42712 12.5728L4.45458 10.2418C4.45458 5.91091 7.83278 2.40002 12 2.40002C16.2286 2.40002 19.6566 5.96262 19.6566 10.3573L19.6291 12.5728C19.6291 14.1926 20.2495 15.5357 20.8882 16.4469C21.164 16.8404 20.8984 17.5273 20.43 17.5273H3.57109Z"
-                    stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                Xabarnomalar
-              </span>
-              <img src={cheveronIcon} alt="" />
-            </Link>
-            <Link to={isAuthenticated ? "/messages" : "/login"}>
-              <span>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4.19844 6.59999L11.3154 11.5271C11.7263 11.8116 12.2706 11.8116 12.6815 11.5271L19.7984 6.59999M4.79844 19.2H19.1984C20.5239 19.2 21.5984 18.1255 21.5984 16.8V7.19999C21.5984 5.8745 20.5239 4.79999 19.1984 4.79999H4.79844C3.47295 4.79999 2.39844 5.8745 2.39844 7.19999V16.8C2.39844 18.1255 3.47295 19.2 4.79844 19.2Z"
-                    stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                Xabarlar
-              </span>
-              <img src={cheveronIcon} alt="" />
-            </Link>
-            <Link id="to-profile" to={isAuthenticated ? "/profile/prof" : "/login"}>{isAuthenticated ? "Shaxsiy kabinet" : "Kirish"}</Link>
+            {isAuthenticated &&
+              user.role ===
+                "admin" && (
+                  <>
+                    <Link
+                      to={isAuthenticated ? "/profile/notifications" : "/login"}
+                    >
+                      <span>
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M9 20.6303C9.79613 21.2333 10.8475 21.6 12 21.6C13.1525 21.6 14.2039 21.2333 15 20.6303M3.57109 17.5273C3.09677 17.5273 2.83186 16.8208 3.11877 16.4282C3.78453 15.5174 4.42712 14.1815 4.42712 12.5728L4.45458 10.2418C4.45458 5.91091 7.83278 2.40002 12 2.40002C16.2286 2.40002 19.6566 5.96262 19.6566 10.3573L19.6291 12.5728C19.6291 14.1926 20.2495 15.5357 20.8882 16.4469C21.164 16.8404 20.8984 17.5273 20.43 17.5273H3.57109Z"
+                            stroke="white"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        Xabarnomalar
+                      </span>
+                      <img src={cheveronIcon} alt="" />
+                    </Link>
+                    <Link to={isAuthenticated ? "/profile/messages" : "/login"}>
+                      <span>
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.19844 6.59999L11.3154 11.5271C11.7263 11.8116 12.2706 11.8116 12.6815 11.5271L19.7984 6.59999M4.79844 19.2H19.1984C20.5239 19.2 21.5984 18.1255 21.5984 16.8V7.19999C21.5984 5.8745 20.5239 4.79999 19.1984 4.79999H4.79844C3.47295 4.79999 2.39844 5.8745 2.39844 7.19999V16.8C2.39844 18.1255 3.47295 19.2 4.79844 19.2Z"
+                            stroke="white"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        Xabarlar
+                      </span>
+                      <img src={cheveronIcon} alt="" />
+                    </Link>
+                  </>
+                )}
+            {/* <Link
+              id="to-profile"
+              to={isAuthenticated ? "/profile/menus" : "/login"}
+            >
+              {isAuthenticated ? "Shaxsiy kabinet" : "Kirish"}
+            </Link> */}
+            {isAuthenticated ? (
+              user.role === "admin" ? (
+                <Link id="to-profile" to="/dashboard">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
+                      stroke="#118E71"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  Admin Dashboard
+                </Link>
+              ) : (
+                <Link id="to-profile" to="/profile/prof">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
+                      stroke="#118E71"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  Shaxsiy kabinet
+                </Link>
+              )
+            ) : (
+              <Link id="to-profile" to="/login">
+                Kirish
+              </Link>
+            )}
           </div>
         </div>
       </div>

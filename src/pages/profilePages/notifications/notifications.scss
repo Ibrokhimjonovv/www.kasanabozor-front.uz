@@ -62,3 +62,13 @@
     cursor: pointer;
     margin-top: 7px;
 }
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        .notification {
+            .accordion-cont {
+                padding: 10px 10px 8px !important;
+            }
+        }
+    }
+}

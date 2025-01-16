@@ -3,12 +3,13 @@
     margin: 0 auto;
 }
 
-.announce-price, .announce-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.announce-price,
+.announce-title {
+    // display: -webkit-box;
+    // -webkit-line-clamp: 1;
+    // -webkit-box-orient: vertical;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
     border-bottom: unset !important;
     height: 100% !important;
     position: relative;
@@ -18,4 +19,64 @@
 
 .announce-title {
     -webkit-line-clamp: 2 !important;
+}
+
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        .my-announce {
+            .right {
+                padding-bottom: 80px !important;
+
+                .tool {
+                    align-items: flex-start;
+                    flex-direction: column;
+                    row-gap: 10px;
+
+                    .tool-left {
+                        width: 100%;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        label {
+                            width: unset;
+                        }
+                    }
+
+                    .tool-right {
+                        width: 100%;
+
+                        form {
+                            width: 100%;
+
+                            input {
+                                width: 100%;
+                            }
+
+                        }
+
+                        a {
+                            display: none;
+                        }
+                    }
+                }
+
+                .for-mobile {
+                    max-width: 500px;
+                    width: 100%;
+                    overflow-x: scroll;
+
+                    .user-table {
+                        width: 1000px;
+                    }
+                }
+
+                .pagination-prof {
+                    bottom: 10px;
+                    flex-direction: column;
+                    row-gap: 15px;
+                }
+            }
+        }
+    }
 }
