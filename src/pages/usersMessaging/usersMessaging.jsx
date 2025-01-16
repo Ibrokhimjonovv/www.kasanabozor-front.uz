@@ -41,7 +41,7 @@ const UsersMessaging = () => {
   useEffect(() => {
     loadUsers();
 
-    const websocket = new WebSocket(`ws://5.75.178.236:4905/ws/chat/`, ["authorization", localStorage.getItem('access')]);
+    const websocket = new WebSocket(`ws://ws.messaging.kasanabozor.uz/ws/chat/`, ["authorization", localStorage.getItem('access')]);
     websocket.onopen = () => {
       console.log('WebSocket is connected');
     };

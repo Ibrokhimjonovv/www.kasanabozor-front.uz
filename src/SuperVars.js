@@ -1,10 +1,10 @@
 
 
-const usersServerUrl            = "http://5.75.178.236:4900/api/";
-const eCommerseServerUrl        = "http://5.75.178.236:4901/api/";
-const coursesServerUrl          = "http://5.75.178.236:4902/api/";
-const announcementsServerUrl    = "http://5.75.178.236:4903/api/";
-const messagingServerUrl        = "http://5.75.178.236:4905/";
+const usersServerUrl            = "https://api.users.kasanabozor.uz/api/";
+const eCommerseServerUrl        = "https://api.ecommerse.kasanabozor.uz/api/";
+const coursesServerUrl          = "https://api.courses.kasanabozor.uz/api/";
+const announcementsServerUrl    = "https://api.announcements.kasanabozor.uz/api/";
+const messagingServerUrl        = "https://ws.messaging.kasanabozor.uz/";
 
 
 export {

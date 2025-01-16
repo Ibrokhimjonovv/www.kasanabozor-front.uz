@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./addProduct.scss";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
-import { Link } from "react-router-dom";
-import EditorBar from "../../../components/Editor/Editor";
+import { Link, useNavigate } from "react-router-dom";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
 import axios from 'axios';
 import { eCommerseServerUrl } from '../../../SuperVars';
@@ -10,6 +9,7 @@ import { MyContext } from '../../../context/myContext';
 
 
 const AddProducts = () => {
+  const navigate = useNavigate();
   const {categories} = useContext(MyContext);
   const [isChecked, setIsChecked] = useState(false);
   const [price, setPrice] = useState("");
@@ -21,11 +21,6 @@ const AddProducts = () => {
   const [description, setDescription] = useState("");
   const [newProductImages, setNewProductImages] = useState([]);
 
-
-  const handleDescriptionChange = (newDescription) => {
-    setDescription(newDescription);
-  };
-  
   const handleStatusChange = () => {
     setIsChecked((prev) => !prev);
     setDiscount("");
@@ -83,6 +78,7 @@ const AddProducts = () => {
 
       if (response.data.status === "ok") {
         alert("Mahsulot muvaffaqiyatli qo'shildi");
+        navigate('/profile/products/');
       } else {
         alert("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
       }
@@ -267,7 +263,7 @@ const AddProducts = () => {
                   name="description"
                   placeholder="Mahsulot haqida"
                   value={description}
-                  onChange={handleDescriptionChange}
+                  onChange={ (e) => { setDescription(e.target.value) } }
                   id="product-editor"
                 ></textarea>
               </div>
@@ -296,6 +292,7 @@ const AddProducts = () => {
                   required
                   style={{ marginTop: "5px" }}
                 >
+                  <option value={ null }>Kategoriya tanlang</option>
                   {categories.map((value, index) => <option key={ index } value={ value.id }>{ value.title }</option>)}
                 </select>
               </div>
