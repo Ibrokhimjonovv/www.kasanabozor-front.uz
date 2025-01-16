@@ -9,6 +9,7 @@ import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess
 import newsCardImage from "./news-card-image.png";
 import Weather from "../../components/weather/weather";
 import CurrencyRates from "../../components/converter/converter";
+import Documents from "../../components/documents/Documents";
 const NewsPage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -476,7 +477,7 @@ const NewsPage = () => {
           )}
         </div>
       </div>
-
+      <Documents />
       <div className="forBackgroundColor">
         <div className="poster">
           <div className="left-side">
