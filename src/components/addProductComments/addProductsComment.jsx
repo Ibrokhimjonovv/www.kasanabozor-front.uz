@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
 import axios from 'axios';
-import { eCommerseServerUrl } from '../../SuperVars';
+import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
 
 
 const AddProductsComments = ({ com }) => {
@@ -110,7 +110,7 @@ const AddProductsComments = ({ com }) => {
       <div key={reply.id} className="replied-messages">
         <div className="who">
           <div className="user">
-          <img src={`http://5.75.178.236:4900${reply.user.pfp}`} alt="" />
+          <img src={`${mediaServerUrl}users${formatLink(reply.user.pfp)}`} alt="" />
             <div className="texts">
               <div className="name">
               {reply.user.first_name} {reply.user.last_name} {reply.user.id === com.user.id && "(muallif)"}
@@ -133,7 +133,7 @@ const AddProductsComments = ({ com }) => {
         {comments.length > 0 ? <>{comments.map((comment) => <div className="user-comment" key={comment.id}>
             <div className="who">
               <div className="user">
-                <img src={`http://5.75.178.236:4900${comment.user.pfp}`} alt="" />
+                <img src={`${mediaServerUrl}users${formatLink(comment.user.pfp)}`} alt="" />
                 <div className="texts">
                   <div className="name">
                     {comment.user.first_name} {comment.user.last_name} {comment.user.id === com.user.id && "(muallif)"}

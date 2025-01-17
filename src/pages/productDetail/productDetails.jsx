@@ -4,8 +4,7 @@ import "./productDetails.scss";
 import axios from 'axios';
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
-import { eCommerseServerUrl, messagingServerUrl } from "../../SuperVars";
-// import AddComments from "../../components/addComments/addComments";
+import { eCommerseServerUrl, formatLink, mediaServerUrl, messagingServerUrl } from "../../SuperVars";
 import AddProductsComments from "../../components/addProductComments/addProductsComment";
 
 
@@ -147,7 +146,7 @@ const ProductDetails = () => {
               {images.map((image, index) => (
                 <img
                   key={index}
-                  src={ `http://5.75.178.236:4901${image.image}` }
+                  src={ `${mediaServerUrl}ecommerse${formatLink(image.image)}` }
                   alt={`Image ${index + 2}`}
                   onClick={() => handleImageClick(image, index)}
                   style={{ cursor: "pointer" }}
@@ -155,7 +154,7 @@ const ProductDetails = () => {
               ))}
             </div>
             <div className="hero-image">
-              <img src={ `http://5.75.178.236:4901${mainImage.image}` } alt="" />
+              <img src={ `${mediaServerUrl}ecommerse${formatLink(mainImage.image)}` } alt="" />
             </div>
           </div>
         </div>
@@ -188,7 +187,7 @@ const ProductDetails = () => {
           <p>{product.description}</p>
           <div className="with-author">
             <div className="author">
-              <img src={`http://5.75.178.236:4900${product.user.pfp}`} alt="" />
+              <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
               <div className="text">
                 <div className="name">{product.user.first_name} {product.user.last_name}</div>
                 <div className="work">{product.job}</div>
@@ -288,7 +287,7 @@ const ProductDetails = () => {
             <a href={`/online-shop/product/${similarProduct.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                <img src={'http://5.75.178.236:4901' + String(similarProduct.product_image_Ecommerce_product_images[0] ? similarProduct.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." />
+                <img src={'${mediaServerUrl}ecommerse' + String(similarProduct.product_image_Ecommerce_product_images[0] ? formatLink(similarProduct.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
                 </div>
                 <div className="productTitle">{similarProduct.name}</div>
                 <div className="productDescription">
@@ -323,7 +322,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={`http://5.75.178.236:4900${similarProduct.user.pfp}`} alt="" />
+                  <img src={`${mediaServerUrl}users${formatLink(similarProduct.user.pfp)}`} alt="" />
                   <span>{similarProduct.user.first_name} {similarProduct.user.last_name}</span>
                 </div>
               </div>

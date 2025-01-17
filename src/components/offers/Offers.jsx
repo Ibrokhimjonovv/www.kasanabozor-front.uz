@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Offers.scss";
 import { Link, useLocation } from "react-router-dom";
 import Discount from "../discount/Discount";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 // import axios from 'axios';
 // import { eCommerseServerUrl } from '../../SuperVars';
 
@@ -107,7 +108,7 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
               >
                 <div className="product link-a-product revealed">
                   <div className="imgContainer">
-                    <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
+                    <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : ""} alt="" />
                   </div>
                   <div className="productTitle">{product.name}</div>
                   <div className="productDescription">
@@ -132,7 +133,7 @@ const Offers = ({ selectedCategories, selectedPaid, ratingRange }) => {
                     </div>
                   </div>
                   <div className="author">
-                    <img src={`http://5.75.178.236:4900${product.user.pfp}`} alt={`${product.first_name} ${product.last_name}`} />
+                    <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt={`${product.first_name} ${product.last_name}`} />
                     <span>{product.user.first_name} {product.user.last_name}</span>
                   </div>
                 </div>

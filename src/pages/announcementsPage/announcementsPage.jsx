@@ -5,6 +5,7 @@ import "./announcementsPage.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import defaultImg from "./default.png";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const AnnouncementsPage = () => {
@@ -93,7 +94,7 @@ const AnnouncementsPage = () => {
                 ))*/}
               </div>
               <div className="author">
-                <img src={`http://5.75.178.236:4900${announcement.user.pfp}`} alt="" />
+                <img src={`${mediaServerUrl}users${announcement.user.pfp}`} alt="" />
                 <span>{announcement.user.first_name} {announcement.user.last_name}</span>
               </div>
               <div className="date-count">
@@ -176,13 +177,13 @@ const AnnouncementsPage = () => {
         <div className="services-cards">
           {services.map((value, index) => <Link to={`/announcements/${value.id}`} key={ index }>
             <div className="service-card">
-              <div className="img-card"><img src={ value.thumbnail ? `http://5.75.178.236:4903${value.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png' } alt="" /></div>
+              <div className="img-card"><img src={ value.thumbnail ? `${mediaServerUrl}announcements${formatLink(value.thumbnail)}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png' } alt="" /></div>
               <div className="service-title">{value.title}</div>
               <div className="service-desc"></div>
               <div className="author-location">
                 <div className="author">
                   <img
-                    src={ `http://5.75.178.236:4900${value.user.pfp}` }
+                    src={ `${mediaServerUrl}users${formatLink(value.user.pfp)}` }
                     alt=""
                   />
                   <span>{value.user.first_name} {value.user.last_name}</span>

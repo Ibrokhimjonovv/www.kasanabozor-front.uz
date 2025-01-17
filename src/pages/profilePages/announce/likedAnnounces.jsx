@@ -4,9 +4,8 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import "./likedAnnounces.scss";
 import left from "../../../assets/left.png";
 import right from "../../../assets/right.png";
-import defaultImg from "../../announcementsPage/default.png";
 import axios from 'axios';
-import { announcementsServerUrl } from '../../../SuperVars';
+import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
 
 
 const LikedAnnounces = () => {
@@ -153,7 +152,7 @@ const LikedAnnounces = () => {
                     )) */ }
                   </div>
                   <div className="author">
-                    <img src={`http://5.75.178.236:4900${announcement.user.pfp}`} alt="" />
+                    <img src={`${mediaServerUrl}users${formatLink(announcement.user.pfp)}`} alt="" />
                     <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                   </div>
                   <div className="date-count">

@@ -3,6 +3,7 @@ import "./profile.scss";
 import { Link } from "react-router-dom";
 import ProfileSideBar from "../../components/profileSideBar/profileSideBar";
 import { MyContext } from "../../context/myContext";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const Profile = () => {
@@ -99,7 +100,7 @@ const Profile = () => {
             </Link>
           </div>
           <div className="profile-img">
-            <img src={ `http://5.75.178.236:4900${user.pfp}` || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
+            <img src={ `${mediaServerUrl}users${formatLink(user.pfp)}` || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
             <input type="file" id="photo" accept="image/png,images/jpg,image/jpeg,image/gif" onChange={ (ev) => {
               ev.preventDefault();
               uploadUserPhoto(ev);

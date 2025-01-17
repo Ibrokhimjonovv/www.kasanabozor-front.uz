@@ -8,7 +8,7 @@ import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
 import axios from 'axios';
 import { MyContext } from '../../../context/myContext';
-import { eCommerseServerUrl } from '../../../SuperVars';
+import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
 
 
 const Products = () => {
@@ -204,7 +204,7 @@ const Products = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ""}
+                      src={product.product_image_Ecommerce_product_images.length >= 1 ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : ""}
                       alt=""
                     />
                   </td>

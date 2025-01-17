@@ -2,9 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import "./announceDetail.scss";
 import { MyContext } from "../../context/myContext";
 import { Link, useParams } from "react-router-dom";
-import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
-import { announcementsServerUrl } from '../../SuperVars';
+import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
 import axios from 'axios';
 import SearchBar from "../../components/searchBar/searchBar";
 
@@ -213,7 +212,7 @@ const AnnounceDetail = () => {
                       ))*/}
                     </div>
                     <div className="author">
-                      <img src={`http://5.75.178.236:4900${announcement.user.pfp}`} alt="" />
+                      <img src={`${mediaServerUrl}users${formatLink(announcement.user.pfp)}`} alt="" />
                       <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                     </div>
                     <div className="date-count">
@@ -289,7 +288,7 @@ const AnnounceDetail = () => {
             <div className="top-side">
               <div className="top-left">
                 <div className="author">
-                  <img src={`http://5.75.178.236:4900${currentAnnounce.user.pfp}`} alt="" />
+                  <img src={`${mediaServerUrl}users${formatLink(currentAnnounce.user.pfp)}`} alt="" />
                   <span>{currentAnnounce.user.first_name} {currentAnnounce.user.last_name}</span>
                 </div>
                 <div className="cur-title">{currentAnnounce.title}</div>

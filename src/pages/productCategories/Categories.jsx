@@ -3,7 +3,7 @@ import "./Categories.scss";
 import { Link, useParams } from "react-router-dom";
 import Discount from "../../components/discount/Discount";
 import axios from 'axios';
-import { eCommerseServerUrl } from '../../SuperVars';
+import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
 
 
 const Categories = () => {
@@ -98,7 +98,7 @@ const Categories = () => {
             <Link to={`/online-shop/product/${product.id}`} key={product.id}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ""} alt="" />
+                  <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : ""} alt="" />
                 </div>
                 <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
@@ -124,7 +124,7 @@ const Categories = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={`http://5.75.178.236:4900${product.user.pfp}`} alt="" />
+                  <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
                   <span>{product.user.first_name} {product.user.last_name}</span>
                 </div>
               </div>

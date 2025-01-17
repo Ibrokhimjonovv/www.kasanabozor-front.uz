@@ -5,6 +5,7 @@ import { MyContext } from "../../context/myContext";
 import category9 from "./Cup_perspective_matte.png";
 import downArrow from "./Chevron down.png";
 import Discount from "../discount/Discount";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const TopProducts = () => {
@@ -64,7 +65,7 @@ const TopProducts = () => {
               <div className="product">
                 <div className="imgContainer">
             { console.log(product) }
-                  <img src={'http://5.75.178.236:4901' + String(product.product_image_Ecommerce_product_images[0] ? product.product_image_Ecommerce_product_images[0].image : '/static/404.jpg')} alt="..." />
+                  <img src={'${mediaServerUrl}ecommerse' + String(product.product_image_Ecommerce_product_images[0] ? formatLink(product.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
                 </div>
                 <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
@@ -118,7 +119,7 @@ const TopProducts = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={`http://5.75.178.236:4900${product.user.pfp}`} alt="" />
+                  <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
                   <span>{product.user.first_name} {product.user.last_name}</span>
                 </div>
               </div>

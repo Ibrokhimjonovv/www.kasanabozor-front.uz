@@ -8,7 +8,7 @@ import Dashboard from "../dashboard/dashboard";
 import StarRating from "../../../components/starRating/starRating";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
 import axios from 'axios';
-import { eCommerseServerUrl } from '../../../SuperVars.js';
+import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars.js';
 
 
 const AdminProducts = () => {
@@ -460,13 +460,13 @@ const AdminProducts = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={product.product_image_Ecommerce_product_images[0] ? `http://5.75.178.236:4901${product.product_image_Ecommerce_product_images[0].image}` : ''}
+                      src={product.product_image_Ecommerce_product_images[0] ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : ''}
                       alt=""
                     />
                   </td>
                   <td>{product.name}</td>
 		  <td>
-                    <img className="authorImg" src={`http://5.75.178.236:4900${product.user.pfp}`} alt="" />
+                    <img className="authorImg" src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
                   </td>
                   {/* <td className="sku">{product.sku}</td> */}
                   <td>{product.category.title}</td>

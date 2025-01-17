@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./myAnnounces.scss";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
-import authorImg from "../../admin/admin-products/authorImg.png";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
-import myAnnounceImage from "../../../assets/myAnnounceImage.png";
 import axios from 'axios';
-import { announcementsServerUrl } from '../../../SuperVars';
+import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
 
 
 const MyAnnounces = () => {
@@ -208,13 +206,13 @@ const MyAnnounces = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={announce.thumbnail ? `http://5.75.178.236:4903${announce.thumbnail}` : 'http://5.75.178.236:4901/static/404.png'}
+                      src={announce.thumbnail ? `${mediaServerUrl}announcements${formatLink(announce.thumbnail)}` : '${mediaServerUrl}ecommerse/static/404.png'}
                       alt=""
                     />
                   </td>
                   <td className="announce-title">{announce.title}</td>
                   <td>
-                    <img className="productImg" src={`http://5.75.178.236:4900${announce.user.pfp}`} alt="" />
+                    <img className="productImg" src={`${mediaServerUrl}users${formatLink(announce.user.pfp)}`} alt="" />
                   </td>
                   <td className="announce-price">{announce.price_max} UZS</td>
                   { /* <td>{announce.applicationsCount}</td> */ }

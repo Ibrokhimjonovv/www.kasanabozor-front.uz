@@ -3,10 +3,10 @@ import "./courseDetail.scss";
 import { useParams, Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import play from "./playBtnImg.png";
-import AddComments from "../../components/addComments/addComments";
+// import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
 import axios from 'axios';
-import { coursesServerUrl } from '../../SuperVars';
+import { coursesServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
 
 
 const CourseDetail = () => {
@@ -226,7 +226,7 @@ const CourseDetail = () => {
               </li> */ }
             </ul>
             <div className="author">
-              <img src={`http://5.75.178.236:4900${course.user.pfp}`} alt="" />
+              <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt="" />
               <span>{course.user.first_name} {course.user.last_name}</span>
             </div>
           </div>

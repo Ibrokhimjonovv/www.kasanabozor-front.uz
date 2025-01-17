@@ -3,8 +3,8 @@ import category9 from "./Grid.png";
 import { Link } from "react-router-dom";
 import downArrow from "./Chevron down.png";
 import { MyContext } from "../../context/myContext";
-import Discount from "../discount/Discount";
 import "./topCourses.scss";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const TopCourses = () => {
@@ -62,7 +62,7 @@ const TopCourses = () => {
                 className="course-card"
               >
                 <div className="card-img">
-                  <img src={course.thumbnail ? `http://5.75.178.236:4902${course.thumbnail}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png'} alt={course.title} />
+                  <img src={course.thumbnail ? `${mediaServerUrl}courses${formatLink(course.thumbnail)}` : 'https://img.lovepik.com/element/40021/7866.png_1200.png'} alt={course.title} />
                 </div>
 
                 <p className="card-title">{course.title}</p>
@@ -145,7 +145,7 @@ const TopCourses = () => {
                 </div>
                 <div className="author">
                   <div className="author-img">
-                    <img src={`http://5.75.178.236:4900${course.user.pfp}`} alt={course.user.pfp} />
+                    <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.user.pfp} />
                   </div>
                   <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                 </div>
