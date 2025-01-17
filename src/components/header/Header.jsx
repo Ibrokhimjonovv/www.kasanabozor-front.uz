@@ -4,12 +4,14 @@ import { Link, NavLink } from "react-router-dom";
 import SearchBar from "../searchBar/searchBar";
 import { MyContext } from "../../context/myContext";
 import langImg from "./Icon (3).png";
-import cart from "./mobile-menu-cart.png";
 import menuBackgroundImage from "./menuImg.png";
 import cheveronIcon from "./menu-cheveron-icon.png";
+
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
   const {
     selectedLanguage,
     setSelectedLanguage,
@@ -18,9 +20,11 @@ const Header = () => {
     isAuthenticated,
     user,
   } = useContext(MyContext);
+  
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
+  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1) {
@@ -35,8 +39,10 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [help, setHelp] = useState(false);
+  
   const handleLanguageChange = (newLanguage) => {
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
     updatedLanguages.push(selectedLanguage);
@@ -44,14 +50,18 @@ const Header = () => {
     setLanguages(updatedLanguages);
     setIsOpen(false);
   };
+  
   const [menuOpen, setMenuOpen] = useState(false);
+  
   const openClick = () => {
     setMenuOpen(!menuOpen);
   };
+  
   const divStyle = {
     backgroundImage: `url(${menuBackgroundImage})`,
     backgroundSize: "60px 60px",
   };
+  
   const notF = (e) => {
     e.preventDefault();
   };
@@ -76,6 +86,7 @@ const Header = () => {
         return "Language not supported";
     }
   };
+  
   return (
     <div className={`tyu ${scrolled ? "scrolled" : ""}`}>
       <header className="header">

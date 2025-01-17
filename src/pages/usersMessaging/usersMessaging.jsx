@@ -25,7 +25,6 @@ const UsersMessaging = () => {
   const loadUsers = async () => {
     try {
       const usersListResponse = await axios.post(`${messagingServerUrl}api/chats/`);
-      console.log(usersListResponse);
       if (usersListResponse.data.status === "ok") {
         setMe(usersListResponse.data.user);
         setUsersChats(usersListResponse.data.results);
@@ -41,9 +40,17 @@ const UsersMessaging = () => {
   useEffect(() => {
     loadUsers();
 
-    const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`, ["authorization", localStorage.getItem('access')]);
-    websocket.onopen = () => {
-      console.log('WebSocket is connected');
+    const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`);
+    websocket.onopen = (eve) => {
+      const token = localStorage.getItem('access');
+      if (token) {
+        websocket.send(
+          JSON.stringify({
+            'auth': 1,
+            'token': token
+          })
+        );
+      }
     };
 
     websocket.onmessage = (evt) => {
@@ -54,12 +61,19 @@ const UsersMessaging = () => {
     };
 
     websocket.onclose = () => {
-      console.log('WebSocket is closed');
     };
 
     setWs(websocket);
 
-    return () => { websocket.close(); };
+
+    return () => {
+       if (ws && ws.readyState === WebSocket.OPEN) {
+         ws.close();
+       } else if (ws && ws.readyState === WebSocket.CONNECTING) {
+        } else {
+        }
+     };
+
   }, []);
 
   const notMe = (chat) => {

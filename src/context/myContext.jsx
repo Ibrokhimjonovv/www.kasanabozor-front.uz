@@ -24,10 +24,8 @@ export const MyContextProvider = ({ children }) => {
   const [loadSuccess, setLoadSuccess] = useState(false);
 
   const uploadUserPhoto = async (image) => {
-    console.log(image);
     const formData = new FormData();
     formData.append('image', image.target.files[0]);
-    console.log(image);
     
     try {
       const response = await axios.post(`${usersServerUrl}profile/photo/`, formData, {
@@ -35,8 +33,6 @@ export const MyContextProvider = ({ children }) => {
           'Content-Type': 'multipart/form-data'
         }
       });
-
-      console.log(response, "Upload photo");
 
       if (response.data.status === "ok" && response.data.result) {
         setUser((prev) => {
@@ -87,7 +83,6 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const announcementsResponse = await axios.get(`${announcementsServerUrl}announcements/list/jobs/`);
-      console.log(announcementsResponse, "jobs");
       if (announcementsResponse.data.status === "ok") {
         setAnnouncements(announcementsResponse.data.results);
       }
@@ -97,7 +92,6 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const servicesResponse = await axios.get(`${announcementsServerUrl}announcements/list/services/`);
-      console.log(servicesResponse, "services");
       if (servicesResponse.data.status === "ok") {
         setServices(servicesResponse.data.results);
       }
@@ -107,7 +101,6 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const ccategoriesResponse = await axios.get(`${coursesServerUrl}categories/list/`);
-      console.log(ccategoriesResponse, "ccategories");
       if (ccategoriesResponse.data.status === "ok") {
         setCourseCategories(ccategoriesResponse.data.results);
       }
@@ -117,7 +110,6 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const coursesResponse = await axios.get(`${coursesServerUrl}courses/popular/`);
-      console.log(coursesResponse, "courses");
       if (coursesResponse.data.status === "ok") {
         setCourses(coursesResponse.data.results);
       }
@@ -127,7 +119,6 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const announcementsResponse = await axios.post(`${announcementsServerUrl}profile/announcements/saved/`);
-      console.log(announcementsResponse, "saved announcements");
       if (announcementsResponse.data.status === "ok") {
         setSavedAnnouncements(announcementsResponse.data.results);
       }
@@ -137,7 +128,6 @@ export const MyContextProvider = ({ children }) => {
 
     try {
       const followedCoursesResponse = await axios.get(`${coursesServerUrl}profile/courses/list/`);
-      console.log(followedCoursesResponse, "following courses");
       if (followedCoursesResponse.data.status === "ok") {
         setFollowedCourses(followedCoursesResponse.data.results.map((value) => value.id));
       }
