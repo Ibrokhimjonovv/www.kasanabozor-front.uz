@@ -41,9 +41,17 @@ const UsersMessaging = () => {
   useEffect(() => {
     loadUsers();
 
-    const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`, ["authorization", localStorage.getItem('access')]);
+    const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`);
     websocket.onopen = () => {
       console.log('WebSocket is connected');
+      if (localStorage.getItem('access')) {
+        websocket.send(
+          JSON.stringify({
+            'auth': 1,
+            'token': localStorage.getItem('access')
+          })
+        );
+      }
     };
 
     websocket.onmessage = (evt) => {
