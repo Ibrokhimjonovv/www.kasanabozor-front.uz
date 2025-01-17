@@ -11,6 +11,12 @@ const formatLink = (link) => {
 }
 
 export {
-  usersServerUrl, eCommerseServerUrl, coursesServerUrl, announcementsServerUrl, messagingServerUrl, mediaServerUrl, formatLink
+  usersServerUrl,
+  eCommerseServerUrl,
+  coursesServerUrl,
+  announcementsServerUrl,
+  messagingServerUrl,
+  mediaServerUrl,
+  formatLink
 };
 
