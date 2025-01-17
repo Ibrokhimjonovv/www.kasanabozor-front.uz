@@ -54,7 +54,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   
   const openClick = () => {
-    setMenuOpen((prev) => !prev);
+    setMenuOpen(!menuOpen);
   };
   
   const divStyle = {
@@ -1174,7 +1174,7 @@ const Header = () => {
                   Admin Dashboard
                 </Link>
               ) : (
-                <Link id="to-profile" to="/profile/prof">
+                <Link id="to-profile" to="/profile/menus">
                   <svg
                     width="24"
                     height="24"
