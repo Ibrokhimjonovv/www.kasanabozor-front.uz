@@ -42,20 +42,25 @@ const UsersMessaging = () => {
     loadUsers();
 
     const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`);
-    websocket.onopen = () => {
+    console.log("websocket");
+    websocket.onopen = (eve) => {
       console.log('WebSocket is connected');
-      if (localStorage.getItem('access')) {
+      const token = localStorage.getItem('access');
+      if (token) {
+        console.log("sending token");
         websocket.send(
           JSON.stringify({
             'auth': 1,
-            'token': localStorage.getItem('access')
+            'token': token
           })
         );
+        console.log("send token");
       }
     };
 
     websocket.onmessage = (evt) => {
       const message = (evt.data);
+      console.log("msg", message);
       if (JSON.parse(message).text) {
         setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
       };
@@ -67,7 +72,18 @@ const UsersMessaging = () => {
 
     setWs(websocket);
 
-    return () => { websocket.close(); };
+
+    return () => {
+       if (ws && ws.readyState === WebSocket.OPEN) {
+         ws.close();
+         console.log('WebSocket closed properly in the cleanup function');
+       } else if (ws && ws.readyState === WebSocket.CONNECTING) {
+          console.log('WebSocket is connecting. Skipping manual close');
+        } else {
+          console.log('WebSocket was already closed or not connecting');
+        }
+     };
+
   }, []);
 
   const notMe = (chat) => {
