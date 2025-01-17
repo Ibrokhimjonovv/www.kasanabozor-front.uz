@@ -104,7 +104,6 @@ const Documents = () => {
           </Link>
         ))}
       </div>
-
       <div className="doc-right-side">
         <div className="title-link">
           <div>
