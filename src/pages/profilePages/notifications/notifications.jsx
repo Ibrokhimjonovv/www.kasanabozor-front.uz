@@ -66,9 +66,9 @@ const Notifications = () => {
       date: "03.05.2025",
     },
     {
-        title: "Butun o'zbekiston bo'ylab",
-        description: "Kasanachilikni rivojlantirish, bu sohada yangi",
-        date: "03.05.2025",
+      title: "Butun o'zbekiston bo'ylab",
+      description: "Kasanachilikni rivojlantirish, bu sohada yangi",
+      date: "03.05.2025",
     },
   ];
   return (
@@ -108,7 +108,12 @@ const Notifications = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"

@@ -23,7 +23,7 @@ const Messages = () => {
       userName: "Aziz Karimov",
       userJob: "Temirchi",
       star: true,
-      unread: true, // O'qilmagan
+      unread: true,
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ const Messages = () => {
       userName: "Dilnoza Karimova",
       userJob: "Tikuvchi",
       star: false,
-      unread: false, // O'qilgan
+      unread: false,
     },
   ]);
   const getCurrentTime = () =>
@@ -63,11 +63,16 @@ const Messages = () => {
         i === index ? { ...chat, unread: false } : chat
       )
     );
-    setActiveChat(index); // Aktiv chatni o'zgartiradi
+    console.log(index);
+
+    setActiveChat(index);
   };
   const countdownInterval = useRef(null);
   const userInfo = () => {
     setShowUserInfo(!showUserInfo);
+  };
+  const cancelChat = () => {
+    setActiveChat(null);
   };
   const handleDeleteChat = (index) => {
     setSelectedChatIndex(index);
@@ -94,6 +99,7 @@ const Messages = () => {
       }
     }, 1000);
   };
+
   const cancelDelete = () => {
     clearInterval(countdownInterval.current);
     setShowDeleteModal(false);
@@ -109,7 +115,15 @@ const Messages = () => {
     <div>
       {usersChats.length > 0 ? (
         <div id="chatbox-prof">
-          <div className={`chat-left ${fullChatScreen ? "small-width" : ""}`}>
+          <div
+            className={`chat-left ${
+              fullChatScreen
+                ? "small-width"
+                : activeChat || activeChat === 0
+                ? "mob-chat-left"
+                : ""
+            }`}
+          >
             <form action="" id="search-form">
               <input type="text" placeholder="Qidiruv" required />
               <button disabled>
@@ -154,15 +168,58 @@ const Messages = () => {
               ))}
             </ul>
           </div>
-          <div className={`chat-right ${fullChatScreen ? "active" : ""}`}>
+          <div
+            className={`chat-right ${
+              fullChatScreen
+                ? "active"
+                : activeChat || activeChat === 0
+                ? "mob-chat-right"
+                : ""
+            }`}
+          >
             {activeChat !== null ? (
               <>
                 <div className="top">
                   <div className="top-left">
                     <button
                       id="btn1"
-                      className={`${fullChatScreen ? "btn-active" : ""}`}
+                      className={`desktop-chat-btn ${
+                        fullChatScreen ? "btn-active" : ""
+                      }`}
                       onClick={handleChatScreen}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clip-path="url(#clip0_904_27304)">
+                          <path
+                            d="M19.1667 9.16669H0.833333C0.373096 9.16669 0 9.53978 0 10C0 10.4603 0.373096 10.8334 0.833333 10.8334H19.1667C19.6269 10.8334 20 10.4603 20 10C20 9.53978 19.6269 9.16669 19.1667 9.16669Z"
+                            fill="#5A5A5A"
+                          />
+                          <path
+                            d="M19.1667 3.33331H0.833333C0.373096 3.33331 0 3.70641 0 4.16665C0 4.62688 0.373096 4.99998 0.833333 4.99998H19.1667C19.6269 4.99998 20 4.62688 20 4.16665C20 3.70641 19.6269 3.33331 19.1667 3.33331Z"
+                            fill="#5A5A5A"
+                          />
+                          <path
+                            d="M19.1667 15H0.833333C0.373096 15 0 15.3731 0 15.8333C0 16.2936 0.373096 16.6667 0.833333 16.6667H19.1667C19.6269 16.6667 20 16.2936 20 15.8333C20 15.3731 19.6269 15 19.1667 15Z"
+                            fill="#5A5A5A"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_904_27304">
+                            <rect width="20" height="20" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                    <button
+                      id="btn1"
+                      className="mob-chat-btn"
+                      onClick={cancelChat}
                     >
                       <svg
                         width="20"
@@ -329,7 +386,7 @@ const Messages = () => {
                       <div className="delete-modal">
                         <div className="modal-content">
                           <h3>{countdown} soniyada o'chiriladi...</h3>
-                          <button onClick={cancelDelete}>Cancel</button>
+                          <button onClick={cancelDelete}>Bekor qilish</button>
                         </div>
                       </div>
                     </>

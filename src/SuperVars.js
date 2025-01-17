@@ -1,5 +1,3 @@
-
-
 const usersServerUrl            = "https://api.users.kasanabozor.uz/api/";
 const eCommerseServerUrl        = "https://api.ecommerse.kasanabozor.uz/api/";
 const coursesServerUrl          = "https://api.courses.kasanabozor.uz/api/";

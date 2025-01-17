@@ -51,23 +51,23 @@ const LikedAnnounces = () => {
     indexOfLastUser < announcements.length
       ? indexOfLastUser
       : announcements.length;
-    useEffect(() => {
-      window.addEventListener("scroll", reveal);
-      function reveal() {
-        let reveals = document.querySelectorAll(".scroll-fade-effect");
-        for (let i = 0; i < reveals.length; i++) {
-          let windowheight = window.innerHeight;
-          let revealTop = reveals[i].getBoundingClientRect().top;
-          let revealpoint = 0;
-  
-          if (revealTop < windowheight - revealpoint) {
-            reveals[i].classList.add("active");
-          } else {
-            reveals[i].classList.remove("active");
-          }
+  useEffect(() => {
+    window.addEventListener("scroll", reveal);
+    function reveal() {
+      let reveals = document.querySelectorAll(".scroll-fade-effect");
+      for (let i = 0; i < reveals.length; i++) {
+        let windowheight = window.innerHeight;
+        let revealTop = reveals[i].getBoundingClientRect().top;
+        let revealpoint = 0;
+
+        if (revealTop < windowheight - revealpoint) {
+          reveals[i].classList.add("active");
+        } else {
+          reveals[i].classList.remove("active");
         }
       }
-    });
+    }
+  });
   
   return (
     <div className="profile-container">
@@ -106,7 +106,12 @@ const LikedAnnounces = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"
@@ -139,7 +144,7 @@ const LikedAnnounces = () => {
               <Link
                 to={`${announcement.id}`}
                 key={announcement.id}
-                className="scroll-fade-effect"
+                className="scroll-fade-effect mobile-w-100"
               >
                 <div className="card ">
                   <p className="title">{announcement.title}</p>

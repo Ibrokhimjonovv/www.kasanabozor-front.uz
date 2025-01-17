@@ -11,7 +11,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <div className="to-back">
+      <div className="to-back profile-to-back">
         <div className="backInner">
           <Link to="/">
             <svg
@@ -46,7 +46,8 @@ const Profile = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">Shaxsiy kabinet</Link>
+          <Link to="/profile/menus" className="mobile-back-link">Shaxsiy kabinet</Link>
           <span>
             <svg
               width="16"
@@ -67,10 +68,10 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile-inner">
-        <div className="left">
+        <div className="left profile-left">
           <ProfileSideBar />
         </div>
-        <div className="right">
+        <div className="right own-datas">
           <div className="page-title">
             <h2>Shaxsiy ma'lumotlarim</h2>
             <Link to="/profile/edit-profile">
@@ -168,6 +169,33 @@ const Profile = () => {
             <p>{ user.biography || "Bu inson juda taniqli, ular o'zi haqida malumot yozishi shart emas." }</p>
           </div>
         </div>
+      </div>
+      <div className="edit-profile-mobile">
+        <Link to="/profile/edit-profile">
+          Tahrirlash
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_1423_19081)">
+              <path
+                d="M7.33398 2.66665H2.66732C2.3137 2.66665 1.97456 2.80713 1.72451 3.05718C1.47446 3.30723 1.33398 3.64637 1.33398 3.99999V13.3333C1.33398 13.6869 1.47446 14.0261 1.72451 14.2761C1.97456 14.5262 2.3137 14.6667 2.66732 14.6667H12.0007C12.3543 14.6667 12.6934 14.5262 12.9435 14.2761C13.1935 14.0261 13.334 13.6869 13.334 13.3333V8.66665M12.334 1.66665C12.5992 1.40144 12.9589 1.25244 13.334 1.25244C13.7091 1.25244 14.0688 1.40144 14.334 1.66665C14.5992 1.93187 14.7482 2.29158 14.7482 2.66665C14.7482 3.04173 14.5992 3.40144 14.334 3.66665L8.00065 9.99999L5.33398 10.6667L6.00065 7.99999L12.334 1.66665Z"
+                stroke="#757575"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_1423_19081">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </Link>
       </div>
     </div>
   );

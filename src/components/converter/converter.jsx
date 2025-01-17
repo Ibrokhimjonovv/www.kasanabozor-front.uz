@@ -30,133 +30,45 @@ const CurrencyRates = () => {
     return <p>Yuklanmoqda...</p>;
   }
 
+  // Valyutalar ro'yxati
+  const currencies = [
+    { code: "USD", name: "AQSH dollari" },
+    { code: "RUB", name: "Rossiya rubli" },
+    { code: "EUR", name: "Yevro" },
+    { code: "GBP", name: "Buyuk Britaniya funti" },
+    { code: "JPY", name: "Yapon yenasi" },
+  ];
+
   return (
     <div id="currency-container">
       <h1>Valyuta kurslari</h1>
-      {/* AQSH dollari */}
-      <p className="currency-lines">
-        <div>
-          <span>USD</span>
-          <span>AQSH dollari</span>
-        </div>
-        <span>
-          <span>{rates["UZS"]}</span>
-          {previousRates &&
-            (rates["UZS"] > previousRates["UZS"] ? (
-              <img
-                src={upImg}
-                alt="Kurs oshdi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              <img
-                src={downImg}
-                alt="Kurs pasaydi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ))}
-        </span>
-      </p>
-
-      {/* Rossiya rubli */}
-      <p className="currency-lines">
-        <div>
-          <span>RUB</span>
-          <span>Rossiya rubli</span>
-        </div>
-        <span>
-          <span>{(rates["UZS"] / rates["RUB"]).toFixed(2)}</span>
-          {previousRates &&
-            (rates["RUB"] > previousRates["RUB"] ? (
-              <img
-                src={upImg}
-                alt="Kurs oshdi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              <img
-                src={downImg}
-                alt="Kurs pasaydi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ))}
-        </span>
-      </p>
-
-      {/* Yevro */}
-      <p className="currency-lines">
-        <div>
-          <span>EUR</span>
-          <span>Yevro</span>
-        </div>
-        <span>
-          <span>{(rates["UZS"] / rates["EUR"]).toFixed(2)}</span>
-          {previousRates &&
-            (rates["EUR"] > previousRates["EUR"] ? (
-              <img
-                src={upImg}
-                alt="Kurs oshdi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              <img
-                src={downImg}
-                alt="Kurs pasaydi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ))}
-        </span>
-      </p>
-
-      {/* Buyuk Britaniya funti */}
-      <p className="currency-lines">
-        <div>
-          <span>GBP</span>
-          <span>Buyuk Britaniya funti</span>
-        </div>
-        <span>
-          <span>{(rates["UZS"] / rates["GBP"]).toFixed(2)}</span>
-          {previousRates &&
-            (rates["GBP"] > previousRates["GBP"] ? (
-              <img
-                src={upImg}
-                alt="Kurs oshdi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              <img
-                src={downImg}
-                alt="Kurs pasaydi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ))}
-        </span>
-      </p>
-
-      {/* Yapon yenasi */}
-      <p className="currency-lines">
-        <div>
-          <span>JPY</span>
-          <span>Yapon yenasi</span>
-        </div>
-        <span>
-          <span>{(rates["UZS"] / rates["JPY"]).toFixed(2)}</span>
-          {previousRates &&
-            (rates["JPY"] > previousRates["JPY"] ? (
-              <img
-                src={upImg}
-                alt="Kurs oshdi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              <img
-                src={downImg}
-                alt="Kurs pasaydi"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ))}
-        </span>
-      </p>
+      {currencies.map((currency) => (
+        <p className="currency-lines" key={currency.code}>
+          <div>
+            <span>{currency.code}</span>
+            <span>{currency.name}</span>
+          </div>
+          <span>
+            <span>{(rates["UZS"] / rates[currency.code]).toFixed(2)}</span>
+            {previousRates && (
+              (rates["UZS"] / rates[currency.code] >
+              previousRates["UZS"] / previousRates[currency.code]) ? (
+                <img
+                  src={upImg}
+                  alt="Kurs oshdi"
+                  style={{ width: "20px", height: "20px" }}
+                />
+              ) : (
+                <img
+                  src={downImg}
+                  alt="Kurs pasaydi"
+                  style={{ width: "20px", height: "20px" }}
+                />
+              )
+            )}
+          </span>
+        </p>
+      ))}
     </div>
   );
 };

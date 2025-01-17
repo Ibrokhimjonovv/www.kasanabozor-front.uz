@@ -189,7 +189,8 @@ const EditProfile = () => {
               />
             </svg>
           </span>
-          <Link to="/profile">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">Shaxsiy kabinet</Link>
+          <Link to="/profile/menus" className="mobile-back-link">Shaxsiy kabinet</Link>
           <span>
             <svg
               width="16"
@@ -390,7 +391,6 @@ const EditProfile = () => {
                     <option value="activity2">Faoliyati 2</option>
                   </select>
                 </div>
-
                 <div className="error-message">To'ldirilishi shart</div>
               </div>
               <div className="input-row">
@@ -582,7 +582,10 @@ const EditProfile = () => {
                   <div className="error-message">To'ldirilishi shart</div>
                 </div>
               </div>
-              <div className="editors" style={{display: 'flex', justifyContent: "space-between"}}>
+              <div
+                className="editors"
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
                 <div className="input-row textarea profile-editor">
                   <label htmlFor="about-me">Men haqimda</label>
                   <div className="inputs">

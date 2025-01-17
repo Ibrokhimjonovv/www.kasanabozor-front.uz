@@ -169,3 +169,102 @@
         }
     }
 }
+
+.edit-profile-mobile {
+    display: none;
+}
+
+.mobile-back-link {
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        padding-bottom: 70px;
+        .to-back {
+            margin-top: 90px !important;
+            
+            .backInner {
+                padding: 0 20px !important;
+                
+                a, span {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                a, span {
+                    font-size: 14px !important;
+
+                    &.desktop-back-link {
+                        display: none;
+                    }
+
+                    &.mobile-back-link {
+                        display: flex;
+                    }
+                }
+            }
+        }
+        .profile-inner {
+            padding: 30px 10px !important;
+            .left {
+                display: none;
+            }
+
+            .right {
+                width: 100% !important;
+
+                &.own-datas {
+                    padding-bottom: 30px !important;
+                }
+                
+                .page-title {
+                    h2 {
+                        font-size: 18px;
+                    }
+                    a {
+                        display: none;
+                    }
+                }
+
+                .infos {
+                    ul {
+                        flex-direction: column;
+
+                        li {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .edit-profile-mobile {
+            display: block;
+            padding: 7px;
+            background-color: #fff;
+
+            a {
+                margin: 0 auto;
+                background-color: #41A58D;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 80%;
+                height: 45px;
+                border-radius: 7px;
+                gap: 5px;
+
+                svg {
+                    path {
+                        stroke: #fff !important;
+                    }
+                }
+            }
+        }
+    }
+}

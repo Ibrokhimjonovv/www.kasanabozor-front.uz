@@ -39,7 +39,7 @@
                 border-radius: 10px;
             }
         }
-        
+
         .productTitle {
             margin-top: 5px;
             color: #1E1E1E;
@@ -113,4 +113,38 @@
     bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        .liked-products {
+            .right {
+                padding-bottom: 20px !important;
+            }
+
+            .productsInner {
+                a {
+                    width: 47%;
+
+                    .product {
+                        width: 100%;
+
+                        .imgContainer {
+                            height: 200px;
+                        }
+
+                        .price {
+                            flex-direction: column;
+                        }
+
+                        .author {
+                            span {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

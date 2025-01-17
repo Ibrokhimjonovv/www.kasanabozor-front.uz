@@ -9,7 +9,7 @@ import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../Sup
 
 
 const MyAnnounces = () => {
-  const [announcements, setAnnouncements] = useState([]); 
+  const [announcements, setAnnouncements] = useState([]);
 
   const loadData = async () => {
     const response = await axios.post(`${announcementsServerUrl}profile/announcements/list/`);
@@ -31,19 +31,22 @@ const MyAnnounces = () => {
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-  
+
   const nextPage = () => {
     if (currentPage < Math.ceil(announcements.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
-  
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentAnnounces = announcements.slice(indexOfFirstUser, indexOfLastUser);
+  const currentAnnounces = announcements.slice(
+    indexOfFirstUser,
+    indexOfLastUser
+  );
   const totalPages = Math.ceil(announcements.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  
+
   const endUserIndex = indexOfLastUser < announcements.length ? indexOfLastUser : announcements.length;
   const [announceStatuses, setAnnounceStatuses] = useState(
     announcements.reduce((acc, announce) => {
@@ -51,14 +54,14 @@ const MyAnnounces = () => {
       return acc;
     }, {})
   );
-  
+
   const handleStatusChange = (id) => {
     setAnnounceStatuses((prevStatuses) => ({
       ...prevStatuses,
       [id]: !prevStatuses[id],
     }));
   };
-  
+
   return (
     <div className="profile-container">
       <div className="to-back">
@@ -96,7 +99,12 @@ const MyAnnounces = () => {
               />
             </svg>
           </span>
-          <Link to="/profile/prof">Shaxsiy kabinet</Link>
+          <Link to="/profile/prof" className="desktop-back-link">
+            Shaxsiy kabinet
+          </Link>
+          <Link to="/profile/menus" className="mobile-back-link">
+            Shaxsiy kabinet
+          </Link>
           <span>
             <svg
               width="16"
@@ -158,11 +166,7 @@ const MyAnnounces = () => {
                   </svg>
                 </button>
               </form>
-              <Link
-                to="/profile/add-announce"
-              >
-                +
-              </Link>
+              <Link to="/add-announce">+</Link>
             </div>
           </div>
           <table className="user-table">
@@ -215,7 +219,7 @@ const MyAnnounces = () => {
                     <img className="productImg" src={`${mediaServerUrl}users${formatLink(announce.user.pfp)}`} alt="" />
                   </td>
                   <td className="announce-price">{announce.price_max} UZS</td>
-                  { /* <td>{announce.applicationsCount}</td> */ }
+                  { /* <td>{announce.applicationsCount}</td> */}
                   <td>{announce.created_at.split('T')[0]}</td>
                   { /* <td>
                     <input
@@ -262,12 +266,118 @@ const MyAnnounces = () => {
               ))}
             </tbody>
           </table>
+
+          {/* <div className="for-mobile">
+            <table className="user-table">
+              <thead>
+                <tr>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    <input type="checkbox" />
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Rasmi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Nomi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Muallif
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Narx
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Arizalar soni
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    E'lon sanasi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Aktivligi
+                  </th>
+                  <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                    Amallar
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentAnnounces.map((announce, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>
+                      <img
+                        className="productImg"
+                        src={announce.announceImage}
+                        alt=""
+                      />
+                    </td>
+                    <td className="announce-title">{announce.title}</td>
+                    <td>
+                      <img
+                        className="productImg"
+                        src={announce.authorImage}
+                        alt=""
+                      />
+                    </td>
+                    <td className="announce-price">{announce.price} UZS</td>
+                    <td>{announce.applicationsCount}</td>
+                    <td>{announce.announceDate}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        id={`status-${announce.id}`}
+                        checked={announceStatuses[announce.id]}
+                        onChange={() => handleStatusChange(announce.id)}
+                        className="check-inp"
+                      />
+                      <label
+                        htmlFor={`status-${announce.id}`}
+                        className="checkbox"
+                      >
+                        <span
+                          className={
+                            announceStatuses[announce.id] ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                    </td>
+                    <td>
+                      <button className="btn btn-secondary">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
+                            fill="#41A58D"
+                          />
+                          <path
+                            d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
+                            fill="#41A58D"
+                          />
+                          <path
+                            d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
+                            fill="#41A58D"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div> */}
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="pagination for-p">
+            <div className="pagination pagination-prof for-p">
               <div className="soni">
-                {announcements.length} tadan {startUserIndex} - {endUserIndex} lar
-                ko’rsatilmoqda
+                {announcements.length} tadan {startUserIndex} - {endUserIndex}{" "}
+                lar ko’rsatilmoqda
               </div>
               <div className="users-pages-buttons">
                 <button onClick={prevPage} disabled={currentPage === 1}>
@@ -277,9 +387,8 @@ const MyAnnounces = () => {
                   <button
                     key={index + 1}
                     onClick={() => paginate(index + 1)}
-                    className={`pagination-btn ${
-                      currentPage === index + 1 ? "active" : ""
-                    }`}
+                    className={`pagination-btn ${currentPage === index + 1 ? "active" : ""
+                      }`}
                   >
                     {index + 1}
                   </button>
@@ -287,7 +396,8 @@ const MyAnnounces = () => {
                 <button
                   onClick={nextPage}
                   disabled={
-                    currentPage === Math.ceil(announcements.length / usersPerPage)
+                    currentPage ===
+                    Math.ceil(announcements.length / usersPerPage)
                   }
                 >
                   <img src={right} alt="" />
@@ -296,6 +406,9 @@ const MyAnnounces = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className="edit-profile-mobile">
+        <Link to="/add-announce">Mahsulot qo'shish +</Link>
       </div>
     </div>
   );

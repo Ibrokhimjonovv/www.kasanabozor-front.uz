@@ -9,15 +9,15 @@
             justify-content: space-between;
             margin-top: 15px;
             gap: 20px;
-    
+
             .mro-width {
                 width: 100% !important;
-    
+
                 label {
                     width: 100%;
                 }
             }
-            
+
             .location {
                 display: flex;
                 justify-content: space-between;
@@ -32,14 +32,14 @@
                 &.w-smaller {
                     width: 31% !important;
                 }
-    
+
                 &.textarea {
                     width: 48.5% !important;
                     height: 200px;
-    
+
                     .inputs {
                         height: 100%;
-    
+
                         textarea {
                             border-radius: 10px;
                             padding: 20px;
@@ -54,19 +54,19 @@
                         }
                     }
                 }
-    
+
                 label {
                     color: #767676;
                     display: flex;
                     align-items: center;
                     gap: 5px;
                 }
-    
+
                 .inputs,
                 select {
                     position: relative;
                     width: 100%;
-    
+
                     #file-label {
                         position: relative;
                         background-color: #F8F8F8;
@@ -81,11 +81,11 @@
                         align-items: center;
                         cursor: pointer;
                     }
-    
+
                     input[type="file"] {
                         display: none !important;
                     }
-    
+
                     input {
                         background-color: #F8F8F8;
                         border: 1px solid #F2F2F2;
@@ -96,7 +96,7 @@
                         width: 100%;
                         border-radius: 7px;
                     }
-    
+
                     select {
                         background-color: #F8F8F8;
                         border: 1px solid #F2F2F2;
@@ -107,7 +107,7 @@
                         width: 100%;
                         border-radius: 7px;
                     }
-    
+
                     svg {
                         position: absolute;
                         top: 50%;
@@ -115,14 +115,14 @@
                         left: 5px;
                         z-index: 99;
                     }
-    
+
                     .eye.s {
                         left: unset;
                         width: 20px;
                         height: 20px;
                         fill: #b1b1b1;
                     }
-    
+
                     .eye {
                         right: 10px !important;
                         position: absolute;
@@ -130,14 +130,14 @@
                         transform: translateY(-50%);
                     }
                 }
-    
+
                 .error-message {
                     color: red;
                     font-size: 15px;
                     display: none;
                 }
             }
-    
+
             button[type="submit"] {
                 background-color: #41A58D;
                 border-radius: 7px;
@@ -178,7 +178,7 @@
                     background-color: #41A58D;
                 }
             }
-    
+
             .btn-cont {
                 display: flex;
                 flex-direction: row !important;
@@ -188,7 +188,47 @@
                 justify-content: flex-end;
 
                 &.m-top-75 {
-                    margin-top: 75px;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media screen and (max-width: 500px) {
+    .profile-container {
+        .edit-profile {
+            .right {
+                padding-bottom: 20px !important;
+                .form-list {
+                    form {
+                        padding: 0;
+                        padding-top: 20px;
+
+                        .location {
+                            flex-direction: column;
+                            row-gap: 10px;
+
+                            .input-row.w-smaller {
+                                width: 100% !important;
+                            }
+                        }
+
+                        .editors {
+                            flex-direction: column;
+                            row-gap: 10px;
+
+                            .profile-editor {
+                                width: 100% !important;
+                            }
+                        }
+
+                        .btn-cont.m-top-75 {
+                            margin-top: 20px;
+                        }
+                    }
                 }
             }
         }
