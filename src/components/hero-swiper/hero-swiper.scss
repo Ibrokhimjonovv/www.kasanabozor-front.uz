@@ -1,6 +1,6 @@
 
 #hero {
-    padding: 120px 50px 0;
+    padding: 150px 50px 0;
     display: flex;
     align-items: center;
     z-index: 1;
@@ -223,9 +223,10 @@
 
 @media screen and (max-width: 500px) {
     #hero {
-        padding: 120px 20px 0;
+        padding: 180px 20px 0;
         align-items: unset;
-        height: 95vh;
+        height: 115vh;
+        overflow: hidden;
         .swiper-cont {
             flex-direction: column;
             padding: 0;

@@ -89,6 +89,7 @@ const Header = () => {
   
   return (
     <div className={`tyu ${scrolled ? "scrolled" : ""}`}>
+      <marquee behavior="" direction="">Sayt test rejimida ishlamoqda</marquee>
       <header className="header">
         <div className="top-side">
           <ul className="top-left">
