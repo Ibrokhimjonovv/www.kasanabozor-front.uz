@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./adminTeachers.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
@@ -6,115 +6,42 @@ import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import StarRating from "../../../components/starRating/starRating";
+import axios from "axios";
+import { coursesServerUrl } from "../../../SuperVars";
+
+
 const AdminTeachers = () => {
   const {isOpen} = useContext(MyContext);
-  const teachers = [
-    {
-      id: 123,
-      teacherName: "Abdusattorov Axrorbek",
-      phoneNumber: "91 234 56 78",
-      courses: 2,
-      pupils: 325,
-      rating: 4,
-    },
-    {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-      {
-        id: 123,
-        teacherName: "Abdusattorov Axrorbek",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        pupils: 325,
-        rating: 4,
-      },
-  ];
+  
+  const [teachers, setTeachers] = useState([]);
+  const loadData = async () => {
+    const response = await axios.post(`${coursesServerUrl}dashboard/teachers/list/`);
+    if (response.data.status === "ok") {
+      setTeachers(response.data.results);
+    }
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+  
   const nextPage = () => {
     if (currentPage < Math.ceil(teachers.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentTeachers = teachers.slice(indexOfFirstUser, indexOfLastUser);
@@ -123,6 +50,8 @@ const AdminTeachers = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < teachers.length ? indexOfLastUser : teachers.length;
+  
+  
   return (
     <div id="admin-teachers">
       <Dashboard />
