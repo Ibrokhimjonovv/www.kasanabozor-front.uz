@@ -1,0 +1,551 @@
+#admin-add-course {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+
+    .admin-item {
+        padding: 20px 20px 20px 370px;
+
+        &.wd {
+            padding-left: 120px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #303030;
+        }
+
+        .to-back {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #41A58D;
+            margin-top: 15px;
+
+            a {
+                color: #41A58D;
+
+                &:hover {
+                    text-decoration: underline !important;
+                }
+            }
+        }
+
+        .form-list {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 20px;
+
+            .add-course-two-dep {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+
+                .add-course-two-dep-top {
+                    display: flex;
+                    border-bottom: 2px solid #D9D9D9;
+                    width: 100%;
+
+                    input {
+                        display: none;
+
+                        &:checked+label {
+                            color: #41A58D;
+                            font-weight: 600;
+
+                            &::after {
+                                display: block;
+                            }
+                        }
+                    }
+
+                    label {
+                        color: #5A5A5A;
+                        position: relative;
+                        padding: 5px 15px;
+                        cursor: pointer;
+
+                        &::after {
+                            width: 100%;
+                            height: 3px;
+                            background-color: #41A58D;
+                            position: absolute;
+                            content: "";
+                            bottom: -2px;
+                            left: 0;
+                            display: none;
+                        }
+                    }
+                }
+
+                .add-course-two-dep-bottom {
+                    padding-top: 10px;
+
+                    .about-course-container {
+                        form {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                            row-gap: 15px;
+
+                            .input-row {
+                                flex-direction: column;
+                                display: flex;
+                                row-gap: 3px;
+
+                                &.image-input {
+                                    input {
+                                        display: none;
+                                    }
+                                }
+
+                                &.w-100 {
+                                    width: 100%;
+
+                                    &.d-flex {
+                                        display: flex;
+                                        justify-content: space-between;
+                                        flex-direction: row;
+
+                                        .input-row-inner-status-select {
+                                            width: 200px;
+                                            display: flex;
+                                            flex-direction: column;
+                                            row-gap: 3px;
+
+                                            select {
+                                                width: 100%;
+                                            }
+                                        }
+                                    }
+
+                                    &.short-text {
+                                        textarea {
+                                            height: 150px;
+                                        }
+                                    }
+
+                                    &.tall-text {
+                                        textarea {
+                                            height: 250px;
+                                        }
+                                    }
+                                }
+
+                                &.w-50 {
+                                    width: 49%;
+                                }
+
+                                label {
+                                    color: #63676C;
+                                    font-size: 15px;
+                                }
+
+                                input,
+                                select,
+                                #course-image,
+                                textarea {
+                                    background-color: transparent;
+                                    height: 45px;
+                                    padding: 10px 7px;
+                                    font-size: 15px;
+                                    border: 2px solid #EEF1F3;
+                                    border-radius: 5px;
+                                    color: #63676C;
+                                    display: flex;
+                                    align-items: center;
+                                    cursor: pointer;
+                                    resize: none;
+
+                                    &:hover {
+                                        background-color: #f5f5f5;
+                                    }
+                                }
+                            }
+
+                            button {
+                                background-color: #41A58D;
+                                border-radius: 7px;
+                                border-radius: 7px;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                width: 150px;
+                                height: 45px;
+                                border: none;
+                                font-size: 16px;
+                                font-weight: 600;
+                                gap: 5px;
+                                color: #fff;
+
+                                &:hover {
+                                    opacity: 0.8;
+                                }
+                            }
+                        }
+                    }
+
+                    .course-lessons {
+                        .tool {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin: 10px 0;
+
+                            .tool-left {
+                                display: flex;
+
+                                label {
+                                    display: flex;
+                                    width: 100px;
+                                    color: #767676;
+                                    font-size: 14px;
+                                }
+
+                                select {
+                                    outline: none;
+                                    border: 2px solid #F2F2F2;
+                                    border-radius: 8px;
+                                    cursor: pointer;
+                                    padding: 7px 15px;
+                                }
+                            }
+
+                            .tool-right {
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+
+                                form {
+                                    display: flex;
+                                    position: relative;
+                                    align-items: center;
+
+                                    input {
+                                        padding: 7px 40px 7px 10px;
+                                        font-size: 16px;
+                                        outline: none;
+                                        border: 1px solid #767676;
+                                        border-radius: 5px;
+                                        border: 1px solid #F2F2F2;
+                                    }
+
+                                    button {
+                                        position: absolute;
+                                        right: 10px;
+                                        background-color: transparent;
+                                        border: none;
+                                        cursor: pointer;
+                                    }
+                                }
+
+                                select {
+                                    color: #41A58D;
+                                    padding: 8px 15px;
+                                    font-size: 16px;
+                                    border-radius: 7px;
+                                    outline: none;
+                                    cursor: pointer;
+                                    border: 1px solid #F2F2F2;
+                                }
+
+                                a {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 36px;
+                                    height: 36px;
+                                    background-color: #41A58D;
+                                    border-radius: 5px;
+                                    color: #fff;
+                                    font-size: 20px;
+                                }
+
+                                .offcanvas {
+                                    height: 100%;
+                                    width: 500px;
+                                    background-color: #fff;
+                                    top: 0;
+                                    right: -100%;
+                                    position: fixed;
+                                    border-radius: 10px 0 0 10px;
+                                    z-index: 1;
+                                    padding: 20px;
+                                    overflow-y: auto;
+
+                                    &.show {
+                                        right: 0 !important;
+                                    }
+
+                                    h1 {
+                                        font-size: 22px;
+                                        font-weight: 600;
+                                    }
+
+                                    form {
+                                        margin-top: 15px;
+                                        display: flex;
+                                        flex-direction: column;
+                                        row-gap: 15px;
+
+                                        .input-row {
+                                            display: flex;
+                                            flex-direction: column;
+                                            row-gap: 5px;
+                                            width: 100%;
+                                        }
+
+                                        label {
+                                            color: #767676;
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 5px;
+                                        }
+
+                                        input, select, textarea {
+                                            background-color: #F8F8F8;
+                                            border: 1px solid #F2F2F2;
+                                            outline: none;
+                                            font-size: 16px;
+                                            padding: 5px 10px;
+                                            height: 45px;
+                                            width: 100%;
+                                            border-radius: 7px;
+                                            resize: none;
+                                            color: #63676C;
+                                        }
+
+                                        textarea {
+                                            height: 250px;
+                                        }
+
+                                        .button {
+                                            display: flex;
+                                            justify-content: space-between;
+                                            gap: 10px;
+
+                                            #sub {
+                                                background-color: #41A58D;
+                                                width: 195px;
+                                                height: 45px;
+                                                border-radius: 7px;
+                                                font-size: 16px;
+                                                color: #fff;
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                gap: 5px;
+                                                cursor: pointer;
+                                                position: unset;
+                                            }
+
+                                            .close {
+                                                position: unset;
+                                                width: 150px;
+                                                height: 45px;
+                                                background-color: transparent;
+                                                border: 2px solid #41A58D;
+                                                color: #41A58D;
+                                                cursor: pointer;
+                                                border-radius: 7px;
+                                                display: flex;
+                                                gap: 5px;
+                                                align-items: center;
+                                                justify-content: center;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .offcanvas-shape {
+                                top: 0;
+                                left: 0;
+                                position: absolute;
+                                background-color: #0000002f;
+                                width: 100%;
+                                height: 100vh;
+                                display: none;
+
+                                &.show-shape {
+                                    display: unset;
+                                }
+                            }
+                        }
+
+                        .user-table {
+                            margin-top: 30px;
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 20px;
+
+                            th,
+                            td {
+                                padding: 12px 15px;
+                                text-align: left;
+                            }
+
+                            tr {
+                                border-bottom: 1px solid #D9D9D9;
+                            }
+
+                            tr:nth-child(odd) {
+                                background-color: #fff !important;
+                            }
+
+                            tr:nth-child(even) {
+                                background-color: #f5f5f5 !important;
+                            }
+
+                            th {
+                                font-weight: 400;
+                                color: #29997F;
+                            }
+
+                            td {
+                                border-bottom: 1px solid #ddd;
+                                color: #5A5A5A;
+
+                                .productImg {
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 15px;
+                                }
+
+                                .authorImg {
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 50%;
+                                }
+
+                                .check-inp {
+                                    display: none;
+
+                                    &:checked~.checkbox {
+                                        background-color: #41A58D;
+                                        border: unset;
+
+
+                                        span {
+                                            left: unset;
+                                            right: 0;
+                                            background-color: #fff;
+                                        }
+                                    }
+                                }
+
+                                .checkbox {
+                                    width: 48px;
+                                    height: 25px;
+                                    background-color: rgb(231, 244, 241);
+                                    border-radius: 20px;
+                                    display: block;
+                                    position: relative;
+                                    padding: 2px;
+                                    cursor: pointer;
+                                    border: 1px solid #41A58D;
+
+                                    span {
+                                        display: block;
+                                        width: 25px;
+                                        height: 95%;
+                                        border-radius: 50%;
+                                        background-color: #fff;
+                                        position: absolute;
+                                        left: 1px;
+                                        top: 1px;
+                                        transition: all 0.3s;
+
+                                        &.active {
+                                            left: 49%;
+                                        }
+                                    }
+                                }
+
+                                // &.sku {
+                                //     width: 100px;
+                                //     height: 40px;
+                                //     display: -webkit-box !important;
+                                //     -webkit-line-clamp: 2 !important;
+                                //     -webkit-box-orient: vertical !important;
+                                //     overflow: hidden !important;
+                                //     text-overflow: ellipsis !important;
+                                //     pointer-events: none !important;
+                                //     word-break: break-all !important;
+                                // }
+                            }
+
+                            input[type="checkbox"] {
+                                cursor: pointer;
+                            }
+
+                            .action-btn {
+                                background: none;
+                                border: none;
+                                color: #007bff;
+                                cursor: pointer;
+                                font-size: 18px;
+                                padding: 5px;
+
+                                &:hover {
+                                    color: #0056b3;
+                                }
+                            }
+
+                            button {
+                                background-color: transparent;
+                                border: none;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .pagination {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            .soni {
+                                color: #B3B3B3;
+                                font-size: 14px;
+                            }
+
+                            .users-pages-buttons {
+                                display: flex;
+                                align-items: center;
+                                gap: 5px;
+
+                                button {
+                                    width: 30px;
+                                    height: 30px;
+                                    background-color: transparent;
+                                    border: none;
+                                    cursor: pointer;
+                                    font-size: 17px;
+                                    display: flex;
+                                    align-items: center;
+
+                                    img {
+                                        width: 20px;
+                                    }
+
+                                    &.active {
+                                        color: #41A58D;
+                                        font-weight: 600;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }
+}
