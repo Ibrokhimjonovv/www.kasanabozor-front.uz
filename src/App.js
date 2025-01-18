@@ -59,6 +59,8 @@ import MyCourses from "./pages/profilePages/myCourses/myCourses";
 import ProfileSideBar from "./components/profileSideBar/profileSideBar";
 
 import './createAxiosClient';
+import AdminCourses from "./pages/admin/admin-courses/admin-courses";
+import AddCourse from "./pages/admin/admin-add-course/admin-add-course";
 
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
   if (!isAuthenticated && userRole !== allowedRole) {
@@ -111,6 +113,8 @@ function AppContent() {
     "/profile/liked-courses",
     "/add-announce",
     "/profile/my-courses",
+    "/dashboard/admin/courses",
+    "/dashboard/admin/add-courses",
   ];
 
   const noHeaderPaths_2 = [
@@ -134,6 +138,8 @@ function AppContent() {
     "/dashboard/admin/admin-news",
     "/dashboard/admin/add-news",
     "/dashboard/admin/admin-news-categories",
+    "/dashboard/admin/courses",
+    "/dashboard/admin/add-courses",
   ];
 
   return (
@@ -238,6 +244,8 @@ function AppContent() {
                 <Route path="admin/add-teacher" element={<AddTeacher />} />
                 <Route path="admin/pupils" element={<AdminPupils />} />
                 <Route path="admin/add-pupils" element={<AddPupil />} />
+                <Route path="admin/courses" element={<AdminCourses />} />
+                <Route path="admin/add-courses" element={<AddCourse />} />
                 <Route path="admin/admin-news" element={<AdminNews />} />
                 <Route path="admin/add-news" element={<AddNews />} />
                 <Route

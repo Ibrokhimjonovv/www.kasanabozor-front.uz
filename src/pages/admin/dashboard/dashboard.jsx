@@ -371,7 +371,7 @@ const Dashboard = () => {
                 <div className="item-dropdown open">
                   <NavLink to="/dashboard/admin/teachers">O'qituvchilar</NavLink>
                   <NavLink to="/dashboard/admin/pupils">O'quvchilar</NavLink>
-                  <NavLink to="#">Kurslar</NavLink>
+                  <NavLink to="/dashboard/admin/courses">Kurslar</NavLink>
                 </div>
               )}
             </li>

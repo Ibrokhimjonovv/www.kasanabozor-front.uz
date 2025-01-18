@@ -34,7 +34,6 @@ const UsersMessaging = () => {
       console.error(err);
     }
   }
-
   const [ws, setWs] = useState(null);
 
   useEffect(() => {

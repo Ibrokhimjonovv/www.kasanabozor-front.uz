@@ -6,6 +6,12 @@
     width: 100%;
     z-index: 999999;
 
+    marquee {
+        background-color: #41A58D;
+        color: #fff;
+        padding: 5px 0;
+    }
+
     &.scrolled {
         background-color: #fff;
     }
