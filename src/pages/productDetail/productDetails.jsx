@@ -287,7 +287,7 @@ const ProductDetails = () => {
             <a href={`/online-shop/product/${similarProduct.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-                <img src={'${mediaServerUrl}ecommerse' + String(similarProduct.product_image_Ecommerce_product_images[0] ? formatLink(similarProduct.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
+                <img src={`${mediaServerUrl}ecommerse` + String(similarProduct.product_image_Ecommerce_product_images[0] ? formatLink(similarProduct.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
                 </div>
                 <div className="productTitle">{similarProduct.name}</div>
                 <div className="productDescription">
