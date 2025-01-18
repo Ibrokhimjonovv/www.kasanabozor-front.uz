@@ -3,6 +3,7 @@ import { useInView } from "react-intersection-observer";
 import "./Courses.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
+import {mediaServerUrl} from "../../SuperVars";
 
 const Courses = () => {
   const { courses } = useContext(MyContext)
@@ -30,7 +31,7 @@ const CourseCard = ({ course }) => {
         className={`course-card visible`}
       >
         <div className="card-img">
-          <img src={course.thumbnail} alt={course.title} />
+          <img src={`${mediaServerUrl}courses${course.thumbnail}`} alt={course.title} />
         </div>
         <Link to="#">{course.category.title}</Link>
         <p className="card-title">{course.title}</p>
