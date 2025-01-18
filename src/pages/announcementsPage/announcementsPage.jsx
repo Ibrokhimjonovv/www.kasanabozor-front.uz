@@ -94,7 +94,7 @@ const AnnouncementsPage = () => {
                 ))*/}
               </div>
               <div className="author">
-                <img src={`${mediaServerUrl}users${announcement.user.pfp}`} alt="" />
+                <img src={`${mediaServerUrl}users${formatLink(announcement.user.pfp)}`} alt="" />
                 <span>{announcement.user.first_name} {announcement.user.last_name}</span>
               </div>
               <div className="date-count">

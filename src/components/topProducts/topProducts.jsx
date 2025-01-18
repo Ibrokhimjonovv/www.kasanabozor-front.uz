@@ -64,8 +64,7 @@ const TopProducts = () => {
             <Link to={`product/${product.id}`} key={index}>
               <div className="product">
                 <div className="imgContainer">
-            { console.log(product) }
-                  <img src={'${mediaServerUrl}ecommerse' + String(product.product_image_Ecommerce_product_images[0] ? formatLink(product.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
+                  <img src={`${mediaServerUrl}ecommerse` + String(product.product_image_Ecommerce_product_images[0] ? formatLink(product.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
                 </div>
                 <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
