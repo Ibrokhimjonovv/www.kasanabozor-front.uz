@@ -4,7 +4,7 @@ import productImg from "./product.png";
 import Picker from "emoji-picker-react";
 import chatsNot from "./Frame.png";
 import axios from "axios";
-import { messagingServerUrl } from '../../SuperVars';
+import { messagingServerUrl, mediaServerUrl, formatLink } from '../../SuperVars';
 
 
 const UsersMessaging = () => {
@@ -214,7 +214,7 @@ const UsersMessaging = () => {
                   onClick={() => handleChatClick(index)} // Chat ustiga bosilganda ishlaydi
                 >
                   <div className="user">
-                    <img src={notMe(chat).pfp} alt="" />
+                    <img src={`${mediaServerUrl}users${formatLink(notMe(chat).pfp)}`} alt="" />
                     <div className="about-user">
                       <div className="name">{notMe(chat).first_name} {notMe(chat).last_name}</div>
                       <div className="job">Kasblar to'liq qo'shilmagan</div>
@@ -270,7 +270,7 @@ const UsersMessaging = () => {
                       </svg>
                     </button>
                     <div className="currentUser">
-                      <img src={notMe(usersChats[activeChat]).pfp} alt="" />
+                      <img src={`${mediaServerUrl}users${formatLink(notMe(usersChats[activeChat]).pfp)}`} alt="" />
                       <div className="about-user">
                         <div className="name">
                           {notMe(usersChats[activeChat]).first_name} {notMe(usersChats[activeChat]).last_name}
