@@ -38,18 +38,23 @@ const UsersMessaging = () => {
   const [ws, setWs] = useState(null);
 
   useEffect(() => {
-    loadUsers();
+    loadUsers().then(r => {});
 
     const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`);
     websocket.onopen = (eve) => {
       const token = localStorage.getItem('access');
       if (token) {
-        websocket.send(
-          JSON.stringify({
-            'auth': 1,
-            'token': token
-          })
-        );
+        while (true) {
+          if (websocket.readyState === WebSocket.OPEN) {
+            websocket.send(
+                JSON.stringify({
+                  'auth': 1,
+                  'token': token
+                })
+            );
+            break;
+          }
+        }
       }
     };
 
@@ -57,11 +62,15 @@ const UsersMessaging = () => {
       const message = (evt.data);
       if (JSON.parse(message).text) {
         setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
-      };
-    };
+        setTimeout(() => {
+          if (messagesDiv.current) {
+            messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
+          }
+        }, 0);
+      }
+    }
 
-    websocket.onclose = () => {
-    };
+    websocket.onclose = () => {};
 
     setWs(websocket);
 
@@ -69,12 +78,10 @@ const UsersMessaging = () => {
     return () => {
        if (ws && ws.readyState === WebSocket.OPEN) {
          ws.close();
-       } else if (ws && ws.readyState === WebSocket.CONNECTING) {
-        } else {
-        }
+       }
      };
 
-  }, []);
+  }, [])
 
   const notMe = (chat) => {
     if (chat.user_a.phone === me.phone) {
@@ -111,6 +118,10 @@ const UsersMessaging = () => {
     setFullChatScreen(!fullChatScreen);
   };
 
+  const createdAtFormat = (created_at) => {
+    return `${new Date(created_at).getHours()}:${new Date(created_at).getMinutes()}`
+  }
+
   const loadChatHistory = async (chat) => {
     const historyResponse = await axios.post(`${messagingServerUrl}api/history/`, {'id': chat});
     if (historyResponse.data.status === "ok") {
@@ -118,7 +129,7 @@ const UsersMessaging = () => {
         return {
           'text': value.content,
           'sender': value.sender,
-          'time': `${new Date(value.created_at).getHours()}:${new Date(value.created_at).getMinutes()}:${new Date(value.created_at).getSeconds()}`
+          'created_at': value.created_at,
         };
       }));
     }
@@ -138,6 +149,12 @@ const UsersMessaging = () => {
         "chat": usersChats[index].id
       })
     );
+
+    setTimeout(() => {
+      if (messagesDiv.current) {
+        messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
+      }
+    }, 0);
   };
 
   const countdownInterval = useRef(null);
@@ -313,7 +330,7 @@ const UsersMessaging = () => {
                       </defs>
                     </svg>
                   </button>
-                  {showUserInfo && (
+                  { /* showUserInfo && (
                     <ul className="user-info">
                       <li>
                         <svg
@@ -410,7 +427,7 @@ const UsersMessaging = () => {
                         </div>
                       </div>
                     </>
-                  )}
+                  )*/}
                 </div>
                 <div className="middle" ref={messagesDiv}>
                   <div className="replied-product">
@@ -423,7 +440,7 @@ const UsersMessaging = () => {
                         <div className={`text ${msg.sender?.phone === me.phone ? "sent" : "received"}`}>
                           {msg.text}
                         </div>
-                        <div className="time">{msg.time}</div>
+                        <div className="time">{createdAtFormat(msg.created_at)}</div>
                       </div>
                     ))}
                   </div>
