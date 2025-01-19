@@ -1,94 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./adminPupils.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
+import axios from "axios";
+import { coursesServerUrl } from "../../../SuperVars";
+
+
 const AdminPupils = () => {
   const {isOpen} = useContext(MyContext);
-  const pupils = [
-    {
-      id: 123,
-      pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-      phoneNumber: "91 234 56 78",
-      courses: 2,
-      signupDate: '14.02.2024',
-    },
-    {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
-      {
-        id: 123,
-        pupilName: "Abdusattorov Axrorbek Lutfullo o'g'li",
-        phoneNumber: "91 234 56 78",
-        courses: 2,
-        signupDate: '14.02.2024',
-      },
+  const [pupils, setPupils] = useState([]);
+  const loadData = async () => {
+    const response = await axios.post(`${coursesServerUrl}dashboard/students/list/`);
+    if (response.data.status === "ok") {
+      setPupils(response.data.results);
+    }
+  }
 
-  ];
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
+
+  
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -96,6 +38,7 @@ const AdminPupils = () => {
     if (currentPage < Math.ceil(pupils.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentPupils = pupils.slice(indexOfFirstUser, indexOfLastUser);
@@ -104,6 +47,7 @@ const AdminPupils = () => {
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < pupils.length ? indexOfLastUser : pupils.length;
+  
   return (
     <div id="admin-pupils">
       <Dashboard />
@@ -177,9 +121,9 @@ const AdminPupils = () => {
                     <input type="checkbox" />
                   </td>
                   <td>{pupil.id}</td>
-                  <td>{pupil.pupilName}</td>
-                  <td>+998 {pupil.phoneNumber}</td>
-                  <td>{pupil.courses}</td>
+                  <td>{pupil.first_name} {pupil.last_name}</td>
+                  <td>{pupil.phone}</td>
+                  <td>{pupil.courses || 0}</td>
                   <td>
                     <button className="btn btn-secondary">
                       <svg

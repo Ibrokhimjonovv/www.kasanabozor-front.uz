@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { useInView } from "react-intersection-observer";
 import "./Courses.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
-import {mediaServerUrl} from "../../SuperVars";
+import { formatLink, mediaServerUrl} from "../../SuperVars";
 
 const Courses = () => {
   const { courses } = useContext(MyContext)
@@ -31,7 +30,7 @@ const CourseCard = ({ course }) => {
         className={`course-card visible`}
       >
         <div className="card-img">
-          <img src={`${mediaServerUrl}courses${course.thumbnail}`} alt={course.title} />
+          <img src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`} alt={course.title} />
         </div>
         <Link to="#">{course.category.title}</Link>
         <p className="card-title">{course.title}</p>
@@ -65,9 +64,9 @@ const CourseCard = ({ course }) => {
         </div>
         <div className="author">
           <div className="author-img">
-            <img src={course.profileImg} alt={course.author} />
+            <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.author} />
           </div>
-          <p className="author-name">{course.author}</p>
+          <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
         </div>
       </div>
     </Link>

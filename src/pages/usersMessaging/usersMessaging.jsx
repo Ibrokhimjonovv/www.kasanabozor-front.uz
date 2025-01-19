@@ -1,11 +1,73 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./usersMessaging.scss";
-import productImg from "./product.png";
+import loading from './load-32_256.gif';
 import Picker from "emoji-picker-react";
 import chatsNot from "./Frame.png";
 import axios from "axios";
-import { messagingServerUrl, mediaServerUrl, formatLink } from '../../SuperVars';
+import {
+  messagingServerUrl,
+  mediaServerUrl,
+  formatLink,
+  eCommerseServerUrl,
+} from "../../SuperVars";
 
+const Boundary = ({msg}) => {
+  const bdata = JSON.parse(msg.boundary);
+  const [b, setB] = useState([]);
+
+  const loadBData = async () => {
+    try {
+      const bResponse = await axios.post(bdata.url, bdata.data, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      setB(bResponse.data.product);
+      console.log(bResponse);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadData = async () => {
+      if (isMounted) {
+        await loadBData();
+      }
+    };
+
+    loadData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  try {
+    return (
+      <>
+        <div className="replied-product">
+          <img src={`${mediaServerUrl}${String(bdata.url).includes('ecommerse') ? 'ecommerse' : 'announcements'}${formatLink(b.product_image_Ecommerce_product_images[0]?.image || b.thumbnail)}`} alt="" />
+          <span>{b.title || b.name}</span>
+        </div>
+      </>
+    );
+  } catch {
+    return <>
+      <div className="replied-product">
+        <img src={loading} alt="" />
+        <span>Kutilmagan xatolik yuz berdi.</span>
+      </div>
+    </>; 
+  }
+
+  return <>
+    <div className="replied-product">
+      <img src={loading} alt="" />
+      <span>Maxsulot malimotlari yuklanmoqda.</span>
+    </div>
+  </>;
+};
 
 const UsersMessaging = () => {
   const messagesDiv = useRef(null);
@@ -24,7 +86,9 @@ const UsersMessaging = () => {
 
   const loadUsers = async () => {
     try {
-      const usersListResponse = await axios.post(`${messagingServerUrl}api/chats/`);
+      const usersListResponse = await axios.post(
+        `${messagingServerUrl}api/chats/`
+      );
       if (usersListResponse.data.status === "ok") {
         setMe(usersListResponse.data.user);
         setUsersChats(usersListResponse.data.results);
@@ -33,23 +97,25 @@ const UsersMessaging = () => {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
   const [ws, setWs] = useState(null);
 
   useEffect(() => {
-    loadUsers().then(r => {});
+    loadUsers().then((r) => {});
 
-    const websocket = new WebSocket(`wss://ws.messaging.kasanabozor.uz/ws/chat/`);
+    const websocket = new WebSocket(
+      `wss://ws.messaging.kasanabozor.uz/ws/chat/`
+    );
     websocket.onopen = (eve) => {
-      const token = localStorage.getItem('access');
+      const token = localStorage.getItem("access");
       if (token) {
         while (true) {
           if (websocket.readyState === WebSocket.OPEN) {
             websocket.send(
-                JSON.stringify({
-                  'auth': 1,
-                  'token': token
-                })
+              JSON.stringify({
+                auth: 1,
+                token: token,
+              })
             );
             break;
           }
@@ -58,7 +124,7 @@ const UsersMessaging = () => {
     };
 
     websocket.onmessage = (evt) => {
-      const message = (evt.data);
+      const message = evt.data;
       if (JSON.parse(message).text) {
         setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
         setTimeout(() => {
@@ -67,42 +133,40 @@ const UsersMessaging = () => {
           }
         }, 0);
       }
-    }
+    };
 
     websocket.onclose = () => {};
 
     setWs(websocket);
 
-
     return () => {
-       if (ws && ws.readyState === WebSocket.OPEN) {
-         ws.close();
-       }
-     };
-
-  }, [])
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.close();
+      }
+    };
+  }, []);
 
   const notMe = (chat) => {
     if (chat.user_a.phone === me.phone) {
       return chat.user_b;
     }
     return chat.user_a;
-  }
+  };
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       ws.send(
         JSON.stringify({
-          "set_chat": 1,
-          "chat": usersChats[activeChat].id
+          set_chat: 1,
+          chat: usersChats[activeChat].id,
         })
       );
-      
+
       ws.send(
         JSON.stringify({
-          "message": {
-            "text": newMessage.trim()
-          }
+          message: {
+            text: newMessage.trim(),
+          },
         })
       );
 
@@ -110,7 +174,10 @@ const UsersMessaging = () => {
     }
 
     if (messagesDiv.current) {
-      messagesDiv.current.scroll({top: messagesDiv.current.scrollY, behavior: 'smooth'});
+      messagesDiv.current.scroll({
+        top: messagesDiv.current.scrollY,
+        behavior: "smooth",
+      });
     }
   };
   const handleChatScreen = () => {
@@ -118,25 +185,35 @@ const UsersMessaging = () => {
   };
 
   const createdAtFormat = (created_at) => {
-    return `${new Date(created_at).getHours()}:${new Date(created_at).getMinutes()}`
-  }
+    return `${new Date(created_at).getHours()}:${new Date(
+      created_at
+    ).getMinutes()}`;
+  };
 
   const loadChatHistory = async (chat) => {
-    const historyResponse = await axios.post(`${messagingServerUrl}api/history/`, {'id': chat});
+    const historyResponse = await axios.post(
+      `${messagingServerUrl}api/history/`,
+      { id: chat }
+    );
     if (historyResponse.data.status === "ok") {
-      setMessages(historyResponse.data.results.map((value) => {
-        return {
-          'text': value.content,
-          'sender': value.sender,
-          'created_at': value.created_at,
-        };
-      }));
+      setMessages(
+        historyResponse.data.results.map((value) => {
+          return {
+            text: value.content,
+            boundary: value.boundary,
+            sender: value.sender,
+            created_at: value.created_at,
+          };
+        })
+      );
     }
-  }
+  };
 
   const handleChatClick = (index) => {
     setUsersChats((prevChats) =>
-      prevChats.map((chat, i) => i === index ? { ...chat, unread: false } : chat)
+      prevChats.map((chat, i) =>
+        i === index ? { ...chat, unread: false } : chat
+      )
     );
     setActiveChat(index);
 
@@ -144,8 +221,8 @@ const UsersMessaging = () => {
 
     ws.send(
       JSON.stringify({
-        "set_chat": 1,
-        "chat": usersChats[index].id
+        set_chat: 1,
+        chat: usersChats[index].id,
       })
     );
 
@@ -230,9 +307,16 @@ const UsersMessaging = () => {
                   onClick={() => handleChatClick(index)} // Chat ustiga bosilganda ishlaydi
                 >
                   <div className="user">
-                    <img src={`${mediaServerUrl}users${formatLink(notMe(chat).pfp)}`} alt="" />
+                    <img
+                      src={`${mediaServerUrl}users${formatLink(
+                        notMe(chat).pfp
+                      )}`}
+                      alt=""
+                    />
                     <div className="about-user">
-                      <div className="name">{notMe(chat).first_name} {notMe(chat).last_name}</div>
+                      <div className="name">
+                        {notMe(chat).first_name} {notMe(chat).last_name}
+                      </div>
                       <div className="job">Kasblar to'liq qo'shilmagan</div>
                     </div>
                   </div>
@@ -286,14 +370,18 @@ const UsersMessaging = () => {
                       </svg>
                     </button>
                     <div className="currentUser">
-                      <img src={`${mediaServerUrl}users${formatLink(notMe(usersChats[activeChat]).pfp)}`} alt="" />
+                      <img
+                        src={`${mediaServerUrl}users${formatLink(
+                          notMe(usersChats[activeChat]).pfp
+                        )}`}
+                        alt=""
+                      />
                       <div className="about-user">
                         <div className="name">
-                          {notMe(usersChats[activeChat]).first_name} {notMe(usersChats[activeChat]).last_name}
+                          {notMe(usersChats[activeChat]).first_name}{" "}
+                          {notMe(usersChats[activeChat]).last_name}
                         </div>
-                        <div className="job">
-                          Kasblar to'liq qoshilmagan
-                        </div>
+                        <div className="job">Kasblar to'liq qoshilmagan</div>
                       </div>
                     </div>
                   </div>
@@ -329,7 +417,7 @@ const UsersMessaging = () => {
                       </defs>
                     </svg>
                   </button>
-                  { /* showUserInfo && (
+                  {/* showUserInfo && (
                     <ul className="user-info">
                       <li>
                         <svg
@@ -429,19 +517,32 @@ const UsersMessaging = () => {
                   )*/}
                 </div>
                 <div className="middle" ref={messagesDiv}>
-                  <div className="replied-product">
-                    <img src={productImg} alt="" />
-                    <span>Chust hunarmand pichoqlari</span>
-                  </div>
                   <div className="messages">
-                    {messages.map((msg, i) => (
-                      <div key={i} className={`message ${msg.sender?.phone === me.phone ? "sent" : "received"}`}>
-                        <div className={`text ${msg.sender?.phone === me.phone ? "sent" : "received"}`}>
-                          {msg.text}
+                    {messages.map((msg, i) =>
+                      msg.text === "Sending boundary." ? (
+                        <Boundary msg={msg}></Boundary>
+                      ) : (
+                        <div
+                          key={i}
+                          className={`message ${
+                            msg.sender?.phone === me.phone ? "sent" : "received"
+                          }`}
+                        >
+                          <div
+                            className={`text ${
+                              msg.sender?.phone === me.phone
+                                ? "sent"
+                                : "received"
+                            }`}
+                          >
+                            {msg.text}
+                          </div>
+                          <div className="time">
+                            {createdAtFormat(msg.created_at)}
+                          </div>
                         </div>
-                        <div className="time">{createdAtFormat(msg.created_at)}</div>
-                      </div>
-                    ))}
+                      )
+                    )}
                   </div>
                 </div>
                 <div className="send-message">

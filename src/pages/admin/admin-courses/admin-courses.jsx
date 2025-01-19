@@ -5,14 +5,8 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-import StarRating from "../../../components/starRating/starRating";
-import ImageUpload from "../../../components/imgUpload/imgUpload";
 import axios from "axios";
-import {
-  eCommerseServerUrl,
-  formatLink,
-  mediaServerUrl,
-} from "../../../SuperVars.js";
+import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../SuperVars.js";
 
 const AdminCourses = () => {
   const { isOpen } = useContext(MyContext);
@@ -20,21 +14,11 @@ const AdminCourses = () => {
   const usersPerPage = 10;
 
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
 
   const fetchData = async () => {
-    const productsListResponse = await axios.post(
-      `${eCommerseServerUrl}dashboard/products/list/`
-    );
-    if (productsListResponse.data.status === "ok") {
-      setProducts(productsListResponse.data.results);
-    }
-
-    const categoryListResponse = await axios.post(
-      `${eCommerseServerUrl}dashboard/categories/list/`
-    );
-    if (categoryListResponse.data.status === "ok") {
-      setCategories(categoryListResponse.data.data);
+    const response = await axios.post(`${coursesServerUrl}dashboard/courses/list/`);
+    if (response.data.status === "ok") {
+      setProducts(response.data.results);
     }
   };
 
@@ -51,47 +35,11 @@ const AdminCourses = () => {
   };
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentProducts = products.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(products.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
   const endUserIndex =
     indexOfLastUser < products.length ? indexOfLastUser : products.length;
-  const [newProductImages, setNewProductImages] = useState([]);
-  const [newProductName, setNewProductName] = useState("");
-  const [newProductPrice, setNewProductPrice] = useState("");
-  const [newProductPriceOff, setNewProductPriceOff] = useState("");
-  const [newProductDescription, setNewProductDescription] = useState("");
-  const [newProductCategory, setNewProductCategory] = useState("");
-
-  const createNewProduct = async (e) => {
-    e.preventDefault();
-
-    try {
-      const formData = new FormData();
-      formData.append("name", newProductName);
-      formData.append("price", newProductPrice);
-      formData.append("price_off", newProductPriceOff);
-      formData.append("description", newProductDescription);
-      formData.append("category", newProductCategory);
-      for (let i = 0; i < newProductImages.length; i++) {
-        formData.append(`image${i}`, newProductImages[i]);
-      }
-
-      const createNewProductResponse = await axios.post(
-        `${eCommerseServerUrl}dashboard/products/create/`,
-        formData
-      );
-
-      if (createNewProductResponse.data.status === "ok") {
-        console.log(createNewProductResponse);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      fetchData();
-    }
-  };
 
   /* const [productStatuses, setProductStatuses] = useState(
     products.reduce((acc, product) => {
@@ -146,11 +94,7 @@ const AdminCourses = () => {
                   </svg>
                 </button>
               </form>
-              <Link
-                to="/dashboard/admin/add-courses"
-              >
-                +
-              </Link>
+              <Link to="/dashboard/admin/add-courses">+</Link>
             </div>
           </div>
           <table className="user-table">
@@ -180,66 +124,40 @@ const AdminCourses = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Darslar soni
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/* <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Aktivligi
-                </th>
+                </th> */}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
               </tr>
             </thead>
             <tbody>
-              {/* {currentProducts.map((product, index) => (
-                <tr key={index}>
+              {products.map((value) => (
+                <tr>
                   <td>
                     <input type="checkbox" />
                   </td>
                   <td>
-                    <img
-                      className="productImg"
-                      src={
-                        product.product_image_Ecommerce_product_images[0]
-                          ? `${mediaServerUrl}ecommerse${formatLink(
-                              product.product_image_Ecommerce_product_images[0]
-                                .image
-                            )}`
-                          : ""
-                      }
-                      alt=""
-                    />
+                    <img src={`${mediaServerUrl}courses${formatLink(value.thumbnail)}`} alt="" width={140} />
                   </td>
-                  <td>{product.name}</td>
-                  <td>
-                    <img
-                      className="authorImg"
-                      src={`${mediaServerUrl}users${formatLink(
-                        product.user.pfp
-                      )}`}
-                      alt=""
-                    />
-                  </td>
-                  <td>{product.category.title}</td>
-                  <td>{product.price}</td>
-                  <td>
-                    <StarRating rating={product.average_rating} />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      id={`status-${product.id}`}
-                      checked={productStatuses[product.id]}
-                      onChange={() => handleStatusChange(product.id)}
-                      className="check-inp"
-                    />
-                    <label
-                      htmlFor={`status-${product.id}`}
-                      className="checkbox"
-                    >
-                      <span
-                        className={productStatuses[product.id] ? "active" : ""}
-                      ></span>
-                    </label>
-                  </td>
+                  <td>{value.title}</td>
+                  <td>{value.user.first_name} {value.user.last_name}</td>
+                  <td>O'zbek</td>
+                  <td>{value.students_len || 0}</td>
+                  <td>{value.video_lessons_len || 0}</td>
+                  {/* <td>
+                  <input
+                    type="checkbox"
+                    id="check-1"
+                    checked={true}
+                    // onChange={() => handleStatusChange(product.id)}
+                    className="check-inp"
+                  />
+                  <label htmlFor="check-1" className="checkbox">
+                    <span className={true ? "active" : ""}></span>
+                  </label>
+                </td> */}
                   <td>
                     <button className="btn btn-secondary">
                       <svg
@@ -265,70 +183,7 @@ const AdminCourses = () => {
                     </button>
                   </td>
                 </tr>
-              ))} */}
-              <tr>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>
-                  <img src="" alt="" />
-                </td>
-                <td>Bu yerda kursning nomi joylashgan bo'ladi</td>
-                <td>Otabek Sirojov</td>
-                <td>O'zbek</td>
-                <td>651</td>
-                <td>24</td>
-                {/* <td>
-                  <input
-                    type="checkbox"
-                    id={`status-${current.id}`}
-                    checked={productStatuses[product.id]}
-                    onChange={() => handleStatusChange(product.id)}
-                    className="check-inp"
-                  />
-                  <label htmlFor={`status-${product.id}`} className="checkbox">
-                    <span
-                      className={productStatuses[product.id] ? "active" : ""}
-                    ></span>
-                  </label>
-                </td> */}
-                <td>
-                  <input
-                    type="checkbox"
-                    id="check-1"
-                    checked={true}
-                    // onChange={() => handleStatusChange(product.id)}
-                    className="check-inp"
-                  />
-                  <label htmlFor="check-1" className="checkbox">
-                    <span className={true ? "active" : ""}></span>
-                  </label>
-                </td>
-                <td>
-                  <button className="btn btn-secondary">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
-                        fill="#41A58D"
-                      />
-                      <path
-                        d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
-                        fill="#41A58D"
-                      />
-                      <path
-                        d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
-                        fill="#41A58D"
-                      />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
+              ))}
             </tbody>
           </table>
           {totalPages > 1 && (

@@ -120,9 +120,9 @@ const AdminTeachers = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Talabalari
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/* <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Reytingi
-                </th>
+                </th> */}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
@@ -135,15 +135,15 @@ const AdminTeachers = () => {
                     <input type="checkbox" />
                   </td>
                   <td>{teacher.id}</td>
-                  <td>{teacher.teacherName}</td>
+                  <td>{teacher.first_name} {teacher.last_name}</td>
                   <td>
-                    +998 {teacher.phoneNumber}
+                    {teacher.phone}
                   </td>
-                  <td>{teacher.courses}</td>
-                  <td>{teacher.pupils}</td>
-                  <td>
+                  <td>{teacher.courses || 0}</td>
+                  <td>{teacher.pupils || 0}</td>
+                  {/* <td>
                     <StarRating rating={teacher.rating} />
-                  </td>
+                  </td> */}
                   <td>
                     <button className="btn btn-secondary">
                       <svg

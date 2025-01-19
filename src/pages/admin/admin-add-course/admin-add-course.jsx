@@ -1,17 +1,36 @@
 import React, { useEffect, useContext, useState } from "react";
-import InputMask from "react-input-mask";
 import Dashboard from "../dashboard/dashboard";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./admin-add-course.scss";
-import eye from "../addUser/eye.png";
+import axios from "axios";
+import { coursesServerUrl } from "../../../SuperVars";
+
+
 const AddCourse = () => {
   const { isOpen } = useContext(MyContext);
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [teachers, setTeachers] = useState([]);
   const [avaName, setAvaName] = useState("");
-  const [jobs, setJobs] = useState([]);
   const [selectedTab, setSelectedTab] = useState("about-course");
+  
+  const loadData = async () => {
+    const response = await axios.post(`${coursesServerUrl}dashboard/teachers/list/`);
+    if (response.data.status === "ok") {
+      setTeachers(response.data.results);
+    }
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
+
+ 
+
+  
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -24,21 +43,9 @@ const AddCourse = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
 
-  const prevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-  const nextPage = () => {
-    if (currentPage < Math.ceil(jobs.length / usersPerPage))
-      setCurrentPage(currentPage + 1);
-  };
-
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const totalPages = Math.ceil(jobs.length / usersPerPage);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < jobs.length ? indexOfLastUser : jobs.length;
+
   const [offCanvas, setOffCanvas] = useState(false);
   const handleCanvas = (e) => {
     e.preventDefault();
@@ -147,9 +154,11 @@ const AddCourse = () => {
                       <label htmlFor="teacher">O'qituvchi</label>
                       <select name="teacher" id="teacher">
                         <option value="">Tanlang</option>
-                        <option value="teacher-1">Teacher-1</option>
-                        <option value="teacher-2">Teacher-2</option>
-                        <option value="teacher-3">Teacher-3</option>
+                        {
+                          teachers.map((value) => (
+                            <option value={ value.id }>{value.first_name} {value.last_name}</option>
+                          ))
+                        }
                       </select>
                     </div>
                     <div className="input-row w-50 image-input">

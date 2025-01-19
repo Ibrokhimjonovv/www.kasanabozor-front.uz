@@ -72,7 +72,7 @@ const ProductDetails = () => {
   const handleConnect = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`${messagingServerUrl}api/connect/`, {'id': product.id});
+    const response = await axios.post(`${messagingServerUrl}api/connect/`, {'id': product.id, 'boundary': JSON.stringify({'data': {'id': product.id}, 'url': `${eCommerseServerUrl}products/exact/`})});
     if (response.data.status === "ok") {
       navigate('/messaging/');
     } else {
