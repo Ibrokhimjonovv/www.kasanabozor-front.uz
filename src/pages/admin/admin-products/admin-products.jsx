@@ -147,8 +147,8 @@ const AdminProducts = () => {
                     <path
                       d="M16.7472 16.8792L20.7992 20.7992M19.4926 10.3459C19.4926 15.3974 15.3974 19.4926 10.3459 19.4926C5.29432 19.4926 1.19922 15.3974 1.19922 10.3459C1.19922 5.29432 5.29432 1.19922 10.3459 1.19922C15.3974 1.19922 19.4926 5.29432 19.4926 10.3459Z"
                       stroke="#B2B2B2"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </button>
@@ -172,7 +172,7 @@ const AdminProducts = () => {
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_1104_3394)">
+                        <g clipPath="url(#clip0_1104_3394)">
                           <path
                             d="M19 4H17.899C17.434 1.721 15.414 0 13 0H11C8.586 0 6.565 1.721 6.101 4H5C2.243 4 0 6.243 0 9V19C0 21.757 2.243 24 5 24H19C21.757 24 24 21.757 24 19V9C24 6.243 21.757 4 19 4ZM11 2H13C14.304 2 15.415 2.836 15.828 4H8.172C8.585 2.836 9.696 2 11 2ZM22 19C22 20.654 20.654 22 19 22H18V9C18 8.447 17.553 8 17 8C16.447 8 16 8.447 16 9V22H8V9C8 8.447 7.552 8 7 8C6.448 8 6 8.447 6 9V22H5C3.346 22 2 20.654 2 19V9C2 7.346 3.346 6 5 6H19C20.654 6 22 7.346 22 9V19Z"
                             fill="#B2B2B2"
@@ -221,12 +221,12 @@ const AdminProducts = () => {
                           <path
                             d="M12.0003 21.6004C12.0003 21.6004 19.5134 14.9221 19.5134 9.91343C19.5134 5.76409 16.1497 2.40039 12.0003 2.40039C7.85101 2.40039 4.4873 5.76409 4.4873 9.91343C4.4873 14.9221 12.0003 21.6004 12.0003 21.6004Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                           <path
                             d="M14.4007 9.60054C14.4007 10.926 13.3261 12.0005 12.0007 12.0005C10.6752 12.0005 9.60066 10.926 9.60066 9.60054C9.60066 8.27506 10.6752 7.20054 12.0007 7.20054C13.3261 7.20054 14.4007 8.27506 14.4007 9.60054Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                         <input type="number" placeholder="Narx kiriting" value={newProductPrice} onChange={ (e) => { setNewProductPrice(parseInt(e.target.value));setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
@@ -247,12 +247,12 @@ const AdminProducts = () => {
                           <path
                             d="M12.0003 21.6004C12.0003 21.6004 19.5134 14.9221 19.5134 9.91343C19.5134 5.76409 16.1497 2.40039 12.0003 2.40039C7.85101 2.40039 4.4873 5.76409 4.4873 9.91343C4.4873 14.9221 12.0003 21.6004 12.0003 21.6004Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                           <path
                             d="M14.4007 9.60054C14.4007 10.926 13.3261 12.0005 12.0007 12.0005C10.6752 12.0005 9.60066 10.926 9.60066 9.60054C9.60066 8.27506 10.6752 7.20054 12.0007 7.20054C13.3261 7.20054 14.4007 8.27506 14.4007 9.60054Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                         <input type="number" placeholder="Chegirma narx kiriting" value={newProductPriceOff} onChange={ (e) => { setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
@@ -297,9 +297,9 @@ const AdminProducts = () => {
                           <path
                             d="M2.40039 21.5984L2.4008 17.998C2.40102 16.01 4.01273 14.3984 6.00079 14.3984H13.2002M16.2004 17.3984L17.4004 18.5984L21.6004 14.3984M14.4004 5.99844C14.4004 7.98666 12.7886 9.59844 10.8004 9.59844C8.81216 9.59844 7.20039 7.98666 7.20039 5.99844C7.20039 4.01021 8.81216 2.39844 10.8004 2.39844C12.7886 2.39844 14.4004 4.01021 14.4004 5.99844Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
 
@@ -342,12 +342,12 @@ const AdminProducts = () => {
                           <path
                             d="M2.40039 11.9984C2.40039 6.6965 6.69846 2.39844 12.0004 2.39844C17.3023 2.39844 21.6004 6.6965 21.6004 11.9984C21.6004 17.3004 17.3023 21.5984 12.0004 21.5984C6.69846 21.5984 2.40039 17.3004 2.40039 11.9984Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                           <path
                             d="M18.0004 12.4984V11.4984C18.0004 8.46087 15.538 5.99844 12.5004 5.99844C12.2242 5.99844 12.0004 6.22229 12.0004 6.49844V17.4984C12.0004 17.7746 12.2242 17.9984 12.5004 17.9984C15.538 17.9984 18.0004 15.536 18.0004 12.4984Z"
                             stroke="#B2B2B2"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
 		</svg>
                         <select name="" id="status">
@@ -369,13 +369,13 @@ const AdminProducts = () => {
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_1104_843)">
+                        <g clipPath="url(#clip0_1104_843)">
                           <path
                             d="M11.167 14V12.6667C11.167 11.9594 10.886 11.2811 10.3859 10.781C9.88585 10.281 9.20757 10 8.50033 10H3.83366C3.12641 10 2.44814 10.281 1.94804 10.781C1.44794 11.2811 1.16699 11.9594 1.16699 12.6667V14M13.8337 5.33333V9.33333M15.8337 7.33333H11.8337M8.83366 4.66667C8.83366 6.13943 7.63975 7.33333 6.16699 7.33333C4.69423 7.33333 3.50033 6.13943 3.50033 4.66667C3.50033 3.19391 4.69423 2 6.16699 2C7.63975 2 8.83366 3.19391 8.83366 4.66667Z"
                             stroke="#E7F4F1"
-                            stroke-width="1.6"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </g>
                         <defs>
@@ -402,9 +402,9 @@ const AdminProducts = () => {
                         <path
                           d="M9 1L1 9M1 1L9 9"
                           stroke="#41A58D"
-                          stroke-width="1.6"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                     </button>

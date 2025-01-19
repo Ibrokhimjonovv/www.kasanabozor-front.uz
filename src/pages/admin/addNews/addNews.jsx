@@ -31,9 +31,9 @@ const AddNews = () => {
               <path
                 d="M7.5 18.3327V9.99935H12.5V18.3327M2.5 7.49935L10 1.66602L17.5 7.49935V16.666C17.5 17.108 17.3244 17.532 17.0118 17.8445C16.6993 18.1571 16.2754 18.3327 15.8333 18.3327H4.16667C3.72464 18.3327 3.30072 18.1571 2.98816 17.8445C2.67559 17.532 2.5 17.108 2.5 16.666V7.49935Z"
                 stroke="#41A58D"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Link>
@@ -47,8 +47,8 @@ const AddNews = () => {
             <path
               d="M6 12L10 8L6 4"
               stroke="#41A58D"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <Link to="/dashboard/admin/admin-news">Yangiliklar</Link>
@@ -62,8 +62,8 @@ const AddNews = () => {
             <path
               d="M1 9L5 5L1 1"
               stroke="#41A58D"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span>Yangilik qo’shish</span>
@@ -83,14 +83,14 @@ const AddNews = () => {
                   <path
                     d="M16.0459 7.29397C16.0459 9.99661 14.3295 11.97 12.2123 11.97C10.0951 11.97 8.37874 9.99661 8.37874 7.29397C8.37874 4.59132 10.0951 2.40039 12.2123 2.40039C14.3295 2.40039 16.0459 4.59132 16.0459 7.29397Z"
                     stroke="#B2B2B2"
-                    stroke-width="2"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M4.40059 15.8849C4.6754 15.3838 5.17974 15.0756 5.72513 15.0756H18.2756C18.821 15.0756 19.3254 15.3838 19.6002 15.8849L21.3892 19.1473C21.9855 20.2347 21.2481 21.6004 20.0647 21.6004H3.93613C2.75264 21.6004 2.01526 20.2347 2.61159 19.1473L4.40059 15.8849Z"
                     stroke="#B2B2B2"
-                    stroke-width="2"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
                   />
                 </svg>
 
@@ -112,14 +112,14 @@ const AddNews = () => {
                   <path
                     d="M16.0459 7.29397C16.0459 9.99661 14.3295 11.97 12.2123 11.97C10.0951 11.97 8.37874 9.99661 8.37874 7.29397C8.37874 4.59132 10.0951 2.40039 12.2123 2.40039C14.3295 2.40039 16.0459 4.59132 16.0459 7.29397Z"
                     stroke="#B2B2B2"
-                    stroke-width="2"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M4.40059 15.8849C4.6754 15.3838 5.17974 15.0756 5.72513 15.0756H18.2756C18.821 15.0756 19.3254 15.3838 19.6002 15.8849L21.3892 19.1473C21.9855 20.2347 21.2481 21.6004 20.0647 21.6004H3.93613C2.75264 21.6004 2.01526 20.2347 2.61159 19.1473L4.40059 15.8849Z"
                     stroke="#B2B2B2"
-                    stroke-width="2"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
                   />
                 </svg>
 
@@ -169,9 +169,9 @@ const AddNews = () => {
                   <path
                     d="M2.90039 21.5984L2.9008 17.998C2.90102 16.01 4.51273 14.3984 6.50079 14.3984H13.7002M16.7004 17.3984L17.9004 18.5984L22.1004 14.3984M14.9004 5.99844C14.9004 7.98666 13.2886 9.59844 11.3004 9.59844C9.31216 9.59844 7.70039 7.98666 7.70039 5.99844C7.70039 4.01021 9.31216 2.39844 11.3004 2.39844C13.2886 2.39844 14.9004 4.01021 14.9004 5.99844Z"
                     stroke="#63676C"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
 
@@ -233,12 +233,12 @@ const AddNews = () => {
                   <path
                     d="M2.40039 11.9984C2.40039 6.6965 6.69846 2.39844 12.0004 2.39844C17.3023 2.39844 21.6004 6.6965 21.6004 11.9984C21.6004 17.3004 17.3023 21.5984 12.0004 21.5984C6.69846 21.5984 2.40039 17.3004 2.40039 11.9984Z"
                     stroke="#B2B2B2"
-                    stroke-width="2"
+                    strokeWidth="2"
                   />
                   <path
                     d="M18.0004 12.4984V11.4984C18.0004 8.46087 15.538 5.99844 12.5004 5.99844C12.2242 5.99844 12.0004 6.22229 12.0004 6.49844V17.4984C12.0004 17.7746 12.2242 17.9984 12.5004 17.9984C15.538 17.9984 18.0004 15.536 18.0004 12.4984Z"
                     stroke="#B2B2B2"
-                    stroke-width="2"
+                    strokeWidth="2"
                   />
                 </svg>
 
@@ -262,9 +262,9 @@ const AddNews = () => {
                 <path
                   d="M10.667 13V11.6667C10.667 10.9594 10.386 10.2811 9.88594 9.78105C9.38585 9.28095 8.70757 9 8.00033 9H3.33366C2.62641 9 1.94814 9.28095 1.44804 9.78105C0.947944 10.2811 0.666992 10.9594 0.666992 11.6667V13M13.3337 4.33333V8.33333M15.3337 6.33333H11.3337M8.33366 3.66667C8.33366 5.13943 7.13975 6.33333 5.66699 6.33333C4.19423 6.33333 3.00033 5.13943 3.00033 3.66667C3.00033 2.19391 4.19423 1 5.66699 1C7.13975 1 8.33366 2.19391 8.33366 3.66667Z"
                   stroke="#E7F4F1"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </button>

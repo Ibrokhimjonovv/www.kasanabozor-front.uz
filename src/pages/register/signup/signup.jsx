@@ -191,7 +191,7 @@ const Signup = () => {
                 className="down-arrow"
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 viewBox="0 0 1024 1024"
                 height="1em"
                 width="1em"
@@ -237,9 +237,9 @@ const Signup = () => {
                 <path
                   d="M20.3337 22.5V20.1667C20.3337 18.929 19.842 17.742 18.9668 16.8668C18.0917 15.9917 16.9047 15.5 15.667 15.5H6.33366C5.09598 15.5 3.909 15.9917 3.03383 16.8668C2.15866 17.742 1.66699 18.929 1.66699 20.1667V22.5M15.667 6.16667C15.667 8.744 13.5777 10.8333 11.0003 10.8333C8.423 10.8333 6.33366 8.744 6.33366 6.16667C6.33366 3.58934 8.423 1.5 11.0003 1.5C13.5777 1.5 15.667 3.58934 15.667 6.16667Z"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <input
@@ -268,16 +268,16 @@ const Signup = () => {
                 <path
                   d="M12.7913 1.20898H5.20801C3.27501 1.20898 1.70801 2.77599 1.70801 4.70898V19.2923C1.70801 21.2253 3.27501 22.7923 5.20801 22.7923H12.7913C14.7243 22.7923 16.2913 21.2253 16.2913 19.2923V4.70898C16.2913 2.77599 14.7243 1.20898 12.7913 1.20898Z"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M7.83301 18.709H10.1663"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <span id="code">+998</span>
@@ -305,9 +305,9 @@ const Signup = () => {
                 <path
                   d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
 
@@ -325,7 +325,7 @@ const Signup = () => {
                   onClick={() => setShowPassword1(!showPassword1)}
                   stroke="#41A58D"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 1024 1024"
                   height="1em"
                   width="1em"
@@ -347,16 +347,16 @@ const Signup = () => {
                   <path
                     d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
                     stroke="#41A58D"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
                     stroke="#41A58D"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               )}
@@ -378,9 +378,9 @@ const Signup = () => {
                 <path
                   d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
                   stroke="#41A58D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
 
@@ -398,7 +398,7 @@ const Signup = () => {
                   onClick={() => setShowPassword2(!showPassword2)}
                   stroke="#41A58D"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 1024 1024"
                   height="1em"
                   width="1em"
@@ -420,16 +420,16 @@ const Signup = () => {
                   <path
                     d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
                     stroke="#41A58D"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
                     stroke="#41A58D"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               )}

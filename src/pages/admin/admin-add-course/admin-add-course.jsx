@@ -6,19 +6,36 @@ import "./admin-add-course.scss";
 import axios from "axios";
 import { coursesServerUrl } from "../../../SuperVars";
 
-
 const AddCourse = () => {
   const { isOpen } = useContext(MyContext);
-  const [teachers, setTeachers] = useState([]);
-  const [avaName, setAvaName] = useState("");
   const [selectedTab, setSelectedTab] = useState("about-course");
-  
+
+  const [teachers, setTeachers] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const [title, setTitle] = useState("");
+  const [teacher, setTeacher] = useState(null);
+  const [image, setImage] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [description, setDescription] = useState("");
+
+  const [lessons, setLessons] = useState([]);
+
   const loadData = async () => {
-    const response = await axios.post(`${coursesServerUrl}dashboard/teachers/list/`);
-    if (response.data.status === "ok") {
-      setTeachers(response.data.results);
+    const aResponse = await axios.post(
+      `${coursesServerUrl}dashboard/teachers/list/`
+    );
+    if (aResponse.data.status === "ok") {
+      setTeachers(aResponse.data.results);
     }
-  }
+
+    const bResponse = await axios.post(
+      `${coursesServerUrl}dashboard/categories/list/`
+    );
+    if (bResponse.data.status === "ok") {
+      setCategories(bResponse.data.results);
+    }
+  };
 
   useEffect(() => {
     const timeout = setTimeout(loadData, 100);
@@ -27,24 +44,6 @@ const AddCourse = () => {
       clearTimeout(timeout);
     };
   });
-
- 
-
-  
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setAvaName(file.name);
-    } else {
-      setAvaName("");
-    }
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
-
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
 
   const [offCanvas, setOffCanvas] = useState(false);
   const handleCanvas = (e) => {
@@ -62,6 +61,74 @@ const AddCourse = () => {
       document.body.style.overflow = "auto";
     };
   }, [offCanvas]);
+
+  const [newLessonOrder, setNewLessonOrder] = useState(lessons.length + 1);
+  const [newLessonYtUrl, setNewLessonYtUrl] = useState("");
+
+  const handleLesson = (e) => {
+    e.preventDefault();
+
+    setLessons((prevLessons) => [
+      ...prevLessons,
+      { order: newLessonOrder, yt_url: newLessonYtUrl, uploaded: false },
+    ]);
+    setNewLessonOrder(lessons.length + 1);
+    setNewLessonYtUrl("");
+  };
+
+  const handleCourse = async (e) => {
+    e.preventDefault();
+
+    if (lessons.length <= 0) {
+      alert("Eng kame 1 ta dars qo'ying.");
+      return 0;
+    }
+
+    try {
+      const formData = new FormData();
+
+      formData.append('title', title);
+      formData.append('user', teacher);
+      formData.append('category', category);
+      formData.append('description', description);
+      formData.append('thumbnail', image);
+
+      console.log(category);
+      console.log(formData);
+
+      const response = await axios.post(`${coursesServerUrl}dashboard/courses/create/`, formData);
+      console.log(response);
+      
+      if (response.data.status === "ok") {
+        alert("Kurs muaffaqiyatli qo'shildi");
+        setSelectedTab("lessons");
+
+        let index = 0;
+        while (index < lessons.length) {
+          const lessonForm = new FormData();
+          lessonForm.append('course', response.data.results.id);
+          lessonForm.append('order', lessons[index].order);
+          lessonForm.append('yt_url', lessons[index].yt_url);
+
+          const lessonCreateResponse = await axios.post(`${coursesServerUrl}dashboard/lessons/create/`, lessonForm);
+          console.log(lessonCreateResponse);
+          
+          if (lessonCreateResponse.data.status === "ok") {
+            setLessons((prevLessons) => {
+              console.log(prevLessons[index]);
+              // prevLessons[index].uploaded = true;
+              return prevLessons;
+            });
+          }
+          index++;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Xatollik yuz berdi.")
+    }
+  };
+
   return (
     <div id="admin-add-course">
       <Dashboard />
@@ -79,9 +146,9 @@ const AddCourse = () => {
               <path
                 d="M7.5 18.3327V9.99935H12.5V18.3327M2.5 7.49935L10 1.66602L17.5 7.49935V16.666C17.5 17.108 17.3244 17.532 17.0118 17.8445C16.6993 18.1571 16.2754 18.3327 15.8333 18.3327H4.16667C3.72464 18.3327 3.30072 18.1571 2.98816 17.8445C2.67559 17.532 2.5 17.108 2.5 16.666V7.49935Z"
                 stroke="#41A58D"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Link>
@@ -95,8 +162,8 @@ const AddCourse = () => {
             <path
               d="M6 12L10 8L6 4"
               stroke="#41A58D"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <Link to="/dashboard/admin/courses">Kurslar</Link>
@@ -110,8 +177,8 @@ const AddCourse = () => {
             <path
               d="M1 9L5 5L1 1"
               stroke="#41A58D"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span>Kurs qo'shish</span>
@@ -141,53 +208,49 @@ const AddCourse = () => {
             <div className="add-course-two-dep-bottom">
               {selectedTab === "about-course" ? (
                 <div className="about-course-container">
-                  <form action="">
+                  <form action="" onSubmit={handleCourse}>
                     <div className="input-row w-50">
                       <label htmlFor="">Kurs nomi</label>
                       <input
                         type="text"
                         placeholder="Sarlavha kiriting"
                         required
+                        value={ title }
+                        onChange={ (e) => { setTitle(e.target.value); } }
                       />
                     </div>
                     <div className="input-row w-50">
                       <label htmlFor="teacher">O'qituvchi</label>
-                      <select name="teacher" id="teacher">
+                      <select name="teacher" id="teacher" value={ teacher } onChange={ (e) => { setTeacher(e.target.value); } }>
                         <option value="">Tanlang</option>
-                        {
-                          teachers.map((value) => (
-                            <option value={ value.id }>{value.first_name} {value.last_name}</option>
-                          ))
-                        }
+                        {teachers.map((value, index) => (
+                          <option value={value.id} key={ index }>
+                            {value.first_name} {value.last_name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div className="input-row w-50 image-input">
                       <label htmlFor="">Muqova rasmi</label>
                       <label htmlFor="course-image-input" id="course-image">
-                        {avaName || "Rasm tanlang"}
+                        {image?.name || "Rasm tanlsh"}
                       </label>
                       <input
                         type="file"
                         id="course-image-input"
-                        onChange={handleFileChange}
+                        onChange={(e) => {
+                          setImage(e.target.files[0]);
+                        }}
                       />
                     </div>
                     <div className="input-row w-50">
                       <label htmlFor="course-category">Kategoriya</label>
-                      <select name="course-category" id="course-category">
+                      <select name="course-category" id="course-category" value={ category } onChange={ (e) => { setCategory(e.target.value); } }>
                         <option value="">Tanlang</option>
-                        <option value="category-1">Category-1</option>
-                        <option value="category-2">Category-2</option>
-                        <option value="category-3">Category-3</option>
+                        {categories.map((value, index) => (
+                          <option key={ index } value={ value.id }>{value.title}</option>
+                        ))}
                       </select>
-                    </div>
-                    <div className="input-row w-100 short-text">
-                      <label htmlFor="">Qisqa yozuv</label>
-                      <textarea
-                        name="short-text"
-                        id="short-text-input"
-                        placeholder="Matn"
-                      ></textarea>
                     </div>
                     <div className="input-row w-100 tall-text">
                       <label htmlFor="">Kurs haqida</label>
@@ -195,16 +258,11 @@ const AddCourse = () => {
                         name="content"
                         id="short-text-input"
                         placeholder="Kontent"
+                        value={ description }
+                        onChange={ (e) => { setDescription(e.target.value); } }
                       ></textarea>
                     </div>
                     <div className="input-row w-100 d-flex">
-                      <div className="input-row-inner-status-select">
-                        <label htmlFor="">Holati</label>
-                        <select name="course-status" id="">
-                          <option value="active">Aktive</option>
-                          <option value="none-active">Aktiv emas</option>
-                        </select>
-                      </div>
                       <button type="submit">Saqlash</button>
                     </div>
                   </form>
@@ -242,8 +300,8 @@ const AddCourse = () => {
                             <path
                               d="M16.7472 16.8792L20.7992 20.7992M19.4926 10.3459C19.4926 15.3974 15.3974 19.4926 10.3459 19.4926C5.29432 19.4926 1.19922 15.3974 1.19922 10.3459C1.19922 5.29432 5.29432 1.19922 10.3459 1.19922C15.3974 1.19922 19.4926 5.29432 19.4926 10.3459Z"
                               stroke="#B2B2B2"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
                             />
                           </svg>
                         </button>
@@ -256,20 +314,33 @@ const AddCourse = () => {
                       </Link>
                       <div className={`offcanvas ${offCanvas ? "show" : ""}`}>
                         <h1>Yangi dars qo'shish</h1>
-                        <form action="">
+                        <form action="" onSubmit={handleLesson}>
                           <div className="input-row">
-                            <label htmlFor="lesson-name">Dars nomi</label>
-                              <input
-                                type="text"
-                                placeholder="Nomini kiriting"
-                                required
-                              />
+                            <label htmlFor="lesson-name">Dars navbati</label>
+                            <input
+                              type="number"
+                              placeholder="Nomini kiriting"
+                              required
+                              onChange={(e) => {
+                                setNewLessonOrder(e.target.value);
+                              }}
+                              value={newLessonOrder}
+                            />
                           </div>
                           <div className="input-row">
                             <label htmlFor="">Havolani kiriting</label>
-                            <input type="text" placeholder="Havolani kiriting" required title="Iltimos bu qismni to'ldiring"/>
+                            <input
+                              type="text"
+                              placeholder="Havolani kiriting"
+                              required
+                              onChange={(e) => {
+                                setNewLessonYtUrl(e.target.value);
+                              }}
+                              value={newLessonYtUrl}
+                              title="Iltimos bu qismni to'ldiring"
+                            />
                           </div>
-                          <div className="input-row">
+                          {/* <div className="input-row">
                             <label htmlFor="">Kurs haqida</label>
                             <textarea name="about-course-lesson" id="" placeholder="Kontent" required></textarea>
                           </div>
@@ -279,7 +350,7 @@ const AddCourse = () => {
                               <option value="active">Aktiv</option>
                               <option value="none-active">Aktiv emas</option>
                             </select>
-                          </div>
+                          </div> */}
                           <div className="button">
                             <button type="submit" id="sub">
                               Qo'shish
@@ -304,13 +375,16 @@ const AddCourse = () => {
                           <input type="checkbox" />
                         </th>
                         <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                          Preview
+                        </th>
+                        <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                           T/r
                         </th>
                         <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                           Dars nomi
                         </th>
                         <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                          Aktivligi
+                          Yuklanganmi
                         </th>
                         <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                           Amallar
@@ -318,63 +392,63 @@ const AddCourse = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <input type="checkbox" />
-                        </td>
-                        <td>1</td>
-                        <td>1-dars</td>
-                        {/* <td>
-                          <input
-                            type="checkbox"
-                            id={`status-${current.id}`}
-                            checked={productStatuses[product.id]}
-                            onChange={() => handleStatusChange(product.id)}
-                            className="check-inp"
-                          />
-                          <label htmlFor={`status-${product.id}`} className="checkbox">
-                            <span
-                              className={productStatuses[product.id] ? "active" : ""}
-                            ></span>
-                          </label>
-                        </td> */}
-                        <td>
-                          <input
-                            type="checkbox"
-                            id="check-1"
-                            checked={true}
-                            // onChange={() => handleStatusChange(product.id)}
-                            className="check-inp"
-                          />
-                          <label htmlFor="check-1" className="checkbox">
-                            <span className={true ? "active" : ""}></span>
-                          </label>
-                        </td>
-                        <td>
-                          <button className="btn btn-secondary">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
-                                fill="#41A58D"
-                              />
-                              <path
-                                d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
-                                fill="#41A58D"
-                              />
-                              <path
-                                d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
-                                fill="#41A58D"
-                              />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
+                      {lessons.map((value, index) => (
+                        <tr>
+                          <td>
+                            <input type="checkbox" />
+                          </td>
+                          <td>
+                            <iframe
+                              src={value.yt_url}
+                              frameBorder={0}
+                              width={320}
+                              height={180}
+                            ></iframe>
+                          </td>
+                          <td>{index + 1}</td>
+                          <td>#dars {index + 1}</td>
+                          <td>{value.uploaded ? '✅' : '❎'}</td>
+                          {/* <td>
+                            <input
+                              type="checkbox"
+                              id={`status-${current.id}`}
+                              checked={productStatuses[product.id]}
+                              onChange={() => handleStatusChange(product.id)}
+                              className="check-inp"
+                            />
+                            <label htmlFor={`status-${product.id}`} className="checkbox">
+                              <span
+                                className={productStatuses[product.id] ? "active" : ""}
+                              ></span>
+                            </label>
+                          </td> */}
+
+                          <td>
+                            <button className="btn btn-secondary">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
+                                  fill="#41A58D"
+                                />
+                                <path
+                                  d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
+                                  fill="#41A58D"
+                                />
+                                <path
+                                  d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
+                                  fill="#41A58D"
+                                />
+                              </svg>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                   {/* {totalPages > 1 && (

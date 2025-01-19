@@ -79,9 +79,9 @@ const ImageUpload = ({ changeLocal }) => {
             <path
               d="M3 22.5L10.4519 15.0481C11.7211 13.7789 13.7789 13.7789 15.0481 15.0481L22.5 22.5M19.25 19.25L21.8269 16.6731C23.0961 15.4039 25.1539 15.4039 26.4231 16.6731L29 19.25M19.25 9.5H19.2663M6.25 29H25.75C27.5449 29 29 27.5449 29 25.75V6.25C29 4.45507 27.5449 3 25.75 3H6.25C4.45507 3 3 4.45507 3 6.25V25.75C3 27.5449 4.45507 29 6.25 29Z"
               stroke="#41A58D"
-              stroke-width="2.67"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2.67"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <p>
@@ -105,8 +105,8 @@ const ImageUpload = ({ changeLocal }) => {
                 <path
                   d="M9.5 2.5L2.5 9.5M9.5 9.5L2.5 2.5"
                   stroke="#757575"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 />
               </svg>
             </button>
