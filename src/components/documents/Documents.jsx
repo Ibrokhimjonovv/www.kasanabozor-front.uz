@@ -4,13 +4,8 @@ import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 
 const Documents = () => {
-  const { documents } = useContext(MyContext);
-  const legislativeDoc = documents.filter(
-    (doc) => doc.category === "Qonunchilik hujjatlari"
-  );
-  const bussinessDoc = documents.filter(
-    (doc) => doc.category === "Kichik biznes loyihalar"
-  );
+  const { legislativeDoc, bussinessDoc } = useContext(MyContext);
+  console.log(legislativeDoc,bussinessDoc)
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".doc-cont:not(.revealed)");
@@ -31,6 +26,7 @@ const Documents = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
+
   return (
     <div id="documents">
       <div className="left-side">
@@ -39,21 +35,13 @@ const Documents = () => {
             <h2>Qonunchilik hujjatlari</h2>
             <p>Kasanachilik sohasidagi qonunchilik hujjatlari</p>
           </div>
-          <Link
-            to={`/news/documents/${legislativeDoc[0]?.category
-              .replace(/\s+/g, "-")
-              .toLowerCase()}`}
-          >
+          <Link to={``}>
             Ko'proq ko'rish
           </Link>
         </div>
 
         {legislativeDoc.map((doc) => (
-          <Link
-            to={`/news/documents/${legislativeDoc[0]?.category
-              .replace(/\s+/g, "-")
-              .toLowerCase()}/${doc.title.replace(/\s+/g, "-").toLowerCase()}`}
-          >
+          <Link to={``}>
             <div id="top" className={`container doc-cont`}>
               <p>{doc.title}</p>
               <p>{doc.smallTitle}</p>
@@ -110,21 +98,13 @@ const Documents = () => {
             <h2>Kichik biznes loyihalar</h2>
             <p>Turli darajadagi kichik biznes loyihalar</p>
           </div>
-          <Link
-            to={`news/documents/${bussinessDoc[0]?.category
-              .replace(/\s+/g, "-")
-              .toLowerCase()}`}
-          >
+          <Link to={``}>
             Ko'proq ko'rish
           </Link>
         </div>
 
         {bussinessDoc.map((doc) => (
-          <Link
-            to={`/news/documents/${bussinessDoc[0]?.category
-              .replace(/\s+/g, "-")
-              .toLowerCase()}/${doc.title.replace(/\s+/g, "-").toLowerCase()}`}
-          >
+          <Link to={``}>
             <div id="top" className={`container doc-cont`}>
               <p>{doc.title}</p>
               <p>{doc.smallTitle}</p>

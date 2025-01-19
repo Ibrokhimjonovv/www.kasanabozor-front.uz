@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { usersServerUrl, eCommerseServerUrl, announcementsServerUrl, coursesServerUrl } from '../SuperVars.js';
+import { usersServerUrl, eCommerseServerUrl, announcementsServerUrl, coursesServerUrl, newsServerUrl } from '../SuperVars.js';
 
 export const MyContext = createContext(null);
 export const MyContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [newsList] = useState([]);
-  const [documents] = useState([]);
+  const [newsList, setNewList] = useState([]);
+  const [legislativeDoc, setLegislativeDoc] = useState([]);
+  const [bussinessDoc, setBussinessDoc] = useState([]);
   const [courseCategories, setCourseCategories] = useState([]);
   const [courses, setCourses] = useState([]);
   const [services, setServices] = useState([]);
@@ -135,6 +136,31 @@ export const MyContextProvider = ({ children }) => {
       console.error(err);
     }
 
+    try {
+      const bdocsResponse = await axios.get(`${newsServerUrl}bussinies/list/`);
+      if (bdocsResponse.data.status === "ok") {
+        setBussinessDoc(bdocsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      const ldocsResponse = await axios.get(`${newsServerUrl}legacy/list/`);
+      if (ldocsResponse.data.status === "ok") {
+        setLegislativeDoc(ldocsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      const newsResponse = await axios.get(`${newsServerUrl}news/list/`);
+      if (newsResponse.data.status === "ok") {
+        setNewList(newsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
     setLoadStart(false);
     setLoadSuccess(true);
   };
@@ -154,7 +180,8 @@ export const MyContextProvider = ({ children }) => {
       value={{
         products,
         newsList,
-        documents,
+        legislativeDoc,
+        bussinessDoc,
         courses,
         courseCategories,
         isAuthenticated,

@@ -7,7 +7,7 @@ import "swiper/css";
 const ShopSwiper = () => {
   return (
     <div id="shopSwiper">
-      <Swiper
+      {/* <Swiper
         modules={[Autoplay]}
         slidesPerView={6}
         spaceBetween={30}
@@ -108,7 +108,7 @@ const ShopSwiper = () => {
             <span>#temirchilik</span>
           </div>
         </SwiperSlide>
-      </Swiper>
+      </Swiper> */}
     </div>
   );
 };

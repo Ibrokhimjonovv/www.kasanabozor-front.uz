@@ -4,8 +4,9 @@ import { NavLink, Link } from "react-router-dom";
 import profile from "./profile.png";
 import { MyContext } from "../../../context/myContext";
 import Logout from "../../../components/logout/logout";
+import { formatLink, mediaServerUrl } from "../../../SuperVars";
 const Dashboard = () => {
-  const {isOpen, setIsOpen} = useContext(MyContext);
+  const {isOpen, setIsOpen, user} = useContext(MyContext);
   const sideBarFunction = () => {
     setIsOpen(!isOpen);
   };
@@ -541,7 +542,7 @@ const Dashboard = () => {
                 </div>
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="e"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -592,7 +593,7 @@ const Dashboard = () => {
                   <NavLink to="users-item">Moderator</NavLink>
                 </div>
               )}
-            </li>
+            </li> */}
           </ul>
           <p className={`other-p ${isOpen ? "none" : ""}`}>Boshqalar</p>
           <ul id="sd">
@@ -627,7 +628,7 @@ const Dashboard = () => {
             </li>
             <li>
               <NavLink
-                to="messages"
+                to="/messaging/"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <div className="item-inner">
@@ -654,7 +655,7 @@ const Dashboard = () => {
                 </div>
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="settings"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -710,7 +711,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </NavLink>
-            </li>
+            </li> */}
             <p className={`ending ${isOpen ? "none" : ""}`}>
               <span>Kasana.uz</span> jamoasi
             </p>
@@ -725,7 +726,7 @@ const Dashboard = () => {
           <Logout />
           <div className="profile">
             <Link to="#">
-              <img src={profile} alt="" />
+              <img src={`${mediaServerUrl}users${formatLink(user.pfp)}`} alt="" />
               <div className="for-status"></div>
             </Link>
           </div>

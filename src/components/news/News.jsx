@@ -3,6 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import "./News.scss";
 import { MyContext } from "../../context/myContext";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const News = () => {
@@ -16,7 +17,7 @@ const News = () => {
           <Link to="#">Ko'proq ko'rish</Link>
         </div>
         <div className="news-cards">
-          {newsList.map((news, index) => (
+          {newsList.slice(0, 4).map((news, index) => (
             <Link to="#">
               <NewsCard key={news.id} news={news} index={index} />
             </Link>
@@ -39,7 +40,7 @@ const NewsCard = ({ news }) => {
       className={`news-card ${inView ? "visible" : ""}`}
     >
       <div className="img-cont">
-        <img src={news.img} alt={news.title} />
+        <img src={`${mediaServerUrl}news${formatLink(news.thumbnail)}`} alt={news.title} />
       </div>
       <div className="time">
         <span id="date-time"> 

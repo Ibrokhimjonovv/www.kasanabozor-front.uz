@@ -56,7 +56,8 @@ const OnlineShop = () => {
       <div className="newsFromWorkers">
         <News />
       </div>
-      <div className="cubes">
+      {/* TODO: THIS MUST BE IN WEB */}
+      {/* <div className="cubes">
         <div className="cubesInner">
           <div className="cube"></div>
           <div className="cube"></div>
@@ -64,7 +65,7 @@ const OnlineShop = () => {
           <div className="cube"></div>
           <div className="cube"></div>
         </div>
-      </div>
+      </div> */}
       <Offers />
       <Success />
     </div>
