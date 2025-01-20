@@ -61,7 +61,7 @@ const Documents = () => {
           <Link to={``}>Ko'proq ko'rish</Link>
         </div>
 
-        {legislativeDoc.map((doc, index) => (
+        {legislativeDoc.slice(0, 3).map((doc, index) => (
           <div id="top" className={`container doc-cont`} key={index}>
             <p>{doc.title}</p>
             <p>{doc.subtitle}</p>
@@ -124,7 +124,7 @@ const Documents = () => {
           <Link to={``}>Ko'proq ko'rish</Link>
         </div>
 
-        {bussinessDoc.map((doc, index) => (<div id="top" className={`container doc-cont`} key={index}>
+        {bussinessDoc.slice(0, 3).map((doc, index) => (<div id="top" className={`container doc-cont`} key={index}>
               <p>{doc.title}</p>
               <p>{doc.subtitle}</p>
               <div className="links">
