@@ -10,9 +10,11 @@ import { formatLink, mediaServerUrl } from "../../SuperVars";
 const TopCourses = () => {
   const { courses, courseCategories } = useContext(MyContext);
   const [visibleCourses, setVisibleCourses] = useState(4);
+
   const handleShowMore = () => {
     setVisibleCourses((prevVisible) => prevVisible + 4);
   };
+  
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".course-card:not(.revealed)");
@@ -145,7 +147,7 @@ const TopCourses = () => {
                 </div>
                 <div className="author">
                   <div className="author-img">
-                    <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.user.pfp} />
+                    <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt="" />
                   </div>
                   <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                 </div>
