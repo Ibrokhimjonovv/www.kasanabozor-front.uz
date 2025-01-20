@@ -1,128 +1,37 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./adminNews.scss";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
+import axios from "axios";
+import { newsServerUrl } from "../../../SuperVars";
+
+
 const AdminNews = () => {
   const {isOpen} = useContext(MyContext);
-  const news = [
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-    {
-      id: 1,
-      newsTitle: "O'z o'zini band qilgan shaxslar",
-      category: "Qonunchilik",
-      link: "./page-title-link.html",
-      createdDate: "14.02.2024",
-    },
-  ];
+  const [news, setNews] = useState([]);
+
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${newsServerUrl}dashboard/news/list/`);
+      if (response.data.status === "ok") {
+        setNews(response.data.results);
+      }
+    } catch {}
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -130,15 +39,16 @@ const AdminNews = () => {
     if (currentPage < Math.ceil(news.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+  
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentNews = news.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(news.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < news.length ? indexOfLastUser : news.length;
-  return (
+  const endUserIndex = indexOfLastUser < news.length ? indexOfLastUser : news.length;
+  
+    return (
     <div id="admin-news">
       <Dashboard />
       <div className={`admin-item ${isOpen ? "wd" : ""}`}>
@@ -193,9 +103,9 @@ const AdminNews = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Kategoriyasi
                 </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/* <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Link
-                </th>
+                </th> */}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Yaratilgan
                 </th>
@@ -205,15 +115,14 @@ const AdminNews = () => {
               </tr>
             </thead>
             <tbody>
-              {currentNews.map((news, index) => (
-                <tr key={index}>
+              {currentNews.map((anew, index) => <tr key={index}>
                   <td>
                     <input type="checkbox" />
                   </td>
-                  <td>{news.newsTitle}</td>
-                  <td>{news.category}</td>
-                  <td>{news.link}</td>
-                  <td>{news.createdDate}</td>
+                  <td>{anew.title}</td>
+                  <td>{anew.category.title}</td>
+                  {/* <td>{news.link}</td> */}
+                  <td>{anew.created_at.split('T')[0]}</td>
                   <td>
                     <button className="btn btn-secondary">
                       <svg
@@ -238,8 +147,7 @@ const AdminNews = () => {
                       </svg>
                     </button>
                   </td>
-                </tr>
-              ))}
+                </tr>)}
             </tbody>
           </table>
           {/* Pagination */}

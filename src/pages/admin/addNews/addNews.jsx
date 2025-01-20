@@ -3,9 +3,11 @@ import Dashboard from "../dashboard/dashboard";
 import { MyContext } from "../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./addNews.scss";
+
 const AddNews = () => {
   const {isOpen} = useContext(MyContext);
   const [avaName, setAvaName] = useState("");
+  
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -14,6 +16,7 @@ const AddNews = () => {
       setAvaName("");
     }
   };
+
   return (
     <div id="admin-add-news">
       <Dashboard />

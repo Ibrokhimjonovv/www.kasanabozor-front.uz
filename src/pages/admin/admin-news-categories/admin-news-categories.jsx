@@ -5,18 +5,34 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
+import axios from "axios";
+import { newsServerUrl } from "../../../SuperVars";
+
+
 const AdminNewsCategories = () => {
   const {isOpen} = useContext(MyContext);
-  const newsCategories = [
-    {
-      id: 1,
-      category: "Qonunchilik",
-      newsCount: 186,
-      status: true,
-    },
-  ];
+  const [newsCategories, setNewsCategories] = useState([]);
+  const [title, setTitle] = useState("");
+
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${newsServerUrl}dashboard/categories/list/`);
+      if (response.data.status === "ok") {
+        setNewsCategories(response.data.results);
+      }
+    } catch {}
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -24,19 +40,21 @@ const AdminNewsCategories = () => {
     if (currentPage < Math.ceil(newsCategories.length / usersPerPage))
       setCurrentPage(currentPage + 1);
   };
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const adminNewsCategories = newsCategories.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(newsCategories.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex =
-    indexOfLastUser < newsCategories.length ? indexOfLastUser : newsCategories.length;
+
+  const endUserIndex = indexOfLastUser < newsCategories.length ? indexOfLastUser : newsCategories.length;
   const [offCanvas, setOffCanvas] = useState(false);
   const handleCanvas = (e) => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
+
   useEffect(() => {
     if (offCanvas) {
       document.body.style.overflow = 'hidden';
@@ -47,18 +65,31 @@ const AdminNewsCategories = () => {
       document.body.style.overflow = 'auto'; //
     };
   }, [offCanvas]);
+  
   const [productStatuses, setProductStatuses] = useState(
     newsCategories.reduce((acc, product) => {
       acc[product.id] = product.status;
       return acc;
     }, {})
   );
+  
   const handleStatusChange = (id) => {
     setProductStatuses((prevStatuses) => ({
       ...prevStatuses,
       [id]: !prevStatuses[id],
     }));
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post(`${newsServerUrl}dashboard/categories/create/`, {'title': title});
+    if (response.data.status === "ok") {
+      alert('Yangi kategoriya qo\'shildi.');
+      setTitle('');
+    }
+  }
+  
   return (
     <div id="admin-news-categories">
       <Dashboard />
@@ -107,7 +138,7 @@ const AdminNewsCategories = () => {
               </Link>
               <div className={`offcanvas ${offCanvas ? "show" : ""}`}>
                 <h1>Yangi kategoriya qo'shish</h1>
-                <form action="">
+                <form action="" onSubmit={ handleSubmit }>
                   <div className="input-row">
                     <label htmlFor="category-name">Kategoriya nomi</label>
                     <div className="inputs">
@@ -130,57 +161,8 @@ const AdminNewsCategories = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      <input type="text" placeholder="Nomini kiriting" />
+                      <input type="text" placeholder="Nomini kiriting" value={ title } onChange={ (e) => { setTitle(e.target.value); } } />
                     </div>
-                    <div className="error-message">To'ldirilishi shart</div>
-                  </div>
-                  <div className="input-row">
-                    <label htmlFor="firstName">Meta nomi</label>
-                    <div className="inputs">
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M3.77098 13.38C3.57298 13.619 3.28798 13.743 2.99998 13.743C2.77598 13.743 2.54998 13.668 2.36398 13.514C0.861977 12.274 0.00097682 10.446 0.00097682 8.499C-2.31804e-05 4.916 2.91598 2 6.49998 2H11.5C15.084 2 18 4.916 18 8.5C18 12.084 15.084 15 11.5 15C10.948 15 10.5 14.553 10.5 14C10.5 13.447 10.948 13 11.5 13C13.981 13 16 10.981 16 8.5C16 6.019 13.981 4 11.5 4H6.49998C4.01898 4 1.99998 6.019 1.99998 8.5C1.99998 9.848 2.59698 11.113 3.63698 11.972C4.06298 12.324 4.12298 12.954 3.77098 13.38ZM21.637 10.485C21.211 10.135 20.581 10.195 20.229 10.62C19.877 11.046 19.937 11.677 20.363 12.028C21.403 12.886 22 14.152 22 15.5C22 17.981 19.981 20 17.5 20H12.5C10.019 20 7.99998 17.981 7.99998 15.5C7.99998 13.019 10.019 11 12.5 11C13.052 11 13.5 10.553 13.5 10C13.5 9.447 13.052 9 12.5 9C8.91598 9 5.99998 11.916 5.99998 15.5C5.99998 19.084 8.91598 22 12.5 22H17.5C21.084 22 24 19.084 24 15.5C24 13.554 23.139 11.726 21.637 10.485Z"
-                          fill="#B2B2B2"
-                        />
-                      </svg>
-                      <input type="text" placeholder="Nomini kiriting" />
-                    </div>
-                    <div className="error-message">To'ldirilishi shart</div>
-                  </div>
-                  <div className="input-row">
-                    <label htmlFor="status">Holati</label>
-                    <div className="inputs">
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2.40039 12.0004C2.40039 6.69846 6.69846 2.40039 12.0004 2.40039C17.3023 2.40039 21.6004 6.69846 21.6004 12.0004C21.6004 17.3023 17.3023 21.6004 12.0004 21.6004C6.69846 21.6004 2.40039 17.3023 2.40039 12.0004Z"
-                          stroke="#B2B2B2"
-                          strokeWidth="2"
-                        />
-                        <path
-                          d="M18.0004 12.5004V11.5004C18.0004 8.46282 15.538 6.00039 12.5004 6.00039C12.2242 6.00039 12.0004 6.22425 12.0004 6.50039V17.5004C12.0004 17.7765 12.2242 18.0004 12.5004 18.0004C15.538 18.0004 18.0004 15.538 18.0004 12.5004Z"
-                          stroke="#B2B2B2"
-                          strokeWidth="2"
-                        />
-                      </svg>
-
-                      <select name="status" id="status">
-                        <option value="active">Aktiv</option>
-                        <option value="non-active">Aktiv emas</option>
-                      </select>
-                    </div>
-
                     <div className="error-message">To'ldirilishi shart</div>
                   </div>
                   <div className="button">
@@ -253,9 +235,6 @@ const AdminNewsCategories = () => {
                   Yangiliklar
                 </th>
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
-                  Aktivligi
-                </th>
-                <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Amallar
                 </th>
               </tr>
@@ -266,25 +245,8 @@ const AdminNewsCategories = () => {
                   <td>
                     <input type="checkbox" />
                   </td>
-                  <td>{newsCategory.category}</td>
-                  <td>{newsCategory.newsCount}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      id={`status-${newsCategory.id}`}
-                      checked={productStatuses[newsCategory.id]}
-                      onChange={() => handleStatusChange(newsCategory.id)}
-                      className="check-inp"
-                    />
-                    <label
-                      htmlFor={`status-${newsCategory.id}`}
-                      className="checkbox"
-                    >
-                      <span
-                        className={productStatuses[newsCategory.id] ? "active" : ""}
-                      ></span>
-                    </label>
-                  </td>
+                  <td>{newsCategory.title}</td>
+                  <td>{newsCategory.news_cout || 0}</td>
                   <td>
                     <button className="btn btn-secondary">
                       <svg

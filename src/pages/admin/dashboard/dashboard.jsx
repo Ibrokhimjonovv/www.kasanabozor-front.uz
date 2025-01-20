@@ -5,6 +5,7 @@ import profile from "./profile.png";
 import { MyContext } from "../../../context/myContext";
 import Logout from "../../../components/logout/logout";
 import { formatLink, mediaServerUrl } from "../../../SuperVars";
+
 const Dashboard = () => {
   const {isOpen, setIsOpen, user} = useContext(MyContext);
   const sideBarFunction = () => {
