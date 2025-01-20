@@ -85,7 +85,7 @@ const AnnouncementsPage = () => {
           >
             <div className="card ">
               <p className="title">{announcement.title}</p>
-              <p className="price">{announcement.price_max}</p>
+              <p className="price">{ announcement.argued ? <>Kelishiladi</> : <>{announcement.price_min} SO'M</> }</p>
               <div className="details">
                 {/*announcement.details.map((detail, index) => (
                   <div className="detail" key={index}>
@@ -121,7 +121,7 @@ const AnnouncementsPage = () => {
                       </clipPath>
                     </defs>
                   </svg>
-                  {announcement.created_at || "Aniq emas"}
+                  {announcement.created_at.split('T')[0]}
                 </span>
                 <span>
                   <svg
@@ -237,7 +237,7 @@ const AnnouncementsPage = () => {
               </div>
             </div>
           </Link>)}
-          {services.map((service, index) => (
+          {/* {services.map((service, index) => (
             <Link to="#" key={index}>
               <div className="service-card">
                 <div className="img-card"><img src={service.heroImg} alt="" /></div>
@@ -302,7 +302,7 @@ const AnnouncementsPage = () => {
                 </div>
               </div>
             </Link>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

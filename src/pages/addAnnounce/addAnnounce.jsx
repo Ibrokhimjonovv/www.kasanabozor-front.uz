@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./addAnnounce.scss";
 import ImageUpload from "../../components/imgUpload/imgUpload";
-import axios from 'axios';
-import { announcementsServerUrl } from '../../SuperVars';
+import axios from "axios";
+import { announcementsServerUrl } from "../../SuperVars";
 import SearchBar from "../../components/searchBar/searchBar";
 
 const AddAnnounce = () => {
@@ -20,14 +20,14 @@ const AddAnnounce = () => {
       setMaxPrice("0");
     }
   };
-  
+
   const regionsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
   const districtsURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
   const villagesURL =
     "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/villages.json";
-  
+
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
@@ -37,7 +37,7 @@ const AddAnnounce = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [filteredDistricts, setFilteredDistricts] = useState([]);
   const [filteredVillages, setFilteredVillages] = useState([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,7 +70,7 @@ const AddAnnounce = () => {
 
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     if (selectedRegion) {
       const filtered = districts.filter(
@@ -85,7 +85,7 @@ const AddAnnounce = () => {
       setFilteredVillages([]);
     }
   }, [selectedRegion, districts]);
-  
+
   useEffect(() => {
     if (selectedDistrict) {
       const filtered = villages.filter(
@@ -107,26 +107,29 @@ const AddAnnounce = () => {
     e.preventDefault();
     const formData = new FormData();
 
-    formData.append('p_type', announceType);
-    formData.append('title', announceTitle);
-    formData.append('thumbnail', announceImage);
-    formData.append('price_min', minPrice);
-    formData.append('price_max', maxPrice);
-    formData.append('region', "Keyinchalik qo'shiladi");
-    formData.append('district', "Keyinchalik qo'shiladi");
-    formData.append('argued', isNegotiable);
-    formData.append('address', fAddress);
-    formData.append('experience', experience);
-    formData.append('type_type', timeType);
-    formData.append('description', description);
+    formData.append("p_type", announceType);
+    formData.append("title", announceTitle);
+    formData.append("thumbnail", announceImage);
+    formData.append("price_min", minPrice);
+    formData.append("price_max", maxPrice);
+    formData.append("region", "Keyinchalik qo'shiladi");
+    formData.append("district", "Keyinchalik qo'shiladi");
+    formData.append("argued", isNegotiable);
+    formData.append("address", fAddress);
+    formData.append("experience", experience);
+    formData.append("type_type", timeType);
+    formData.append("description", description);
 
-    const response = await axios.post(`${announcementsServerUrl}announcements/create/`, formData);
+    const response = await axios.post(
+      `${announcementsServerUrl}announcements/create/`,
+      formData
+    );
     if (response.data.status === "ok") {
-      navigation('/announcements/');
+      navigation("/announcements/");
     } else {
       alert("Xatolik yuz berdi.");
     }
-  }
+  };
 
   return (
     <div id="addAnnounce" className="add-announce-container">
@@ -283,7 +286,7 @@ const AddAnnounce = () => {
       </div>
       <div className="announce-form-container">
         <h1 className="big-title">E'lon berish</h1>
-        <form action="" onSubmit={ handleSubmit }>
+        <form action="" onSubmit={handleSubmit}>
           <div className="input-col">
             <label htmlFor="announce-type">E'lon turi</label>
             <div className="input-icon">
@@ -311,7 +314,7 @@ const AddAnnounce = () => {
             </div>
           </div>
           <p>Xizmat haqida ma'lumotlar</p>
-          <div className="input-col w-100">
+          {/* <div className="input-col w-100">
             <label htmlFor="announce-name">Xizmat nomi</label>
             <div className="input-icon">
               <input
@@ -324,6 +327,52 @@ const AddAnnounce = () => {
               />
             </div>
           </div>
+
+          <div className="input-col w-100">
+            <label htmlFor="announce-type">Rasm</label>
+            <div className="input-icon">
+              <input
+                type="text"
+                className="input-p-0"
+                placeholder="Manzil to'liq holda"
+                value={ fAddress }
+                onChange={ (e) => { setFAddress(e.target.value); } }
+              />
+            </div>
+          </div> */}
+
+          <div className="timm">
+            <div className="input-col">
+              <label htmlFor="districts">Xizmat nomi</label>
+              <div className="input-icon">
+                <input
+                  type="text"
+                  placeholder="Nomini kiriting"
+                  className="input-p-0"
+                  id="announce-name"
+                  value={announceTitle}
+                  onChange={(e) => {
+                    setAnnounceTitle(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="input-col">
+              <label htmlFor="regions">Rasm yuklang</label>
+              <div className="input-icon">
+                <input
+                  type="file"
+                  className="input-p-0"
+                  id="announce-image"
+                  // value={announceImage}
+                  onChange={(e) => {
+                    setAnnounceImage(e.target.files[0]);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="input-col w-100">
             <label htmlFor="price" id="price_label">
               Narx oralig'i
@@ -483,6 +532,7 @@ const AddAnnounce = () => {
               </div>
             </div>
           </div> */}
+
           <div className="input-col w-100">
             <label htmlFor="announce-type">Manzil</label>
             <div className="input-icon">
@@ -490,8 +540,10 @@ const AddAnnounce = () => {
                 type="text"
                 className="input-p-0"
                 placeholder="Manzil to'liq holda"
-                value={ fAddress }
-                onChange={ (e) => { setFAddress(e.target.value); } }
+                value={fAddress}
+                onChange={(e) => {
+                  setFAddress(e.target.value);
+                }}
               />
             </div>
           </div>
@@ -520,7 +572,14 @@ const AddAnnounce = () => {
                   </defs>
                 </svg>
 
-                <input type="text" placeholder="2yil, 4yil+ va hokazo" value={ experience } onChange={ (e) => { setExperience(e.target.value); } }/>
+                <input
+                  type="text"
+                  placeholder="2yil, 4yil+ va hokazo"
+                  value={experience}
+                  onChange={(e) => {
+                    setExperience(e.target.value);
+                  }}
+                />
               </div>
             </div>
             <div className="input-col">
@@ -542,10 +601,19 @@ const AddAnnounce = () => {
                   />
                 </svg>
 
-                <select id="work-time" name="work-time" value={ timeType } onChange={ (e) => { setTimeTypes(e.target.value); } }>
+                <select
+                  id="work-time"
+                  name="work-time"
+                  value={timeType}
+                  onChange={(e) => {
+                    setTimeTypes(e.target.value);
+                  }}
+                >
                   <option value="To'liq ish vaqti">To'liq ish vaqti</option>
                   <option value="Yarim ish vaqti">Yarim ish vaqti</option>
-                  <option value="Moslashuvchan ish vaqti">Moslashuvchan ish vaqti</option>
+                  <option value="Moslashuvchan ish vaqti">
+                    Moslashuvchan ish vaqti
+                  </option>
                 </select>
               </div>
             </div>
@@ -558,7 +626,13 @@ const AddAnnounce = () => {
             Qisqacha ma'lumot
           </label>
           {/* <EditorBar /> */}
-          <textarea name="" id="" placeholder="Qisqacha ma'lumot" value={ description } onChange={ (e) => setDescription(e.target.value) }></textarea>
+          <textarea
+            name=""
+            id=""
+            placeholder="Qisqacha ma'lumot"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
           {announceType === "Xizmat e'loni" && (
             <>
               <p>Xizmat rasmlari</p>
@@ -568,7 +642,7 @@ const AddAnnounce = () => {
               </div>
             </>
           )}
-    {/*<div className="input-col" style={{ marginTop: "10px" }}>
+          {/*<div className="input-col" style={{ marginTop: "10px" }}>
             <label
               htmlFor="status"
               style={{ display: "flex", alignItems: "center", gap: "10px" }}
