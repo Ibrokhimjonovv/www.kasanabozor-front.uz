@@ -301,7 +301,7 @@ const ProfileSideBar = () => {
         </li>
         <li>
           <Link
-            to="logout"
+            to="/"
             id="logout-profile"
             onClick={(e) => handleLogout(e)}
           >

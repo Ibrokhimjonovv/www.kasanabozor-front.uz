@@ -144,11 +144,11 @@ const Profile = () => {
               </li>
               <li>
                 <span>Tug'ilgan kuni</span>
-                <p>{ user.birthday || "Umrini bersin!" }</p>
+                <p>{ user.birthday || "Kiritilmagan" }</p>
               </li>
               <li>
                 <span>Faoliyati</span>
-                <p>{ user.job || "Ishida professional" }</p>
+                <p>{ user.job || "Yangi" }</p>
               </li>
               <li>
                 <span>Viloyat</span>
@@ -156,17 +156,17 @@ const Profile = () => {
               </li>
               <li>
                 <span>Manzil</span>
-                <p>{ user.address || "Karavotingiz ostida" }</p>
+                <p>{ user.address || "Kiritilmagan" }</p>
               </li>
             </ul>
           </div>
           <div className="about-me">
             <span>Men haqimda</span>
-            <p>{ user.about_me || "Qay usulda odamlarga qiziq bo'lishini o'ylamoqda." }</p>
+            <p>{ user.about_me || "Qo'shilmagan." }</p>
           </div>
           <div className="bio">
             <span>Biografiya</span>
-            <p>{ user.biography || "Bu inson juda taniqli, ular o'zi haqida malumot yozishi shart emas." }</p>
+            <p>{ user.biography || "Qo'shilmagan." }</p>
           </div>
         </div>
       </div>

@@ -34,6 +34,7 @@ const NewsCard = ({ news }) => {
     threshold: 0.1,
     triggerOnce: true,
   });
+
   return (
     <div
       ref={ref}
@@ -66,7 +67,7 @@ const NewsCard = ({ news }) => {
               </clipPath>
             </defs>
           </svg>
-          {news.date}
+          {news.created_at.split('T')[0]}
         </span>
         <span id="views-count">
           <svg
@@ -91,12 +92,12 @@ const NewsCard = ({ news }) => {
               strokeLinejoin="round"
             />
           </svg>
-          {news.views}
+          {news.views || 0}
         </span>
       </div>
       <div className="news-title">{news.title}</div>
-      <div className="news-description">{news.description}</div>
-      <div className="type">{news.type}</div>
+      <div className="news-description">{news.content}</div>
+      <div className="type">{news.category.title}</div>
     </div>
   );
 };
