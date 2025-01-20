@@ -102,10 +102,7 @@ const Documents = () => {
                 <p>{doc.title}</p>
                 <p>{doc.smallTitle}</p>
                 <div className="links">
-                  <a
-                    href={`${doc.pdf}`}
-                    download
-                  >
+                  <a href={`${doc.pdf}`} download>
                     <svg
                       class="hover-effect"
                       width="16"

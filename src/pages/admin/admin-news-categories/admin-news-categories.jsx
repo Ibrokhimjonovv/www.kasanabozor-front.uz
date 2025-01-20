@@ -246,7 +246,7 @@ const AdminNewsCategories = () => {
                     <input type="checkbox" />
                   </td>
                   <td>{newsCategory.title}</td>
-                  <td>{newsCategory.news_cout || 0}</td>
+                  <td>{newsCategory.news_count || 0}</td>
                   <td>
                     <button className="btn btn-secondary">
                       <svg

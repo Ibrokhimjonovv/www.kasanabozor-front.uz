@@ -1,21 +1,61 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dashboard from "../dashboard/dashboard";
 import { MyContext } from "../../../context/myContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./addNews.scss";
+import { newsServerUrl } from "../../../SuperVars";
+import axios from "axios";
+
 
 const AddNews = () => {
   const {isOpen} = useContext(MyContext);
-  const [avaName, setAvaName] = useState("");
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${newsServerUrl}dashboard/categories/list/`);
+      if (response.data.status === "ok") {
+        setCategories(response.data.results);
+      }
+    } catch {}
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setAvaName(file.name);
-    } else {
-      setAvaName("");
+  const [title, setTitle] = useState("");
+  const [thumbnail, setThumbnail] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append('title', title);
+    formData.append('thumbnail', thumbnail);
+    formData.append('category', category);
+    formData.append('description', description);
+
+    try {
+      const response = await axios.post(`${newsServerUrl}dashboard/news/create/`, formData);
+      console.log(response);
+      if (response.data.status === "ok") {
+        alert("Yangilik muaffaqiyatli yuklandi.");
+        navigate('/dashboard/admin/admin-news');
+      } else {
+        alert("Yuklashda xatolik bor.");
+      }
+    } catch {
+      alert("Xatolik yuz berdi.");
     }
-  };
+  }
 
   return (
     <div id="admin-add-news">
@@ -72,7 +112,7 @@ const AddNews = () => {
           <span>Yangilik qo’shish</span>
         </div>
         <div className="form-list">
-          <form action="">
+          <form action="" onSubmit={ handleSubmit }>
             <div className="input-row">
               <label htmlFor="page-title">Sahifa sarlavhasi</label>
               <div className="inputs">
@@ -97,36 +137,7 @@ const AddNews = () => {
                   />
                 </svg>
 
-                <input type="text" placeholder="Sarlavhani kiriting" />
-              </div>
-
-              <div className="error-message">To'ldirilishi shart</div>
-            </div>
-            <div className="input-row">
-              <label htmlFor="meta-name">Meta nomi</label>
-              <div className="inputs">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16.0459 7.29397C16.0459 9.99661 14.3295 11.97 12.2123 11.97C10.0951 11.97 8.37874 9.99661 8.37874 7.29397C8.37874 4.59132 10.0951 2.40039 12.2123 2.40039C14.3295 2.40039 16.0459 4.59132 16.0459 7.29397Z"
-                    stroke="#B2B2B2"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M4.40059 15.8849C4.6754 15.3838 5.17974 15.0756 5.72513 15.0756H18.2756C18.821 15.0756 19.3254 15.3838 19.6002 15.8849L21.3892 19.1473C21.9855 20.2347 21.2481 21.6004 20.0647 21.6004H3.93613C2.75264 21.6004 2.01526 20.2347 2.61159 19.1473L4.40059 15.8849Z"
-                    stroke="#B2B2B2"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-
-                <input type="text" placeholder="Meta nomi" />
+                <input type="text" placeholder="Sarlavhani kiriting" value={ title } onChange={ (e) => { setTitle(e.target.value); } } />
               </div>
 
               <div className="error-message">To'ldirilishi shart</div>
@@ -147,20 +158,20 @@ const AddNews = () => {
                   />
                 </svg>
                 <label htmlFor="file" id="file-label">
-                  {avaName || "Rasm tanlang"}
+                  {thumbnail?.name || "Rasm tanlang"}
                 </label>
                 <input
                   type="file"
                   placeholder="Rasm tanlang"
                   id="file"
-                  onChange={handleFileChange}
+                  onChange={ (e) => { setThumbnail(e.target.files[0]); } }
                 />
               </div>
 
               <div className="error-message">To'ldirilishi shart</div>
             </div>
             <div className="input-row">
-              <label htmlFor="meta-name">Meta nomi</label>
+              <label htmlFor="meta-name">Kategoriya</label>
               <div className="inputs">
                 <svg
                   width="25"
@@ -178,19 +189,12 @@ const AddNews = () => {
                   />
                 </svg>
 
-                <select name="category" id="">
-                  <option value="">Category 1</option>
-                  <option value="">Category 2</option>
-                  <option value="">Category 3</option>
+                <select name="category" id="" value={ category } onChange={ (e) => { setCategory(e.target.value); } }>
+                  <option value="">Tanlang</option>
+                  {
+                    categories.map((value, index) => <option value={value.id} key={index}>{value.title}</option>)
+                  }
                 </select>
-              </div>
-
-              <div className="error-message">To'ldirilishi shart</div>
-            </div>
-            <div className="input-row textarea">
-              <label htmlFor="meta-name">Qisqa yozuv</label>
-              <div className="inputs">
-                <textarea name="" id="" placeholder="Matn"></textarea>
               </div>
 
               <div className="error-message">To'ldirilishi shart</div>
@@ -198,57 +202,7 @@ const AddNews = () => {
             <div className="input-row textarea h400">
               <label htmlFor="meta-name">Kontent</label>
               <div className="inputs">
-                <textarea name="" id="" placeholder="Kontent"></textarea>
-              </div>
-
-              <div className="error-message">To'ldirilishi shart</div>
-            </div>
-            <div className="input-row w30">
-              <label htmlFor="meta-name">
-                Holati{" "}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8 14.6667C11.6819 14.6667 14.6667 11.6819 14.6667 8C14.6667 4.3181 11.6819 1.33333 8 1.33333C4.3181 1.33333 1.33333 4.3181 1.33333 8C1.33333 11.6819 4.3181 14.6667 8 14.6667ZM8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-                    fill="#B3B3B3"
-                  />
-                  <path
-                    d="M7.5825 10.552C7.5105 10.552 7.4505 10.532 7.4025 10.492C7.3545 10.444 7.3305 10.38 7.3305 10.3C7.3305 10.22 7.3305 10.14 7.3305 10.06C7.3305 9.98 7.3305 9.9 7.3305 9.82C7.3465 9.476 7.4225 9.172 7.5585 8.908C7.6945 8.644 7.8585 8.404 8.0505 8.188C8.2505 7.972 8.4505 7.768 8.6505 7.576C8.8505 7.376 9.0185 7.176 9.1545 6.976C9.2985 6.776 9.3865 6.564 9.4185 6.34C9.4505 6.052 9.3945 5.812 9.2505 5.62C9.1065 5.42 8.9105 5.268 8.6625 5.164C8.4145 5.06 8.1585 5.008 7.8945 5.008C7.4705 5.008 7.1065 5.12 6.8025 5.344C6.5065 5.56 6.3105 5.928 6.2145 6.448C6.1905 6.544 6.1505 6.612 6.0945 6.652C6.0385 6.692 5.9745 6.712 5.9025 6.712H5.3265C5.2545 6.712 5.1905 6.688 5.1345 6.64C5.0865 6.592 5.0625 6.528 5.0625 6.448C5.0705 6.12 5.1425 5.808 5.2785 5.512C5.4145 5.216 5.6065 4.956 5.8545 4.732C6.1105 4.508 6.4105 4.332 6.7545 4.204C7.1065 4.068 7.4985 4 7.9305 4C8.4185 4 8.8345 4.068 9.1785 4.204C9.5305 4.332 9.8105 4.508 10.0185 4.732C10.2345 4.948 10.3905 5.188 10.4865 5.452C10.5825 5.716 10.6225 5.98 10.6065 6.244C10.5825 6.564 10.5025 6.852 10.3665 7.108C10.2305 7.356 10.0665 7.588 9.8745 7.804C9.6825 8.012 9.4865 8.22 9.2865 8.428C9.0945 8.628 8.9265 8.84 8.7825 9.064C8.6465 9.28 8.5705 9.516 8.5545 9.772C8.5465 9.86 8.5385 9.948 8.5305 10.036C8.5305 10.116 8.5305 10.196 8.5305 10.276C8.5145 10.364 8.4825 10.432 8.4345 10.48C8.3865 10.528 8.3185 10.552 8.2305 10.552H7.5825ZM7.4865 12.52C7.4065 12.52 7.3385 12.496 7.2825 12.448C7.2345 12.392 7.2105 12.324 7.2105 12.244V11.512C7.2105 11.432 7.2345 11.368 7.2825 11.32C7.3385 11.264 7.4065 11.236 7.4865 11.236H8.2665C8.3545 11.236 8.4225 11.264 8.4705 11.32C8.5265 11.368 8.5545 11.432 8.5545 11.512V12.244C8.5545 12.324 8.5265 12.392 8.4705 12.448C8.4225 12.496 8.3545 12.52 8.2665 12.52H7.4865Z"
-                    fill="#B3B3B3"
-                  />
-                </svg>
-              </label>
-              <div className="inputs">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.40039 11.9984C2.40039 6.6965 6.69846 2.39844 12.0004 2.39844C17.3023 2.39844 21.6004 6.6965 21.6004 11.9984C21.6004 17.3004 17.3023 21.5984 12.0004 21.5984C6.69846 21.5984 2.40039 17.3004 2.40039 11.9984Z"
-                    stroke="#B2B2B2"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M18.0004 12.4984V11.4984C18.0004 8.46087 15.538 5.99844 12.5004 5.99844C12.2242 5.99844 12.0004 6.22229 12.0004 6.49844V17.4984C12.0004 17.7746 12.2242 17.9984 12.5004 17.9984C15.538 17.9984 18.0004 15.536 18.0004 12.4984Z"
-                    stroke="#B2B2B2"
-                    strokeWidth="2"
-                  />
-                </svg>
-
-                <select name="status" id="">
-                  <option value="">Aktiv</option>
-                  <option value="">Aktiv emas</option>
-                </select>
+                <textarea name="" value={ description } onChange={ (e) => { setDescription(e.target.value); } } id="" placeholder="Kontent"></textarea>
               </div>
 
               <div className="error-message">To'ldirilishi shart</div>

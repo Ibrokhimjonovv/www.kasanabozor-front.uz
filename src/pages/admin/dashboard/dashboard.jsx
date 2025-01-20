@@ -377,7 +377,7 @@ const Dashboard = () => {
                 </div>
               )}
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="a"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -435,7 +435,7 @@ const Dashboard = () => {
                   <NavLink to="users-item">Moderator</NavLink>
                 </div>
               )}
-            </li>
+            </li> */}
             <li>
               <NavLink
                 to="n"
