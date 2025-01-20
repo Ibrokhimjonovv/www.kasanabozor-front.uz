@@ -150,7 +150,7 @@ const Documents = () => {
                   </svg>
                   Yuklab olish
                 </a>
-                <a href={doc.link} target="_blank" rel="noreferrer">
+                <a href={doc.link ? doc.link : `/`} target="_blank" rel="noreferrer">
                   <svg
                     width="16"
                     height="17"
@@ -171,7 +171,7 @@ const Documents = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  {getDomain(doc.link)}
+                  {doc.link ? getDomain(doc.link) : "Ko'rish"}
                 </a>
               </div>
             </div>))}
