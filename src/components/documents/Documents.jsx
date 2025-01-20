@@ -88,7 +88,7 @@ const Documents = () => {
                 </svg>
                 Yuklab olish
               </a>
-              <Link to="#">
+              <Link to={doc.link} target="_blank" rel="noreferrer">
                 <svg
                   width="16"
                   height="17"
