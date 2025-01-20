@@ -393,7 +393,12 @@ const NewsPage = () => {
                 <Link to={"/"}>
                   <div className={`news-card `}>
                     <div className="img-cont">
-                      <img src={`${mediaServerUrl}news${formatLink(news.thumbnail)}`} alt={news.title} />
+                      <img
+                        src={`${mediaServerUrl}news${formatLink(
+                          news.thumbnail
+                        )}`}
+                        alt={news.title}
+                      />
                     </div>
                     <div className="time">
                       <span id="date-time">
@@ -419,7 +424,7 @@ const NewsPage = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        {news.created_at.split('T')[0]}
+                        {news.created_at.split("T")[0]}
                       </span>
                       <span id="views-count">
                         <svg
@@ -459,15 +464,11 @@ const NewsPage = () => {
             <div className="showMoreBtn">
               {/* <button onClick={handleShowMore}>Ko'proq ko'rish</button> */}
               <div className="showMoreBtn">
-                <Link to={``}>
-                  Ko'proq ko'rish
-                </Link>
+                <Link to={``}>Ko'proq ko'rish</Link>
               </div>
             </div>
           </div>
         </div>
-
-        <Documents />
 
         <div className="forBackgroundColor">
           <div className="poster">
@@ -492,7 +493,9 @@ const NewsPage = () => {
           </div>
         </div>
 
-        {/* <HistoryOfSuccess /> */}
+        <HistoryOfSuccess />
+
+        <Documents />
 
         <h2 className="currency-title">Foydali ma'lumotlar</h2>
         <p className="currency-little-title">Iqlim va valyuta ma'lumotlari</p>
