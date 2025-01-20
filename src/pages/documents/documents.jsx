@@ -7,6 +7,28 @@ import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess
 import LittlePoster from "../../components/littlePoster/LittlePoster";
 import Weather from "../../components/weather/weather";
 import CurrencyRates from "../../components/converter/converter";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
+
+
+function getDomain(url, subdomain) {
+  subdomain = subdomain || false;
+
+  url = url.replace(/(https?:\/\/)?(www.)?/i, '');
+
+  if (!subdomain) {
+      url = url.split('.');
+
+      url = url.slice(url.length - 2).join('.');
+  }
+
+  if (url.indexOf('/') !== -1) {
+      return url.split('/')[0];
+  }
+
+  return url;
+}
+
+
 const Documents = () => {
   const { category } = useParams();
   const { documents } = useContext(MyContext);
@@ -90,19 +112,12 @@ const Documents = () => {
       <div className="docs">
         <div className="left-side">
           {currentDocs.slice(0, visibleNews).map((doc) => (
-            <Link
-              to={`/news/documents/${currentDocs[0]?.category
-                .replace(/\s+/g, "-")
-                .toLowerCase()}/${doc.title
-                .replace(/\s+/g, "-")
-                .toLowerCase()}`}
-              className="container"
-            >
+            <Link to={''} className="container">
               <div>
                 <p>{doc.title}</p>
-                <p>{doc.smallTitle}</p>
+                <p>{doc.subtitle}</p>
                 <div className="links">
-                  <a href={`${doc.pdf}`} download>
+                  <a href={`${mediaServerUrl}news${formatLink(doc.file)}`} download>
                     <svg
                       class="hover-effect"
                       width="16"
@@ -118,9 +133,9 @@ const Documents = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Yukab olish
+                    Yuklab olish
                   </a>
-                  <Link to="#">
+                  <a href={ doc.link } target="_blank" rel="noreferrer">
                     <svg
                       width="16"
                       height="17"
@@ -141,8 +156,8 @@ const Documents = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Lex.uz
-                  </Link>
+                    { getDomain(doc.link) }
+                  </a>
                 </div>
               </div>
             </Link>

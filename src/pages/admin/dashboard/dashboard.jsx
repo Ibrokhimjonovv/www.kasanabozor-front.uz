@@ -314,8 +314,8 @@ const Dashboard = () => {
                 <div className="item-dropdown open">
                   <NavLink to="/dashboard/admin/products">Mahsulotlar</NavLink>
                   <NavLink to="/dashboard/admin/categories">Kategoriyalar</NavLink>
-                  <NavLink to="/dashboard/admin/subcategories">Subkategoriyalar</NavLink>
-                  <NavLink to="/dashboard/admin/hashtags">Heshteglar</NavLink>
+                  {/* <NavLink to="/dashboard/admin/subcategories">Subkategoriyalar</NavLink> */}
+                  {/* <NavLink to="/dashboard/admin/hashtags">Heshteglar</NavLink> */}
                 </div>
               )}
             </li>

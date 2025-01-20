@@ -5,13 +5,14 @@ import img from "./posterImg.png";
 import backgroundImg from "./backgroundImg.png";
 import TopCourses from "../../components/topCourses/topCourses";
 import posterImg2 from "./posterImg2.png";
-import Discount from "../../components/discount/Discount";
+// import Discount from "../../components/discount/Discount";
 import { MyContext } from "../../context/myContext";
 import HistoryOfSuccess from "../../components/historyOfSuccess/historyOfSuccess";
 import ProTeachers from "../../components/goodTeachers/goodTeachers";
 import SuggestCourses from "../../components/suggestCourses/suggestCourses";
 import Success from "../../components/success/Success";
 import LittlePoster from "../../components/littlePoster/LittlePoster";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const CoursesPage = () => {
@@ -93,7 +94,7 @@ const CoursesPage = () => {
                 // style={{ transitionDelay: `${delay}ms` }}
               >
                 <div className="card-img">
-                  <img src={course.img} alt={course.title} />
+                  <img src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`} alt={course.title} />
                 </div>
 
                 <p className="card-title">{course.title}</p>
@@ -176,9 +177,9 @@ const CoursesPage = () => {
                 </div>
                 <div className="author">
                   <div className="author-img">
-                    <img src={course.profileImg} alt={course.author} />
+                    <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.author} />
                   </div>
-                  <p className="author-name">{course.author}</p>
+                  <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                 </div>
               </div>
             </Link>

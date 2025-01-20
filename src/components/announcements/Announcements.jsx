@@ -3,6 +3,7 @@ import "./Announcements.scss";
 import { Link } from "react-router-dom";
 import defaultImg from "./default.png";
 import { MyContext } from "../../context/myContext";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 const Announcements = () => {
   const { announcements } = useContext(MyContext);
@@ -34,11 +35,11 @@ const Announcements = () => {
           <Link to="#">Ko'proq ko'rish</Link>
         </div>
         <div className="announcements-cards">
-          {announcements.map((announcement, index) => (
-            <Link to="#" key={announcement.id} className="scroll-fade-effect home-news">
+          {announcements.map((announcement) => (
+            <Link to={`/announcements/${announcement.id}`} key={announcement.id} className="scroll-fade-effect home-news">
               <div className="card ">
                 <p className="title">{announcement.title}</p>
-                <p className="price">{announcement.price}</p>
+                {/* <p className="price">{announcement.price_min}</p> */}
                 <div className="details">
                   {/*announcement.details.map((detail, index) => (
                     <div className="detail" key={index}>
@@ -48,10 +49,10 @@ const Announcements = () => {
                 </div>
                 <div className="author">
                   <img
-                    src={announcement.authorImg || defaultImg}
+                    src={`${mediaServerUrl}users${formatLink(announcement.user.pfp)}`}
                     alt=""
                   />
-                  <span>{announcement.author}</span>
+                  <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                 </div>
                 <div className="date-count">
                   <span>
@@ -77,7 +78,7 @@ const Announcements = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                    {announcement.date || "Aniq emas"}
+                    {announcement.created_at.split('T')[0]}
                   </span>
                   <span>
                     <svg

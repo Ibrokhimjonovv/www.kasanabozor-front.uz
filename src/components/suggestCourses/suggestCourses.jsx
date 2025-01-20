@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
-import Discount from "../discount/Discount";
+// import Discount from "../discount/Discount";
 import "./suggestCourses.scss"
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
 const SuggestCourses = () => {
@@ -24,7 +25,7 @@ const SuggestCourses = () => {
               className="course-card"
             >
               <div className="card-img">
-                <img src={course.img} alt={course.title} />
+                <img src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`} alt={course.title} />
               </div>
 
               <p className="card-title">{course.title}</p>
@@ -107,9 +108,9 @@ const SuggestCourses = () => {
               </div>
               <div className="author">
                 <div className="author-img">
-                  <img src={course.profileImg} alt={course.author} />
+                  <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.author} />
                 </div>
-                <p className="author-name">{course.author}</p>
+                <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
               </div>
             </div>
           </Link>
