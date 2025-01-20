@@ -31,6 +31,8 @@ const AddAnnounce = () => {
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
+  const [timeType, setTimeTypes] = useState(null);
+  const [experience, setExperience] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [filteredDistricts, setFilteredDistricts] = useState([]);
@@ -97,6 +99,7 @@ const AddAnnounce = () => {
   }, [selectedDistrict, villages]);
 
   const [announceTitle, setAnnounceTitle] = useState("");
+  const [announceImage, setAnnounceImage] = useState("");
   const [fAddress, setFAddress] = useState("");
   const [description, setDescription] = useState("");
 
@@ -106,16 +109,15 @@ const AddAnnounce = () => {
 
     formData.append('p_type', announceType);
     formData.append('title', announceTitle);
+    formData.append('thumbnail', announceImage);
     formData.append('price_min', minPrice);
     formData.append('price_max', maxPrice);
-    console.log(selectedRegion);
-    console.log(selectedDistrict);
-    formData.append('region', selectedRegion.name_uz);
-    formData.append('district', selectedDistrict.name_uz);
+    formData.append('region', "Keyinchalik qo'shiladi");
+    formData.append('district', "Keyinchalik qo'shiladi");
     formData.append('argued', isNegotiable);
     formData.append('address', fAddress);
-    formData.append('experience', 'No experience');
-    formData.append('type_type', 'Kechgi payt');
+    formData.append('experience', experience);
+    formData.append('type_type', timeType);
     formData.append('description', description);
 
     const response = await axios.post(`${announcementsServerUrl}announcements/create/`, formData);
@@ -403,9 +405,9 @@ const AddAnnounce = () => {
               </div>
             </div>
           </div>
-          <p>Xizmat sharoiti</p>
+          {/* <p>Xizmat sharoiti</p>
           <div className="address">
-            {/* Viloyat */}
+            Viloyat
             <div className="input-col">
               <label htmlFor="regions">Hududi</label>
               <div className="input-icon">
@@ -442,7 +444,7 @@ const AddAnnounce = () => {
                 </select>
               </div>
             </div>
-            {/* Tuman */}
+            Tuman
             <div className="input-col">
               <label htmlFor="districts">Tuman (Shaxar)</label>
               <div className="input-icon">
@@ -480,7 +482,7 @@ const AddAnnounce = () => {
                 </select>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="input-col w-100">
             <label htmlFor="announce-type">Manzil</label>
             <div className="input-icon">
@@ -518,12 +520,7 @@ const AddAnnounce = () => {
                   </defs>
                 </svg>
 
-                <select id="experience" name="experience">
-                  <option value="default">Tajribani tanlang</option>
-                  <option value="experience">Tajribani tanlang 1</option>
-                  <option value="experience">Tajribani tanlang 2</option>
-                  <option value="experience">Tajribani tanlang 3</option>
-                </select>
+                <input type="text" placeholder="2yil, 4yil+ va hokazo" value={ experience } onChange={ (e) => { setExperience(e.target.value); } }/>
               </div>
             </div>
             <div className="input-col">
@@ -545,10 +542,10 @@ const AddAnnounce = () => {
                   />
                 </svg>
 
-                <select id="work-time" name="work-time">
-                  <option value="default">Vaqtni tanlang</option>
-                  <option value="default">Vaqtni tanlang 1</option>
-                  <option value="default">Vaqtni tanlang 1</option>
+                <select id="work-time" name="work-time" value={ timeType } onChange={ (e) => { setTimeTypes(e.target.value); } }>
+                  <option value="To'liq ish vaqti">To'liq ish vaqti</option>
+                  <option value="Yarim ish vaqti">Yarim ish vaqti</option>
+                  <option value="Moslashuvchan ish vaqti">Moslashuvchan ish vaqti</option>
                 </select>
               </div>
             </div>

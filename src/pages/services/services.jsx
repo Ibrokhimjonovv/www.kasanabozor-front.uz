@@ -5,15 +5,36 @@ import defaultImg from "../../assets/default.png";
 import Loading from "../../components/loading/loading";
 import "./services.scss";
 import SearchBar from "../../components/searchBar/searchBar";
+import { announcementsServerUrl, formatLink, mediaServerUrl } from "../../SuperVars";
+import axios from "axios";
+
+
 const Services = () => {
   const { services } = useContext(MyContext);
   const [currentService, setCurrentService] = useState(null);
   const { id } = useParams();
   const [savedServices, setSavedServices] = useState([]);
+  
+  
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${announcementsServerUrl}announcements/exact/`, {'id': id});
+      if (response.data.status === "ok") {
+        setCurrentService(response.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
-    const foundService = services.find((item) => item.id === parseInt(id));
-    setCurrentService(foundService);
-  }, [id, services]);
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [id]);
+
+  
   if (!currentService) {
     return (
       <p>
@@ -205,26 +226,26 @@ const Services = () => {
                       </button>
 
                       <div className="hero-img-title">
-                        <img className="heroImg" src={service.heroImg} alt="" />
+                        { service.thumbnail ? <img className="heroImg" src={`${mediaServerUrl}services${formatLink(service.thumbnail)}`} alt="" /> : <></> }
                         <div>
                           <p className="title">{service.title}</p>
-                          <p className="price">{service.price}</p>
+                          <p className="price">{ service.argued ? <>Kelishiladi</> : <>{service.price_min} SO'M</> }</p>
                           <div className="details">
-                            {service.details.map((detail, index) => (
+                            {/* {service.details.map((detail, index) => (
                               <div className="detail" key={index}>
                                 {detail}
                               </div>
-                            ))}
+                            ))} */}
                           </div>
                         </div>
                       </div>
                       <div className="author">
-                        <img src={service.authorImg || "/default.png"} alt="" />
+                        <img src={`${mediaServerUrl}users${formatLink(service.user.pfp)}`} alt="" />
                         <span>{service.author}</span>
                       </div>
                       <div className="date-count">
-                        <span>{service.date || "Aniq emas"}</span>
-                        <span>{service.views || 0}</span>
+                        <span>{service.created_at.split('T')[0]}</span>
+                        <span>{service.views || 0} ko'rishlar</span>
                       </div>
                     </div>
                   </Link>
@@ -233,14 +254,14 @@ const Services = () => {
             </div>
           </div>
           <div className="right-side">
-            <div className="hero-img-detail">
-              <img src={currentService?.heroImg} alt="" />
-            </div>
+            { currentService.thumbnail &&  <div className="hero-img-detail">
+              <img src={`${mediaServerUrl}announcements${formatLink(currentService.thumbnail)}`} alt="" />
+            </div> }
             <div className="top-side">
               <div className="top-left">
                 <div className="author">
-                  <img src={currentService?.authorImg || defaultImg} alt="" />
-                  <span>{currentService?.author || "undefinde"}</span>
+                  <img src={`${mediaServerUrl}users${formatLink(currentService.user.pfp)}`} alt="" />
+                  <span>{currentService.user.first_name} {currentService.user.last_name}</span>
                 </div>
                 <div className="cur-title">{currentService.title}</div>
               </div>
@@ -333,7 +354,7 @@ const Services = () => {
                 </span>
                 <div className="text">
                   <p>Lokatsiya</p>
-                  <p>{currentService?.location || "Kiritilmagan"}</p>
+                  <p>{currentService.address}</p>
                 </div>
               </li>
               <li>
@@ -363,7 +384,7 @@ const Services = () => {
                 </span>
                 <div className="text">
                   <p>Ish vaqti</p>
-                  <p>{currentService?.timeWork || "Kiritilmagan"}</p>
+                  <p>{currentService.type_type}</p>
                 </div>
               </li>
               <li>
@@ -386,60 +407,21 @@ const Services = () => {
                 </span>
                 <div className="text">
                   <p>Ish haqqi</p>
-                  <p>{currentService?.price || "Kiritilmagan"}</p>
+                  <p>{currentService.argued ? <>Kelishiladi</> : <>{currentService.price_min} SO'M</>}</p>
                 </div>
               </li>
             </ul>
             <div className="other-details">
-              <h2>Ish vazifalari</h2>
-              <ul>
-                <li>
-                  Novvoyga yordam berish: xamir tayyorlash, pishirish
-                  jarayonlariga yordam.
-                </li>
-                <li>
-                  Novvoyga yordam berish: xamir tayyorlash, pishirish
-                  jarayonlariga yordam.
-                </li>
-                <li>Ish joyini toza va tartibli saqlash.</li>
-              </ul>
+              { currentService.description }
             </div>
-            <div className="other-details">
-              <h2>Talablar</h2>
-              <ul>
-                <li>
-                  Novvoychilik sohasida tajriba afzal, lekin yangi
-                  o‘rganuvchilar ham qabul qilinadi.
-                </li>
-                <li>Jismoniy jihatdan sog‘lom va mehnatsevar bo‘lish.</li>
-                <li>Jamoada ishlash ko‘nikmasi.</li>
-              </ul>
-            </div>
-            <div className="other-details">
-              <h2>Taklif qilamiz</h2>
-              <ul>
-                <li>Barqaror oylik maosh.</li>
-                <li>O‘rganish va professional rivojlanish imkoniyati.</li>
-                <li>Do‘stona va hamkorlikka asoslangan jamoa.</li>
-              </ul>
-            </div>
-            <div className="other-details">
-              <h2>Aloqa:</h2>
-              <ul>
-                <li>
-                  Ishga qiziqqanlar o‘z rezyumesini [email yoki telefon raqamini
-                  kiriting] ga yuborishlari yoki [manzilni kiriting] ga
-                  kelishlari mumkin.
-                </li>
-              </ul>
-            </div>
-
+            
+            {/* ?
             <div className="hashtags">
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ import axios from "axios";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess, setIsAuthenticated } = useContext(MyContext);
+  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess, setIsAuthenticated, loadUserData } = useContext(MyContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const toggleDropDown = () => {
@@ -86,7 +86,8 @@ const Login = () => {
 
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
-
+      
+      loadUserData();
       setIsAuthenticated(true);
       navigate("/");
     } catch (err) {

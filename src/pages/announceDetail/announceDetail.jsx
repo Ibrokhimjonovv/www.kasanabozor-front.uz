@@ -439,7 +439,9 @@ const AnnounceDetail = () => {
                 </span>
                 <div className="text">
                   <p>Ish haqqi</p>
-                  <p>{currentAnnounce.price_min} SO'M</p>
+                  <p>{
+                    currentAnnounce.argued ? <>Kelishiladi</> : <>{currentAnnounce.price_min} SO'M</>
+                  }</p>
                 </div>
               </li>
             </ul>
@@ -448,12 +450,12 @@ const AnnounceDetail = () => {
               <p>{currentAnnounce.description}</p>
             </div>
             
-            <div className="hashtags">
+            {/* <div className="hashtags">
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div
