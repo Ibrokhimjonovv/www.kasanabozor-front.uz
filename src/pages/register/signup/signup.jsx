@@ -73,7 +73,7 @@ const Signup = () => {
 
     return newErrors;
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -137,7 +137,6 @@ const Signup = () => {
     }
   };
 
-  const [smsCode, setSmsCode] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
   const [step, setStep] = useState(1);
   const [timer, setTimer] = useState(122);
