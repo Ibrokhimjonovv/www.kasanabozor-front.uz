@@ -281,13 +281,14 @@
 
 @media screen and (max-width: 500px) {
     #signup-cont {
-        margin: 0 13px 15px;
+        margin: 0;
         .signup-header {
             .signup-header-right {
                 display: none;
             }           
         }       
         .signup-container {
+            margin: 0 12px;
             .signup-top-text {
                 text-align: start;
 

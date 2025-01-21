@@ -580,7 +580,7 @@ const Signup = () => {
                   SMS kodni qayta yuborish
                 </button>
               )}
-              <button onClick={(e) => handleVerify(e)} disabled={loading}>
+              <button type="button" onClick={(e) => handleVerify(e)} disabled={loading}>
                 {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
               </button>
               {phoneErr && <p style={{ color: "red" }}>{phoneErr}</p>}
