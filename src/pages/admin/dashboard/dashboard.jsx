@@ -429,10 +429,8 @@ const Dashboard = () => {
               </NavLink>
               {dropdownStates.menu5 && (
                 <div className="item-dropdown open">
-                  <NavLink to="users-item">Foydalanuvchilar</NavLink>
-                  <NavLink to="users-item">Kasanachilar</NavLink>
-                  <NavLink to="users-item">Adminlar</NavLink>
-                  <NavLink to="users-item">Moderator</NavLink>
+                  <NavLink to="/dashboard/admin/work-announces">Ish e'lonlari</NavLink>
+                  <NavLink to="/dashboard/admin/service-announces">Xizmat e'lonlari</NavLink>
                 </div>
               )}
             </li> */}

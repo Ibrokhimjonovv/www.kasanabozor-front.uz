@@ -1,0 +1,385 @@
+.admin-add-announce {
+
+    .tool{
+        .tool-right {
+            .offcanvas {
+                width: 700px !important;
+                form {
+                    padding: 0 20px;
+                    max-width: 1250px;
+                    margin: 30px auto 30px;
+                    background-color: #fff;
+                    border-radius: 10px;
+            
+                    .big-title {
+                        font-size: 24px;
+                        font-weight: 600;
+                    }
+
+                    p, label {
+                        width: 100%;
+                    }
+
+                    select {
+                        color: #767676 !important;
+                    }
+            
+                    textarea {
+                        width: 100%;
+                        height: 200px;
+                        border-radius: 8px;
+                        background-color: #F8F8F8 !important;
+                        border: 2px solid #f2f2f2 !important;
+                        resize: none;
+                        border: none;
+                        padding: 10px;
+                        outline: none;
+                        font-size: 16px;
+                    }
+            
+                    .input-col {
+                        width: 100%;
+                        position: relative;
+                        margin-top: 10px;
+            
+                        &.w-100 {
+                            width: 100%;
+                        }
+            
+                        label {
+                            color: #767676;
+                        }
+            
+                        .input-icon {
+                            position: relative;
+                            margin-top: 5px;
+
+                            .inputs {
+                                .checker {
+                                    .checkbox {
+                                        width: 72px !important;
+                                    }
+                                }
+                            }
+
+                            svg {
+                                position: absolute;
+                                left: 11px;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                width: 24px;
+                                height: 24px;
+                            }
+            
+                            input,
+                            select {
+                                width: 100%;
+                                height: 45px;
+                                border: 1px solid #F2F2F2;
+                                background-color: transparent;
+                                font-size: 16px;
+                                padding: 7px 10px 7px 39px;
+                                border-radius: 5px;
+                                outline: none;
+                                color: #303030;
+            
+            
+                                &.input-p-0 {
+                                    padding-left: 10px;
+                                    background-color: #F8F8F8;
+                                }
+                            }
+                        }
+            
+                        .inputs {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+            
+                            input {
+                                background-color: #F8F8F8;
+                            }
+            
+                            .checker {
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+            
+                                input {
+                                    display: none;
+            
+                                    &:checked~.checkbox {
+                                        background-color: #41A58D;
+                                    }
+                                }
+            
+                                .checkbox {
+                                    width: 72px;
+                                    height: 26px;
+                                    background-color: rgb(231, 244, 241);
+                                    border-radius: 20px;
+                                    display: block;
+                                    position: relative;
+                                    padding: 2px;
+                                    cursor: pointer;
+                                    transition: all 0.5s;
+            
+                                    span {
+                                        display: block;
+                                        width: 23px;
+                                        height: 89%;
+                                        border-radius: 50%;
+                                        background-color: #fff;
+                                        position: absolute;
+                                        left: 1px;
+                                        top: 50%;
+                                        transform: translateY(-50%);
+                                        transition: all 0.5s;
+            
+                                        &.active {
+                                            left: 48.5%;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+            
+                        .input-icons {
+                            display: flex;
+                            gap: 10px;
+            
+                            button {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 7px;
+                                position: relative !important;
+                            }
+            
+                            button[type="submit"] {
+                                width: 200px;
+                                height: 45px;
+                                color: #fff;
+                                border-radius: 7px;
+                                font-size: 16px;
+                                cursor: pointer;
+                                border: none;
+                                background-color: #41A58D !important;
+                                color: #fff;
+                            }
+            
+                            button[type="button"] {
+                                width: 180px;
+                                height: 45px;
+                                background-color: transparent;
+                                color: #fff;
+                                border-radius: 7px;
+                                font-size: 16px;
+                                cursor: pointer;
+                                border: none;
+                                border: 1px solid #41A58D;
+                                color: #41A58D;
+                            }
+            
+                            #canc {
+                                width: 180px;
+                                height: 45px;
+                                background-color: transparent;
+                                color: #fff;
+                                border-radius: 7px;
+                                font-size: 16px;
+                                cursor: pointer;
+                                border: none;
+                                border: 1px solid transparent;
+                                color: #41A58D;
+                            }
+                        }
+                    }
+            
+                    .address,
+                    .timm {
+                        display: flex;
+                        gap: 20px;
+                        width: 100%;
+            
+                        .input-icon {
+            
+                            select {
+                                background-color: #F8F8F8;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#addAnn-link {
+    position: relative;
+    color: #41A58D !important;
+    font-weight: 600;
+
+    svg path {
+        stroke: #41A58D !important;
+    }
+
+    &::after {
+        position: absolute;
+        content: "";
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px !important;
+        background-color: #41A58D !important;
+        // display: block;
+    }
+}
+
+.add-announce-mobile-version {
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    #addAnnounce {
+        padding-top: 0;
+        margin-top: 120px;
+        margin-bottom: 80px;
+
+        .to-back {
+            background-color: #41A58D;
+            height: 50px;
+
+            .backInner {
+                margin: 0 auto;
+                max-width: 1366px;
+                align-items: center;
+                display: flex;
+                height: 100%;
+                padding: 0 20px;
+                color: #fff;
+
+                span {
+                    display: flex;
+                    align-items: center;
+                    font-size: 15px;
+                }
+                
+                a {
+                    font-size: 15px;
+                    color: #fff;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+        }
+
+        .search-container {
+            display: flex;
+            gap: 5px;
+            padding: 10px 20px;
+            background-color: #fff;
+            align-items: center;
+
+            a {
+                background-color: #41A58D;
+                color: #fff;
+                padding: 7px 7px;
+                border-radius: 7px;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 3px;
+
+                svg {
+                    path {
+                        stroke: #fff !important;
+                    }
+                }
+            }
+
+            #search-bar {
+                width: 64%;
+
+                form {
+                    input {
+                        width: 100%;
+                        font-size: 15px;
+                        border-radius: 20px 0 0 20px;
+                        height: 40px;
+                        padding-right: 0;
+                    }
+
+                    button {
+                        border-radius: 0 20px 20px 0;
+                        background-color: #f2f2f2;
+                        height: 40px;
+
+                        svg {
+                            path {
+                                stroke: #41A58D;
+                            }
+
+                            ;
+                        }
+                    }
+                }
+            }
+        }
+
+        .announce-form-container {
+            padding: 20px;
+            margin: 20px;
+
+            form {
+                .input-col {
+                    width: 100%;
+                    .inputs {
+                        flex-direction: column;
+                    }
+                    .input-icon {
+                        width: 100%;
+                        input, select {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .input-col {
+                    .input-icons {
+                        flex-direction: column;
+                        button {
+                            width: 100% !important;
+
+                            &#canc {
+                                color: red !important;
+
+                                svg {
+                                    path {
+                                        stroke: red;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .address, .timm {
+                    flex-direction: column;
+                    gap: 5px;
+                }
+            }
+        }
+        
+        .announceSelect {
+            #addAnn-link {
+                display: none;
+            }
+        }
+    }
+
+}
