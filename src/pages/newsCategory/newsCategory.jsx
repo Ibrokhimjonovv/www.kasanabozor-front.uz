@@ -7,34 +7,28 @@ import Weather from "../../components/weather/weather";
 import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import SearchBar from "../../components/searchBar/searchBar";
 import CurrencyRates from "../../components/converter/converter";
+import Loading from "../../components/loading/loading";
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 const NewsCategory = () => {
   const { category } = useParams();
-  const { newsList } = useContext(MyContext);
+  const { newsList, newsCategories } = useContext(MyContext);
   const [categoryOpen, setCategoryOpen] = useState(false);
-  const categories = [
-    { id: 1, category: "Qonunchilik" },
-    { id: 2, category: "Huquqiy hujjatlar" },
-    { id: 3, category: "Kasanachilik" },
-    { id: 4, category: "Ilmiy ommabop" },
-    { id: 5, category: "Loyihalar" },
-    { id: 6, category: "Video yangiliklar" },
-    { id: 7, category: "Meyoriy huquqiy hujjatlar" },
-  ];
-  function formatCategory(category) {
-    if (!category) return "";
-    const formattedCategory = category.replace(/-/g, " ").split(" ");
-    formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
-    return formattedCategory.join(" ");
+
+  if (newsCategories.length <= 0) {
+    return <Loading/>;
   }
+
+  const fc = Array.from(newsCategories).find((value) => { return parseInt(value.id) === parseInt(category) });
+  
   const legislativeNews = newsList.filter(
-    (news) => news.category === formatCategory(category)
+    (news) => news.category.id === parseInt(category)
   );
 
   const toggleCategory = () => {
-    setCategoryOpen(!categoryOpen)
-  }
+    setCategoryOpen(!categoryOpen);
+  };
+
   return (
     <div id="newsCategory">
       <div className="to-back">
@@ -89,7 +83,7 @@ const NewsCategory = () => {
               />
             </svg>
           </span>
-          <span>{formatCategory(category)}</span>
+          <span>{fc.title}</span>
         </div>
       </div>
       <div className="news-search-bar">
@@ -115,17 +109,19 @@ const NewsCategory = () => {
               fill="white"
             />
           </svg>
-          <div className={`categories categories-mobile-version ${categoryOpen ? "active" : ""}`}>
-            <h2>Katgoriyalar</h2>
+          <div
+            className={`categories categories-mobile-version ${
+              categoryOpen ? "active" : ""
+            }`}
+          >
+            <h2>Kategoriyalar</h2>
             <ul>
-              {categories.map((category, index) => (
+              {newsCategories.map((category, index) => (
                 <li key={index}>
                   <Link
-                    to={`/news/${category.category
-                      .replace(/\s+/g, "-")
-                      .toLowerCase()}`}
+                    to={`/news/${category.id}`}
                   >
-                    {category.category}
+                    {category.title}
                   </Link>
                 </li>
               ))}
@@ -135,7 +131,7 @@ const NewsCategory = () => {
       </div>
       <div className="allProductsPoster">
         <div className="posterInner">
-          <h2>{formatCategory(category)} yangiliklari</h2>
+          <h2>{fc.title} yangiliklari</h2>
           <img src={aaa} alt="" />
         </div>
       </div>
@@ -147,7 +143,7 @@ const NewsCategory = () => {
                 <Link to={`${news.id}`} className="news-card-link">
                   <div className="news-card">
                     <div className="img-cont">
-                      <img src={news.img} alt={news.title} />
+                      <img src={`${mediaServerUrl}news${formatLink(news.thumbnail)}`} alt={news.title} />
                     </div>
                     <div className="time">
                       <span id="date-time">
@@ -173,7 +169,7 @@ const NewsCategory = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        {news.date}
+                        {news.created_at.split('T')[0]}
                       </span>
                       <span id="views-count">
                         <svg
@@ -198,12 +194,12 @@ const NewsCategory = () => {
                             strokeLinejoin="round"
                           />
                         </svg>
-                        {news.views}
+                        {news.views || 0}
                       </span>
                     </div>
                     <div className="news-title">{news.title}</div>
                     <div className="news-description">{news.description}</div>
-                    <div className="type">{news.type}</div>
+                    {/* <div className="type">{news.category}</div> */}
                   </div>
                 </Link>
               ))

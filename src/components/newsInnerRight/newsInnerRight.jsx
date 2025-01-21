@@ -1,26 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./newsInnerRight.scss";
 import { Link } from "react-router-dom";
+import { MyContext } from "../../context/myContext";
 
 const NewsInnerRight = () => {
-  const categories = [
-    { id: 1, category: "Qonunchilik" },
-    { id: 2, category: "Huquqiy hujjatlar" },
-    { id: 3, category: "Kasanachilik" },
-    { id: 4, category: "Ilmiy ommabop" },
-    { id: 5, category: "Loyihalar" },
-    { id: 6, category: "Video yangiliklar" },
-    { id: 7, category: "Meyoriy huquqiy hujjatlar" },
-  ];
+  const {newsCategories} = useContext(MyContext);
+
+  if (newsCategories.length <= 0) {
+    return <></>;
+  }
+
   return (
     <div className="right-side">
       <div className="categories categories-desktop-version">
         <h2>Katgoriyalar</h2>
         <ul>
           {
-            categories.map((category, index) => (
+            newsCategories.map((category, index) => (
               <li key={index}>
-                <Link to={`/news/${category.category.replace(/\s+/g, '-').toLowerCase()}`}>{category.category}</Link>
+                <Link to={`/news/${category.id}`}>{category.title}</Link>
               </li>
             ))
           }

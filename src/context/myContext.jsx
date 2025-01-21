@@ -7,6 +7,7 @@ export const MyContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [newsList, setNewList] = useState([]);
+  const [newsCategories, setNewsCategories] = useState([]);
   const [legislativeDoc, setLegislativeDoc] = useState([]);
   const [bussinessDoc, setBussinessDoc] = useState([]);
   const [courseCategories, setCourseCategories] = useState([]);
@@ -153,6 +154,7 @@ export const MyContextProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     }
+
     try {
       const newsResponse = await axios.get(`${newsServerUrl}news/list/`);
       if (newsResponse.data.status === "ok") {
@@ -161,6 +163,16 @@ export const MyContextProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     }
+    
+    try {
+      const newsCategoriesResponse = await axios.get(`${newsServerUrl}category/list/`);
+      if (newsCategoriesResponse.data.status === "ok") {
+        setNewsCategories(newsCategoriesResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    
     setLoadStart(false);
     setLoadSuccess(true);
   };
@@ -180,6 +192,7 @@ export const MyContextProvider = ({ children }) => {
       value={{
         products,
         newsList,
+        newsCategories,
         legislativeDoc,
         bussinessDoc,
         courses,

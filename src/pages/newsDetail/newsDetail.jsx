@@ -2,36 +2,51 @@ import React, { useContext, useEffect, useState } from "react";
 import "./newsDetail.scss";
 import { useParams, Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
-import heroImg from "./heroImg.jpg";
-import q from "./“.png";
-import AddComments from "../../components/addComments/addComments";
+// import heroImg from "./heroImg.jpg";
+// import q from "./“.png";
+// import AddComments from "../../components/addComments/addComments";
 import NewsInnerRight from "../../components/newsInnerRight/newsInnerRight";
 import posterImg2 from "./posterImg2.png";
 import Weather from "../../components/weather/weather";
 import Loading from "../../components/loading/loading";
-import CurrencyConverter from "../../components/converter/converter";
+// import CurrencyConverter from "../../components/converter/converter";
 import CurrencyRates from "../../components/converter/converter";
+import { formatLink, mediaServerUrl, newsServerUrl } from "../../SuperVars";
+import axios from "axios";
+
+
 const NewsDetail = () => {
-  const { newsList } = useContext(MyContext);
+  const { newsCategories } = useContext(MyContext);
   const { category, id } = useParams();
   const [newsItem, setNewsItem] = useState(null);
-  function formatCategory(category) {
-    if (!category) return "";
-    const formattedCategory = category
-      .replace(/-/g, " ") 
-      .split(" ");
-    formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
-    return formattedCategory.join(" ");
+
+
+  const loadData = async () => {
+    try {
+      const response = await axios.post(`${newsServerUrl}news/exact/`, {'id': id});
+      console.log(response);
+      if (response.data.status === "ok") {
+        setNewsItem(response.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
+
   useEffect(() => {
-    const selectedNews = newsList.find((item) => item.id === Number(id));
-    setNewsItem(selectedNews);
+    const timeout = setTimeout(loadData, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [id]);
-  const similliarNews = newsList.filter(
-    (news) => formatCategory(news.category) === formatCategory(category)
-  );
-  if (!newsItem) return <div><Loading /></div>;
+
+  
+  if (newsCategories.length <= 0 || !newsItem) {
+    return <Loading/>;
+  }
+
+  const fc = Array.from(newsCategories).find((value) => { return parseInt(value.id) === parseInt(category) });
+  
   return (
     <div id="newsInnerDetail">
       <div className="to-back">
@@ -86,7 +101,7 @@ const NewsDetail = () => {
               />
             </svg>
           </span>
-          <Link className="three-dot" to={`/news/${category}`}>{formatCategory(category)}</Link>
+          <Link className="three-dot" to={`/news/${fc.id}`}>{fc.title}</Link>
           <span>
             <svg
               width="16"
@@ -111,7 +126,7 @@ const NewsDetail = () => {
           <div className="left-top-side">
             <div className="hero-new">
               <div className="hero-img">
-                <img src={heroImg} alt="" />
+                <img src={`${mediaServerUrl}news${formatLink(newsItem.thumbnail)}`} alt="" />
               </div>
               <div className="hero-new-details">
                 <ul>
@@ -131,7 +146,7 @@ const NewsDetail = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span>{newsItem.postedDate}</span>
+                    <span>{newsItem.created_at.split('T')[0]}</span>
                   </li>
                   <li>
                     <svg
@@ -149,7 +164,7 @@ const NewsDetail = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span>{formatCategory(category)}</span>
+                    <span>{fc.title}</span>
                   </li>
                   <li>
                     <svg
@@ -181,9 +196,9 @@ const NewsDetail = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                    123 456
+                    <span>{newsItem.views || 0}</span>
                   </li>
-                  <li>
+                  {/* <li>
                     <svg
                       width="16"
                       height="16"
@@ -200,131 +215,36 @@ const NewsDetail = () => {
                       />
                     </svg>
                     32
-                  </li>
+                  </li> */}
                 </ul>
                 <div className="author">
-                  <img src={newsItem.authorImg} alt="" />
-                  <span>{newsItem.authorName}</span>
+                  <img src={`${mediaServerUrl}user${formatLink(newsItem.user.pfp)}`} alt="" />
+                  <span>{newsItem.user.first_name} {newsItem.user.last_name}</span>
                 </div>
               </div>
             </div>
             <div className="about-hero">
-              <h1 className="hero-title title">
-                Kutmang. Bizning hayotimizning maqsadi baxtli bo'lishdir!
-              </h1>
-              <p className="simpleText">
-                Kelib yetganingizda, xonada tabiiy yog'ochni tozalash uchun
-                ishlatiladigan limon balzamining yoqimli hididan zavqlanasiz, bu
-                esa muhitni tinchlantiruvchi atmosferaga aylantiradi. Mening
-                butun ruhimni ajoyib tinchlik egallab oldi, bahorning shirin
-                tonglari kabi, men buni butun qalbim bilan bahramand bo'laman.
-                Men yolg'izman va bu joyda mavjudlikning jozibasini his qilaman,
-                bu joy mening kabi ruhlar uchun baxt uchun yaratilgan. Men juda
-                baxtliman, aziz do'stim, noziklikka to'la.
-              </p>
-              <div className="other-text">
-                <img src={q} alt="" />
-                <h2>
-                  O‘zini o‘zi band qilgan shaxslar, o‘z maqsadlariga erishish
-                  uchun turli xil faoliyatlar
-                </h2>
-                <p>
-                  Hayajoningizni qondirishga tayyor bo'lganda, kurortning suv
-                  sportlari markazida mavjud bo'lgan suv sportlari
-                  imkoniyatlarini ko'rib chiqing. Stressingizni suvda
-                  qoldirmoqchimisiz? Kurortda kayaklar, paddleboardlar yoki
-                  tinch pedal qayiqchalari mavjud.
-                </p>
-              </div>
-              <h1 className="title">
-                Qancha vaqt emas, balki qanday yashaganingiz asosiy narsadir.
-              </h1>
-              <p className="simpleText">
-                Hayajoningizni qondirishga tayyor bo'lganda, kurortning suv
-                sportlari markazida mavjud bo'lgan suv sportlari imkoniyatlarini
-                ko'rib chiqing. Stressingizni suvda qoldirmoqchimisiz? Kurortda
-                kayaklar, paddleboardlar yoki tinch pedal qayiqchalari mavjud.
-                Shuningdek, siz doimiy o'zgarib turadigan dengiz osti muhitini
-                tajribadan o'tkazishingiz uchun snorkel uskunalari ham mavjud.
-                Yotoqxonalarga tashrif buyuruvchilar, tashrif buyurayotgan
-                joylari haqida noyob nuqtai nazar olish bilan birga, boshqa
-                mehmonxona sharoitlarida mavjud bo'lmagan maxsus paketlar uchun
-                variantlarga ega. Yotoqxonalarning mahalliy bizneslar bilan
-                hamkorlik qilishlari oson, bu esa yaxshi tashkil etilgan va
-                shaxsiylashtirilgan ta'til tajribasini ta'minlaydi. Fife va Drum
-                Inn tarixiy Uchburchak Paketini taklif etadi, bu esa Inn'da uch
-                kecha, nonushtalar va tarixiy Williamsburg, Jamestown va
-                Yorktown'ga kirish huquqini o'z ichiga oladi. Yotoqxonalarda
-                romantikaga ham mos keladi. Yotoqxonaning jozibasining bir qismi
-                - bu noyoblik; san'at, bezak va ovqat birlashtirilgan holda
-                to'liq tajribani yaratadi. Masalan, Fife va Drum mehmon
-                xonalarida hududning kolonial tuyg'usini saqlab qoladi. Maxsus
-                xususiyatlar orasida antik mebellar, ba'zi mehmon xonalarida
-                zamonaviy to'rt ustunli yotoqlar, shuningdek, mehmonlar uchun
-                tarixiy hududning tiklanish davridan qolgan xalq san'ati va
-                artefaktlar mavjud.
-              </p>
-              <div className="other-text">
-                <img src={q} alt="" />
-                <h2>
-                  O‘zini o‘zi band qilgan shaxslar, o‘z maqsadlariga erishish
-                  uchun turli xil faoliyatlar
-                </h2>
-                <p>
-                  Hayajoningizni qondirishga tayyor bo'lganda, kurortning suv
-                  sportlari markazida mavjud bo'lgan suv sportlari
-                  imkoniyatlarini ko'rib chiqing. Stressingizni suvda
-                  qoldirmoqchimisiz? Kurortda kayaklar, paddleboardlar yoki
-                  tinch pedal qayiqchalari mavjud.
-                </p>
-              </div>
-              <h1 className="title">
-                Qancha vaqt emas, balki qanday yashaganingiz asosiy narsadir.
-              </h1>
-              <p className="simpleText">
-                Hayajoningizni qondirishga tayyor bo'lganda, kurortning suv
-                sportlari markazida mavjud bo'lgan suv sportlari imkoniyatlarini
-                ko'rib chiqing. Stressingizni suvda qoldirmoqchimisiz? Kurortda
-                kayaklar, paddleboardlar yoki tinch pedal qayiqchalari mavjud.
-                Shuningdek, siz doimiy o'zgarib turadigan dengiz osti muhitini
-                tajribadan o'tkazishingiz uchun snorkel uskunalari ham mavjud.
-                Yotoqxonalarga tashrif buyuruvchilar, tashrif buyurayotgan
-                joylari haqida noyob nuqtai nazar olish bilan birga, boshqa
-                mehmonxona sharoitlarida mavjud bo'lmagan maxsus paketlar uchun
-                variantlarga ega. Yotoqxonalarning mahalliy bizneslar bilan
-                hamkorlik qilishlari oson, bu esa yaxshi tashkil etilgan va
-                shaxsiylashtirilgan ta'til tajribasini ta'minlaydi. Fife va Drum
-                Inn tarixiy Uchburchak Paketini taklif etadi, bu esa Inn'da uch
-                kecha, nonushtalar va tarixiy Williamsburg, Jamestown va
-                Yorktown'ga kirish huquqini o'z ichiga oladi. Yotoqxonalarda
-                romantikaga ham mos keladi. Yotoqxonaning jozibasining bir qismi
-                - bu noyoblik; san'at, bezak va ovqat birlashtirilgan holda
-                to'liq tajribani yaratadi. Masalan, Fife va Drum mehmon
-                xonalarida hududning kolonial tuyg'usini saqlab qoladi. Maxsus
-                xususiyatlar orasida antik mebellar, ba'zi mehmon xonalarida
-                zamonaviy to'rt ustunli yotoqlar, shuningdek, mehmonlar uchun
-                tarixiy hududning tiklanish davridan qolgan xalq san'ati va
-                artefaktlar mavjud.
-              </p>
+              <h1 style={{ marginBottom: '8px' }}>{newsItem.title}</h1>
+              <p>{newsItem.description}</p>
             </div>
 
-            <div className="hashtags">
+            {/* <div className="hashtags">
               <ul>
                 <li>#quroqchilik</li>
                 <li>#quroqchilik</li>
                 <li>#quroqchilik</li>
                 <li>#quroqchilik</li>
               </ul>
-            </div>
+            </div> */}
           </div>
-          <AddComments news={newsItem} />
+          {/* <AddComments news={newsItem} /> */}
         </div>
         <NewsInnerRight />
       </div>
       <div className="simillar">
         <h2>O'xshash yangiliklar</h2>
         <div className="news-cards">
-          {similliarNews.length > 0 ? (
+          {/* {similliarNews.length > 0 ? (
             similliarNews.map((news, index) => (
               <Link
                 to={`/news/${similliarNews[0]?.category
@@ -395,7 +315,7 @@ const NewsDetail = () => {
             ))
           ) : (
             <p>O'xshash yangiliklar mavjud emas</p>
-          )}
+          )} */}
         </div>
       </div>
       <div className="forBackgroundColor">
