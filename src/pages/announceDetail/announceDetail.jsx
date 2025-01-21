@@ -461,13 +461,13 @@ const AnnounceDetail = () => {
             selectedDep === "service" ? "active" : ""
           }`}
         ></div>
-        <div
+        {/* <div
           className={`datas-container ${
             selectedDep === "toAnnounce" ? "active" : ""
           }`}
         >
           <p className="title">E'lon berish</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -105,7 +105,6 @@ const Header = () => {
               <NavLink
                 to="/about-project"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
               >
                 Loyiha haqida
               </NavLink>
@@ -114,25 +113,14 @@ const Header = () => {
               <NavLink
                 to="/partners"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
               >
                 Hamkorlarimiz
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/projects"
+                to="/contacts"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
-              >
-                Loyihalar
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="contacts"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
               >
                 Kontaktlar
               </NavLink>
@@ -581,7 +569,6 @@ const Header = () => {
               <NavLink
                 to="/about-project"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
               >
                 Loyiha haqida
               </NavLink>
@@ -590,25 +577,14 @@ const Header = () => {
               <NavLink
                 to="/partners"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
               >
                 Hamkorlarimiz
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/projects"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
-              >
-                Loyihalar
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 to="contacts"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
-                onClick={(e) => notF(e)}
               >
                 Kontaktlar
               </NavLink>
@@ -1085,15 +1061,15 @@ const Header = () => {
               <span>Loyiha haqida</span>
               <img src={cheveronIcon} alt="" />
             </Link>
-            <Link to="">
+            <Link to="/partners">
               <span>Hamkorlarimiz</span>
               <img src={cheveronIcon} alt="" />
             </Link>
-            <Link to="">
+            <Link to="/about-project">
               <span>Loyihalar</span>
               <img src={cheveronIcon} alt="" />
             </Link>
-            <Link to="">
+            <Link to="/contacts">
               <span>Kontaktlar</span>
               <img src={cheveronIcon} alt="" />
             </Link>

@@ -1,6 +1,6 @@
-#onlineShop {
-    padding: 176px 0 30px;
-    
+#partners {
+    margin-top: 170px;
+
     .miniPoster {
         height: 250px;
         display: flex;
@@ -31,7 +31,7 @@
             font-weight: 600;
             color: #fff;
         }
-        
+
         img {
             position: relative;
             z-index: 2;
@@ -58,11 +58,12 @@
         .left-side {
             margin-left: auto;
             width: 60%;
+
             .bigText {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-    
+
                 p {
                     font-weight: 600;
                     color: #fff;
@@ -82,7 +83,7 @@
                         border-radius: 15px;
                         border: 1px solid #ffffff36;
                     }
-    
+
                     .work {
                         background-color: #B7B7B726;
                         padding: 10px 15px;
@@ -95,6 +96,7 @@
                 }
 
             }
+
             .smallText {
                 color: #fff;
                 width: 70%;
@@ -112,7 +114,7 @@
                 z-index: 1;
                 top: 50px;
             }
-            
+
             .shape {
                 width: 250px;
                 height: 250px;
@@ -121,7 +123,7 @@
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
-            
+
                 &::before {
                     position: absolute;
                     content: "";
@@ -151,36 +153,50 @@
         }
     }
 
-    .cubes {
-        background-color: #F5F5F5;
-        padding: 30px 50px;
+    .partners-text {
+        margin: 50px auto 0;
+        width: 30%;
+        text-align: center;
+        color: #757575;
+    }
 
-        .cubesInner {
-            max-width: 1366px;
-            margin: 0 auto;
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
+    .partners-images {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1366px;
+        margin: 60px auto;
+        row-gap: 30px;
 
-            .cube {
-                width: 200px;
-                height: 200px;
-                background-color: #41A58D;
-                border-radius: 10px;
+        a {
+
+            img {
+                width: 150px;
+                margin: 0 auto;
+                display: block;
+                object-fit: cover;
             }
         }
     }
 }
 
-.search-bar-mobile-version {
-    display: none;
+@media screen and (max-width: 1020px) {
+    #partners {
+        .partners-images {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
 }
 
-@media screen and (max-width: 500px) {
-    #onlineShop {
-        padding: 130px 0 30px;
+@media screen and (max-width: 700px) {
+    #partners {
+        .partners-text {
+            width: 70%;
+        }
+
+        .partners-images {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
         .miniPoster {
             margin-top: 0;
             flex-direction: column;
@@ -216,6 +232,7 @@
                         font-size: 22px;
                         text-align: center;
                     }
+
                     .name {
                         display: none;
                     }
@@ -236,9 +253,9 @@
                 img {
                     width: 190px;
                     left: 50%;
-                    transform:  translateX( -50% );
+                    transform: translateX(-50%);
                 }
-            
+
                 .shape {
                     left: 50%;
                     transform: translate(-50%, -50%);
@@ -252,17 +269,18 @@
                 }
             }
         }
+    }
+}
 
-        .cubes {
-            padding: 20px;
+@media screen and (max-width: 420px) {
+    #partners {
+        margin-top: 120px;
+        .partners-text {
+            width: 80%;
+        }
 
-            .cubesInner {
-                justify-content: center;
-                .cube {
-                    width: 47%;
-                    height: 150px;
-                }
-            }
+        .partners-images {
+            grid-template-columns: repeat(1, 1fr);
         }
     }
 }
