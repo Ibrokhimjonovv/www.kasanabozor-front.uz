@@ -1,6 +1,6 @@
 #announceDetail {
     background-color: #F5F5F5;
-    margin-top: 140px;
+    margin-top: 160px;
 
     .announceSelect {
         background-color: #fff;
@@ -620,7 +620,7 @@
 @media screen and (max-width: 500px) {
     #announceDetail {
         &.servicecDetail {
-            margin-top: 85px;
+            margin-top: 120px;
 
             .to-back {
                 background-color: #41A58D;

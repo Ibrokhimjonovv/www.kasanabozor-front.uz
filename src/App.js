@@ -61,6 +61,10 @@ import ProfileSideBar from "./components/profileSideBar/profileSideBar";
 import './createAxiosClient';
 import AdminCourses from "./pages/admin/admin-courses/admin-courses";
 import AddCourse from "./pages/admin/admin-add-course/admin-add-course";
+import Partners from "./pages/staticPages/partners/partners";
+import Contacts from "./pages/staticPages/contacts/contacts";
+import AboutProject from "./pages/staticPages/about-project/aboutProject";
+import AdminAnnounces from "./pages/admin/admin-announces/adminAnnounces";
 
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
   if (!isAuthenticated && userRole !== allowedRole) {
@@ -115,6 +119,7 @@ function AppContent() {
     "/profile/my-courses",
     "/dashboard/admin/courses",
     "/dashboard/admin/add-courses",
+    "/dashboard/admin/work-announces"
   ];
 
   const noHeaderPaths_2 = [
@@ -140,6 +145,7 @@ function AppContent() {
     "/dashboard/admin/admin-news-categories",
     "/dashboard/admin/courses",
     "/dashboard/admin/add-courses",
+    "/dashboard/admin/work-announces"
   ];
 
   return (
@@ -147,6 +153,12 @@ function AppContent() {
       {!noHeaderPaths_2.includes(location.pathname) && <Header />}
 
       <Routes>
+        {/* Static pages start */}
+        <Route path="/partners" element={<Partners />}/>
+        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/about-project" element={<AboutProject />} />
+        {/* Static pages end */}
+
         <Route path="/" element={<Home />} />
         <Route path="online-shop" element={<OnlineShop />} />
         <Route path="online-shop/product/:id" element={<ProductDetails />} />
@@ -248,6 +260,7 @@ function AppContent() {
                 <Route path="admin/add-courses" element={<AddCourse />} />
                 <Route path="admin/admin-news" element={<AdminNews />} />
                 <Route path="admin/add-news" element={<AddNews />} />
+                <Route path="admin/work-announces" element={<AdminAnnounces />} />
                 <Route
                   path="admin/admin-news-categories"
                   element={<AdminNewsCategories />}
