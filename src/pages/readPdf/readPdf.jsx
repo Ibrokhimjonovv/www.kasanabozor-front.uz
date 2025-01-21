@@ -1,27 +1,40 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./readPdf.scss";
 import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
+import Loading from "../../components/loading/loading";
+import axios from "axios";
+import { newsServerUrl } from "../../SuperVars";
+
 
 const PDFViewer = () => {
-  const { documents } = useContext(MyContext);
+  const [currentDoc, setCurrentDoc] = useState(null);
   const { category, pdf } = useParams();
-  function formatCategory(category) {
-    if (!category) return "";
-    const formattedCategory = category.replace(/-/g, " ").split(" ");
-    formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
-    return formattedCategory.join(" ");
+
+  const loadData = async () => {
+    try {
+      const bdocsResponse = await axios.post(`${newsServerUrl}bussinies/exact/`, {'id': pdf});
+      if (bdocsResponse.data.status === "ok") {
+        setCurrentDoc(bdocsResponse.data.results);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  // Current document :/
-  const currentDoc = documents.filter(
-    (doc) => doc.title.replace(/\s+/g, "-").toLowerCase() === pdf
-  );
+  useEffect(() => {
+    const timeout = setTimeout(loadData, 200);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
-  return (
-    <div id="pdf">
-      {currentDoc.length > 0 ? (
+  if (!(currentDoc && currentDoc.file)) {
+    return <Loading/>;
+  }
+
+  return (<div id="pdf">
+      {currentDoc ? (
         <>
           <div className="to-back">
             <div className="inner">
@@ -76,7 +89,7 @@ const PDFViewer = () => {
                 </svg>
               </span>
               <Link to={`/news/documents/${category}`}>
-                {formatCategory(category)}
+              Kichik biznes loyihalar
               </Link>
               <span>
                 <svg
@@ -94,22 +107,20 @@ const PDFViewer = () => {
                   />
                 </svg>
               </span>
-              <span>{formatCategory(pdf)}</span>
+              <span>{currentDoc.title}</span>
             </div>
           </div>
-          {currentDoc.map((doc, index) =>
-            doc.pdf ? (
-              <embed key={index} src={doc.pdf} type="application/pdf" />
+          {currentDoc.file ? (
+              <embed src={currentDoc.file} type="application/pdf" />
             ) : (
-              <h2 style={{margin: "20px 50px"}} key={index}>Pdf mavjud emas</h2>
+              <h2 style={{margin: "20px 50px"}}>Pdf mavjud emas</h2>
             )
-          )}
+          }
         </>
       ) : (
         <h2 className="doc-not-found">O'ylashimcha bunday hujjat mavjud emas</h2>
       )}
-    </div>
-  );
+    </div>);
 };
 
 export default PDFViewer;

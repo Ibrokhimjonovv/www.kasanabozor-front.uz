@@ -115,7 +115,7 @@
             }
         }
         form {
-            margin-top: 15px;
+            // margin-top: 15px;
             display: flex;
             flex-direction: column;
             row-gap: 10px;
@@ -195,6 +195,45 @@
                 }
             }
 
+            .second-step {
+                display: flex;
+                flex-direction: column;
+                row-gap: 10px;
+                h2 {
+                    font-weight: 600;
+                    font-size: 20px;
+                    color: #1E1E1E;
+                    text-align: center;
+                }
+
+                p {
+                    text-align: center;
+                    color: #1E1E1E;
+                }
+
+                .code-inputs {
+                    display: flex;
+                    margin: 0 auto;
+                    width: 230px;
+                    justify-content: space-between;
+
+                    input {
+                        text-align: center;
+                        outline: none;
+                        height: 40px;
+                        width: 35px;
+                        border-radius: 7px;
+                        color: #1E1E1E;
+                        font-size: 16px;
+                        border: 2px solid #F2F2F2;
+                        
+                        &:valid, &:focus {
+                            border: 2px solid #41A58D;
+                        }
+                    }
+                }
+            }
+
             button {
                 background-color: #41A58D;
                 height: 45px;
@@ -207,10 +246,15 @@
                 align-items: center;
                 gap: 5px;
                 justify-content: center;
+                width: 100%;
+
+                &#resend-btn {
+                    background-color: transparent;
+                    color: #41A58D;
+                }
 
                 &:hover {
                     background-color: #41a58eb2;
-                    font-weight: 600;
                 }
             }
 
@@ -237,13 +281,14 @@
 
 @media screen and (max-width: 500px) {
     #signup-cont {
-        margin: 0 13px 15px;
+        margin: 0;
         .signup-header {
             .signup-header-right {
                 display: none;
             }           
         }       
         .signup-container {
+            margin: 0 12px;
             .signup-top-text {
                 text-align: start;
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../../context/myContext";
 import "./signup.scss";
 import InputMask from "react-input-mask";
-import { usersServerUrl } from '../../../SuperVars';
+import { usersServerUrl } from "../../../SuperVars";
 import axios from "axios";
 
 const Signup = () => {
@@ -18,6 +18,8 @@ const Signup = () => {
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState("");
+  const [phoneErr, setPhoneErr] = useState(null);
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -59,8 +61,7 @@ const Signup = () => {
     }
 
     if (!/^\d{9,12}$/.test(formData.phone.replace(/\D/g, ""))) {
-      newErrors.phone =
-        "Telefon raqam noto'g'ri yoki to'liq emas";
+      newErrors.phone = "Telefon raqam noto'g'ri yoki to'liq emas";
     }
 
     // Parollarni tekshirish
@@ -72,6 +73,7 @@ const Signup = () => {
 
     return newErrors;
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -89,20 +91,20 @@ const Signup = () => {
       const response = await axios.post(`${usersServerUrl}accounts/sign-up/`, {
         first_name: formData.first_name,
         phone: formData.phone,
-        password: formData.password1
+        password: formData.password1,
       });
 
       console.log(response);
 
       if (response.data.status === "ok") {
         setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
-        
-        const {access, refresh} = response.data;
 
-        axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-        
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
+        const { access, refresh } = response.data;
+
+        axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+        localStorage.setItem("access", access);
+        localStorage.setItem("refresh", refresh);
 
         setFormData({
           first_name: "",
@@ -110,16 +112,19 @@ const Signup = () => {
           password1: "",
           password2: "",
         });
-        
+
         setTimeout(() => {
-          setSignUpSuccess('');
+          setSignUpSuccess("");
         }, 5000);
-        
+
         navigate("/login");
       } else {
         const data = await response.data;
         if (data.details.phone) {
           setError("Ushbu raqam band.");
+          setPhoneErr(
+            "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
+          );
         } else {
           setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
         }
@@ -132,6 +137,93 @@ const Signup = () => {
     }
   };
 
+  const [smsCode, setSmsCode] = useState("");
+  const [generatedCode, setGeneratedCode] = useState("");
+  const [step, setStep] = useState(1);
+  const [timer, setTimer] = useState(122);
+  const [code, setCode] = useState(["", "", "", "", ""]);
+  const [resendEnabled, setResendEnabled] = useState(false);
+  const [smsErr, setSmsErr] = useState(false);
+
+  const generateSmsCode = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
+
+  const handleRegister = () => {
+    if (
+      formData.first_name &&
+      formData.phone &&
+      formData.password1 &&
+      formData.password2 &&
+      formData.password1 === formData.password2 &&
+      phoneErr === null
+    ) {
+      console.log(phoneErr);
+
+      const code = generateSmsCode();
+      setGeneratedCode(code);
+      console.log(`SMS kodi yuborildi: ${code}`); // Kodni consolga chiqaramiz
+      setStep(2); // SMS tasdiqlash bosqichiga o'tamiz
+    } else {
+      validate();
+    }
+  };
+
+  // SMS qayta yuborish funksiyasi
+  const handleResendCode = () => {
+    const code = generateSmsCode();
+    setGeneratedCode(code);
+    console.log(`Yangi SMS kodi yuborildi: ${code}`); // Kodni consolga chiqaramiz
+    setTimer(120); // Timerni qayta o'rnatish
+    setResendEnabled(false); // Tugmani yashirish
+  };
+
+  // Timerni boshqarish
+  useEffect(() => {
+    const countdown = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 1) {
+          clearInterval(countdown); // Timer to'xtatish
+          setResendEnabled(true); // SMS qayta yuborish tugmasini ko'rsatish
+
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+    return () => clearInterval(countdown);
+  }, []);
+
+  // Timer formatlash
+  const formatTimer = () => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
+  };
+
+  // SMS kodni tekshirish
+  const handleVerify = (e) => {
+    const enteredCode = code.join("");
+    if (enteredCode === generatedCode) {
+      handleSubmit(e);
+    } else {
+      setSmsErr(true);
+    }
+  };
+
+  // SMS kodni inputdan olish
+  const handleChangeSmsCode = (index, value) => {
+    const newCode = [...code];
+    newCode[index] = value.slice(-1); // Faqat oxirgi kiritilgan raqamni olish
+    setCode(newCode);
+
+    if (value && index < code.length - 1) {
+      document.getElementById(`input-${index + 1}`).focus();
+    }
+  };
   return (
     <div id="signup-cont">
       <div className="signup-header">
@@ -218,232 +310,288 @@ const Signup = () => {
         </div>
       </div>
       <div className="signup-container">
-        <div className="signup-top-text">
-          <h3>Ro’yxatdan o’tish</h3>
-          <p>Yangi hisobingizni yarating</p>
-          {error.general && <div style={{ color: "red" }}>{error.general}</div>}
-        </div>
+        {step === 1 && (
+          <div className="signup-top-text">
+            <h3>Ro’yxatdan o’tish</h3>
+            <p>Yangi hisobingizni yarating</p>
+            {error.general && (
+              <div style={{ color: "red" }}>{error.general}</div>
+            )}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
-          <div className="input-container">
-            <label htmlFor="first_name">Ism</label>
-            <div className="a">
-              <svg
-                width="22"
-                height="24"
-                viewBox="0 0 22 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20.3337 22.5V20.1667C20.3337 18.929 19.842 17.742 18.9668 16.8668C18.0917 15.9917 16.9047 15.5 15.667 15.5H6.33366C5.09598 15.5 3.909 15.9917 3.03383 16.8668C2.15866 17.742 1.66699 18.929 1.66699 20.1667V22.5M15.667 6.16667C15.667 8.744 13.5777 10.8333 11.0003 10.8333C8.423 10.8333 6.33366 8.744 6.33366 6.16667C6.33366 3.58934 8.423 1.5 11.0003 1.5C13.5777 1.5 15.667 3.58934 15.667 6.16667Z"
-                  stroke="#41A58D"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <input
-                type="text"
-                id="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-                placeholder="Ismingizni kiriting"
-                name="first_name"
-              />
-            </div>
-            {error.first_name && (
-              <p className="error-message">{error.first_name}</p>
-            )}
-          </div>
-          <div className="input-container">
-            <label htmlFor="phone">Telefon raqami</label>
-            <div className="a">
-              <svg
-                width="18"
-                height="24"
-                viewBox="0 0 18 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.7913 1.20898H5.20801C3.27501 1.20898 1.70801 2.77599 1.70801 4.70898V19.2923C1.70801 21.2253 3.27501 22.7923 5.20801 22.7923H12.7913C14.7243 22.7923 16.2913 21.2253 16.2913 19.2923V4.70898C16.2913 2.77599 14.7243 1.20898 12.7913 1.20898Z"
-                  stroke="#41A58D"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7.83301 18.709H10.1663"
-                  stroke="#41A58D"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span id="code">+998</span>
-              <InputMask
-                mask="(99) 999-99-99"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="(__) ___-__-__"
-                name="phone"
-                id="phone"
-              />
-            </div>
-            {error.phone && <p className="error-message">{error.phone}</p>}
-          </div>
-          <div className="input-container">
-            <label htmlFor="password1">Yangi parol</label>
-            <div className="a">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
-                  stroke="#41A58D"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+          {step === 1 && (
+            <>
+              <div className="input-container">
+                <label htmlFor="first_name">Ism</label>
+                <div className="a">
+                  <svg
+                    width="22"
+                    height="24"
+                    viewBox="0 0 22 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20.3337 22.5V20.1667C20.3337 18.929 19.842 17.742 18.9668 16.8668C18.0917 15.9917 16.9047 15.5 15.667 15.5H6.33366C5.09598 15.5 3.909 15.9917 3.03383 16.8668C2.15866 17.742 1.66699 18.929 1.66699 20.1667V22.5M15.667 6.16667C15.667 8.744 13.5777 10.8333 11.0003 10.8333C8.423 10.8333 6.33366 8.744 6.33366 6.16667C6.33366 3.58934 8.423 1.5 11.0003 1.5C13.5777 1.5 15.667 3.58934 15.667 6.16667Z"
+                      stroke="#41A58D"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    id="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    placeholder="Ismingizni kiriting"
+                    name="first_name"
+                  />
+                </div>
+                {error.first_name && (
+                  <p className="error-message">{error.first_name}</p>
+                )}
+              </div>
+              <div className="input-container">
+                <label htmlFor="phone">Telefon raqami</label>
+                <div className="a">
+                  <svg
+                    width="18"
+                    height="24"
+                    viewBox="0 0 18 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.7913 1.20898H5.20801C3.27501 1.20898 1.70801 2.77599 1.70801 4.70898V19.2923C1.70801 21.2253 3.27501 22.7923 5.20801 22.7923H12.7913C14.7243 22.7923 16.2913 21.2253 16.2913 19.2923V4.70898C16.2913 2.77599 14.7243 1.20898 12.7913 1.20898Z"
+                      stroke="#41A58D"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M7.83301 18.709H10.1663"
+                      stroke="#41A58D"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span id="code">+998</span>
+                  <InputMask
+                    mask="(99) 999-99-99"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="(__) ___-__-__"
+                    name="phone"
+                    id="phone"
+                  />
+                </div>
+                {error.phone && <p className="error-message">{error.phone}</p>}
+                {phoneErr && <p className="error-message">{phoneErr}</p>}
+              </div>
+              <div className="input-container">
+                <label htmlFor="password1">Yangi parol</label>
+                <div className="a">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
+                      stroke="#41A58D"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
 
-              <input
-                type={showPassword1 ? "text" : "password"}
-                id="password1"
-                value={formData.password1}
-                onChange={handleChange}
-                placeholder="••••••••"
-                name="password1"
-              />
-              {showPassword1 ? (
-                <svg
-                  className="eye s"
-                  onClick={() => setShowPassword1(!showPassword1)}
-                  stroke="#41A58D"
-                  fill="currentColor"
-                  strokeWidth="0"
-                  viewBox="0 0 1024 1024"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 0 0 0-51.5zm-63.57-320.64L836 122.88a8 8 0 0 0-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 0 0 0 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 0 0 0 11.31L155.17 889a8 8 0 0 0 11.31 0l712.15-712.12a8 8 0 0 0 0-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 0 0-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 0 1 146.2-106.69L401.31 546.2A112 112 0 0 1 396 512z"></path>
-                  <path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 0 0 227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 0 1-112 112z"></path>
-                </svg>
-              ) : (
-                <svg
-                  onClick={() => setShowPassword1(!showPassword1)}
-                  className="eye"
-                  width="24"
-                  height="18"
-                  viewBox="0 0 24 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
-                    stroke="#41A58D"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <input
+                    type={showPassword1 ? "text" : "password"}
+                    id="password1"
+                    value={formData.password1}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    name="password1"
                   />
-                  <path
-                    d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
-                    stroke="#41A58D"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            {error.password1 && (
-              <p className="error-message">{error.password1}</p>
-            )}
-          </div>
-          <div className="input-container">
-            <label htmlFor="password2">Parolni takrorlang</label>
-            <div className="a">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
-                  stroke="#41A58D"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+                  {showPassword1 ? (
+                    <svg
+                      className="eye s"
+                      onClick={() => setShowPassword1(!showPassword1)}
+                      stroke="#41A58D"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 1024 1024"
+                      height="1em"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 0 0 0-51.5zm-63.57-320.64L836 122.88a8 8 0 0 0-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 0 0 0 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 0 0 0 11.31L155.17 889a8 8 0 0 0 11.31 0l712.15-712.12a8 8 0 0 0 0-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 0 0-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 0 1 146.2-106.69L401.31 546.2A112 112 0 0 1 396 512z"></path>
+                      <path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 0 0 227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 0 1-112 112z"></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      onClick={() => setShowPassword1(!showPassword1)}
+                      className="eye"
+                      width="24"
+                      height="18"
+                      viewBox="0 0 24 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
+                        stroke="#41A58D"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
+                        stroke="#41A58D"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                {error.password1 && (
+                  <p className="error-message">{error.password1}</p>
+                )}
+              </div>
+              <div className="input-container">
+                <label htmlFor="password2">Parolni takrorlang</label>
+                <div className="a">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.16667 12.833V8.16634C8.16667 6.61924 8.78125 5.13551 9.87521 4.04155C10.9692 2.94759 12.4529 2.33301 14 2.33301C15.5471 2.33301 17.0308 2.94759 18.1248 4.04155C19.2188 5.13551 19.8333 6.61924 19.8333 8.16634V12.833M5.83333 12.833H22.1667C23.4553 12.833 24.5 13.8777 24.5 15.1663V23.333C24.5 24.6217 23.4553 25.6663 22.1667 25.6663H5.83333C4.54467 25.6663 3.5 24.6217 3.5 23.333V15.1663C3.5 13.8777 4.54467 12.833 5.83333 12.833Z"
+                      stroke="#41A58D"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
 
-              <input
-                type={showPassword2 ? "text" : "password"}
-                id="password2"
-                value={formData.password2}
-                onChange={handleChange}
-                placeholder="••••••••"
-                name="password2"
-              />
-              {showPassword2 ? (
-                <svg
-                  className="eye s"
-                  onClick={() => setShowPassword2(!showPassword2)}
-                  stroke="#41A58D"
-                  fill="currentColor"
-                  strokeWidth="0"
-                  viewBox="0 0 1024 1024"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 0 0 0-51.5zm-63.57-320.64L836 122.88a8 8 0 0 0-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 0 0 0 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 0 0 0 11.31L155.17 889a8 8 0 0 0 11.31 0l712.15-712.12a8 8 0 0 0 0-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 0 0-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 0 1 146.2-106.69L401.31 546.2A112 112 0 0 1 396 512z"></path>
-                  <path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 0 0 227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 0 1-112 112z"></path>
-                </svg>
-              ) : (
-                <svg
-                  onClick={() => setShowPassword2(!showPassword2)}
-                  className="eye"
-                  width="24"
-                  height="18"
-                  viewBox="0 0 24 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
-                    stroke="#41A58D"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <input
+                    type={showPassword2 ? "text" : "password"}
+                    id="password2"
+                    value={formData.password2}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    name="password2"
                   />
-                  <path
-                    d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
-                    stroke="#41A58D"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            {error.password1 && (
-              <p className="error-message">{error.password1}</p>
-            )}
-          </div>
-          <button type="submit" disabled={loading}>
+                  {showPassword2 ? (
+                    <svg
+                      className="eye s"
+                      onClick={() => setShowPassword2(!showPassword2)}
+                      stroke="#41A58D"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 1024 1024"
+                      height="1em"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 0 0 0-51.5zm-63.57-320.64L836 122.88a8 8 0 0 0-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 0 0 0 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 0 0 0 11.31L155.17 889a8 8 0 0 0 11.31 0l712.15-712.12a8 8 0 0 0 0-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 0 0-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 0 1 146.2-106.69L401.31 546.2A112 112 0 0 1 396 512z"></path>
+                      <path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 0 0 227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 0 1-112 112z"></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      onClick={() => setShowPassword2(!showPassword2)}
+                      className="eye"
+                      width="24"
+                      height="18"
+                      viewBox="0 0 24 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z"
+                        stroke="#41A58D"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z"
+                        stroke="#41A58D"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                {error.password1 && (
+                  <p className="error-message">{error.password1}</p>
+                )}
+              </div>
+              {/* <button type="submit" disabled={loading}>
             {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
-          </button>
-          <div className="signup-link">
-            Hisobingiz bormi? <Link to="/login">Kirish</Link>
-          </div>
+          </button> */}
+              <button onClick={handleRegister}>Tasdiqlash</button>
+            </>
+          )}
+          {step === 2 && (
+            <div className="second-step">
+              <h2>Raqamni tasdiqlash</h2>
+              <p>
+                {formData.phone
+                  .slice(-8)
+                  .replace(/[^0-9]/g, " ")
+                  .replace(/^(\+?\d{2})/, "**")}{" "}
+                raqamiga yuborilgan kodni kiriting:
+              </p>
+              {/* <input
+                type="text"
+                value={smsCode}
+                onChange={(e) => setSmsCode(e.target.value)}
+                placeholder="SMS kodni kiriting"
+                style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+              /> */}
+              <div className="code-inputs">
+                {code.map((digit, index) => (
+                  <input
+                    key={index}
+                    id={`input-${index}`}
+                    type="text"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleChangeSmsCode(index, e.target.value)}
+                    disabled={phoneErr !== null}
+                    required
+                  />
+                ))}
+              </div>
+              {!phoneErr && timer > 0 && <p>{formatTimer()}</p>}
+              {!phoneErr && smsErr && <p style={{ color: "red" }}>Kiritilgan kod xato</p>}
+              {!phoneErr && resendEnabled && (
+                <button id="resend-btn" onClick={handleResendCode}>
+                  SMS kodni qayta yuborish
+                </button>
+              )}
+              <button type="button" onClick={(e) => handleVerify(e)} disabled={loading}>
+                {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
+              </button>
+              {phoneErr && <p style={{ color: "red" }}>{phoneErr}</p>}
+            </div>
+          )}
+          {step === 1 && (
+            <div className="signup-link">
+              Hisobingiz bormi? <Link to="/login">Kirish</Link>
+            </div>
+          )}
         </form>
       </div>
     </div>

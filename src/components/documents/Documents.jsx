@@ -3,7 +3,6 @@ import "./Documents.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import {
-  eCommerseServerUrl,
   formatLink,
   mediaServerUrl,
 } from "../../SuperVars";
@@ -58,7 +57,7 @@ const Documents = () => {
             <h2>Qonunchilik hujjatlari</h2>
             <p>Kasanachilik sohasidagi qonunchilik hujjatlari</p>
           </div>
-          <Link to={``}>Ko'proq ko'rish</Link>
+          <Link to={`/news/documents/@a/`}>Ko'proq ko'rish</Link>
         </div>
 
         {legislativeDoc.slice(0, 3).map((doc, index) => (
@@ -121,7 +120,7 @@ const Documents = () => {
             <h2>Kichik biznes loyihalar</h2>
             <p>Turli darajadagi kichik biznes loyihalar</p>
           </div>
-          <Link to={``}>Ko'proq ko'rish</Link>
+          <Link to={`/news/documents/@b/`}>Ko'proq ko'rish</Link>
         </div>
 
         {bussinessDoc.slice(0, 3).map((doc, index) => (<div id="top" className={`container doc-cont`} key={index}>
@@ -150,7 +149,7 @@ const Documents = () => {
                   </svg>
                   Yuklab olish
                 </a>
-                <a href={doc.link ? doc.link : `/`} target="_blank" rel="noreferrer">
+                <Link to={`/news/documents/@b/${doc.id}`}>
                   <svg
                     width="16"
                     height="17"
@@ -172,7 +171,7 @@ const Documents = () => {
                     />
                   </svg>
                   {doc.link ? getDomain(doc.link) : "Ko'rish"}
-                </a>
+                </Link>
               </div>
             </div>))}
       </div>
