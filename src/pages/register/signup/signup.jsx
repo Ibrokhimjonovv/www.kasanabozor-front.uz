@@ -32,11 +32,6 @@ const Signup = () => {
   const [phoneErr, setPhoneErr] = useState(null);
   const [smsCode, setSmsCode] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
-  const [step, setStep] = useState(1);
-  const [timer, setTimer] = useState(122);
-  const [code, setCode] = useState(["", "", "", "", ""]);
-  const [resendEnabled, setResendEnabled] = useState(false);
-  const [smsErr, setSmsErr] = useState(false);
 
   const [step, setStep] = useState(1);
   const [timer, setTimer] = useState(122);
