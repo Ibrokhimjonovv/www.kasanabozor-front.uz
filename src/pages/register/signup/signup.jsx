@@ -15,10 +15,17 @@ const Signup = () => {
     setLanguages,
     setSignUpSuccess,
   } = useContext(MyContext);
+
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState("");
   const [phoneErr, setPhoneErr] = useState(null);
+
+  const [step, setStep] = useState(1);
+  const [timer, setTimer] = useState(122);
+  const [code, setCode] = useState(["", "", "", "", ""]);
+  const [resendEnabled, setResendEnabled] = useState(false);
+  const [smsErr, setSmsErr] = useState(false);
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -28,20 +35,24 @@ const Signup = () => {
     password1: "",
     password2: "",
   });
+  
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
+  
   const closeDropdown = (e) => {
     if (!e.target.closest(".dropdown")) {
       setIsOpen(false);
     }
   };
+  
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
     return () => {
       document.removeEventListener("click", closeDropdown);
     };
   }, []);
+  
   const handleLanguageChange = (newLanguage) => {
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
     updatedLanguages.push(selectedLanguage);
@@ -49,10 +60,12 @@ const Signup = () => {
     setLanguages(updatedLanguages);
     setIsOpen(false);
   };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  
   const validate = () => {
     const newErrors = {};
 
@@ -95,9 +108,10 @@ const Signup = () => {
       });
 
       console.log(response);
+      
 
       if (response.data.status === "ok") {
-        setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+        setSignUpSuccess("Telefon raqamingizga SMS ko'd yuborildi");
 
         const { access, refresh } = response.data;
 
@@ -116,8 +130,8 @@ const Signup = () => {
         setTimeout(() => {
           setSignUpSuccess("");
         }, 5000);
-
-        navigate("/login");
+        
+        setStep(2);
       } else {
         const data = await response.data;
         if (data.details.phone) {
@@ -137,44 +151,9 @@ const Signup = () => {
     }
   };
 
-  const [generatedCode, setGeneratedCode] = useState("");
-  const [step, setStep] = useState(1);
-  const [timer, setTimer] = useState(122);
-  const [code, setCode] = useState(["", "", "", "", ""]);
-  const [resendEnabled, setResendEnabled] = useState(false);
-  const [smsErr, setSmsErr] = useState(false);
-
-  const generateSmsCode = () => {
-    return Math.floor(10000 + Math.random() * 90000).toString();
-  };
-
-  const handleRegister = () => {
-    if (
-      formData.first_name &&
-      formData.phone &&
-      formData.password1 &&
-      formData.password2 &&
-      formData.password1 === formData.password2 &&
-      phoneErr === null
-    ) {
-      console.log(phoneErr);
-
-      const code = generateSmsCode();
-      setGeneratedCode(code);
-      console.log(`SMS kodi yuborildi: ${code}`); // Kodni consolga chiqaramiz
-      setStep(2); // SMS tasdiqlash bosqichiga o'tamiz
-    } else {
-      validate();
-    }
-  };
-
-  // SMS qayta yuborish funksiyasi
   const handleResendCode = () => {
-    const code = generateSmsCode();
-    setGeneratedCode(code);
-    console.log(`Yangi SMS kodi yuborildi: ${code}`); // Kodni consolga chiqaramiz
-    setTimer(120); // Timerni qayta o'rnatish
-    setResendEnabled(false); // Tugmani yashirish
+    setTimer(120);
+    setResendEnabled(false);
   };
 
   // Timerni boshqarish
@@ -206,23 +185,18 @@ const Signup = () => {
   // SMS kodni tekshirish
   const handleVerify = (e) => {
     const enteredCode = code.join("");
-    if (enteredCode === generatedCode) {
-      handleSubmit(e);
-    } else {
-      setSmsErr(true);
-    }
   };
 
-  // SMS kodni inputdan olish
   const handleChangeSmsCode = (index, value) => {
     const newCode = [...code];
-    newCode[index] = value.slice(-1); // Faqat oxirgi kiritilgan raqamni olish
+    newCode[index] = value.slice(-1);
     setCode(newCode);
 
     if (value && index < code.length - 1) {
       document.getElementById(`input-${index + 1}`).focus();
     }
   };
+
   return (
     <div id="signup-cont">
       <div className="signup-header">
@@ -539,7 +513,7 @@ const Signup = () => {
               {/* <button type="submit" disabled={loading}>
             {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
           </button> */}
-              <button onClick={handleRegister}>Tasdiqlash</button>
+              <button onClick={ handleSubmit }>Tasdiqlash</button>
             </>
           )}
           {step === 2 && (

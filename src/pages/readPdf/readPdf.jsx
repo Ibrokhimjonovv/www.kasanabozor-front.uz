@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import Loading from "../../components/loading/loading";
 import axios from "axios";
-import { newsServerUrl } from "../../SuperVars";
+import { formatLink, mediaServerUrl, newsServerUrl } from "../../SuperVars";
 
 
 const PDFViewer = () => {
@@ -111,7 +111,7 @@ const PDFViewer = () => {
             </div>
           </div>
           {currentDoc.file ? (
-              <embed src={currentDoc.file} type="application/pdf" />
+              <embed src={`${mediaServerUrl}news${formatLink(currentDoc.file)}`} type="application/pdf" />
             ) : (
               <h2 style={{margin: "20px 50px"}}>Pdf mavjud emas</h2>
             )
