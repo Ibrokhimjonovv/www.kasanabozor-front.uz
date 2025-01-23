@@ -6,9 +6,15 @@ import InputMask from "react-input-mask";
 import { usersServerUrl } from "../../../SuperVars";
 import axios from "axios";
 
-
 // SVG & IMAGES
 import person from "../../../assets/svg/person.svg";
+import dateIcon from "../../../assets/svg/date-icon.svg";
+import mail from "../../../assets/svg/mail.svg";
+import RegionSelector from "../../../components/regions/regions";
+import rightChevron from "../../../assets/svg/right-chevron.svg";
+import stepIcon1 from "../../../assets/svg/stepIcon1.svg";
+import stepIcon2 from "../../../assets/svg/stepIcon2.svg";
+import bag from "../../../assets/svg/bag.svg";
 
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +31,7 @@ const Signup = () => {
   const [phoneErr, setPhoneErr] = useState(null);
   const [smsCode, setSmsCode] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [timer, setTimer] = useState(122);
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [resendEnabled, setResendEnabled] = useState(false);
@@ -203,7 +209,7 @@ const Signup = () => {
           }, 5000);
 
           // navigate("/login");
-          setStep(3)
+          setStep(3);
         }
       });
     } catch (err) {
@@ -305,8 +311,13 @@ const Signup = () => {
       document.getElementById(`input-${index + 1}`).focus();
     }
   };
+
+  const handleSelection = (selectedValues) => {
+    console.log("Tanlangan qiymatlar:", selectedValues);
+    // Tanlangan qiymatlar bilan boshqa amallar bajarish
+  };
   return (
-    <div id="signup-cont">
+    <div id="signup-cont" className={step >= 3 ? "step-3-cont" : ""}>
       <div className="signup-header">
         <div className="logo">
           <Link to="/">
@@ -390,7 +401,34 @@ const Signup = () => {
           </Link>
         </div>
       </div>
-      <div className="signup-container">
+      {step >= 3 && (
+        <div className="procsess">
+          <div className="step-3-procsess">
+            <img src={stepIcon1} alt="" />
+            Shaxsiy ma'lumotlar
+          </div>
+          <div className={`step-3-line ${step === 4 ? "active" : ""}`}></div>
+          <div className={`step-4-procsess ${step === 4 ? "active" : ""}`}>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21M4 7H20C21.1046 7 22 7.89543 22 9V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19V9C2 7.89543 2.89543 7 4 7Z"
+                stroke={step === 3 ? "#B3B3B3" : "#41A58D"}
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Faoliyat haqida
+          </div>
+        </div>
+      )}
+      <div className={`signup-container ${step >= 3 ? "third-step" : ""}`}>
         {step === 1 && (
           <div className="signup-top-text">
             <h3>Ro’yxatdan o’tish</h3>
@@ -670,30 +708,165 @@ const Signup = () => {
             </div>
           )}
         </form>
-        {
-          step === 3 && (
-            <div id="registration-confirmation">
-              <h2>Ro'yxatdan o'tishni yakunlash</h2>
-              <h3>Shaxsiy ma'lumotlar</h3>
-              <form action="">
-                <div className="input-row">
-                  <label htmlFor="first-name">Ism</label>
-                  <div className="input-and-icon">
-                    <img src={person} alt="" />
-                    <input type="text" placeholder="Ism" id="first-name" required/>
+        {step >= 3 && (
+          <div id="registration-confirmation">
+            <h2>Ro'yxatdan o'tish</h2>
+            <form action="" id="second-form">
+              {/* Step 3 uchun inputlar */}
+              {step === 3 && (
+                <div>
+                  <h3>Shaxsiy ma'lumotlar</h3>
+                  <div id="qw">
+                    <div className="input-row w-50">
+                      <label htmlFor="first-name">Ism</label>
+                      <div className="input-and-icon">
+                        <img src={person} alt="" />
+                        <input
+                          type="text"
+                          placeholder="Ism"
+                          id="first-name"
+                          value={formData.firstName}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              firstName: e.target.value,
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="last-name">Familiya</label>
+                      <div className="input-and-icon">
+                        <img src={person} alt="" />
+                        <input
+                          type="text"
+                          placeholder="Familiya"
+                          id="last-name"
+                          value={formData.lastName}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              lastName: e.target.value,
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="date">Tug'ulgan kun</label>
+                      <div className="input-and-icon">
+                        <img src={dateIcon} alt="" />
+                        <InputMask
+                          mask="99.99.9999"
+                          placeholder="KK.OO.YYYY"
+                          id="date"
+                          value={formData.date}
+                          onChange={(e) =>
+                            setFormData({ ...formData, date: e.target.value })
+                          }
+                          maskPlaceholder={false}
+                        />
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="email">Email</label>
+                      <div className="input-and-icon">
+                        <img src={mail} alt="" />
+                        <input
+                          type="email"
+                          id="email"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          required
+                          placeholder="misol@gmail.com"
+                        />
+                      </div>
+                    </div>
+                    <div className="user-regions">
+                      <RegionSelector onSelect={handleSelection} />
+                    </div>
                   </div>
                 </div>
-                <div className="input-row">
-                  <label htmlFor="last-name">Familiya</label>
-                  <div className="input-and-icon">
-                    <img src={person} alt="" />
-                    <input type="text" placeholder="Familiya" id="last-name" required/>
+              )}
+
+              {/* Step 4 uchun inputlar */}
+              {step === 4 && (
+                <div>
+                  <h3>Faoliyat haqida</h3>
+                  <div id="third-step">
+                    <div className="input-row w-60">
+                      <label htmlFor="phone">Telefon raqam</label>
+                      <div className="input-and-icon">
+                        <img src={bag} alt="" />
+                        <select name="faoliyati" id="">
+                          <option value="1">Faoliyat 1</option>
+                          <option value="2">Faoliyat 2</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="">Men haqimda</label>
+                      <div className="input-and-icon">
+                        <textarea name="" id="" placeholder="Text"></textarea>
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="">Biografiya</label>
+                      <div className="input-and-icon">
+                        <textarea name="" id="" placeholder="Text"></textarea>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </form>
-            </div>
-          )
-        }
+              )}
+
+              {/* Tugmalar */}
+              <div className="next-btn">
+                {step === 3 && (
+                  <button type="button" onClick={() => setStep(4)}>
+                    Keyingisi <img src={rightChevron} alt="" />
+                  </button>
+                )}
+                {step === 4 && (
+                  <>
+                    <button
+                      id="back-btn"
+                      type="button"
+                      onClick={() => {
+                        setStep(3);
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7.16667 12.375L3 8M3 8L7.16667 3.625M3 8H13"
+                          stroke="#41A58D"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      Ortga
+                    </button>
+                    <button type="submit" onClick={handleSubmit}>
+                      Yakunlash
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
