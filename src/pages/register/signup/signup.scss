@@ -8,6 +8,45 @@
     background-color: #F5F5F5;
     padding-top: 70px;
 
+    &.step-3-cont {
+        flex-direction: column;
+        row-gap: 40px;
+
+        .procsess {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            .step-3-line {
+                width: 40px;
+                height: 3px;
+                border-radius: 3px;
+                background-color: #B3B3B3;
+
+                &.active {
+                    background-color: #41A58D;
+                }
+            }
+            .step-3-procsess {
+                color: #41A58D;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .step-4-procsess {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #B3B3B3;
+
+                &.active {
+                    color: #41A58D;
+                }
+            }
+        }
+    }
+
     .signup-header {
         max-width: 1366px;
         margin: 0 auto;
@@ -21,7 +60,7 @@
         left: 50%;
         transform: translateX(-50%);
         height: unset;
-    
+
         .logo {
             a {
                 svg {
@@ -30,31 +69,31 @@
                 }
             }
         }
-    
+
         .signup-header-right {
             display: flex;
             align-items: center;
             gap: 15px;
-    
+
             .dropdown {
                 background-color: #F5F5F5;
                 padding: 7px 7px;
                 border-radius: 5px;
                 position: relative;
-    
+
                 a {
                     display: flex;
                     align-items: center;
                     gap: 3px;
                     color: #303030;
-    
+
                     svg {
                         width: 15px;
                         height: 15px;
                     }
-    
+
                 }
-    
+
                 ul {
                     display: flex;
                     flex-direction: column;
@@ -63,14 +102,14 @@
                     position: absolute;
                     background-color: #41A58D;
                     left: 0;
-    
+
                     li {
                         a {
                             color: #fff;
                             display: flex;
                             align-items: center;
                             padding: 7px 15px;
-    
+
                             &:hover {
                                 text-decoration: underline;
                             }
@@ -78,7 +117,7 @@
                     }
                 }
             }
-    
+
             #signup {
                 background-color: #41A58D;
                 padding: 9px 13px;
@@ -86,8 +125,8 @@
                 color: #fff;
                 font-weight: 600;
                 border: 1px solid transparent;
-    
-    
+
+
             }
         }
     }
@@ -98,9 +137,13 @@
         width: 460px;
         border-radius: 10px;
 
+        &.third-step {
+            width: 750px;
+        }
+
         .signup-top-text {
             text-align: center;
-            
+
             h3 {
                 font-size: 20px;
                 font-weight: 600;
@@ -114,11 +157,13 @@
                 font-size: 17px;
             }
         }
+
         form {
             // margin-top: 15px;
             display: flex;
             flex-direction: column;
             row-gap: 10px;
+
             .input-container {
                 display: flex;
                 flex-direction: column;
@@ -128,6 +173,7 @@
                 .a {
                     position: relative;
                     width: 100%;
+
                     svg {
                         position: absolute;
                         top: 50%;
@@ -136,14 +182,14 @@
                         width: 20px;
                         height: 20px;
                     }
-                    
+
                     .eye {
                         width: 20px;
                         height: 20px;
                         right: 9px;
                         left: unset;
                         cursor: pointer;
-                        
+
                         &.s {
                             fill: #41A58D;
                         }
@@ -166,9 +212,11 @@
                 label {
                     color: #1E1E1E;
                 }
+
                 #password {
                     padding-right: 35px;
                 }
+
                 input {
                     border: 2px solid #F2F2F2;
                     border-radius: 7px;
@@ -179,7 +227,8 @@
                     width: 100%;
                     padding-left: 35px;
 
-                    &:focus, &:valid {
+                    &:focus,
+                    &:valid {
                         border-color: #41A58D;
                     }
                 }
@@ -199,6 +248,7 @@
                 display: flex;
                 flex-direction: column;
                 row-gap: 10px;
+
                 h2 {
                     font-weight: 600;
                     font-size: 20px;
@@ -226,8 +276,9 @@
                         color: #1E1E1E;
                         font-size: 16px;
                         border: 2px solid #F2F2F2;
-                        
-                        &:valid, &:focus {
+
+                        &:valid,
+                        &:focus {
                             border: 2px solid #41A58D;
                         }
                     }
@@ -276,19 +327,121 @@
                 }
             }
         }
+
+        #registration-confirmation {
+            h2 {
+                font-weight: 600;
+                font-size: 20px;
+            }
+
+            h3 {
+                margin-top: 10px;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            form#second-form {
+                
+                #qw {
+                    margin-top: 10px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    row-gap: 10px;
+                }
+
+                .input-row {
+                    &.w-50 {
+                        width: 49%;
+                    }
+                    label {
+                        color: #1e1e1e;
+                    }
+
+                    .input-and-icon {
+                        position: relative;
+                        margin-top: 3px;
+
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            left: 8px;
+                        }
+
+                        input , select, textarea {
+                            border: 2px solid #F2F2F2;
+                            border-radius: 7px;
+                            padding: 5px 10px;
+                            height: 47px;
+                            outline: none;
+                            font-size: 16px;
+                            width: 100%;
+                            padding-left: 35px;
+                            background-color: #F8F8F8;
+                        }
+                    }
+
+                }
+
+                .next-btn {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 20px;
+
+                    #back-btn {
+                        background-color: transparent;
+                        color: #41A58D;
+                    }
+
+                    button {
+                        width: 200px;
+                    }
+                }
+            }
+
+            #third-step {
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 10px;
+                justify-content: space-between;
+
+                .w-60 {
+                    width: 60%;
+                }
+
+                .w-50 {
+                    margin-top: 10px;
+                    width: 48%;
+                }
+
+                textarea {
+                    height: 150px !important;
+                    resize: none;
+                    padding: 20px !important;
+                }
+            }
+
+            
+        }
     }
 }
 
 @media screen and (max-width: 500px) {
     #signup-cont {
         margin: 0;
+
         .signup-header {
             .signup-header-right {
                 display: none;
-            }           
-        }       
+            }
+        }
+
         .signup-container {
             margin: 0 12px;
+
             .signup-top-text {
                 text-align: start;
 

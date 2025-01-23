@@ -6,6 +6,16 @@ import InputMask from "react-input-mask";
 import { usersServerUrl } from "../../../SuperVars";
 import axios from "axios";
 
+// SVG & IMAGES
+import person from "../../../assets/svg/person.svg";
+import dateIcon from "../../../assets/svg/date-icon.svg";
+import mail from "../../../assets/svg/mail.svg";
+import RegionSelector from "../../../components/regions/regions";
+import rightChevron from "../../../assets/svg/right-chevron.svg";
+import stepIcon1 from "../../../assets/svg/stepIcon1.svg";
+import stepIcon2 from "../../../assets/svg/stepIcon2.svg";
+import bag from "../../../assets/svg/bag.svg";
+
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -20,6 +30,13 @@ const Signup = () => {
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState("");
   const [phoneErr, setPhoneErr] = useState(null);
+  const [smsCode, setSmsCode] = useState("");
+  const [generatedCode, setGeneratedCode] = useState("");
+  const [step, setStep] = useState(1);
+  const [timer, setTimer] = useState(122);
+  const [code, setCode] = useState(["", "", "", "", ""]);
+  const [resendEnabled, setResendEnabled] = useState(false);
+  const [smsErr, setSmsErr] = useState(false);
 
   const [step, setStep] = useState(1);
   const [timer, setTimer] = useState(122);
@@ -30,7 +47,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    first_name: "",
+    // first_name: "",
     phone: "",
     password1: "",
     password2: "",
@@ -69,9 +86,9 @@ const Signup = () => {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.first_name.trim()) {
-      newErrors.first_name = "Ismni kiritish majburiy.";
-    }
+    // if (!formData.first_name.trim()) {
+    //   newErrors.first_name = "Ismni kiritish majburiy.";
+    // }
 
     if (!/^\d{9,12}$/.test(formData.phone.replace(/\D/g, ""))) {
       newErrors.phone = "Telefon raqam noto'g'ri yoki to'liq emas";
@@ -86,6 +103,68 @@ const Signup = () => {
 
     return newErrors;
   };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setSignUpSuccess("");
+
+  //   const newErrors = validate();
+  //   if (Object.keys(newErrors).length > 0) {
+  //     setError(newErrors);
+  //     return;
+  //   } else {
+  //     setLoading(true);
+  //   }
+
+  //   try {
+  //     const response = await axios.post(`${usersServerUrl}accounts/sign-up/`, {
+  //       // first_name: formData.first_name,
+  //       phone: formData.phone,
+  //       password: formData.password1,
+  //     });
+
+  //     console.log(response);
+
+  //     if (response.data.status === "ok") {
+  //       setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+
+  //       const { access, refresh } = response.data;
+
+  //       axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+  //       localStorage.setItem("access", access);
+  //       localStorage.setItem("refresh", refresh);
+
+  //       setFormData({
+  //         // first_name: "",
+  //         phone: "",
+  //         password1: "",
+  //         password2: "",
+  //       });
+
+  //       setTimeout(() => {
+  //         setSignUpSuccess("");
+  //       }, 5000);
+
+  //       navigate("/login");
+  //     } else {
+  //       const data = await response.data;
+  //       if (data.details.phone) {
+  //         setError("Ushbu raqam band.");
+  //         setPhoneErr(
+  //           "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
+  //         );
+  //       } else {
+  //         setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,56 +180,96 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post(`${usersServerUrl}accounts/sign-up/`, {
-        first_name: formData.first_name,
-        phone: formData.phone,
-        password: formData.password1,
-      });
-
-      console.log(response);
-      
-
-      if (response.data.status === "ok") {
-        setSignUpSuccess("Telefon raqamingizga SMS ko'd yuborildi");
-
-        const { access, refresh } = response.data;
-
-        axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
-
-        localStorage.setItem("access", access);
-        localStorage.setItem("refresh", refresh);
-
-        setFormData({
-          first_name: "",
-          phone: "",
-          password1: "",
-          password2: "",
-        });
-
+      // Simulyatsiya qilingan API chaqiruv
+      await new Promise((resolve, reject) => {
         setTimeout(() => {
-          setSignUpSuccess("");
-        }, 5000);
-        
-        setStep(2);
-      } else {
-        const data = await response.data;
-        if (data.details.phone) {
-          setError("Ushbu raqam band.");
-          setPhoneErr(
-            "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
-          );
-        } else {
-          setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
+          // Tasodifiy shart orqali muvaffaqiyat yoki xatolik holatini yaratamiz
+          const isSuccessful = Math.random() > 0.3; // 70% muvaffaqiyat ehtimoli
+          if (isSuccessful) {
+            resolve({
+              data: {
+                status: "ok",
+                access: "fakeAccessToken123",
+                refresh: "fakeRefreshToken456",
+              },
+            });
+          } else {
+            reject({
+              response: {
+                data: { details: { phone: "Ushbu raqam band." } },
+              },
+            });
+          }
+        }, 1000); // 1 soniya kechikish
+      }).then((response) => {
+        if (response.data.status === "ok") {
+          setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+
+          const { access, refresh } = response.data;
+
+          // Fake tokenlarni localStorage'ga saqlash
+          localStorage.setItem("access", access);
+          localStorage.setItem("refresh", refresh);
+
+          setFormData({
+            phone: "",
+            password1: "",
+            password2: "",
+          });
+
+          setTimeout(() => {
+            setSignUpSuccess("");
+          }, 5000);
+
+          // navigate("/login");
+          setStep(3);
         }
-      }
+      });
     } catch (err) {
       console.log(err);
-      setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
+
+      if (
+        err.response &&
+        err.response.data.details &&
+        err.response.data.details.phone
+      ) {
+        setError("Ushbu raqam band.");
+        setPhoneErr(
+          "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
+        );
+      } else {
+        setError({ general: "Ro'yxatdan o'tishda xatolik yuz berdi." });
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const generateSmsCode = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
+
+  const handleRegister = () => {
+    if (
+      // formData.first_name &&
+      formData.phone &&
+      formData.password1 &&
+      formData.password2 &&
+      formData.password1 === formData.password2 &&
+      phoneErr === null
+    ) {
+      console.log(phoneErr);
+
+      const code = generateSmsCode();
+      setGeneratedCode(code);
+      console.log(`SMS kodi yuborildi: ${code}`); // Kodni consolga chiqaramiz
+      setStep(2); // SMS tasdiqlash bosqichiga o'tamiz
+    } else {
+      validate();
+    }
+  };
+
+  // SMS qayta yuborish funksiyasi
   const handleResendCode = () => {
     setTimer(120);
     setResendEnabled(false);
@@ -197,8 +316,12 @@ const Signup = () => {
     }
   };
 
+  const handleSelection = (selectedValues) => {
+    console.log("Tanlangan qiymatlar:", selectedValues);
+    // Tanlangan qiymatlar bilan boshqa amallar bajarish
+  };
   return (
-    <div id="signup-cont">
+    <div id="signup-cont" className={step >= 3 ? "step-3-cont" : ""}>
       <div className="signup-header">
         <div className="logo">
           <Link to="/">
@@ -282,7 +405,34 @@ const Signup = () => {
           </Link>
         </div>
       </div>
-      <div className="signup-container">
+      {step >= 3 && (
+        <div className="procsess">
+          <div className="step-3-procsess">
+            <img src={stepIcon1} alt="" />
+            Shaxsiy ma'lumotlar
+          </div>
+          <div className={`step-3-line ${step === 4 ? "active" : ""}`}></div>
+          <div className={`step-4-procsess ${step === 4 ? "active" : ""}`}>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21M4 7H20C21.1046 7 22 7.89543 22 9V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19V9C2 7.89543 2.89543 7 4 7Z"
+                stroke={step === 3 ? "#B3B3B3" : "#41A58D"}
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Faoliyat haqida
+          </div>
+        </div>
+      )}
+      <div className={`signup-container ${step >= 3 ? "third-step" : ""}`}>
         {step === 1 && (
           <div className="signup-top-text">
             <h3>Ro’yxatdan o’tish</h3>
@@ -295,7 +445,7 @@ const Signup = () => {
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <>
-              <div className="input-container">
+              {/* <div className="input-container">
                 <label htmlFor="first_name">Ism</label>
                 <div className="a">
                   <svg
@@ -325,7 +475,7 @@ const Signup = () => {
                 {error.first_name && (
                   <p className="error-message">{error.first_name}</p>
                 )}
-              </div>
+              </div> */}
               <div className="input-container">
                 <label htmlFor="phone">Telefon raqami</label>
                 <div className="a">
@@ -510,10 +660,7 @@ const Signup = () => {
                   <p className="error-message">{error.password1}</p>
                 )}
               </div>
-              {/* <button type="submit" disabled={loading}>
-            {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
-          </button> */}
-              <button onClick={ handleSubmit }>Tasdiqlash</button>
+              <button onClick={handleRegister}>Tasdiqlash</button>
             </>
           )}
           {step === 2 && (
@@ -526,13 +673,6 @@ const Signup = () => {
                   .replace(/^(\+?\d{2})/, "**")}{" "}
                 raqamiga yuborilgan kodni kiriting:
               </p>
-              {/* <input
-                type="text"
-                value={smsCode}
-                onChange={(e) => setSmsCode(e.target.value)}
-                placeholder="SMS kodni kiriting"
-                style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-              /> */}
               <div className="code-inputs">
                 {code.map((digit, index) => (
                   <input
@@ -548,13 +688,19 @@ const Signup = () => {
                 ))}
               </div>
               {!phoneErr && timer > 0 && <p>{formatTimer()}</p>}
-              {!phoneErr && smsErr && <p style={{ color: "red" }}>Kiritilgan kod xato</p>}
+              {!phoneErr && smsErr && (
+                <p style={{ color: "red" }}>Kiritilgan kod xato</p>
+              )}
               {!phoneErr && resendEnabled && (
                 <button id="resend-btn" onClick={handleResendCode}>
                   SMS kodni qayta yuborish
                 </button>
               )}
-              <button type="button" onClick={(e) => handleVerify(e)} disabled={loading}>
+              <button
+                type="button"
+                onClick={(e) => handleVerify(e)}
+                disabled={loading}
+              >
                 {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
               </button>
               {phoneErr && <p style={{ color: "red" }}>{phoneErr}</p>}
@@ -566,6 +712,165 @@ const Signup = () => {
             </div>
           )}
         </form>
+        {step >= 3 && (
+          <div id="registration-confirmation">
+            <h2>Ro'yxatdan o'tish</h2>
+            <form action="" id="second-form">
+              {/* Step 3 uchun inputlar */}
+              {step === 3 && (
+                <div>
+                  <h3>Shaxsiy ma'lumotlar</h3>
+                  <div id="qw">
+                    <div className="input-row w-50">
+                      <label htmlFor="first-name">Ism</label>
+                      <div className="input-and-icon">
+                        <img src={person} alt="" />
+                        <input
+                          type="text"
+                          placeholder="Ism"
+                          id="first-name"
+                          value={formData.firstName}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              firstName: e.target.value,
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="last-name">Familiya</label>
+                      <div className="input-and-icon">
+                        <img src={person} alt="" />
+                        <input
+                          type="text"
+                          placeholder="Familiya"
+                          id="last-name"
+                          value={formData.lastName}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              lastName: e.target.value,
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="date">Tug'ulgan kun</label>
+                      <div className="input-and-icon">
+                        <img src={dateIcon} alt="" />
+                        <InputMask
+                          mask="99.99.9999"
+                          placeholder="KK.OO.YYYY"
+                          id="date"
+                          value={formData.date}
+                          onChange={(e) =>
+                            setFormData({ ...formData, date: e.target.value })
+                          }
+                          maskPlaceholder={false}
+                        />
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="email">Email</label>
+                      <div className="input-and-icon">
+                        <img src={mail} alt="" />
+                        <input
+                          type="email"
+                          id="email"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          required
+                          placeholder="misol@gmail.com"
+                        />
+                      </div>
+                    </div>
+                    <div className="user-regions">
+                      <RegionSelector onSelect={handleSelection} />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4 uchun inputlar */}
+              {step === 4 && (
+                <div>
+                  <h3>Faoliyat haqida</h3>
+                  <div id="third-step">
+                    <div className="input-row w-60">
+                      <label htmlFor="phone">Telefon raqam</label>
+                      <div className="input-and-icon">
+                        <img src={bag} alt="" />
+                        <select name="faoliyati" id="">
+                          <option value="1">Faoliyat 1</option>
+                          <option value="2">Faoliyat 2</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="">Men haqimda</label>
+                      <div className="input-and-icon">
+                        <textarea name="" id="" placeholder="Text"></textarea>
+                      </div>
+                    </div>
+                    <div className="input-row w-50">
+                      <label htmlFor="">Biografiya</label>
+                      <div className="input-and-icon">
+                        <textarea name="" id="" placeholder="Text"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Tugmalar */}
+              <div className="next-btn">
+                {step === 3 && (
+                  <button type="button" onClick={() => setStep(4)}>
+                    Keyingisi <img src={rightChevron} alt="" />
+                  </button>
+                )}
+                {step === 4 && (
+                  <>
+                    <button
+                      id="back-btn"
+                      type="button"
+                      onClick={() => {
+                        setStep(3);
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7.16667 12.375L3 8M3 8L7.16667 3.625M3 8H13"
+                          stroke="#41A58D"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      Ortga
+                    </button>
+                    <button type="submit" onClick={handleSubmit}>
+                      Yakunlash
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
