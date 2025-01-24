@@ -31,12 +31,11 @@ const Signup = () => {
   const [phoneErr, setPhoneErr] = useState(null);
   const [smsCode, setSmsCode] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [timer, setTimer] = useState(122);
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [resendEnabled, setResendEnabled] = useState(false);
   const [smsErr, setSmsErr] = useState(false);
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -90,7 +89,6 @@ const Signup = () => {
 
     return newErrors;
   };
-  
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -297,7 +295,7 @@ const Signup = () => {
         setTimeout(() => {
           setSignUpSuccess("");
         }, 5000);
-        setStep(3)
+        setStep(3);
       } else {
         const data = await response.data;
         if (data.details.phone) {
@@ -316,6 +314,27 @@ const Signup = () => {
       setLoading(false);
     }
   };
+
+  const [inputs, setInputs] = useState([
+    { id: 1, name: "Ish topish maqsadida", checked: false },
+    { id: 2, name: "Xizmatingizni tanitish uchun", checked: false },
+    { id: 3, name: "Ishchi yollash uchun", checked: false },
+    { id: 4, name: "Yangiliklarni kuzatish", checked: false },
+    { id: 5, name: "Boshqa maqsadda", checked: false },
+  ]);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleCheckboxChange = (index) => {
+    const updatedInputs = [...inputs];
+    updatedInputs[index].checked = !updatedInputs[index].checked;
+    setInputs(updatedInputs);
+  };
+
+  useEffect(() => {
+    const isAnyChecked = inputs.some((input) => input.checked);
+    setIsButtonDisabled(!isAnyChecked);
+  }, [inputs]);
 
   return (
     <div id="signup-cont" className={step >= 3 ? "step-3-cont" : ""}>
@@ -680,7 +699,9 @@ const Signup = () => {
         </form>
         {step >= 3 && (
           <div id="registration-confirmation">
-            <h2>Ro'yxatdan o'tish</h2>
+            {step === 3 ? <h2>Ro'yxatdan o'tish</h2> : <h2>Xush kelibsiz</h2>}
+
+            {step === 4 && <p>Platformadan nima maqsadda foydalanmoqchisiz?</p>}
             <form action="" id="second-form">
               {/* Step 3 uchun inputlar */}
               {step === 3 && (
@@ -767,30 +788,18 @@ const Signup = () => {
               {/* Step 4 uchun inputlar */}
               {step === 4 && (
                 <div>
-                  <h3>Faoliyat haqida</h3>
-                  <div id="third-step">
-                    <div className="input-row w-60">
-                      <label htmlFor="phone">Telefon raqam</label>
-                      <div className="input-and-icon">
-                        <img src={bag} alt="" />
-                        <select name="faoliyati" id="">
-                          <option value="1">Faoliyat 1</option>
-                          <option value="2">Faoliyat 2</option>
-                        </select>
+                  <div className="faoliyat-container">
+                    {inputs.map((input, index) => (
+                      <div key={index}>
+                        <input
+                          type="checkbox"
+                          id={input.id}
+                          checked={input.checked}
+                          onChange={() => handleCheckboxChange(index)}
+                        />
+                        <label htmlFor={input.id}>{input.name}</label>
                       </div>
-                    </div>
-                    <div className="input-row w-50">
-                      <label htmlFor="">Men haqimda</label>
-                      <div className="input-and-icon">
-                        <textarea name="" id="" placeholder="Text"></textarea>
-                      </div>
-                    </div>
-                    <div className="input-row w-50">
-                      <label htmlFor="">Biografiya</label>
-                      <div className="input-and-icon">
-                        <textarea name="" id="" placeholder="Text"></textarea>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -828,7 +837,7 @@ const Signup = () => {
                       </svg>
                       Ortga
                     </button>
-                    <button type="submit" onClick={handleSubmit}>
+                    <button id="submit-btn-last" type="submit" onClick={handleSubmit} disabled={isButtonDisabled}>
                       Yakunlash
                     </button>
                   </>

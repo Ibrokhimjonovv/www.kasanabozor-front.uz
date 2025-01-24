@@ -399,6 +399,73 @@
                     button {
                         width: 200px;
                     }
+
+                    #submit-btn-last {
+                        &:disabled {
+                            background-color: #0C0C0D33;
+                            cursor: not-allowed;
+                        }
+                    }
+                }
+
+                .faoliyat-container {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 15px;
+                    row-gap: 10px;
+
+                    input {
+                        display: none;
+                    
+                        &:checked ~ label {
+                            color: #41A58D;
+                            box-shadow: unset;
+
+                            &::before {
+                                background-color: #41A58D;
+                            }
+                        }
+                    }
+
+                    label {
+                        width: 50%;
+                        display: block;
+                        margin: 0 auto;
+                        border: 1px solid #F3F3F3;
+                        padding: 13px 15px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        box-shadow: 0 5px 5px #00000011;
+                        position: relative;
+                        text-align: center;
+                        color: #5A5A5A;
+
+                        &::before {
+                            left: 15px;
+                            position: absolute;
+                            content: "";
+                            width: 20px;
+                            height: 20px;
+                            border: 1px solid #F3F3F3;
+                            border-radius: 5px;
+                            transition: all .2s;
+                            box-shadow: unset;
+                        }
+
+                        &::after {
+                            top: 35%;
+                            transform: translateY(-50%);
+                            position: absolute;
+                            content: "";
+                            width: 5px;
+                            height: 11px;
+                            border: 2px solid #fff;
+                            left: 23px;
+                            border-top: none;
+                            border-left: none;
+                            transform: rotate(45deg);
+                        }
+                    }
                 }
             }
 
