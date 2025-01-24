@@ -74,7 +74,7 @@ const AnnouncementsPage = () => {
           <h2>E'lonlar</h2>
           <p>Barchasini bizda toping</p>
         </div>
-        <Link to="#">Ko'proq ko'rish</Link>
+        <Link to={`/announcements/${announcements[0] ? announcements[0].id : 1}`}>Ko'proq ko'rish</Link>
       </div>
       <div className="announcements-cards ann">
         {announcements.map((announcement, index) => (
@@ -172,7 +172,7 @@ const AnnouncementsPage = () => {
             <h2>Xizmatlar</h2>
             <p>Barchasini bizda toping</p>
           </div>
-          <Link to="#">Ko'proq ko'rish</Link>
+          <Link to={`/announcements/${services[0] ? services[0].id : 1}`}>Ko'proq ko'rish</Link>
         </div>
         <div className="services-cards">
           {services.map((value, index) => <Link to={`/announcements/${value.id}`} key={ index }>

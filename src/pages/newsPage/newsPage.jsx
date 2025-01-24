@@ -128,7 +128,7 @@ const NewsPage = () => {
           </div>
           <div className="right-side">
             {newsList.slice(1, 5).map((value, index) => (
-              <Link to="#" key={index}>
+              <Link to={`/news/${value.id}/`} key={index}>
                 <div className="row">
                   <div className="row-right">
                     <img
@@ -201,13 +201,13 @@ const NewsPage = () => {
 
         <div className="legislative-documents">
           <div className="title">
-            <h2>Qonunchilik yangiliklari</h2>
+            <h2>Yangiliklar</h2>
             <p>So’nggi haftaning eng mashhur mahsulotlari</p>
           </div>
           <div className="news-cards">
             {newsList.length > 0 ? (
               newsList.slice(0, 4).map((news, index) => (
-                <Link to={"/"}>
+                <Link to={`/news/${news.id}`}>
                   <div className={`news-card `}>
                     <div className="img-cont">
                       <img
