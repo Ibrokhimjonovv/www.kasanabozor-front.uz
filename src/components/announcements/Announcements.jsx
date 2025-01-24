@@ -9,6 +9,10 @@ const Announcements = () => {
   const { announcements } = useContext(MyContext);
 
   useEffect(() => {
+    window.scrollTo({'top': 0});    
+  }, [])
+  
+  useEffect(() => {
     window.addEventListener("scroll", reveal);
     function reveal() {
       let reveals = document.querySelectorAll(".scroll-fade-effect");
@@ -32,7 +36,7 @@ const Announcements = () => {
       <div id="announcements">
         <div className="title">
           <h2>E'lonlar</h2>
-          <Link to="#">Ko'proq ko'rish</Link>
+          <Link to="/announcements/">Ko'proq ko'rish</Link>
         </div>
         <div className="announcements-cards">
           {announcements.map((announcement) => (

@@ -109,7 +109,7 @@ const Documents = () => {
                   </svg>
                   Yuklab olish
                 </a>
-                <a href={doc.link} target="_blank" rel="noreferrer">
+                <a href={category === "@a" ? doc.link : `/news/documents/@b/${doc.id}`}>
                   <svg
                     width="16"
                     height="17"
@@ -130,7 +130,7 @@ const Documents = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  {"Lex.uz"}
+                  {category === "@a" ? "Lex.uz" : "Ko'rish"}
                 </a>
               </div>
             </div>

@@ -10,7 +10,7 @@ const Courses = () => {
     <div id="courses">
       <div className="title">
         <h2>Kurslarimiz</h2>
-        <Link to="#">Ko'proq ko'rish</Link>
+        <Link to="/courses/">Ko'proq ko'rish</Link>
       </div>
 
       <div className="course-cards">
@@ -18,7 +18,7 @@ const Courses = () => {
           <CourseCard key={course.id} course={course} />
         ))}
       </div>
-      <Link id="more" to="#">Ko'proq ko'rish</Link>
+      <Link id="more" to="/courses/">Ko'proq ko'rish</Link>
     </div>
   );
 };

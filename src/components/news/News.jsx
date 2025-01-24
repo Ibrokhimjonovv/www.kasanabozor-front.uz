@@ -4,17 +4,22 @@ import { Link } from "react-router-dom";
 import "./News.scss";
 import { MyContext } from "../../context/myContext";
 import { formatLink, mediaServerUrl } from "../../SuperVars";
+import { useEffect } from "react";
 
 
 const News = () => {
   const { newsList } = useContext(MyContext);
-  
+
+  useEffect(() => {
+    window.scrollTo({'top': 0});    
+  }, [])
+
   return (
     <div className="nn">
       <div id="news">
         <div className="title">
           <h2>Yangiliklar</h2>
-          <Link to="#">Ko'proq ko'rish</Link>
+          <Link to="/news/">Ko'proq ko'rish</Link>
         </div>
         <div className="news-cards">
           {newsList.slice(0, 4).map((news, index) => (
