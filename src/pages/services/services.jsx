@@ -10,7 +10,7 @@ import axios from "axios";
 
 
 const Services = () => {
-  const { services } = useContext(MyContext);
+  const { services, announcements } = useContext(MyContext);
   const [currentService, setCurrentService] = useState(null);
   const { id } = useParams();
   const [savedServices, setSavedServices] = useState([]);
@@ -134,7 +134,7 @@ const Services = () => {
         </Link>
       </div>
       <div className="announceSelect">
-        <Link to="/announcements/1">
+        <Link to={`/announcements/${announcements[0] ? announcements[0].id : 1}`}>
           <svg
             width="20"
             height="20"
@@ -153,7 +153,7 @@ const Services = () => {
           Ish e'lonlari
         </Link>
 
-        <Link to="/services/1" id="ser-link">
+        <Link to={`/services/${services[0] ? services[0].id : 1}`} id="ser-link">
           <svg
             width="21"
             height="20"
@@ -226,7 +226,7 @@ const Services = () => {
                       </button>
 
                       <div className="hero-img-title">
-                        { service.thumbnail ? <img className="heroImg" src={`${mediaServerUrl}services${formatLink(service.thumbnail)}`} alt="" /> : <></> }
+                        { service.thumbnail ? <img className="heroImg" src={`${mediaServerUrl}announcements${formatLink(service.thumbnail)}`} alt="" /> : <></> }
                         <div>
                           <p className="title">{service.title}</p>
                           <p className="price">{ service.argued ? <>Kelishiladi</> : <>{service.price_min} SO'M</> }</p>
@@ -241,7 +241,7 @@ const Services = () => {
                       </div>
                       <div className="author">
                         <img src={`${mediaServerUrl}users${formatLink(service.user.pfp)}`} alt="" />
-                        <span>{service.author}</span>
+                        <span>{service.user.first_name} {service.user.last_name}</span>
                       </div>
                       <div className="date-count">
                         <span>{service.created_at.split('T')[0]}</span>

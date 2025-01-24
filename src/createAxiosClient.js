@@ -35,7 +35,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     return response;
-  }, 
+  },
   async (error) => {
     const originalRequest = error.config;
     

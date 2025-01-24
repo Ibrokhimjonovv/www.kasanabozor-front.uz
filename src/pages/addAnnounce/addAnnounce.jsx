@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./addAnnounce.scss";
 import ImageUpload from "../../components/imgUpload/imgUpload";
 import axios from "axios";
 import { announcementsServerUrl } from "../../SuperVars";
 import SearchBar from "../../components/searchBar/searchBar";
+import { MyContext } from "../../context/myContext";
 
 const AddAnnounce = () => {
+  const { services, announcements } = useContext(MyContext);
   const navigation = useNavigate();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -227,7 +229,7 @@ const AddAnnounce = () => {
         </Link>
       </div>
       <div className="announceSelect">
-        <Link to="/announcements/1">
+        <Link to={`/announcements/${announcements[0] ? announcements[0].id : 1}`}>
           <svg
             width="20"
             height="20"
@@ -246,7 +248,7 @@ const AddAnnounce = () => {
           Ish e'lonlari
         </Link>
 
-        <Link to="/services/1">
+        <Link to={`/services/${services[0] ? services[0].id : 1}`}>
           <svg
             width="21"
             height="20"

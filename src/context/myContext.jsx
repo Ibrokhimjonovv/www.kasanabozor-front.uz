@@ -42,9 +42,7 @@ export const MyContextProvider = ({ children }) => {
           return prev;
         });
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
   }
 
   const loadUserData = async () => {
@@ -70,45 +68,35 @@ export const MyContextProvider = ({ children }) => {
       if (productsResponse.data.status === "ok") {
         setProducts(productsResponse.data.results);
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
 
     try {
       const categoriesResponse = await axios.get(`${eCommerseServerUrl}categories/list/`);
       if (categoriesResponse.data.status === "ok") {
         setCategories(categoriesResponse.data.results);
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
 
     try {
       const announcementsResponse = await axios.get(`${announcementsServerUrl}announcements/list/jobs/`);
       if (announcementsResponse.data.status === "ok") {
         setAnnouncements(announcementsResponse.data.results);
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
 
     try {
       const servicesResponse = await axios.get(`${announcementsServerUrl}announcements/list/services/`);
       if (servicesResponse.data.status === "ok") {
         setServices(servicesResponse.data.results);
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
 
     try {
       const ccategoriesResponse = await axios.get(`${coursesServerUrl}categories/list/`);
       if (ccategoriesResponse.data.status === "ok") {
         setCourseCategories(ccategoriesResponse.data.results);
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
 
     try {
       const coursesResponse = await axios.get(`${coursesServerUrl}courses/popular/`);

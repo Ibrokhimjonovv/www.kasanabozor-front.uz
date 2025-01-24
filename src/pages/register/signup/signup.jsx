@@ -5,8 +5,6 @@ import "./signup.scss";
 import InputMask from "react-input-mask";
 import { usersServerUrl } from "../../../SuperVars";
 import axios from "axios";
-
-// SVG & IMAGES
 import person from "../../../assets/svg/person.svg";
 import dateIcon from "../../../assets/svg/date-icon.svg";
 import mail from "../../../assets/svg/mail.svg";
@@ -15,6 +13,7 @@ import rightChevron from "../../../assets/svg/right-chevron.svg";
 import stepIcon1 from "../../../assets/svg/stepIcon1.svg";
 import stepIcon2 from "../../../assets/svg/stepIcon2.svg";
 import bag from "../../../assets/svg/bag.svg";
+
 
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +29,8 @@ const Signup = () => {
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState("");
   const [phoneErr, setPhoneErr] = useState(null);
-  const [smsCode, setSmsCode] = useState("");
-  const [generatedCode, setGeneratedCode] = useState("");
 
+  const [phone, setPhone] = useState([]);
   const [step, setStep] = useState(1);
   const [timer, setTimer] = useState(122);
   const [code, setCode] = useState(["", "", "", "", ""]);
@@ -161,7 +159,7 @@ const Signup = () => {
   //   }
   // };
 
-  const handleSubmit = async (e) => {
+  const handle = async (e) => {
     e.preventDefault();
     setError("");
     setSignUpSuccess("");
@@ -174,77 +172,52 @@ const Signup = () => {
       setLoading(true);
     }
 
-    try {
-      // Simulyatsiya qilingan API chaqiruv
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Tasodifiy shart orqali muvaffaqiyat yoki xatolik holatini yaratamiz
-          const isSuccessful = Math.random() > 0.3; // 70% muvaffaqiyat ehtimoli
-          if (isSuccessful) {
-            resolve({
-              data: {
-                status: "ok",
-                access: "fakeAccessToken123",
-                refresh: "fakeRefreshToken456",
-              },
-            });
-          } else {
-            reject({
-              response: {
-                data: { details: { phone: "Ushbu raqam band." } },
-              },
-            });
-          }
-        }, 1000); // 1 soniya kechikish
-      }).then((response) => {
-        if (response.data.status === "ok") {
-          setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+    // try {
+    //   if (response.data.status === "ok") {
+    //     setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
 
-          const { access, refresh } = response.data;
+    //     const { access, refresh } = response.data;
 
-          // Fake tokenlarni localStorage'ga saqlash
-          localStorage.setItem("access", access);
-          localStorage.setItem("refresh", refresh);
+    //     // Fake tokenlarni localStorage'ga saqlash
+    //     localStorage.setItem("access", access);
+    //     localStorage.setItem("refresh", refresh);
 
-          setFormData({
-            phone: "",
-            password1: "",
-            password2: "",
-          });
+    //     setFormData({
+    //       phone: "",
+    //       password1: "",
+    //       password2: "",
+    //     });
 
-          setTimeout(() => {
-            setSignUpSuccess("");
-          }, 5000);
+    //     setTimeout(() => {
+    //       setSignUpSuccess("");
+    //     }, 5000);
 
-          // navigate("/login");
-          setStep(3);
-        }
-      });
-    } catch (err) {
-      console.log(err);
+    //     // navigate("/login");
+    //     setStep(3);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
 
-      if (
-        err.response &&
-        err.response.data.details &&
-        err.response.data.details.phone
-      ) {
-        setError("Ushbu raqam band.");
-        setPhoneErr(
-          "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
-        );
-      } else {
-        setError({ general: "Ro'yxatdan o'tishda xatolik yuz berdi." });
-      }
-    } finally {
-      setLoading(false);
-    }
+    //   if (
+    //     err.response &&
+    //     err.response.data.details &&
+    //     err.response.data.details.phone
+    //   ) {
+    //     setError("Ushbu raqam band.");
+    //     setPhoneErr(
+    //       "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
+    //     );
+    //   } else {
+    //     setError({ general: "Ro'yxatdan o'tishda xatolik yuz berdi." });
+    //   }
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
-  const generateSmsCode = () => {
-    return Math.floor(10000 + Math.random() * 90000).toString();
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleRegister = () => {
     if (
       // formData.first_name &&
       formData.phone &&
@@ -253,14 +226,18 @@ const Signup = () => {
       formData.password1 === formData.password2 &&
       phoneErr === null
     ) {
-      console.log(phoneErr);
+      try {
+        const response = await axios.post(`${usersServerUrl}accounts/register/step1/`, {'phone': formData.phone, 'password': formData.password1});
+        console.log(response);
+        if (response.data.status === "ok") {
+          setPhone(response.data.results.phone);
+          setStep(2);
+        } else {
 
-      const code = generateSmsCode();
-      setGeneratedCode(code);
-      console.log(`SMS kodi yuborildi: ${code}`); // Kodni consolga chiqaramiz
-      setStep(2); // SMS tasdiqlash bosqichiga o'tamiz
-    } else {
-      validate();
+        }
+      } catch {
+        setError("Aloqada yoki serverda xatolik");
+      }
     }
   };
 
@@ -276,7 +253,7 @@ const Signup = () => {
       setTimer((prevTimer) => {
         if (prevTimer <= 1) {
           clearInterval(countdown); // Timer to'xtatish
-          setResendEnabled(true); // SMS qayta yuborish tugmasini ko'rsatish
+          setResendEnabled(true); // SMS qayta yuborish tugasini ko'rsatish
 
           return 0;
         }
@@ -297,8 +274,24 @@ const Signup = () => {
   };
 
   // SMS kodni tekshirish
-  const handleVerify = (e) => {
+  const handleVerify = async (e) => {
+    setLoading(true);
     const enteredCode = code.join("");
+
+    try {
+      console.log(enteredCode);
+      
+      const response = await axios.post(`${usersServerUrl}accounts/register/step2/`, {'code': enteredCode, 'phone': phone});
+      console.log(response);
+
+      if (response.data.status === "ok") {
+        setStep(3);
+      } else {
+        setSmsErr("Bu ko'd xato.");
+      }
+    } catch {}
+
+    setLoading(false);
   };
 
   const handleChangeSmsCode = (index, value) => {
@@ -655,7 +648,7 @@ const Signup = () => {
                   <p className="error-message">{error.password1}</p>
                 )}
               </div>
-              <button onClick={handleRegister}>Tasdiqlash</button>
+              <button onClick={handleSubmit}>Tasdiqlash</button>
             </>
           )}
           {step === 2 && (

@@ -10,7 +10,7 @@ import SearchBar from "../../components/searchBar/searchBar";
 
 const AnnounceDetail = () => {
   const [selectedDep, setSelectedDep] = useState("announce");
-  const { announcements, savedAnnouncements } = useContext(MyContext);
+  const { announcements, savedAnnouncements, services } = useContext(MyContext);
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
   const { id } = useParams();
 
@@ -133,7 +133,7 @@ const AnnounceDetail = () => {
         </Link>
       </div>
       <div className="announceSelect">
-        <Link to="/announcements/1" id="ann-link">
+        <Link to={`/announcements/${announcements[0] ? announcements[0].id : 1}`} id="ann-link">
           <svg
             width="20"
             height="20"
@@ -151,7 +151,7 @@ const AnnounceDetail = () => {
           </svg>
           Ish e'lonlari
         </Link>
-        <Link to="/services/1">
+        <Link to={`/services/${services[0] ? services[0].id : 1}`}>
           <svg
             width="21"
             height="20"
