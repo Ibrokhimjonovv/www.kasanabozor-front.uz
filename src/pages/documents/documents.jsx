@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "./documents.scss";
 import { MyContext } from "../../context/myContext";
 import { useParams, Link } from "react-router-dom";
@@ -9,39 +9,15 @@ import Weather from "../../components/weather/weather";
 import CurrencyRates from "../../components/converter/converter";
 import { formatLink, mediaServerUrl } from "../../SuperVars";
 
-function getDomain(url, subdomain) {
-  subdomain = subdomain || false;
-
-  url = url.replace(/(https?:\/\/)?(www.)?/i, "");
-
-  if (!subdomain) {
-    url = url.split(".");
-
-    url = url.slice(url.length - 2).join(".");
-  }
-
-  if (url.indexOf("/") !== -1) {
-    return url.split("/")[0];
-  }
-
-  return url;
-}
 
 const Documents = () => {
   const { category } = useParams();
-  const { legislativeDoc } = useContext(MyContext);
+  const { legislativeDoc, bussinessDoc } = useContext(MyContext);
 
-  function formatCategory(category) {
-    if (!category) return "";
-    const formattedCategory = category.replace(/-/g, " ").split(" ");
-    formattedCategory[0] =
-      formattedCategory[0][0].toUpperCase() + formattedCategory[0].slice(1);
-    return formattedCategory.join(" ");
-  }
-  const [visibleNews, setVisibleNews] = useState(6);
-  const handleShowMore = () => {
-    setVisibleNews((prevVisible) => prevVisible + 6);
-  };
+  useEffect(() => {
+    window.scrollTo({'top': 0});    
+  }, [])
+
   return (
     <div id="documentsPage">
       <div className="to-back">
@@ -96,18 +72,18 @@ const Documents = () => {
               />
             </svg>
           </span>
-          <span>Qonunchilik hujjatlari</span>
+          <span>{ category === "@a" ? "Qonunchilik hujjatlari" : "Kichik biznes loyihalar" }</span>
         </div>
       </div>
       <div className="allProductsPoster">
         <div className="inner">
-          <h2>Qonunchilik hujjatlari</h2>
+          <h2>{ category === "@a" ? "Qonunchilik hujjatlari" : "Kichik biznes loyihalar" }</h2>
           <img src={aaa} alt="" />
         </div>
       </div>
       <div className="docs">
         <div className="left-side">
-          {legislativeDoc.map((doc) => (
+          {(category === "@a" ? legislativeDoc : bussinessDoc).map((doc) => (
             <div key={doc.id} className="container">
               <p>{doc.title}</p>
               <p>{doc.subtitle}</p>
