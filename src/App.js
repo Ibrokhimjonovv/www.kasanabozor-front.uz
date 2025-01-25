@@ -176,7 +176,7 @@ function AppContent() {
         <Route path="courses" element={<CoursesPage />} />
         <Route path="courses/all-categories/" element={<AllCourseCategory />} />
         <Route
-          path="courses/categories/:category"
+          path="courses/categories/:categoryId"
           element={<CoursesCategory />}
         />
         <Route path="courses/course/:id" element={<CourseDetail />} />

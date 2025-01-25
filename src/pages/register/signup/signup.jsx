@@ -15,6 +15,17 @@ import stepIcon2 from "../../../assets/svg/stepIcon2.svg";
 import bag from "../../../assets/svg/bag.svg";
 
 
+function formatDate(inputDate) {
+  const parts = inputDate.split('.');  
+  if (parts.length === 3) {
+      const [day, month, year] = parts;
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  } else {
+      throw new Error("Invalid date format. Expected DD.MM.YYYY.");
+  }
+}
+
+
 const Signup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -74,162 +85,6 @@ const Signup = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  
-  const validate = () => {
-    const newErrors = {};
-
-    // if (!formData.first_name.trim()) {
-    //   newErrors.first_name = "Ismni kiritish majburiy.";
-    // }
-
-    if (!/^\d{9,12}$/.test(formData.phone.replace(/\D/g, ""))) {
-      newErrors.phone = "Telefon raqam noto'g'ri yoki to'liq emas";
-    }
-
-    // Parollarni tekshirish
-    if (!formData.password1 || !formData.password2) {
-      newErrors.password1 = "Parollarni kiritish shart.";
-    } else if (formData.password1 !== formData.password2) {
-      newErrors.password1 = "Parollar bir xil emas.";
-    }
-
-    return newErrors;
-  };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   setSignUpSuccess("");
-
-  //   const newErrors = validate();
-  //   if (Object.keys(newErrors).length > 0) {
-  //     setError(newErrors);
-  //     return;
-  //   } else {
-  //     setLoading(true);
-  //   }
-
-  //   try {
-  //     // Simulyatsiya qilingan API chaqiruv
-  //     await new Promise((resolve, reject) => {
-  //       setTimeout(() => {
-  //         // Tasodifiy shart orqali muvaffaqiyat yoki xatolik holatini yaratamiz
-  //         const isSuccessful = Math.random() > 0.3; // 70% muvaffaqiyat ehtimoli
-  //         if (isSuccessful) {
-  //           resolve({
-  //             data: {
-  //               status: "ok",
-  //               access: "fakeAccessToken123",
-  //               refresh: "fakeRefreshToken456",
-  //             },
-  //           });
-  //         } else {
-  //           reject({
-  //             response: {
-  //               data: { details: { phone: "Ushbu raqam band." } },
-  //             },
-  //           });
-  //         }
-  //       }, 1000); // 1 soniya kechikish
-  //     }).then((response) => {
-  //       if (response.data.status === "ok") {
-  //         setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
-
-  //         const { access, refresh } = response.data;
-
-  //         // Fake tokenlarni localStorage'ga saqlash
-  //         localStorage.setItem("access", access);
-  //         localStorage.setItem("refresh", refresh);
-
-  //         setFormData({
-  //           phone: "",
-  //           password1: "",
-  //           password2: "",
-  //         });
-
-  //         setTimeout(() => {
-  //           setSignUpSuccess("");
-  //         }, 5000);
-
-  //         // navigate("/login");
-  //         setStep(3);
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-
-  //     if (
-  //       err.response &&
-  //       err.response.data.details &&
-  //       err.response.data.details.phone
-  //     ) {
-  //       setError("Ushbu raqam band.");
-  //       setPhoneErr(
-  //         "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
-  //       );
-  //     } else {
-  //       setError({ general: "Ro'yxatdan o'tishda xatolik yuz berdi." });
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  const handle = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSignUpSuccess("");
-
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setError(newErrors);
-      return;
-    } else {
-      setLoading(true);
-    }
-
-    // try {
-    //   if (response.data.status === "ok") {
-    //     setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
-
-    //     const { access, refresh } = response.data;
-
-    //     // Fake tokenlarni localStorage'ga saqlash
-    //     localStorage.setItem("access", access);
-    //     localStorage.setItem("refresh", refresh);
-
-    //     setFormData({
-    //       phone: "",
-    //       password1: "",
-    //       password2: "",
-    //     });
-
-    //     setTimeout(() => {
-    //       setSignUpSuccess("");
-    //     }, 5000);
-
-    //     // navigate("/login");
-    //     setStep(3);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-
-    //   if (
-    //     err.response &&
-    //     err.response.data.details &&
-    //     err.response.data.details.phone
-    //   ) {
-    //     setError("Ushbu raqam band.");
-    //     setPhoneErr(
-    //       "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
-    //     );
-    //   } else {
-    //     setError({ general: "Ro'yxatdan o'tishda xatolik yuz berdi." });
-    //   }
-    // } finally {
-    //   setLoading(false);
-    // }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -247,6 +102,7 @@ const Signup = () => {
         console.log(response);
         if (response.data.status === "ok") {
           setPhone(response.data.results.phone);
+          setFormData({...formData, phone: response.data.results.phone});
           setStep(2);
         } else {
 
@@ -322,69 +178,31 @@ const Signup = () => {
 
   const handleSelection = (selectedValues) => {
     console.log("Tanlangan qiymatlar:", selectedValues);
-    // Tanlangan qiymatlar bilan boshqa amallar bajarish
   };
 
-  const handleSubmit2 = async (e) => {
+  const handleFinish = async (e) => {
     e.preventDefault();
-    setError("");
-    setSignUpSuccess("");
-
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setError(newErrors);
-      return;
-    } else {
-      setLoading(true);
-    }
 
     try {
-      const response = await axios.post(`${usersServerUrl}accounts/step1/`, {
-        // first_name: formData.first_name,
-        phone: formData.phone,
-        password: formData.password1,
-      });
+      const formDataC = new FormData();
 
-      console.log(response);
+      if (formData.first_name) { formDataC.append('first_name', formData.first_name); } else { alert("Ism to'ldirilmagan"); }
+      if (formData.last_name) { formDataC.append('last_name', formData.last_name); } else { alert("Familiya to'ldirilmagan"); }
+      if (formData.birthday && !String(formData.birthday).includes('_')) { formDataC.append('birthday', formatDate(formData.birthday)); } else { alert("Tug'ilgan kun to'ldirilmagan"); }
+      if (formData.email) { formDataC.append('email', formData.email); } else { alert("Elektron pochta to'ldirilmagan"); }
+      if (formData.activity) { formDataC.append('activity', formData.activity); }
+      if (formData.phone) { formDataC.append('phone', formData.phone) }
+      if (formData.password1) { formDataC.append('password', formData.password1) }
+
+      const response = await axios.post(`${usersServerUrl}accounts/register/step3/`, formDataC);
 
       if (response.data.status === "ok") {
-        // setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
-
-        // const { access, refresh } = response.data;
-
-        // axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
-
-        // localStorage.setItem("access", access);
-        // localStorage.setItem("refresh", refresh);
-
-        setFormData({
-          phone: "",
-          password1: "",
-          password2: "",
-        });
-
-        setTimeout(() => {
-          setSignUpSuccess("");
-        }, 5000);
-        setStep(3);
+        navigate("/login/");
       } else {
-        const data = await response.data;
-        if (data.details.phone) {
-          setError("Ushbu raqam band.");
-          setPhoneErr(
-            "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
-          );
-        } else {
-          setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
-        }
+        alert("Nimadur xato ketdi. Qayta urinib ko'ring");
       }
-    } catch (err) {
-      console.log(err);
-      setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
-    } finally {
-      setLoading(false);
-    }
-  };
+    } catch {}
+  }
 
   const [inputs, setInputs] = useState([
     { id: 1, name: "Ish topish maqsadida", checked: false },
@@ -400,6 +218,10 @@ const Signup = () => {
     const updatedInputs = [...inputs];
     updatedInputs[index].checked = !updatedInputs[index].checked;
     setInputs(updatedInputs);
+    setFormData({
+      ...formData,
+      activity: updatedInputs[index].name
+    });
   };
 
   useEffect(() => {
@@ -787,11 +609,11 @@ const Signup = () => {
                           type="text"
                           placeholder="Ism"
                           id="first-name"
-                          value={formData.firstName}
+                          value={formData.first_name}
                           onChange={(e) =>
                             setFormData({
                               ...formData,
-                              firstName: e.target.value,
+                              first_name: e.target.value,
                             })
                           }
                           required
@@ -806,11 +628,11 @@ const Signup = () => {
                           type="text"
                           placeholder="Familiya"
                           id="last-name"
-                          value={formData.lastName}
+                          value={formData.last_name}
                           onChange={(e) =>
                             setFormData({
                               ...formData,
-                              lastName: e.target.value,
+                              last_name: e.target.value,
                             })
                           }
                           required
@@ -825,9 +647,9 @@ const Signup = () => {
                           mask="99.99.9999"
                           placeholder="KK.OO.YYYY"
                           id="date"
-                          value={formData.date}
+                          value={formData.birthday}
                           onChange={(e) =>
-                            setFormData({ ...formData, date: e.target.value })
+                            setFormData({ ...formData, birthday: e.target.value })
                           }
                           maskPlaceholder={false}
                         />
@@ -908,7 +730,7 @@ const Signup = () => {
                       </svg>
                       Ortga
                     </button>
-                    <button id="submit-btn-last" type="submit" onClick={handleSubmit} disabled={isButtonDisabled}>
+                    <button id="submit-btn-last" type="submit" onClick={handleFinish} disabled={isButtonDisabled}>
                       Yakunlash
                     </button>
                   </>

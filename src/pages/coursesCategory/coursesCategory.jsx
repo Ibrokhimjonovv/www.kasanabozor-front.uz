@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./coursesCategory.scss";
 import { useParams, Link } from "react-router-dom";
 import aaa from "./Без имени-2 1.png";
-import Discount from "../../components/discount/Discount";
+// import Discount from "../../components/discount/Discount";
 import axios from "axios";
-import { coursesServerUrl } from "../../SuperVars";
+import { coursesServerUrl, formatLink, mediaServerUrl } from "../../SuperVars";
 import Loading from "../../components/loading/loading";
 
 
@@ -18,7 +18,8 @@ const CoursesCategory = () => {
     console.log(response);
 
     if (response.data.status === "ok") {
-      setCategory(response.data.results);      
+      setCategory(response.data.results);
+      setFilteredCourses(response.data.results.category_course_Learning_category_courses);
     }
   }
 
@@ -50,7 +51,7 @@ const CoursesCategory = () => {
     return () => window.removeEventListener("scroll", reveal);
   }, []);
 
-  if (!category) {
+  if (!category || (filteredCourses && filteredCourses.length <= 0)) {
     return <Loading/>;
   }
   
@@ -124,34 +125,34 @@ const CoursesCategory = () => {
               <Link to={`/courses/course/${course.id}`} key={index}>
                 <div className="course-card">
                   <div className="card-img">
-                    <img src={course.img} alt={course.title} />
+                    <img src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`} alt={course.title} />
                   </div>
                   <p className="card-title">{course.title}</p>
                   <p className="card-description">{course.description}</p>
                   <div className="rat">
                     <div className="detail">
-                      <span>{course.details.rating}</span>
+                      <span>{course.average_rating}</span>
                     </div>
-                    <Link to="#">{course.category}</Link>
+                    {/* <Link to={`/courses/categories/${}`}>{course.category.title}</Link> */}
                   </div>
-                  <Discount product={course} />
+                  {/* <Discount product={course} /> */}
                   <div className="line"></div>
                   <div className="about-card">
                     <div className="detail">
-                      <span>{course.details.users}</span>
+                      {/* <span>{course.details.users}</span> */}
                     </div>
                     <div className="detail">
-                      <span>{course.details.duration}</span>
+                      {/* <span>{course.details.duration}</span> */}
                     </div>
                     <div className="detail">
-                      <span>{course.details.lessons}</span>
+                      {/* <span>{course.details.lessons}</span> */}
                     </div>
                   </div>
                   <div className="author">
                     <div className="author-img">
-                      <img src={course.profileImg} alt={course.author} />
+                      <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.user.first_name} />
                     </div>
-                    <p className="author-name">{course.author}</p>
+                    <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                   </div>
                 </div>
               </Link>
