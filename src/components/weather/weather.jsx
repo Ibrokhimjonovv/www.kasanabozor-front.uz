@@ -10,6 +10,7 @@ import rainNight from "./rain-night.png";
 import thunderStorm from "./thunder-storm.png";
 import snow from "./snow.png";
 import mist from "./mist.png";
+import brokenCloud from "./noun-clouds-141491.png";
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -155,6 +156,10 @@ const Weather = () => {
     "01n": partlyCloudNight,
     "02d": partlyCloud,
     "02n": partlyCloudNight,
+    "03d": brokenCloud,
+    "03n": brokenCloud,
+    "04d": brokenCloud,
+    "04n": brokenCloud,
     "09d": rain,
     "09n": rainNight,
     "10d": rain,
