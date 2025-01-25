@@ -36,7 +36,6 @@ const Signup = () => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [resendEnabled, setResendEnabled] = useState(false);
   const [smsErr, setSmsErr] = useState(false);
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -96,6 +95,7 @@ const Signup = () => {
 
     return newErrors;
   };
+
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   setError("");
@@ -110,50 +110,66 @@ const Signup = () => {
   //   }
 
   //   try {
-  //     const response = await axios.post(`${usersServerUrl}accounts/sign-up/`, {
-  //       // first_name: formData.first_name,
-  //       phone: formData.phone,
-  //       password: formData.password1,
-  //     });
-
-  //     console.log(response);
-
-  //     if (response.data.status === "ok") {
-  //       setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
-
-  //       const { access, refresh } = response.data;
-
-  //       axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
-
-  //       localStorage.setItem("access", access);
-  //       localStorage.setItem("refresh", refresh);
-
-  //       setFormData({
-  //         // first_name: "",
-  //         phone: "",
-  //         password1: "",
-  //         password2: "",
-  //       });
-
+  //     // Simulyatsiya qilingan API chaqiruv
+  //     await new Promise((resolve, reject) => {
   //       setTimeout(() => {
-  //         setSignUpSuccess("");
-  //       }, 5000);
+  //         // Tasodifiy shart orqali muvaffaqiyat yoki xatolik holatini yaratamiz
+  //         const isSuccessful = Math.random() > 0.3; // 70% muvaffaqiyat ehtimoli
+  //         if (isSuccessful) {
+  //           resolve({
+  //             data: {
+  //               status: "ok",
+  //               access: "fakeAccessToken123",
+  //               refresh: "fakeRefreshToken456",
+  //             },
+  //           });
+  //         } else {
+  //           reject({
+  //             response: {
+  //               data: { details: { phone: "Ushbu raqam band." } },
+  //             },
+  //           });
+  //         }
+  //       }, 1000); // 1 soniya kechikish
+  //     }).then((response) => {
+  //       if (response.data.status === "ok") {
+  //         setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
 
-  //       navigate("/login");
-  //     } else {
-  //       const data = await response.data;
-  //       if (data.details.phone) {
-  //         setError("Ushbu raqam band.");
-  //         setPhoneErr(
-  //           "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
-  //         );
-  //       } else {
-  //         setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
+  //         const { access, refresh } = response.data;
+
+  //         // Fake tokenlarni localStorage'ga saqlash
+  //         localStorage.setItem("access", access);
+  //         localStorage.setItem("refresh", refresh);
+
+  //         setFormData({
+  //           phone: "",
+  //           password1: "",
+  //           password2: "",
+  //         });
+
+  //         setTimeout(() => {
+  //           setSignUpSuccess("");
+  //         }, 5000);
+
+  //         // navigate("/login");
+  //         setStep(3);
   //       }
-  //     }
+  //     });
   //   } catch (err) {
   //     console.log(err);
-  //     setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
+
+  //     if (
+  //       err.response &&
+  //       err.response.data.details &&
+  //       err.response.data.details.phone
+  //     ) {
+  //       setError("Ushbu raqam band.");
+  //       setPhoneErr(
+  //         "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
+  //       );
+  //     } else {
+  //       setError({ general: "Ro'yxatdan o'tishda xatolik yuz berdi." });
+  //     }
   //   } finally {
   //     setLoading(false);
   //   }
@@ -308,6 +324,89 @@ const Signup = () => {
     console.log("Tanlangan qiymatlar:", selectedValues);
     // Tanlangan qiymatlar bilan boshqa amallar bajarish
   };
+
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSignUpSuccess("");
+
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setError(newErrors);
+      return;
+    } else {
+      setLoading(true);
+    }
+
+    try {
+      const response = await axios.post(`${usersServerUrl}accounts/step1/`, {
+        // first_name: formData.first_name,
+        phone: formData.phone,
+        password: formData.password1,
+      });
+
+      console.log(response);
+
+      if (response.data.status === "ok") {
+        // setSignUpSuccess("Ro'yxatdan muvaffaqiyatli o'tdingiz!");
+
+        // const { access, refresh } = response.data;
+
+        // axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+        // localStorage.setItem("access", access);
+        // localStorage.setItem("refresh", refresh);
+
+        setFormData({
+          phone: "",
+          password1: "",
+          password2: "",
+        });
+
+        setTimeout(() => {
+          setSignUpSuccess("");
+        }, 5000);
+        setStep(3);
+      } else {
+        const data = await response.data;
+        if (data.details.phone) {
+          setError("Ushbu raqam band.");
+          setPhoneErr(
+            "Ushbu raqam avval ro'yxatdan o'tgan! Iltimos boshqa raqam bilan ro'yxatdan o'ting"
+          );
+        } else {
+          setError("Ro'yxatdan o'tishda xatolik yuz berdi.");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      setError({ general: "Tarmoq xatosi. Iltimos, qayta urinib ko'ring." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [inputs, setInputs] = useState([
+    { id: 1, name: "Ish topish maqsadida", checked: false },
+    { id: 2, name: "Xizmatingizni tanitish uchun", checked: false },
+    { id: 3, name: "Ishchi yollash uchun", checked: false },
+    { id: 4, name: "Yangiliklarni kuzatish", checked: false },
+    { id: 5, name: "Boshqa maqsadda", checked: false },
+  ]);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleCheckboxChange = (index) => {
+    const updatedInputs = [...inputs];
+    updatedInputs[index].checked = !updatedInputs[index].checked;
+    setInputs(updatedInputs);
+  };
+
+  useEffect(() => {
+    const isAnyChecked = inputs.some((input) => input.checked);
+    setIsButtonDisabled(!isAnyChecked);
+  }, [inputs]);
+
   return (
     <div id="signup-cont" className={step >= 3 ? "step-3-cont" : ""}>
       <div className="signup-header">
@@ -433,37 +532,6 @@ const Signup = () => {
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <>
-              {/* <div className="input-container">
-                <label htmlFor="first_name">Ism</label>
-                <div className="a">
-                  <svg
-                    width="22"
-                    height="24"
-                    viewBox="0 0 22 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M20.3337 22.5V20.1667C20.3337 18.929 19.842 17.742 18.9668 16.8668C18.0917 15.9917 16.9047 15.5 15.667 15.5H6.33366C5.09598 15.5 3.909 15.9917 3.03383 16.8668C2.15866 17.742 1.66699 18.929 1.66699 20.1667V22.5M15.667 6.16667C15.667 8.744 13.5777 10.8333 11.0003 10.8333C8.423 10.8333 6.33366 8.744 6.33366 6.16667C6.33366 3.58934 8.423 1.5 11.0003 1.5C13.5777 1.5 15.667 3.58934 15.667 6.16667Z"
-                      stroke="#41A58D"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  <input
-                    type="text"
-                    id="first_name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    placeholder="Ismingizni kiriting"
-                    name="first_name"
-                  />
-                </div>
-                {error.first_name && (
-                  <p className="error-message">{error.first_name}</p>
-                )}
-              </div> */}
               <div className="input-container">
                 <label htmlFor="phone">Telefon raqami</label>
                 <div className="a">
@@ -702,7 +770,9 @@ const Signup = () => {
         </form>
         {step >= 3 && (
           <div id="registration-confirmation">
-            <h2>Ro'yxatdan o'tish</h2>
+            {step === 3 ? <h2>Ro'yxatdan o'tish</h2> : <h2>Xush kelibsiz</h2>}
+
+            {step === 4 && <p>Platformadan nima maqsadda foydalanmoqchisiz?</p>}
             <form action="" id="second-form">
               {/* Step 3 uchun inputlar */}
               {step === 3 && (
@@ -789,30 +859,18 @@ const Signup = () => {
               {/* Step 4 uchun inputlar */}
               {step === 4 && (
                 <div>
-                  <h3>Faoliyat haqida</h3>
-                  <div id="third-step">
-                    <div className="input-row w-60">
-                      <label htmlFor="phone">Telefon raqam</label>
-                      <div className="input-and-icon">
-                        <img src={bag} alt="" />
-                        <select name="faoliyati" id="">
-                          <option value="1">Faoliyat 1</option>
-                          <option value="2">Faoliyat 2</option>
-                        </select>
+                  <div className="faoliyat-container">
+                    {inputs.map((input, index) => (
+                      <div key={index}>
+                        <input
+                          type="checkbox"
+                          id={input.id}
+                          checked={input.checked}
+                          onChange={() => handleCheckboxChange(index)}
+                        />
+                        <label htmlFor={input.id}>{input.name}</label>
                       </div>
-                    </div>
-                    <div className="input-row w-50">
-                      <label htmlFor="">Men haqimda</label>
-                      <div className="input-and-icon">
-                        <textarea name="" id="" placeholder="Text"></textarea>
-                      </div>
-                    </div>
-                    <div className="input-row w-50">
-                      <label htmlFor="">Biografiya</label>
-                      <div className="input-and-icon">
-                        <textarea name="" id="" placeholder="Text"></textarea>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -850,7 +908,7 @@ const Signup = () => {
                       </svg>
                       Ortga
                     </button>
-                    <button type="submit" onClick={handleSubmit}>
+                    <button id="submit-btn-last" type="submit" onClick={handleSubmit} disabled={isButtonDisabled}>
                       Yakunlash
                     </button>
                   </>

@@ -15,7 +15,7 @@ const NewsCategory = () => {
   const { newsList, newsCategories } = useContext(MyContext);
   const [categoryOpen, setCategoryOpen] = useState(false);
 
-  if (newsCategories.length <= 0) {
+  if (newsCategories.length <= 0 || newsList.length <= 0) {
     return <Loading/>;
   }
 

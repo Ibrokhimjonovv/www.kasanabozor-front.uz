@@ -23,7 +23,7 @@ const News = () => {
         </div>
         <div className="news-cards">
           {newsList.slice(0, 4).map((news, index) => (
-            <Link to={`/news/${news.id}/`} key={index}>
+            <Link to={`/news/${news.category.id}/${news.id}/`} key={index}>
               <NewsCard key={news.id} news={news} index={index} />
             </Link>
           ))}

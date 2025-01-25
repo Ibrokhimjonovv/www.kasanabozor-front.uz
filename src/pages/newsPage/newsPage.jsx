@@ -65,7 +65,7 @@ const NewsPage = () => {
                     <h1>{newsList[0].title}</h1>
                     <p>{newsList[0].description}</p>
                     <div className="date">
-                      <Link to={`${newsList[0].category.id}`}>
+                      <Link to={`/news/${newsList[0].category.id}`}>
                         {newsList[0].title}
                       </Link>
                       <div className="date-inner">
@@ -128,7 +128,7 @@ const NewsPage = () => {
           </div>
           <div className="right-side">
             {newsList.slice(1, 5).map((value, index) => (
-              <Link to={`/news/${value.id}/`} key={index}>
+              <Link to={`/news/${value.category.id}/${value.id}/`} key={index}>
                 <div className="row">
                   <div className="row-right">
                     <img
@@ -207,7 +207,7 @@ const NewsPage = () => {
           <div className="news-cards">
             {newsList.length > 0 ? (
               newsList.slice(0, 4).map((news, index) => (
-                <Link to={`/news/${news.id}`}>
+                <Link to={`/news/${news.category.id}/${news.id}`}>
                   <div className={`news-card `}>
                     <div className="img-cont">
                       <img
