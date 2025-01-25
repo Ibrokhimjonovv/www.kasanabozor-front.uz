@@ -65,6 +65,7 @@ import Partners from "./pages/staticPages/partners/partners";
 import Contacts from "./pages/staticPages/contacts/contacts";
 import AboutProject from "./pages/staticPages/about-project/aboutProject";
 import AdminAnnounces from "./pages/admin/admin-announces/adminAnnounces";
+import ScrollToTop from "./components/scrollToTop/scrollToTop";
 
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
   if (!isAuthenticated && userRole !== allowedRole) {
@@ -151,6 +152,7 @@ function AppContent() {
   return (
     <div className="app">
       {!noHeaderPaths_2.includes(location.pathname) && <Header />}
+      <ScrollToTop />
 
       <Routes>
         {/* Static pages start */}
