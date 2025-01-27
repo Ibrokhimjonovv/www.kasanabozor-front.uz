@@ -15,14 +15,26 @@ import stepIcon2 from "../../../assets/svg/stepIcon2.svg";
 import bag from "../../../assets/svg/bag.svg";
 
 
-function formatDate(inputDate) {
-  const parts = inputDate.split('.');  
-  if (parts.length === 3) {
-      const [day, month, year] = parts;
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-  } else {
-      throw new Error("Invalid date format. Expected DD.MM.YYYY.");
-  }
+function formatDate(dateStr) {
+  const [month, day, year] = dateStr.split('.').map(Number);
+    if (
+        month < 1 || month > 12 ||
+        day < 1 || day > 31 ||
+        year < 1000 || year > 2024
+    ) {
+        return "Invalid date";
+    }
+
+    const date = new Date(year, month - 1, day);
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() + 1 !== month ||
+        date.getDate() !== day
+    ) {
+        alert('Tug\'ilgan kun sanasini to\'g\'ri belgilang.\n\nMM-DD-YYYY formati maqul variant');
+        return "Invalid date";
+    }
+    return date.toISOString().split('T')[0];
 }
 
 
@@ -177,7 +189,18 @@ const Signup = () => {
   };
 
   const handleSelection = (selectedValues) => {
-    console.log("Tanlangan qiymatlar:", selectedValues);
+    if (selectedValues.region) {
+      setFormData({...formData, region: selectedValues.region});
+    }
+    if (selectedValues.district) {
+      setFormData({...formData, district: selectedValues.district});
+    }
+    if (selectedValues.village) {
+      setFormData({...formData, quarter: selectedValues.quarter});
+    }
+
+    console.log(formData);
+    
   };
 
   const handleFinish = async (e) => {
