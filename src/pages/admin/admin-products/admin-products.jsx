@@ -7,29 +7,75 @@ import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import StarRating from "../../../components/starRating/starRating";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
-import axios from 'axios';
-import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars.js';
+import axios from "axios";
+import {
+  eCommerseServerUrl,
+  formatLink,
+  mediaServerUrl,
+} from "../../../SuperVars.js";
 
+const Actions = ({ product }) => {
+  return (
+    <>
+      <div className="actions">
+        <button className="btn btn-secondary" onClick={ async (e) => {
+          e.preventDefault();
+
+          const response = await axios.post(`${eCommerseServerUrl}dashboard/products/delete/`, {'id': product.id});
+          if (response.data.status === "ok") {
+            alert("Maxsulot ochirib yuborildi");
+	    window.location.reload();
+          } else {
+            alert("Xatolik yuz berdi");
+          }
+        }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            width="24"
+            height="24"
+            viewBox="0 0 48 48"
+          >
+            <path
+              fill="#b39ddb"
+              d="M30.6,44H17.4c-2,0-3.7-1.4-4-3.4L9,11h30l-4.5,29.6C34.2,42.6,32.5,44,30.6,44z"
+            ></path>
+            <path fill="#9575cd" d="M28 6L20 6 14 12 34 12z"></path>
+            <path
+              fill="#7e57c2"
+              d="M10,8h28c1.1,0,2,0.9,2,2v2H8v-2C8,8.9,8.9,8,10,8z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </>
+  );
+};
 
 const AdminProducts = () => {
   const { isOpen } = useContext(MyContext);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
-  
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const fetchData = async () => {
-    const productsListResponse = await axios.post(`${eCommerseServerUrl}dashboard/products/list/`);
+    const productsListResponse = await axios.post(
+      `${eCommerseServerUrl}dashboard/products/list/`
+    );
     if (productsListResponse.data.status === "ok") {
       setProducts(productsListResponse.data.results);
     }
 
-    const categoryListResponse = await axios.post(`${eCommerseServerUrl}dashboard/categories/list/`);
+    const categoryListResponse = await axios.post(
+      `${eCommerseServerUrl}dashboard/categories/list/`
+    );
     if (categoryListResponse.data.status === "ok") {
       setCategories(categoryListResponse.data.data);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -55,7 +101,7 @@ const AdminProducts = () => {
     e.preventDefault();
     setOffCanvas(!offCanvas);
   };
- 
+
   const [newProductImages, setNewProductImages] = useState([]);
   const [newProductName, setNewProductName] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
@@ -68,17 +114,20 @@ const AdminProducts = () => {
 
     try {
       const formData = new FormData();
-      formData.append('name', newProductName);
-      formData.append('price', newProductPrice);
-      formData.append('price_off', newProductPriceOff);
-      formData.append('description', newProductDescription);
-      formData.append('category', newProductCategory);
-      for (let i = 0;i<newProductImages.length;i++) {
+      formData.append("name", newProductName);
+      formData.append("price", newProductPrice);
+      formData.append("price_off", newProductPriceOff);
+      formData.append("description", newProductDescription);
+      formData.append("category", newProductCategory);
+      for (let i = 0; i < newProductImages.length; i++) {
         formData.append(`image${i}`, newProductImages[i]);
       }
-      
-      const createNewProductResponse = await axios.post(`${eCommerseServerUrl}dashboard/products/create/`, formData);
-      
+
+      const createNewProductResponse = await axios.post(
+        `${eCommerseServerUrl}dashboard/products/create/`,
+        formData
+      );
+
       if (createNewProductResponse.data.status === "ok") {
         console.log(createNewProductResponse);
       }
@@ -87,19 +136,19 @@ const AdminProducts = () => {
     } finally {
       fetchData();
     }
-  }
+  };
 
   useEffect(() => {
     if (offCanvas) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto'; 
+      document.body.style.overflow = "auto";
     }
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, [offCanvas]);
- 
+
   /* const [productStatuses, setProductStatuses] = useState(
     products.reduce((acc, product) => {
       acc[product.id] = product.status;
@@ -112,7 +161,7 @@ const AdminProducts = () => {
       [id]: !prevStatuses[id],
     }));
   }; */
-  
+
   return (
     <div id="admin-products">
       <Dashboard />
@@ -161,7 +210,7 @@ const AdminProducts = () => {
               </Link>
               <div className={`offcanvas ${offCanvas ? "show" : ""}`}>
                 <h1>Mahsulot qo'shish</h1>
-                <form action="" onSubmit={ createNewProduct }>
+                <form action="" onSubmit={createNewProduct}>
                   <div className="input-row">
                     <label htmlFor="productName">Mahsulot nomi</label>
                     <div className="inputs">
@@ -184,7 +233,14 @@ const AdminProducts = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      <input type="text" placeholder="Nomini kiriting" value={ newProductName } onChange={ (e) => {setNewProductName(e.target.value)} } />
+                      <input
+                        type="text"
+                        placeholder="Nomini kiriting"
+                        value={newProductName}
+                        onChange={(e) => {
+                          setNewProductName(e.target.value);
+                        }}
+                      />
                     </div>
                     <div className="error-message">To'ldirilishi shart</div>
                   </div>
@@ -229,12 +285,20 @@ const AdminProducts = () => {
                             strokeWidth="2"
                           />
                         </svg>
-                        <input type="number" placeholder="Narx kiriting" value={newProductPrice} onChange={ (e) => { setNewProductPrice(parseInt(e.target.value));setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
+                        <input
+                          type="number"
+                          placeholder="Narx kiriting"
+                          value={newProductPrice}
+                          onChange={(e) => {
+                            setNewProductPrice(parseInt(e.target.value));
+                            setNewProductPriceOff(parseInt(e.target.value) - 1);
+                          }}
+                        />
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-                  <div className="input-row">
+                    <div className="input-row">
                       <label htmlFor="price">Chegirma narxi</label>
                       <div className="inputs">
                         <svg
@@ -255,7 +319,14 @@ const AdminProducts = () => {
                             strokeWidth="2"
                           />
                         </svg>
-                        <input type="number" placeholder="Chegirma narx kiriting" value={newProductPriceOff} onChange={ (e) => { setNewProductPriceOff(parseInt(e.target.value) - 1); } } />
+                        <input
+                          type="number"
+                          placeholder="Chegirma narx kiriting"
+                          value={newProductPriceOff}
+                          onChange={(e) => {
+                            setNewProductPriceOff(parseInt(e.target.value) - 1);
+                          }}
+                        />
                       </div>
 
                       <div className="error-message">To'ldirilishi shart</div>
@@ -268,14 +339,14 @@ const AdminProducts = () => {
                       id=""
                       placeholder="Text"
                       value={newProductDescription}
-                      onChange={ (e) => setNewProductDescription(e.target.value) }
+                      onChange={(e) => setNewProductDescription(e.target.value)}
                     ></textarea>
                     <div className="error-message">To'ldirilishi shart</div>
                   </div>
                   <div className="input-row">
                     <label htmlFor="">Mahsulot rasmlari</label>
                     <label htmlFor="">Rasmlar</label>
-                    <ImageUpload changeLocal={ setNewProductImages } />
+                    <ImageUpload changeLocal={setNewProductImages} />
                   </div>
                   <label
                     style={{ textAlign: "left", width: "100%" }}
@@ -303,13 +374,24 @@ const AdminProducts = () => {
                           />
                         </svg>
 
-                        <select name="category" id="category" value={ newProductCategory } onChange={ (e) => { setNewProductCategory(e.target.value); } }>
-                          {categories.map((value, index) => <option value={ value.id } key={ index }>{ value.title }</option>)}
+                        <select
+                          name="category"
+                          id="category"
+                          value={newProductCategory}
+                          onChange={(e) => {
+                            setNewProductCategory(e.target.value);
+                          }}
+                        >
+                          {categories.map((value, index) => (
+                            <option value={value.id} key={index}>
+                              {value.title}
+                            </option>
+                          ))}
                         </select>
                       </div>
                       <div className="error-message">To'ldirilishi shart</div>
                     </div>
-    {/*<div className="input-row">
+                    {/*<div className="input-row">
                       <label htmlFor="status">
                         Holati
                         <svg
@@ -443,7 +525,7 @@ const AdminProducts = () => {
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Reyting
                 </th>
-	  	{/*<th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
+                {/*<th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
                   Aktivligi
                 </th>*/}
                 <th scope="col" style={{ backgroundColor: "#E7F4F1" }}>
@@ -460,21 +542,34 @@ const AdminProducts = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={product.product_image_Ecommerce_product_images[0] ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : ''}
+                      src={
+                        product.product_image_Ecommerce_product_images[0]
+                          ? `${mediaServerUrl}ecommerse${formatLink(
+                              product.product_image_Ecommerce_product_images[0]
+                                .image
+                            )}`
+                          : ""
+                      }
                       alt=""
                     />
                   </td>
                   <td>{product.name}</td>
-		  <td>
-                    <img className="authorImg" src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
+                  <td>
+                    <img
+                      className="authorImg"
+                      src={`${mediaServerUrl}users${formatLink(
+                        product.user.pfp
+                      )}`}
+                      alt=""
+                    />
                   </td>
                   {/* <td className="sku">{product.sku}</td> */}
                   <td>{product.category.title}</td>
                   <td>{product.price}</td>
                   <td>
-                    <StarRating rating={ product.average_rating } />
+                    <StarRating rating={product.average_rating} />
                   </td>
-		      {/*<td>
+                  {/*<td>
                     <input
                       type="checkbox"
                       id={`status-${product.id}`}
@@ -492,28 +587,7 @@ const AdminProducts = () => {
                     </label>
                   </td>*/}
                   <td>
-                    <button className="btn btn-secondary">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
-                          fill="#41A58D"
-                        />
-                        <path
-                          d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
-                          fill="#41A58D"
-                        />
-                        <path
-                          d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
-                          fill="#41A58D"
-                        />
-                      </svg>
-                    </button>
+                    <Actions product={product} />
                   </td>
                 </tr>
               ))}

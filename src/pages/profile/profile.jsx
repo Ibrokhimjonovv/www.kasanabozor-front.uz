@@ -101,7 +101,7 @@ const Profile = () => {
             </Link>
           </div>
           <div className="profile-img">
-            <img src={ `${mediaServerUrl}users${formatLink(user.pfp)}` || "https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" } alt="" />
+            <img src={ user.pfp ? `${mediaServerUrl}users${formatLink(user.pfp)}` : "https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" } alt="" />
             <input type="file" id="photo" accept="image/png,images/jpg,image/jpeg,image/gif" onChange={ (ev) => {
               ev.preventDefault();
               uploadUserPhoto(ev);
@@ -148,15 +148,15 @@ const Profile = () => {
               </li>
               <li>
                 <span>Faoliyati</span>
-                <p>{ user.job || "Yangi" }</p>
+                <p>{ user.activity || "Tanlanmagan" }</p>
               </li>
               <li>
                 <span>Viloyat</span>
-                <p>{ user.region || "O'zbekiston" }</p>
+                <p>{ user.region || "Kiritilmagan" }</p>
               </li>
               <li>
-                <span>Manzil</span>
-                <p>{ user.address || "Kiritilmagan" }</p>
+                <span>Tuman</span>
+                <p>{user.district}</p>
               </li>
             </ul>
           </div>

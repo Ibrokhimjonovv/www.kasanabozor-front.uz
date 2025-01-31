@@ -8,6 +8,44 @@ import Dashboard from "../dashboard/dashboard";
 import axios from "axios";
 import { newsServerUrl } from "../../../SuperVars";
 
+const Actions = ({ news }) => {
+  return (
+    <>
+      <div className="actions">
+        <button className="btn btn-secondary" onClick={ async (e) => {
+          e.preventDefault();
+
+          const response = await axios.post(`${newsServerUrl}dashboard/news/delete/`, {'id': news.id});
+          if (response.data.status === "ok") {
+            alert("Yangilik ochirib yuborildi");
+	    window.location.reload();
+          } else {
+            alert("Xatolik yuz berdi");
+          }
+        }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            width="24"
+            height="24"
+            viewBox="0 0 48 48"
+          >
+            <path
+              fill="#b39ddb"
+              d="M30.6,44H17.4c-2,0-3.7-1.4-4-3.4L9,11h30l-4.5,29.6C34.2,42.6,32.5,44,30.6,44z"
+            ></path>
+            <path fill="#9575cd" d="M28 6L20 6 14 12 34 12z"></path>
+            <path
+              fill="#7e57c2"
+              d="M10,8h28c1.1,0,2,0.9,2,2v2H8v-2C8,8.9,8.9,8,10,8z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </>
+  );
+};
 
 const AdminNews = () => {
   const {isOpen} = useContext(MyContext);
@@ -124,28 +162,7 @@ const AdminNews = () => {
                   {/* <td>{news.link}</td> */}
                   <td>{anew.created_at.split('T')[0]}</td>
                   <td>
-                    <button className="btn btn-secondary">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.0007 3.33333C10.9211 3.33333 11.6673 2.58714 11.6673 1.66667C11.6673 0.746192 10.9211 0 10.0007 0C9.08018 0 8.33398 0.746192 8.33398 1.66667C8.33398 2.58714 9.08018 3.33333 10.0007 3.33333Z"
-                          fill="#41A58D"
-                        />
-                        <path
-                          d="M10.0007 11.6673C10.9211 11.6673 11.6673 10.9211 11.6673 10.0007C11.6673 9.08018 10.9211 8.33398 10.0007 8.33398C9.08018 8.33398 8.33398 9.08018 8.33398 10.0007C8.33398 10.9211 9.08018 11.6673 10.0007 11.6673Z"
-                          fill="#41A58D"
-                        />
-                        <path
-                          d="M10.0007 19.9993C10.9211 19.9993 11.6673 19.2532 11.6673 18.3327C11.6673 17.4122 10.9211 16.666 10.0007 16.666C9.08018 16.666 8.33398 17.4122 8.33398 18.3327C8.33398 19.2532 9.08018 19.9993 10.0007 19.9993Z"
-                          fill="#41A58D"
-                        />
-                      </svg>
-                    </button>
+                    <Actions news={ anew } />
                   </td>
                 </tr>)}
             </tbody>
