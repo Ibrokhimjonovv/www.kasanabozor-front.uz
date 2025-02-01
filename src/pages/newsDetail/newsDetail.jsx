@@ -241,7 +241,7 @@ const NewsDetail = () => {
         </div>
         <NewsInnerRight />
       </div>
-      <div className="simillar">
+	  { /* <div className="simillar">
         <h2>O'xshash yangiliklar</h2>
         <div className="news-cards">
           {/* {similliarNews.length > 0 ? (
@@ -315,9 +315,9 @@ const NewsDetail = () => {
             ))
           ) : (
             <p>O'xshash yangiliklar mavjud emas</p>
-          )} */}
+          )}
         </div>
-      </div>
+      </div> */ }
       <div className="forBackgroundColor">
         <div className="poster">
           <div className="left-side">

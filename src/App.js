@@ -66,6 +66,8 @@ import Contacts from "./pages/staticPages/contacts/contacts";
 import AboutProject from "./pages/staticPages/about-project/aboutProject";
 import AdminAnnounces from "./pages/admin/admin-announces/adminAnnounces";
 
+import Loading from "./components/loading/loading.jsx";
+
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
   if (!isAuthenticated && userRole !== allowedRole) {
     return <NotFound />;
@@ -82,7 +84,8 @@ const ProfileRoute = ({ children, userRole, allowedRole }) => {
 
 function AppContent() {
   const location = useLocation();
-  const { isAuthenticated, user } = useContext(MyContext);
+  const { isAuthenticated, user, isLoading } = useContext(MyContext);
+
   const noHeaderPaths = [
     "/login",
     "/signup",
@@ -149,7 +152,9 @@ function AppContent() {
   ];
 
   return (
-    <div className="app">
+	  <>
+
+	  { !isLoading ? <div className="app">
       {!noHeaderPaths_2.includes(location.pathname) && <Header />}
 
       <Routes>
@@ -281,7 +286,9 @@ function AppContent() {
       {/* Footerni har doim ko'rsatamiz */}
       {!noHeaderPaths_2.includes(location.pathname) && <MenuTool />}
       {!noHeaderPaths.includes(location.pathname) && <Footer />}
-    </div>
+    </div> : <Loading /> }
+	
+	  </>
   );
 }
 
@@ -289,7 +296,7 @@ function App() {
   return (
     <MyContextProvider>
       <BrowserRouter>
-        <AppContent />
+	  <AppContent />
       </BrowserRouter>
     </MyContextProvider>
   );

@@ -24,6 +24,7 @@ export const MyContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [loadStart, setLoadStart] = useState(false);
   const [loadSuccess, setLoadSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const uploadUserPhoto = async (image) => {
     const formData = new FormData();
@@ -60,6 +61,7 @@ export const MyContextProvider = ({ children }) => {
   const loadContextData = async () => {
     setLoadStart(true);
     setLoadSuccess(false);
+    if (isLoading) { setIsLoading(true); }
 
     await loadUserData();
 
@@ -163,12 +165,13 @@ export const MyContextProvider = ({ children }) => {
     
     setLoadStart(false);
     setLoadSuccess(true);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       loadContextData();
-    }, (!loadSuccess && !loadStart) ? 100 : 5000);
+    }, (!loadSuccess && !loadStart) ? 100 : 15000);
     
     return () => {
       clearInterval(interval);
@@ -203,7 +206,8 @@ export const MyContextProvider = ({ children }) => {
         categories,
         user,
         loadUserData,
-        uploadUserPhoto
+        uploadUserPhoto,
+	isLoading
       }}
     >
       {children}

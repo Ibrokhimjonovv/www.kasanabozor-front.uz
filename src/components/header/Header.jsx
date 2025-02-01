@@ -238,7 +238,7 @@ const Header = () => {
                     />
                   </svg>
                 </NavLink>
-              </li> */ }
+              </li>
               <li>
                 <NavLink
                   to="/notification"
@@ -260,7 +260,7 @@ const Header = () => {
                     />
                   </svg>
                 </NavLink>
-              </li>
+              </li> */ }
             </ul>
           </div>
         </div>
