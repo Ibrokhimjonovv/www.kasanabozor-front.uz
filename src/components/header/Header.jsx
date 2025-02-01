@@ -128,7 +128,7 @@ const Header = () => {
           </ul>
           <div className="top-right">
             <ul>
-              <li>
+	  {/*<li>
                 <NavLink
                   style={{ display: "flex", gap: "8px" }}
                   to="/eye"
@@ -238,7 +238,7 @@ const Header = () => {
                     />
                   </svg>
                 </NavLink>
-              </li>
+              </li> */ }
               <li>
                 <NavLink
                   to="/notification"

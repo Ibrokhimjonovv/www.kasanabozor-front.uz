@@ -218,7 +218,7 @@ const NewsDetail = () => {
                   </li> */}
                 </ul>
                 <div className="author">
-                  <img src={`${mediaServerUrl}user${formatLink(newsItem.user.pfp)}`} alt="" />
+                  <img src={`${mediaServerUrl}users${formatLink(newsItem.user.pfp)}`} alt="" />
                   <span>{newsItem.user.first_name} {newsItem.user.last_name}</span>
                 </div>
               </div>
