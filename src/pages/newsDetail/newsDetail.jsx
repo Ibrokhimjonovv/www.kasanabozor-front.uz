@@ -225,7 +225,7 @@ const NewsDetail = () => {
             </div>
             <div className="about-hero">
               <h1 style={{ marginBottom: '8px' }}>{newsItem.title}</h1>
-              <p>{newsItem.description}</p>
+              <p dangerouslySetInnerHTML={{__html: newsItem.description.replaceAll('\n', '<br/>')}}></p>
             </div>
 
             {/* <div className="hashtags">

@@ -47,8 +47,8 @@
 
     .poster {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: start;
+        align-items: start;
         padding: 0 50px;
         height: 350px;
         overflow: hidden;
@@ -162,7 +162,7 @@
             align-items: flex-start;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: space-between;
+            justify-content: start;
 
             .cube {
                 width: 200px;
@@ -185,7 +185,7 @@
             margin-top: 0;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: start;
 
             .text {
                 width: 100%;

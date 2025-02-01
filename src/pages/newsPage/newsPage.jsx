@@ -63,10 +63,10 @@ const NewsPage = () => {
                   />
                   <div className="texts">
                     <h1>{newsList[0].title}</h1>
-                    <p>{newsList[0].description}</p>
+                    <p>{newsList[0].description.split('.')[0]}.</p>
                     <div className="date">
                       <Link to={`/news/${newsList[0].category.id}`}>
-                        {newsList[0].title}
+                        {newsList[0].category.title}
                       </Link>
                       <div className="date-inner">
                         <div>
