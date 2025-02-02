@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { MyContext, MyContextProvider } from "./context/myContext";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -296,8 +296,8 @@ function App() {
   return (
     <MyContextProvider>
       <BrowserRouter>
-	  <AppContent />
-      </BrowserRouter>
+	      <AppContent />
+		  </BrowserRouter>
     </MyContextProvider>
   );
 }

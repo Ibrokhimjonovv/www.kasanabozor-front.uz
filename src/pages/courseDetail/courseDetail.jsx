@@ -31,6 +31,10 @@ const CourseDetail = () => {
       clearTimeout(timeout);
     };
   }, []);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	});
  
   const handleNextLesson = (index) => {
       setCurrentLesson(index);
@@ -347,7 +351,7 @@ const CourseDetail = () => {
               }`}
             >
               <p className="title">Kurs haqida</p>
-              <p className="simpleText">{ course.description }</p>
+              <p className="simpleText" dangerouslySetInnerHTML={{__html: course.description.replaceAll('\n', '<br/>') }}></p>
             </div>
 
             <div

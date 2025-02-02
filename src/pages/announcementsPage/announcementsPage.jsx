@@ -17,7 +17,7 @@ const AnnouncementsPage = () => {
     width: "100%",
   };
 
-  const { announcements, services } = useContext(MyContext);
+  const { announcements, services, isAuthenticated } = useContext(MyContext);
   
   useEffect(() => {
     window.addEventListener("scroll", reveal);
@@ -65,10 +65,10 @@ const AnnouncementsPage = () => {
         <div className="text">E'lonlar</div>
         <img src={img} alt="" />
       </div>
-      <div className="to-announce">
+		  { isAuthenticated ? <div className="to-announce">
         <p>O’z xizmatingiz haqida hoziroq barcha e’lon qiling!</p>
         <Link to="/add-announce">E'lon berish</Link>
-      </div>
+      </div> : <></> }
       <div className="titlee">
         <div className="text">
           <h2>E'lonlar</h2>

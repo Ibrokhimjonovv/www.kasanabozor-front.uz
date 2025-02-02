@@ -30,28 +30,7 @@ const CoursesCategory = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const reveal = () => {
-      const reveals = document.querySelectorAll(".course-card:not(.revealed)");
-      reveals.forEach((revealElement) => {
-        const windowHeight = window.innerHeight;
-        const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9;
-
-        if (
-          revealTop < revealPoint &&
-          !revealElement.classList.contains("revealed")
-        ) {
-          revealElement.classList.add("revealed");
-        }
-      });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal();
-    return () => window.removeEventListener("scroll", reveal);
-  }, []);
-
-  if (!category || (filteredCourses && filteredCourses.length <= 0)) {
+	if (!category || (filteredCourses && filteredCourses.length <= 0)) {
     return <Loading/>;
   }
   
