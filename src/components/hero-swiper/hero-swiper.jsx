@@ -12,6 +12,7 @@ import right_arrow from "./right-arrow.png";
 import backgroundImg from "./background-img.png";
 import people from "./people.png";
 import people1 from "./people1.png";
+
 const HeroSwiper = () => {
   const slides = [
     {
@@ -94,10 +95,10 @@ const HeroSwiper = () => {
                     <p className="about-product">{slide.description}</p>
                     <div className="line">
                       <div className="ql">
-                        <Link to="#" className="more-link">
+                        <Link to="/news/" className="more-link">
                           Batafsil
                         </Link>
-                        <Link to="#" className="products-link">
+                        <Link to="/online-shop/" className="products-link">
                           Mahsulotlar
                           <svg
                             stroke="currentColor"
