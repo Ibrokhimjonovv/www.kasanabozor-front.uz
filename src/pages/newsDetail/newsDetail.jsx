@@ -16,7 +16,7 @@ import axios from "axios";
 
 
 const NewsDetail = () => {
-  const { newsCategories } = useContext(MyContext);
+  const { newsCategories, newsList } = useContext(MyContext);
   const { category, id } = useParams();
   const [newsItem, setNewsItem] = useState(null);
 
