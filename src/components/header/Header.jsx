@@ -7,22 +7,21 @@ import langImg from "./Icon (3).png";
 import menuBackgroundImage from "./menuImg.png";
 import cheveronIcon from "./menu-cheveron-icon.png";
 
-
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-	
-	const googleTranslateElementInit = () => {
+
+  const googleTranslateElementInit = () => {
     new window.google.translate.TranslateElement(
       {
         pageLanguage: "en",
-        autoDisplay: false
+        autoDisplay: false,
       },
       "google_translate_element"
     );
   };
 
-	useEffect(() => {
+  useEffect(() => {
     window.googleTranslateElementInit = googleTranslateElementInit;
   }, []);
 
@@ -34,11 +33,11 @@ const Header = () => {
     isAuthenticated,
     user,
   } = useContext(MyContext);
-  
+
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
   };
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1) {
@@ -53,10 +52,10 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
+
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [help, setHelp] = useState(false);
-  
+
   const handleLanguageChange = (newLanguage) => {
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
     updatedLanguages.push(selectedLanguage);
@@ -64,18 +63,18 @@ const Header = () => {
     setLanguages(updatedLanguages);
     setIsOpen(false);
   };
-  
+
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   const openClick = () => {
     setMenuOpen(!menuOpen);
   };
-  
+
   const divStyle = {
     backgroundImage: `url(${menuBackgroundImage})`,
     backgroundSize: "60px 60px",
   };
-  
+
   const notF = (e) => {
     e.preventDefault();
   };
@@ -100,10 +99,12 @@ const Header = () => {
         return "Language not supported";
     }
   };
-  
+
   return (
     <div className={`tyu ${scrolled ? "scrolled" : ""}`}>
-      <marquee behavior="" direction="">Platforma sinov tariqasida ishga tushirilgan</marquee>
+      <marquee behavior="" direction="">
+        Platforma sinov tariqasida ishga tushirilgan
+      </marquee>
       <header className="header">
         <div className="top-side">
           <ul className="top-left">
@@ -142,7 +143,7 @@ const Header = () => {
           </ul>
           <div className="top-right">
             <ul>
-	  {/*<li>
+              {/* <li>
                 <NavLink
                   style={{ display: "flex", gap: "8px" }}
                   to="/eye"
@@ -201,12 +202,13 @@ const Header = () => {
                     </defs>
                   </svg>
                 </NavLink>
-              </li> */ }
-              <li className="dropdown"><div id="google_translate_element"></div></li>
-							{ /*
+              </li>
+              <li className="dropdown">
+                <div id="google_translate_element"></div>
+              </li> */}
               <li>
                 <NavLink
-                  to="/mail"
+                  to="/messaging"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <svg
@@ -226,7 +228,7 @@ const Header = () => {
                   </svg>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/notification"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -247,7 +249,7 @@ const Header = () => {
                     />
                   </svg>
                 </NavLink>
-              </li> */ }
+              </li> */}
             </ul>
           </div>
         </div>
@@ -476,7 +478,7 @@ const Header = () => {
             </li>
             <li className="mob-ver">
               <NavLink
-                to="/mail"
+                to="/messaging/"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 <svg
@@ -496,7 +498,7 @@ const Header = () => {
                 </svg>
               </NavLink>
             </li>
-            <li className="mob-ver">
+            {/* <li className="mob-ver">
               <NavLink
                 to="/notification"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -517,7 +519,7 @@ const Header = () => {
                   />
                 </svg>
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <div
                 className={`openIcon ${menuOpen ? "openMenu" : ""}`}
@@ -579,7 +581,7 @@ const Header = () => {
           </ul>
           <div className="top-right">
             <ul>
-              <li>
+              {/* <li>
                 <NavLink
                   style={{ display: "flex", gap: "8px" }}
                   to="/eye"
@@ -693,10 +695,10 @@ const Header = () => {
                     ))}
                   </ul>
                 )}
-              </li>
+              </li> */}
               <li>
                 <NavLink
-                  to="/mail"
+                  to="/messaging"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <svg
@@ -1062,56 +1064,54 @@ const Header = () => {
             </Link>
           </div>
           <div className="mob-menu-bottom">
-            {isAuthenticated &&
-              user.role ===
-                "admin" && (
-                  <>
-                    <Link
-                      to={isAuthenticated ? "/profile/notifications" : "/login"}
+            {isAuthenticated && user.role === "admin" && (
+              <>
+                <Link
+                  to={isAuthenticated ? "/profile/notifications" : "/login"}
+                >
+                  <span>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <span>
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M9 20.6303C9.79613 21.2333 10.8475 21.6 12 21.6C13.1525 21.6 14.2039 21.2333 15 20.6303M3.57109 17.5273C3.09677 17.5273 2.83186 16.8208 3.11877 16.4282C3.78453 15.5174 4.42712 14.1815 4.42712 12.5728L4.45458 10.2418C4.45458 5.91091 7.83278 2.40002 12 2.40002C16.2286 2.40002 19.6566 5.96262 19.6566 10.3573L19.6291 12.5728C19.6291 14.1926 20.2495 15.5357 20.8882 16.4469C21.164 16.8404 20.8984 17.5273 20.43 17.5273H3.57109Z"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        Xabarnomalar
-                      </span>
-                      <img src={cheveronIcon} alt="" />
-                    </Link>
-                    <Link to={isAuthenticated ? "/profile/messages" : "/login"}>
-                      <span>
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4.19844 6.59999L11.3154 11.5271C11.7263 11.8116 12.2706 11.8116 12.6815 11.5271L19.7984 6.59999M4.79844 19.2H19.1984C20.5239 19.2 21.5984 18.1255 21.5984 16.8V7.19999C21.5984 5.8745 20.5239 4.79999 19.1984 4.79999H4.79844C3.47295 4.79999 2.39844 5.8745 2.39844 7.19999V16.8C2.39844 18.1255 3.47295 19.2 4.79844 19.2Z"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        Xabarlar
-                      </span>
-                      <img src={cheveronIcon} alt="" />
-                    </Link>
-                  </>
-                )}
+                      <path
+                        d="M9 20.6303C9.79613 21.2333 10.8475 21.6 12 21.6C13.1525 21.6 14.2039 21.2333 15 20.6303M3.57109 17.5273C3.09677 17.5273 2.83186 16.8208 3.11877 16.4282C3.78453 15.5174 4.42712 14.1815 4.42712 12.5728L4.45458 10.2418C4.45458 5.91091 7.83278 2.40002 12 2.40002C16.2286 2.40002 19.6566 5.96262 19.6566 10.3573L19.6291 12.5728C19.6291 14.1926 20.2495 15.5357 20.8882 16.4469C21.164 16.8404 20.8984 17.5273 20.43 17.5273H3.57109Z"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Xabarnomalar
+                  </span>
+                  <img src={cheveronIcon} alt="" />
+                </Link>
+                <Link to={isAuthenticated ? "/profile/messages" : "/login"}>
+                  <span>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.19844 6.59999L11.3154 11.5271C11.7263 11.8116 12.2706 11.8116 12.6815 11.5271L19.7984 6.59999M4.79844 19.2H19.1984C20.5239 19.2 21.5984 18.1255 21.5984 16.8V7.19999C21.5984 5.8745 20.5239 4.79999 19.1984 4.79999H4.79844C3.47295 4.79999 2.39844 5.8745 2.39844 7.19999V16.8C2.39844 18.1255 3.47295 19.2 4.79844 19.2Z"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Xabarlar
+                  </span>
+                  <img src={cheveronIcon} alt="" />
+                </Link>
+              </>
+            )}
             {/* <Link
               id="to-profile"
               to={isAuthenticated ? "/profile/menus" : "/login"}
