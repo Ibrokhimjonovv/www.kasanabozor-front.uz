@@ -3,7 +3,6 @@ import "./Header.scss";
 import { Link, NavLink } from "react-router-dom";
 import SearchBar from "../searchBar/searchBar";
 import { MyContext } from "../../context/myContext";
-import langImg from "./Icon (3).png";
 import menuBackgroundImage from "./menuImg.png";
 import cheveronIcon from "./menu-cheveron-icon.png";
 
@@ -33,10 +32,6 @@ const Header = () => {
     isAuthenticated,
     user,
   } = useContext(MyContext);
-
-  const toggleDropDown = () => {
-    setIsOpen(!isOpen);
-  };
 
   useEffect(() => {
     const handleScroll = () => {

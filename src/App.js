@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { MyContext, MyContextProvider } from "./context/myContext";
 import Header from "./components/header/Header";
@@ -83,6 +83,12 @@ const ProfileRoute = ({ children, userRole, allowedRole }) => {
 };
 
 function AppContent() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({'top': 0});    
+  }, [navigate])
+
   const location = useLocation();
   const { isAuthenticated, user, isLoading } = useContext(MyContext);
 

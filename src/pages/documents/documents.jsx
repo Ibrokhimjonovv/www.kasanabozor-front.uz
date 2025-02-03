@@ -14,10 +14,6 @@ const Documents = () => {
   const { category } = useParams();
   const { legislativeDoc, bussinessDoc } = useContext(MyContext);
 
-  useEffect(() => {
-    window.scrollTo({'top': 0});    
-  }, [])
-
   return (
     <div id="documentsPage">
       <div className="to-back">
