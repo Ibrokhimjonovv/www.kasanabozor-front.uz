@@ -111,13 +111,14 @@ const Signup = () => {
     ) {
       try {
         const response = await axios.post(`${usersServerUrl}accounts/register/step1/`, {'phone': formData.phone, 'password': formData.password1});
-        console.log(response);
         if (response.data.status === "ok") {
           setPhone(response.data.results.phone);
           setFormData({...formData, phone: response.data.results.phone});
           setStep(2);
         } else {
-
+          if (response.data.errors.phone) {
+            setError({general: response.data.errors.phone});
+          }
         }
       } catch {
         setError("Aloqada yoki serverda xatolik");
@@ -369,14 +370,15 @@ const Signup = () => {
           <div className="signup-top-text">
             <h3>Ro’yxatdan o’tish</h3>
             <p>Yangi hisobingizni yarating</p>
-            {error.general && (
-              <div style={{ color: "red" }}>{error.general}</div>
-            )}
           </div>
         )}
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <>
+            {error.general && (
+              <div style={{ color: "red" }}>{error.general}</div>
+            )}
+
               <div className="input-container">
                 <label htmlFor="phone">Telefon raqami</label>
                 <div className="a">
