@@ -1,53 +1,12 @@
 import React from "react";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
-import cardImg1 from "../../../context/cardImg1.png";
-import profileImg1 from "../../../context/profileImg.png";
 import Discount from "../../../components/discount/Discount";
 import "./likedCourses.scss";
 
 const LikedCourses = () => {
-  const courses = [
-    {
-      id: 1,
-      img: cardImg1,
-      category: "Kasanachilik",
-      title: "An’anaviy taqinchoqlar yasash",
-      description:
-        "An'anaviy usulda tayyorlangan bilaguzuk, juda chiroyli va naqshli",
-      details: { users: 123, duration: "2s. 32d.", lessons: 25, rating: 4.9 },
-      author: "Otabek Rajabov",
-      profileImg: profileImg1,
-      oldPrice: 256000,
-      newPrice: 200000,
-      paid: "free",
-      date: "11.11.2024",
-      rating: 4.9,
-      viewsCount: 123456,
-      share: 32,
-      lessons: [
-        {
-          id: 1,
-          title: "Kirish darsi",
-          videoUrl: "https://www.w3schools.com/html/movie.mp4",
-          description: "Bu darsda dasturlash asoslari bilan tanishamiz.",
-        },
-        {
-          id: 2,
-          title: "O'zgaruvchilar va ma'lumot turlari",
-          videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-          description:
-            "O'zgaruvchilar va ma'lumot turlari haqida batafsil ma'lumot.",
-        },
-        {
-          id: 3,
-          title: "Funksiyalar va algoritmlar",
-          videoUrl: "https://example.com/lesson3.mp4",
-          description: "Funksiyalar va algoritmlar haqida asosiy tushunchalar.",
-        },
-      ],
-    },
-  ];
+  const courses = [];
+
   return (
     <div className="profile-container">
       <div className="to-back">

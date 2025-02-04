@@ -3,7 +3,7 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import "./myCourses.scss";
 import axios from 'axios';
-import { coursesServerUrl } from '../../../SuperVars';
+import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
 
 
 const MyCourses = () => {
@@ -93,7 +93,7 @@ const MyCourses = () => {
           {courses.map((course, index) => (
             <div className="my-course-card" key={index}>
               <img
-                src={course.image}
+                src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`}
                 alt={course.title}
                 className="my-course-card__image"
               />
@@ -101,10 +101,10 @@ const MyCourses = () => {
                 <h3 className="my-course-card__content__title">
                   {course.title}
                 </h3>
-                <Link to="#" className="my-course-card__content__category">
-                  #{course.category}
+                <Link to={ `/courses/categories/${course.category.id}` } className="my-course-card__content__category">
+                  #{course.category.title}
                 </Link>
-                <div className="d-flex">
+                {/* <div className="d-flex">
                   <div className="progress_count">% {course.progress}</div>
                   <div className="my-course-card__content__progress-bar">
                     <div
@@ -112,14 +112,14 @@ const MyCourses = () => {
                       style={{ width: `${course.progress}%` }}
                     ></div>
                   </div>
-                </div>
+                </div> */}
                 <div className="my-course-card__content__author">
                   <img
-                    src={course.authorImage}
+                    src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`}
                     alt={course.authorName}
                     className="my-course-card__content__author-image"
                   />
-                  <span>{course.authorName}</span>
+                  <span>{course.user.first_name} {course.user.last_name}</span>
                 </div>
               </div>
             </div>
