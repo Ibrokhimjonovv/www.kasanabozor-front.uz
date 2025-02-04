@@ -6,96 +6,111 @@ import InputMask from "react-input-mask";
 import { usersServerUrl } from "../../../SuperVars.js";
 import axios from "axios";
 
-
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages, signupSuccess, setIsAuthenticated, loadUserData } = useContext(MyContext);
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState({ phone: '', password: '', general: '' });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const toggleDropDown = () => {
-    setIsOpen(!isOpen);
-  };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    selectedLanguage,
+    setSelectedLanguage,
+    languages,
+    setLanguages,
+    signupSuccess,
+    setIsAuthenticated,
+    loadUserData,
+  } = useContext(MyContext);
   
+  const navigate = useNavigate();
+
+  // Toggle dropdown visibility
+  const toggleDropDown = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
+  // Close dropdown if clicked outside
   const closeDropdown = (e) => {
-    if (!e.target.closest(".dropdown")) {
+    if (!e.target.closest('.dropdown')) {
       setIsOpen(false);
     }
   };
-  
+
   useEffect(() => {
-    document.addEventListener("click", closeDropdown);
+    document.addEventListener('click', closeDropdown);
 
     return () => {
-      document.removeEventListener("click", closeDropdown);
+      document.removeEventListener('click', closeDropdown);
     };
   }, []);
-  
+
+  // Handle language change
   const handleLanguageChange = (newLanguage) => {
-    // O'rnini almashtirish
     const updatedLanguages = languages.filter((lang) => lang !== newLanguage);
-    updatedLanguages.push(selectedLanguage); // Avvalgi tanlangan tilni qayta qo‘shish
-    setSelectedLanguage(newLanguage); // Yangi tanlangan tilni yangilash
-    setLanguages(updatedLanguages); // Dropdowndagi tillarni yangilash
-    setIsOpen(false); // Dropdownni yopish
+    updatedLanguages.push(selectedLanguage); // Re-add previous selected language
+    setSelectedLanguage(newLanguage); // Update selected language
+    setLanguages(updatedLanguages); // Update languages list in dropdown
+    setIsOpen(false); // Close dropdown
   };
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [usernot] = useState("");
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     let hasError = false;
-    const newError = { phone: "", password: "", general: "" };
+    const newError = { phone: '', password: '', general: '' };
+
+    // Validate phone
     if (!phone) {
-      newError.phone = "Telefon raqamni kiritish shart!";
+      newError.phone = 'Telefon raqamni kiritish shart!';
       hasError = true;
-    } else if (!/^\d{9,12}$/.test(phone.replace(/\D/g, ""))) {
-      newError.phone =
-      "Telefon raqam noto'g'ri yoki to'liq emas.";
+    } else if (!/^\d{9,12}$/.test(phone.replace(/\D/g, ''))) {
+      newError.phone = 'Telefon raqam noto\'g\'ri yoki to\'liq emas.';
       hasError = true;
     }
+
+    // Validate password
     if (!password) {
-      newError.password = "Parolni kiritish shart!";
+      newError.password = 'Parolni kiritish shart!';
       hasError = true;
     }
+
+    // Show errors if any
     if (hasError) {
       setError(newError);
       return;
     } else {
       setLoading(true);
-      setError({ phone: "", password: "", general: "" });
+      setError({ phone: '', password: '', general: '' });
     }
 
-    const loginData = {
-      phone: '+998 ' + phone,
-      password,
-    };
+    const loginData = { phone: '+998 ' + phone, password };
 
     try {
       const response = await axios.post(`${usersServerUrl}accounts/sign-in/`, loginData);
 
       if (!response.ok) {
-          newError.general = "Telefon raqami yoki parol xato!";
+        newError.general = 'Telefon raqami yoki parol xato!';
       }
 
-      const data = await response.data;
-      const { access, refresh } = data;
+      const { access, refresh } = await response.data;
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
-      
+
       loadUserData();
       setIsAuthenticated(true);
-      navigate("/");
+      navigate('/');
     } catch (err) {
+      // Handle error if any
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
-   return (
+
+  return (
     <div id="login">
       <div className="login-header">
         <div className="logo">
@@ -185,8 +200,12 @@ const Login = () => {
           <h3>Kirish</h3>
           <p>Kirish uchun login va parolni kiriting</p>
         </div>
-        {signupSuccess && <div style={{ color: "green", textAlign: "center" }}>{signupSuccess}</div>}
-        {usernot}
+        {signupSuccess && (
+          <div style={{ color: "green", textAlign: "center" }}>
+            {signupSuccess}
+          </div>
+        )}
+        {/* {usernot} */}
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label htmlFor="phone">Telefon raqami</label>

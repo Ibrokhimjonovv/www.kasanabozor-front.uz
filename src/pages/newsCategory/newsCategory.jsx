@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./newsCategory.scss";
 import { Link, useParams } from "react-router-dom";
 import aaa from "./Без имени-2 1.png";
@@ -14,21 +14,24 @@ const NewsCategory = () => {
   const { category } = useParams();
   const { newsList, newsCategories } = useContext(MyContext);
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [fc, setFc] = useState(null);
+
+  useEffect(() => {
+    if (category === "all") {
+      setFc(Array.from(newsCategories).find((value) => { return parseInt(value.id) === parseInt(category) }));
+    }
+  }, [category, newsCategories]);
 
   if (newsCategories.length <= 0 || newsList.length <= 0) {
     return <Loading/>;
   }
 
-  const fc = Array.from(newsCategories).find((value) => { return parseInt(value.id) === parseInt(category) });
-  
-  const legislativeNews = newsList.filter(
-    (news) => news.category.id === parseInt(category)
-  );
+  const legislativeNews = Array.from(newsList);
 
   const toggleCategory = () => {
     setCategoryOpen(!categoryOpen);
   };
-
+  
   return (
     <div id="newsCategory">
       <div className="to-back">
@@ -83,7 +86,7 @@ const NewsCategory = () => {
               />
             </svg>
           </span>
-          <span>{fc.title}</span>
+          <span>{fc ? fc.title : "Barchasi"}</span>
         </div>
       </div>
       <div className="news-search-bar">
@@ -131,7 +134,7 @@ const NewsCategory = () => {
       </div>
       <div className="allProductsPoster">
         <div className="posterInner">
-          <h2>{fc.title} yangiliklari</h2>
+          <h2>{fc ? fc.title : "Barcha"} yangiliklari</h2>
           <img src={aaa} alt="" />
         </div>
       </div>
@@ -140,7 +143,7 @@ const NewsCategory = () => {
           <div className="news-cards">
             {legislativeNews.length > 0 ? (
               legislativeNews.map((news, index) => (
-                <Link to={`${news.id}`} className="news-card-link">
+                <Link to={`/news/${news.category.id}/${news.id}/`} className="news-card-link">
                   <div className="news-card">
                     <div className="img-cont">
                       <img src={`${mediaServerUrl}news${formatLink(news.thumbnail)}`} alt={news.title} />

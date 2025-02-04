@@ -7,30 +7,28 @@ const CurrencyRates = () => {
   const [rates, setRates] = useState(null);
   const [previousRates, setPreviousRates] = useState(null);
 
-  const fetchRates = () => {
-    fetch("https://api.exchangerate-api.com/v4/latest/USD")
-      .then((response) => response.json())
-      .then((data) => {
+  useEffect(() => {
+    const fetchRates = async () => {
+      try {
+        const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+        const data = await response.json();
         setPreviousRates(rates);
         setRates(data.rates);
-      });
-  };
+      } catch (error) {
+        console.error("Valyuta ma'lumotlarini yuklashda xatolik:", error);
+      }
+    };
 
-  useEffect(() => {
-    fetchRates(); 
-
-    const interval = setInterval(() => {
-      fetchRates();
-    }, 6000);
+    fetchRates();
+    const interval = setInterval(fetchRates, 6000);
 
     return () => clearInterval(interval);
-  }, [rates]);
-
+  }, []);
+  
   if (!rates) {
     return <p>Yuklanmoqda...</p>;
   }
 
-  // Valyutalar ro'yxati
   const currencies = [
     { code: "USD", name: "AQSH dollari" },
     { code: "RUB", name: "Rossiya rubli" },
@@ -42,33 +40,30 @@ const CurrencyRates = () => {
   return (
     <div id="currency-container">
       <h1>Valyuta kurslari</h1>
-      {currencies.map((currency) => (
-        <p className="currency-lines" key={currency.code}>
-          <div>
-            <span>{currency.code}</span>
-            <span>{currency.name}</span>
+      {currencies.map((currency) => {
+        if (!rates[currency.code]) return null;
+        const currentRate = rates[currency.code];
+        const previousRate = previousRates ? previousRates[currency.code] : null;
+
+        return (
+          <div className="currency-lines" key={currency.code}>
+            <div>
+              <span>{currency.code}</span>
+              <span>{currency.name}</span>
+            </div>
+            <span>
+              <span>{(1 / currentRate).toFixed(2)}</span>
+              {previousRate && (
+                currentRate > previousRate ? (
+                  <img src={upImg} alt="Kurs oshdi" style={{ width: "20px", height: "20px" }} />
+                ) : (
+                  <img src={downImg} alt="Kurs pasaydi" style={{ width: "20px", height: "20px" }} />
+                )
+              )}
+            </span>
           </div>
-          <span>
-            <span>{(rates["UZS"] / rates[currency.code]).toFixed(2)}</span>
-            {previousRates && (
-              (rates["UZS"] / rates[currency.code] >
-              previousRates["UZS"] / previousRates[currency.code]) ? (
-                <img
-                  src={upImg}
-                  alt="Kurs oshdi"
-                  style={{ width: "20px", height: "20px" }}
-                />
-              ) : (
-                <img
-                  src={downImg}
-                  alt="Kurs pasaydi"
-                  style={{ width: "20px", height: "20px" }}
-                />
-              )
-            )}
-          </span>
-        </p>
-      ))}
+        );
+      })}
     </div>
   );
 };
