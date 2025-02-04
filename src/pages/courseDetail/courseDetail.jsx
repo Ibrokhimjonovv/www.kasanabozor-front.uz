@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./courseDetail.scss";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import play from "./playBtnImg.png";
 // import AddComments from "../../components/addComments/addComments";
@@ -11,6 +11,7 @@ import { coursesServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
 
 const CourseDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { isAuthenticated, followedCourses } = useContext(MyContext);
   const [course, setCourse] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(0);
@@ -33,8 +34,10 @@ const CourseDetail = () => {
   }, []);
 
 	useEffect(() => {
-		window.scrollTo(0, 0);
-	});
+		if (!isAuthenticated) {
+      navigate('/login');
+    }
+	}, [isAuthenticated]);
  
   const handleNextLesson = (index) => {
       setCurrentLesson(index);
@@ -46,14 +49,11 @@ const CourseDetail = () => {
 
   const handleChange = (event) => {
     setSelectedDep(event.target.id);
-    console.log(selectedDep);
   };
   
   const handleFollow = async (courseId) => {
     const response = await axios.post(`${coursesServerUrl}courses/register/`, {'id': courseId});
-    if (response.data.status === "ok") {
-      console.log(response, "following to course");
-    }
+    if (response.data.status === "ok") {}
   };
   
   return (

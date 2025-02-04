@@ -62,20 +62,28 @@ export const MyContextProvider = ({ children }) => {
 
     await loadUserData(); // Load user data before everything else.
 
+    const doRequest = async (url, method) => {
+      try {
+        return await axios.request({url: url, method: method});
+      } catch {
+        return {};
+      }
+    }
+
     // Prepare multiple fetch requests concurrently using Promise.all
     const fetchRequests = [
-      axios.get(`${eCommerseServerUrl}products/popular/`),
-      axios.get(`${eCommerseServerUrl}categories/list/`),
-      axios.get(`${announcementsServerUrl}announcements/list/jobs/`),
-      axios.get(`${announcementsServerUrl}announcements/list/services/`),
-      axios.get(`${coursesServerUrl}categories/list/`),
-      axios.get(`${coursesServerUrl}courses/popular/`),
-      axios.post(`${announcementsServerUrl}profile/announcements/saved/`),
-      axios.get(`${coursesServerUrl}profile/courses/list/`),
-      axios.get(`${newsServerUrl}bussinies/list/`),
-      axios.get(`${newsServerUrl}legacy/list/`),
-      axios.get(`${newsServerUrl}news/list/`),
-      axios.get(`${newsServerUrl}category/list/`),
+      doRequest(`${eCommerseServerUrl}products/popular/`, 'GET'),
+      doRequest(`${eCommerseServerUrl}categories/list/`, 'GET'),
+      doRequest(`${announcementsServerUrl}announcements/list/jobs/`, 'GET'),
+      doRequest(`${announcementsServerUrl}announcements/list/services/`, 'GET'),
+      doRequest(`${coursesServerUrl}categories/list/`, 'GET'),
+      doRequest(`${coursesServerUrl}courses/popular/`, 'GET'),
+      doRequest(`${announcementsServerUrl}profile/announcements/saved/`, 'POST'),
+      doRequest(`${coursesServerUrl}profile/courses/list/`, 'GET'),
+      doRequest(`${newsServerUrl}bussinies/list/`, 'GET'),
+      doRequest(`${newsServerUrl}legacy/list/`, 'GET'),
+      doRequest(`${newsServerUrl}news/list/`, 'GET'),
+      doRequest(`${newsServerUrl}category/list/`, 'GET'),
     ];
 
     try {
