@@ -13,6 +13,7 @@
         row-gap: 40px;
 
         .procsess {
+            margin-top: 46px;
             display: flex;
             align-items: center;
             gap: 20px;
@@ -60,6 +61,7 @@
         left: 50%;
         transform: translateX(-50%);
         height: unset;
+        background-color: white;
 
         .logo {
             a {
@@ -341,7 +343,6 @@
             }
 
             form#second-form {
-                
                 #qw {
                     margin-top: 10px;
                     display: flex;
@@ -507,6 +508,7 @@
         }
 
         .signup-container {
+            width: calc(100% - 24px) !important;
             margin: 0 12px;
 
             .signup-top-text {
@@ -516,6 +518,26 @@
                     margin: 15px 0 0;
                     width: 100%;
                 }
+            }
+
+        }
+    }
+
+    form#second-form {
+        #qw {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column !important;
+
+            .input-row {
+                &.w-50 {
+                    width: 100% !important;
+                }
+            }
+
+            #regions-component {
+                display: flex;
+                flex-direction: column !important;
             }
         }
     }
