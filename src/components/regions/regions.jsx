@@ -4,10 +4,11 @@ import "./regions.scss";
 // IMAGES
 import locationIcon from "../../assets/svg/location.svg";
 
-const RegionSelector = ({ onSelect }) => {
+const RegionSelector = ({ onSelect, gender }) => {
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
+  const [selectedGender, setGender] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedVillage, setSelectedVillage] = useState("");
@@ -77,6 +78,18 @@ const RegionSelector = ({ onSelect }) => {
     });
   };
 
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+    onSelect({
+      region:
+        regions.find((region) => region.id === selectedRegion)?.name || "",
+      district:
+        districts.find((district) => district.id === selectedDistrict)
+          ?.name_uz || "",
+      gender: e.target.value
+    });
+  };
+
   const filteredDistricts = districts.filter(
     (district) => district.region_id === selectedRegion
   );
@@ -128,7 +141,20 @@ const RegionSelector = ({ onSelect }) => {
         </div>
       </div>
       {/* Qishloqlarni tanlash */}
-      <div className="input-row">
+      { gender ? <div className="input-row">
+        <label htmlFor="village">Jinsi:</label>
+        <div className="input-and-icon">
+            <img src={locationIcon} alt="" />
+          <select
+            id="village"
+            value={selectedGender}
+            onChange={handleGenderChange}
+          >
+              <option key={ 'male' } value={ 'male' }>Erkak</option>
+              <option key={ 'female' } value={ 'female' }>Ayol</option>
+          </select>
+        </div>
+      </div> : <div className="input-row">
         <label htmlFor="village">Mahalla:</label>
         <div className="input-and-icon">
             <img src={locationIcon} alt="" />
@@ -145,7 +171,7 @@ const RegionSelector = ({ onSelect }) => {
             ))}
           </select>
         </div>
-      </div>
+      </div> }
       
     </div>
   );

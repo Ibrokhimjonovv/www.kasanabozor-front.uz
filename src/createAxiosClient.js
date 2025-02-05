@@ -3,7 +3,7 @@ import { usersServerUrl } from "./SuperVars";
 
 
 const access = localStorage.getItem('access');
-if (access) {
+if (access && access != "undefined") {
   axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 }
 
@@ -79,4 +79,3 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-

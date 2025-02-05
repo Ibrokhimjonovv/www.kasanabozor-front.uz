@@ -52,6 +52,7 @@ const Signup = () => {
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState("");
   const [phoneErr, setPhoneErr] = useState(null);
+  const [emailError, setEmailError] = useState("");
 
   const [phone, setPhone] = useState([]);
   const [step, setStep] = useState(1);
@@ -196,12 +197,10 @@ const Signup = () => {
     if (selectedValues.district) {
       setFormData({...formData, district: selectedValues.district});
     }
-    if (selectedValues.village) {
-      setFormData({...formData, quarter: selectedValues.quarter});
-    }
 
-    console.log(formData);
-    
+    if (selectedValues.gender) {
+      setFormData({...formData, gender: selectedValues.gender});
+    }
   };
 
   const handleFinish = async (e) => {
@@ -215,15 +214,29 @@ const Signup = () => {
       if (formData.birthday && !String(formData.birthday).includes('_')) { formDataC.append('birthday', formatDate(formData.birthday)); } else { alert("Tug'ilgan kun to'ldirilmagan"); }
       if (formData.email) { formDataC.append('email', formData.email); } else { alert("Elektron pochta to'ldirilmagan"); }
       if (formData.activity) { formDataC.append('activity', formData.activity); }
+      if (formData.region) { formDataC.append('region', formData.region); }
+      if (formData.district) { formDataC.append('district', formData.district); }
+      if (formData.gender) { formDataC.append('gender', formData.gender); }
       if (formData.phone) { formDataC.append('phone', formData.phone) }
       if (formData.password1) { formDataC.append('password', formData.password1) }
 
+      console.log(formData);
+      
+
       const response = await axios.post(`${usersServerUrl}accounts/register/step3/`, formDataC);
+
+      console.log(response);
+      
 
       if (response.data.status === "ok") {
         navigate("/login/");
       } else {
-        alert("Nimadur xato ketdi. Qayta urinib ko'ring");
+        if (response.data.errors.email) {
+          setStep(3);
+          setEmailError("Ushbu elektron pochta allaqchon ishlatilinmoqda");
+        } else {
+          alert("Nimadur xato ketdi. Qayta urinib ko'ring");
+        }
       }
     } catch {}
   }
@@ -695,9 +708,10 @@ const Signup = () => {
                           placeholder="misol@gmail.com"
                         />
                       </div>
+                      { emailError && <div style={{ color: 'red' }}>{emailError}</div> }
                     </div>
                     <div className="user-regions">
-                      <RegionSelector onSelect={handleSelection} />
+                      <RegionSelector onSelect={handleSelection} gender={ true } />
                     </div>
                   </div>
                 </div>

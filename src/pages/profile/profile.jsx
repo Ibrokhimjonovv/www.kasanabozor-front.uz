@@ -151,12 +151,12 @@ const Profile = () => {
                 <p>{ user.activity || "Tanlanmagan" }</p>
               </li>
               <li>
-                <span>Viloyat</span>
-                <p>{ user.region || "Kiritilmagan" }</p>
+                <span>Viloyat, Tuman</span>
+                <p>{ user.region || "Kiritilmagan" }, {user.district}</p>
               </li>
               <li>
-                <span>Tuman</span>
-                <p>{user.district}</p>
+                <span>Jinsi</span>
+                <p>{ user.gender === "male" ? "Erkak" : "Ayol" }</p>
               </li>
             </ul>
           </div>
