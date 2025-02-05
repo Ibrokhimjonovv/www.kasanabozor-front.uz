@@ -3,7 +3,7 @@ import { usersServerUrl } from "./SuperVars";
 
 
 const access = localStorage.getItem('access');
-if (access && access.length >= 16) {
+if (access && access.length >= 24) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 }
 
