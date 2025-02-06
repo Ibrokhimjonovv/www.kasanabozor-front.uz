@@ -106,7 +106,7 @@ export const MyContextProvider = ({ children }) => {
       if (newsResponse.data.status === "ok") setNewList(newsResponse.data.results);
       if (newsCategoriesResponse.data.status === "ok") setNewsCategories(newsCategoriesResponse.data.results);
     } catch (err) {
-      console.error("Error loading context data:", err);
+      // console.error("Error loading context data:", err);
     }
 
     setLoadStart(false);

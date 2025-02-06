@@ -3,7 +3,7 @@ import { usersServerUrl } from "./SuperVars";
 
 
 const access = localStorage.getItem('access');
-if (access && access.length >= 24) {
+if (access && access !== "undefined") {
   axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 }
 
@@ -37,42 +37,44 @@ axios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
+    if (access && access !== "undefined") {
+      const originalRequest = error.config;
     
-    // Check if the error is due to an expired token
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise(function(resolve, reject) {
-          failedQueue.push({ resolve, reject });
-        }).then(token => {
-          originalRequest.headers['Authorization'] = 'Bearer ' + token;
+      // Check if the error is due to an expired token
+      if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        if (isRefreshing) {
+          return new Promise(function(resolve, reject) {
+            failedQueue.push({ resolve, reject });
+          }).then(token => {
+            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            return axios(originalRequest);
+          }).catch(err => {
+            return Promise.reject(err);
+          });
+        }
+
+        originalRequest._retry = true;
+        isRefreshing = true;
+
+        try {
+          const response = await axios.post(`${usersServerUrl}accounts/refresh/`, {
+            refresh: localStorage.getItem('refresh')
+          });
+
+          const newAccessToken = response.data.access;
+          
+          localStorage.setItem('access', newAccessToken);
+
+          axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+
+          processQueue(null, newAccessToken);
           return axios(originalRequest);
-        }).catch(err => {
+        } catch (err) {
+          processQueue(err, null);
           return Promise.reject(err);
-        });
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        const response = await axios.post(`${usersServerUrl}accounts/refresh/`, {
-          refresh: localStorage.getItem('refresh')
-        });
-
-        const newAccessToken = response.data.access;
-        
-        localStorage.setItem('access', newAccessToken);
-
-        axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-
-        processQueue(null, newAccessToken);
-        return axios(originalRequest);
-      } catch (err) {
-        processQueue(err, null);
-        return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
+        } finally {
+          isRefreshing = false;
+        }
       }
     }
 

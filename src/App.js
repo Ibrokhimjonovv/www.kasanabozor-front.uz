@@ -67,6 +67,8 @@ import AboutProject from "./pages/staticPages/about-project/aboutProject";
 import AdminAnnounces from "./pages/admin/admin-announces/adminAnnounces";
 
 import Loading from "./components/loading/loading.jsx";
+import NotificationsDisplay from "./components/notification/notification.jsx";
+import NotificationsProvider from "./context/notifications.jsx";
 
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
   if (!isAuthenticated && userRole !== allowedRole) {
@@ -302,7 +304,10 @@ function App() {
   return (
     <MyContextProvider>
       <BrowserRouter>
-	      <AppContent />
+        <NotificationsProvider>
+          <AppContent />
+          <NotificationsDisplay />
+        </NotificationsProvider>
 		  </BrowserRouter>
     </MyContextProvider>
   );

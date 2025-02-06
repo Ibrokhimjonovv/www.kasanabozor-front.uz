@@ -11,8 +11,7 @@ import mail from "../../../assets/svg/mail.svg";
 import RegionSelector from "../../../components/regions/regions";
 import rightChevron from "../../../assets/svg/right-chevron.svg";
 import stepIcon1 from "../../../assets/svg/stepIcon1.svg";
-import stepIcon2 from "../../../assets/svg/stepIcon2.svg";
-import bag from "../../../assets/svg/bag.svg";
+import { Notifications } from "../../../context/notifications";
 
 
 function formatDate(dateStr) {
@@ -45,13 +44,11 @@ const Signup = () => {
     setSelectedLanguage,
     languages,
     setLanguages,
-    setSignUpSuccess,
   } = useContext(MyContext);
+  const { addNotification } = useContext(Notifications);
 
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const [error, setError] = useState("");
-  const [phoneErr, setPhoneErr] = useState(null);
   const [emailError, setEmailError] = useState("");
 
   const [phone, setPhone] = useState([]);
@@ -107,8 +104,7 @@ const Signup = () => {
       formData.phone &&
       formData.password1 &&
       formData.password2 &&
-      formData.password1 === formData.password2 &&
-      phoneErr === null
+      formData.password1 === formData.password2
     ) {
       try {
         const response = await axios.post(`${usersServerUrl}accounts/register/step1/`, {'phone': formData.phone, 'password': formData.password1});
@@ -116,13 +112,14 @@ const Signup = () => {
           setPhone(response.data.results.phone);
           setFormData({...formData, phone: response.data.results.phone});
           setStep(2);
+          addNotification("Tasdiqlash ko'di yuborildi!", `Siz urinish amalga oshiryotgan telefon raqamiga SMS tasdiqlash xabari yuborildi.`)
         } else {
           if (response.data.errors.phone) {
-            setError({general: response.data.errors.phone});
+            addNotification("Xatolik yuz berdi!", "Siz urinish amalga oshiryotgat telefon raqami allaqachon band etilgan.", "error");
           }
         }
       } catch {
-        setError("Aloqada yoki serverda xatolik");
+        addNotification("Xatolik yuz berdi!", "Servis va Foydalanuvchi o'rtasidagi aloqa uzilib qoldi. Wi-Fi yoki Internet kabelini tekshiring.", "error");
       }
     }
   };
@@ -138,8 +135,8 @@ const Signup = () => {
     const countdown = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer <= 1) {
-          clearInterval(countdown); // Timer to'xtatish
-          setResendEnabled(true); // SMS qayta yuborish tugasini ko'rsatish
+          clearInterval(countdown);
+          setResendEnabled(true);
 
           return 0;
         }
@@ -165,15 +162,13 @@ const Signup = () => {
     const enteredCode = code.join("");
 
     try {
-      console.log(enteredCode);
-      
       const response = await axios.post(`${usersServerUrl}accounts/register/step2/`, {'code': enteredCode, 'phone': phone});
-      console.log(response);
 
       if (response.data.status === "ok") {
         setStep(3);
+        addNotification("Tasdiqlash ko'di to'g'ri!", "Kiritilgan tasdiqlash ko'di muaffaqiyatli tekshirildi. Endi siz o'z malumotlaringizni kiritishingiz mumkin.")
       } else {
-        setSmsErr("Bu ko'd xato.");
+        addNotification("Xatolik yuz berdi!", "Siz kiritgan tasdiqlash ko'di xato.", "error")
       }
     } catch {}
 
@@ -220,22 +215,18 @@ const Signup = () => {
       if (formData.phone) { formDataC.append('phone', formData.phone) }
       if (formData.password1) { formDataC.append('password', formData.password1) }
 
-      console.log(formData);
-      
-
       const response = await axios.post(`${usersServerUrl}accounts/register/step3/`, formDataC);
-
-      console.log(response);
-      
 
       if (response.data.status === "ok") {
         navigate("/login/");
+        addNotification("Muaffaqiyatli yakunlandi!", "Siz uchun kiritilgan malumotlar asosida hisob qaydnomasi yaratildi. Loyihani ishlatish bo'yicha Kurslar bo'lima maxsus video darslar mavjud.", "success");
+        addNotification("Hisobga kirilmagan!", "Servisdan foydalanish uchun yangi yaratilgan hisob qaydnomangizga kirib oling.", "info");
       } else {
         if (response.data.errors.email) {
           setStep(3);
-          setEmailError("Ushbu elektron pochta allaqchon ishlatilinmoqda");
+          addNotification("Xatolik yuz berdi!", "Siz ishlatmoqchi bo'layotgan elektron pochta allaqchon band qilingan.", "error");
         } else {
-          alert("Nimadur xato ketdi. Qayta urinib ko'ring");
+          addNotification("Kutilmagan xatolik yuz berdi!", "Siz amalga oshiryotgan so'rov davrida kutilmagan xatolik yuz berdi. Qayta urinib ko'ring.", "error");
         }
       }
     } catch {}
@@ -388,10 +379,6 @@ const Signup = () => {
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <>
-            {error.general && (
-              <div style={{ color: "red" }}>{error.general}</div>
-            )}
-
               <div className="input-container">
                 <label htmlFor="phone">Telefon raqami</label>
                 <div className="a">
@@ -427,8 +414,6 @@ const Signup = () => {
                     id="phone"
                   />
                 </div>
-                {error.phone && <p className="error-message">{error.phone}</p>}
-                {phoneErr && <p className="error-message">{phoneErr}</p>}
               </div>
               <div className="input-container">
                 <label htmlFor="password1">Yangi parol</label>
@@ -499,9 +484,6 @@ const Signup = () => {
                     </svg>
                   )}
                 </div>
-                {error.password1 && (
-                  <p className="error-message">{error.password1}</p>
-                )}
               </div>
               <div className="input-container">
                 <label htmlFor="password2">Parolni takrorlang</label>
@@ -572,9 +554,6 @@ const Signup = () => {
                     </svg>
                   )}
                 </div>
-                {error.password1 && (
-                  <p className="error-message">{error.password1}</p>
-                )}
               </div>
               <button onClick={handleSubmit}>Tasdiqlash</button>
             </>
@@ -598,20 +577,10 @@ const Signup = () => {
                     maxLength="1"
                     value={digit}
                     onChange={(e) => handleChangeSmsCode(index, e.target.value)}
-                    disabled={phoneErr !== null}
                     required
                   />
                 ))}
               </div>
-              {!phoneErr && timer > 0 && <p>{formatTimer()}</p>}
-              {!phoneErr && smsErr && (
-                <p style={{ color: "red" }}>Kiritilgan kod xato</p>
-              )}
-              {!phoneErr && resendEnabled && (
-                <button id="resend-btn" onClick={handleResendCode}>
-                  SMS kodni qayta yuborish
-                </button>
-              )}
               <button
                 type="button"
                 onClick={(e) => handleVerify(e)}
@@ -619,7 +588,6 @@ const Signup = () => {
               >
                 {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
               </button>
-              {phoneErr && <p style={{ color: "red" }}>{phoneErr}</p>}
             </div>
           )}
           {step === 1 && (

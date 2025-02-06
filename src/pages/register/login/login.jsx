@@ -5,6 +5,7 @@ import { MyContext } from "../../../context/myContext";
 import InputMask from "react-input-mask";
 import { usersServerUrl } from "../../../SuperVars.js";
 import axios from "axios";
+import { Notifications } from "../../../context/notifications.jsx";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,7 @@ const Login = () => {
     setIsAuthenticated,
     loadUserData,
   } = useContext(MyContext);
+  const {addNotification} = useContext(Notifications);
   
   const navigate = useNavigate();
 
@@ -90,21 +92,22 @@ const Login = () => {
     try {
       const response = await axios.post(`${usersServerUrl}accounts/sign-in/`, loginData);
 
-      if (!response.ok) {
-        newError.general = 'Telefon raqami yoki parol xato!';
+      if (response.data.status === "ok") {
+        const { access, refresh } = await response.data;
+  
+        axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
+  
+        loadUserData();
+        setIsAuthenticated(true);
+        addNotification("Muaffaqiyatli kirish!", "O'z hisob qaytnomangizga omadli kirish so'rovi qildingiz.");
+        navigate('/');
+      } else {
+        addNotification("Kutilmagan xatolik yuz berdi!", "Kiritilgan telefon raqami yoki parol xato.");
       }
-
-      const { access, refresh } = await response.data;
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-      localStorage.setItem('access', access);
-      localStorage.setItem('refresh', refresh);
-
-      loadUserData();
-      setIsAuthenticated(true);
-      navigate('/');
     } catch (err) {
-      // Handle error if any
+      addNotification("Kutilmagan xatolik yuz berdi!", "Kiritilgan telefon raqami yoki parol xato.");
     } finally {
       setLoading(false);
     }
