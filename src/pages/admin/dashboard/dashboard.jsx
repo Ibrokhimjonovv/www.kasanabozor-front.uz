@@ -493,7 +493,9 @@ const Dashboard = () => {
             </li>
             <li>
               <NavLink
-                to="statics"
+                to="/dashboard/statistics/"
+                aria-disabled={ true }
+                style={{ opacity: 0.58, cursor: 'not-allowed', pointerEvents: 'none' }}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <div className="item-inner">
