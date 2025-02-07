@@ -16,85 +16,8 @@ const Weather = () => {
   const [error, setError] = useState(null);
   const [currentTime, setCurrentTime] = useState("");
   const [currentDay, setCurrentDay] = useState("");
-  const [locationDenied, setLocationDenied] = useState(false); // Joylashuvni rad etish holati
-
-  // useEffect(() => {
-  //   // Geolocation API
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const { latitude, longitude } = position.coords;
-  //         fetchWeather(latitude, longitude);
-  //         setLocationDenied(false); // Ruxsat berildi, rad etilganligini o'chirish
-  //       },
-  //       (error) => {
-  //         setLocationDenied(true); // Foydalanuvchi ruxsat bermadi
-  //         setError(
-  //           "Joylashuv ma'lumotlari olinmadi. Obi-havo ma'lumotlarini ko'rish uchun 'Sozlamalar'dan joylashuv uchun ruxsat bering yoki sahifani qayta yuklang"
-  //         );
-  //         fetchWeather(41.2995, 69.2401); // Default to Tashkent
-  //       }
-  //     );
-  //   } else {
-  //     setError("Joylashuv funksiyasi qo'llab-quvvatlanmaydi.");
-  //     fetchWeather(41.2995, 69.2401); // Default to Tashkent
-  //   }
-  // }, []);
-  // const fetchWeather = (lat, lon) => {
-
-  //   fetch(
-  //     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=d66a3a2f03bbb26656d45fa20fb11454&units=metric`
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data && data.city) {
-  //         // Shahar nomi va mamlakatni tekshirish
-  //         if (data.city.name === "Massy" && data.city.country === "KG") {
-  //           data.city.name = "Andijon";
-  //           data.city.country = "UZ";
-  //         }
-  //         setWeatherData(data); // O'zgartirilgan ob'ektni saqlash
-  //       } else {
-  //         setError("Ob-havo ma'lumotlarini olishda xatolik yuz berdi.");
-  //       }
-  //     })
-  //     .catch(() =>
-  //       setError("Ob-havo ma'lumotlarini olishda xatolik yuz berdi.")
-  //     );
-
-  //   const updateTimeAndDay = () => {
-  //     const now = new Date();
-  //     const options = {
-  //       weekday: "long",
-  //       hour: "2-digit",
-  //       minute: "2-digit",
-  //     };
-  //     setCurrentTime(now.toLocaleDateString("uz-UZ", options));
-
-  //     // Short weekday name
-  //     const shortDayOptions = { weekday: "short" };
-  //     setCurrentDay(now.toLocaleDateString("uz-UZ", shortDayOptions));
-  //   };
-
-  //   updateTimeAndDay();
-  //   const timer = setInterval(updateTimeAndDay, 60000); // Update every minute
-
-  //   return () => clearInterval(timer); // Clear interval on component unmount
-  // };
-  // if (error) {
-  //   return <p style={{width: '55%'}} className="location-error">{error}</p>;
-  // }
-
-  // if (!weatherData) {
-  //   return (
-  //     <div>
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
-
+  
   useEffect(() => {
-    // Default to Toshkent's weather without asking for location
     fetchWeather(41.311081, 69.240562); // Toshkent koordinatalari
 
     const updateTimeAndDay = () => {
@@ -175,10 +98,10 @@ const Weather = () => {
       <div className="current-weather">
         <div className="current-temp">
           <div className="weather-left">
-            <img
+            {/* <img
               src={weatherIcon}
               alt={currentWeather.weather[0].description}
-            />
+            /> */}
             <h1>
               {Math.round(weatherData.list[0].main.temp)} <span>°C</span>
             </h1>

@@ -7,7 +7,7 @@ export const MyContext = createContext(null);
 export const MyContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [newsList, setNewList] = useState([]);
+  const [newsList, setNewsList] = useState([]);
   const [newsCategories, setNewsCategories] = useState([]);
   const [legislativeDoc, setLegislativeDoc] = useState([]);
   const [bussinessDoc, setBussinessDoc] = useState([]);
@@ -99,11 +99,11 @@ export const MyContextProvider = ({ children }) => {
       if (servicesResponse.data.status === "ok") setServices(servicesResponse.data.results);
       if (ccategoriesResponse.data.status === "ok") setCourseCategories(ccategoriesResponse.data.results);
       if (coursesResponse.data.status === "ok") setCourses(coursesResponse.data.results);
-      if (savedAnnouncementsResponse.data.status === "ok") setSavedAnnouncements(savedAnnouncementsResponse.data.results);
-      if (followedCoursesResponse.data.status === "ok") setFollowedCourses(followedCoursesResponse.data.results.map(value => value.id));
+      if (savedAnnouncementsResponse.data?.status === "ok") setSavedAnnouncements(savedAnnouncementsResponse.data.results);
+      if (followedCoursesResponse.data?.status === "ok") setFollowedCourses(followedCoursesResponse.data.results.map(value => value.id));
       if (bdocsResponse.data.status === "ok") setBussinessDoc(bdocsResponse.data.results);
       if (ldocsResponse.data.status === "ok") setLegislativeDoc(ldocsResponse.data.results);
-      if (newsResponse.data.status === "ok") setNewList(newsResponse.data.results);
+      if (newsResponse.data?.status === "ok") setNewsList(newsResponse.data.results);
       if (newsCategoriesResponse.data.status === "ok") setNewsCategories(newsCategoriesResponse.data.results);
     } catch (err) {
       // console.error("Error loading context data:", err);

@@ -28,27 +28,6 @@ function getDomain(url, subdomain) {
 const Documents = () => {
   const { legislativeDoc, bussinessDoc } = useContext(MyContext);
 
-  useEffect(() => {
-    const reveal = () => {
-      const reveals = document.querySelectorAll(".doc-cont:not(.revealed)");
-      reveals.forEach((revealElement) => {
-        const windowHeight = window.innerHeight;
-        const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9;
-        if (
-          revealTop < revealPoint &&
-          !revealElement.classList.contains("revealed")
-        ) {
-          revealElement.classList.add("revealed");
-        }
-      });
-    };
-
-    window.addEventListener("scroll", reveal);
-    reveal();
-    return () => window.removeEventListener("scroll", reveal);
-  }, []);
-
   return (
     <div id="documents">
       <div className="left-side">
@@ -61,7 +40,7 @@ const Documents = () => {
         </div>
 
         {legislativeDoc.slice(0, 3).map((doc, index) => (
-          <div id="top" className={`container doc-cont`} key={index}>
+          <div id="top" className={`container doc-cont revealed`} key={index}>
             <p>{doc.title}</p>
             <p>{doc.subtitle}</p>
             <div className="links">
@@ -123,7 +102,7 @@ const Documents = () => {
           <Link to={`/news/documents/@b/`}>Ko'proq ko'rish</Link>
         </div>
 
-        {bussinessDoc.slice(0, 3).map((doc, index) => (<div id="top" className={`container doc-cont`} key={index}>
+        {bussinessDoc.slice(0, 3).map((doc, index) => (<div id="top" className={`container doc-cont revealed`} key={index}>
               <p>{doc.title}</p>
               <p>{doc.subtitle}</p>
               <div className="links">

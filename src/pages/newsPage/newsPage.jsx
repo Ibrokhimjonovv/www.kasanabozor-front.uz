@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import "./newsPage.scss";
 import backgroundImg from "./backgroundImg.png";
 import posterImg from "./newsimg.png";
@@ -11,6 +11,7 @@ import Weather from "../../components/weather/weather";
 import CurrencyRates from "../../components/converter/converter";
 import Documents from "../../components/documents/Documents";
 import { formatLink, mediaServerUrl } from "../../SuperVars";
+import Loading from "../../components/loading/loading";
 
 const NewsPage = () => {
   const { newsList } = useContext(MyContext);
@@ -23,25 +24,10 @@ const NewsPage = () => {
     width: "100%",
   };
 
-  useEffect(() => {
-    const reveal = () => {
-      const reveals = document.querySelectorAll(".news-card:not(.revealed)");
-      reveals.forEach((revealElement) => {
-        const windowHeight = window.innerHeight;
-        const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9;
-        if (
-          revealTop < revealPoint &&
-          !revealElement.classList.contains("revealed")
-        ) {
-          revealElement.classList.add("revealed");
-        }
-      });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal();
-    return () => window.removeEventListener("scroll", reveal);
-  }, []);
+  if (newsList.length <= 0) {
+    console.log(newsList);
+    return <Loading />;
+  }
 
   return (
     <>
@@ -52,7 +38,8 @@ const NewsPage = () => {
         </div>
         <div className="newsInner">
           <div className="left-side">
-            {newsList[0] && (
+            { console.log(newsList) }
+            {newsList[0] ? (
               <>
                 <div className="img-container">
                   <img
@@ -124,7 +111,7 @@ const NewsPage = () => {
                   </div>
                 </div>
               </>
-            )}
+            ) : <Loading />}
           </div>
           <div className="right-side">
             {newsList.slice(1, 5).map((value, index) => (
@@ -208,7 +195,7 @@ const NewsPage = () => {
             {newsList.length > 0 ? (
               newsList.slice(0, 4).map((news, index) => (
                 <Link to={`/news/${news.category.id}/${news.id}`} key={ index }>
-                  <div className={`news-card `}>
+                  <div className={`news-card revealed`}>
                     <div className="img-cont">
                       <img
                         src={`${mediaServerUrl}news${formatLink(
