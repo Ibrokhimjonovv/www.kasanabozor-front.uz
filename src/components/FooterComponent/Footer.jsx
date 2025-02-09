@@ -7,6 +7,7 @@ import telegram from "./TelegramLogo.png";
 import twitter from "./Twitter.png";
 import youtube from "./Youtube.png";
 import backgroundImg from "./backgroundImg.png";
+
 const Footer = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,

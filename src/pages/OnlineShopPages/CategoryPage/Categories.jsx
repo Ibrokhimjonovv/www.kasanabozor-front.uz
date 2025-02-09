@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./Categories.scss";
+
 import { Link, useParams } from "react-router-dom";
-import Discount from "../../components/discount/Discount";
-import axios from 'axios';
-import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
+
+import Discount from "../../../components/DiscountComponent/Discount";
+
+import axios from "axios";
+import {
+  eCommerseServerUrl,
+  formatLink,
+  mediaServerUrl,
+} from "../../../SuperVars";
 
 
-const Categories = () => {
+const CategoryPage = () => {
   const { category } = useParams();
-  const [categoryDetails, setCategoryDetails] = useState({'category': {'title': 'Loading...'}, 'products': []});
+  const [categoryDetails, setCategoryDetails] = useState({
+    category: { title: "Loading..." },
+    products: [],
+  });
 
   const loadData = async () => {
     try {
-      const response = await axios.post(`${eCommerseServerUrl}categories/exact/`, {'id': category});
+      const response = await axios.post(
+        `${eCommerseServerUrl}categories/exact/`,
+        { id: category }
+      );
       if (response.data.status === "ok") {
         console.log(response);
         setCategoryDetails(response.data.results);
@@ -20,7 +33,7 @@ const Categories = () => {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   useEffect(() => {
     const timeout = setTimeout(loadData, 100);
@@ -28,7 +41,7 @@ const Categories = () => {
       clearTimeout(timeout);
     };
   }, []);
- 
+
   useEffect(() => {
     const reveal = () => {
       const reveals = document.querySelectorAll(".product:not(.revealed)");
@@ -48,7 +61,6 @@ const Categories = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-  
 
   return (
     <div className="products-category">
@@ -91,14 +103,29 @@ const Categories = () => {
         </div>
       </div>
 
-      <h2 className="title">{!categoryDetails.category.title === "Loading..." ? categoryDetails.category.title : "Kategoriya"} bo'yicha mahsulotlar</h2>
+      <h2 className="title">
+        {!categoryDetails.category.title === "Loading..."
+          ? categoryDetails.category.title
+          : "Kategoriya"}{" "}
+        bo'yicha mahsulotlar
+      </h2>
       <div className="productsInner">
         {categoryDetails.products.length > 0 ? (
           categoryDetails.products.map((product) => (
             <Link to={`/online-shop/product/${product.id}`} key={product.id}>
               <div className="product">
                 <div className="imgContainer">
-                  <img src={product.product_image_Ecommerce_product_images.length >= 1 ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : ""} alt="" />
+                  <img
+                    src={
+                      product.product_image_Ecommerce_product_images.length >= 1
+                        ? `${mediaServerUrl}ecommerse${formatLink(
+                            product.product_image_Ecommerce_product_images[0]
+                              .image
+                          )}`
+                        : ""
+                    }
+                    alt=""
+                  />
                 </div>
                 <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
@@ -124,8 +151,15 @@ const Categories = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
-                  <span>{product.user.first_name} {product.user.last_name}</span>
+                  <img
+                    src={`${mediaServerUrl}users${formatLink(
+                      product.user.pfp
+                    )}`}
+                    alt=""
+                  />
+                  <span>
+                    {product.user.first_name} {product.user.last_name}
+                  </span>
                 </div>
               </div>
             </Link>
@@ -138,4 +172,5 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+
+export default CategoryPage;

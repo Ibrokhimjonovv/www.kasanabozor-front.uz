@@ -1,13 +1,11 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { I18nResources } from "./types/i18n";
 
 import uzLanguage from "./locales/uz.json";
 
-i18n.use(initReactI18next).init({
+i18n.use(initReactI18next).init<I18nResources>({
   resources: {
-    en: {
-      translation: { "Welcome to React": "Welcome to React and react-i18next" },
-    },
     uz: uzLanguage,
   },
   lng: "uz",

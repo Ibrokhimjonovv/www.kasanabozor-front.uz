@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import "../addComments/addComments.scss";
+import "../AddCommentsComponent/addComments.scss";
+
 import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
-import axios from 'axios';
-import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../SuperVars';
-
+import axios from "axios";
+import {
+  eCommerseServerUrl,
+  formatLink,
+  mediaServerUrl,
+} from "../../SuperVars";
 
 const AddProductsComments = ({ com }) => {
   const [comments, setComments] = useState([]);
@@ -16,12 +20,15 @@ const AddProductsComments = ({ com }) => {
   const { isAuthenticated } = useContext(MyContext);
 
   const loadData = async () => {
-    const response = await axios.post(`${eCommerseServerUrl}products/comments/list/`, {'id': id});
+    const response = await axios.post(
+      `${eCommerseServerUrl}products/comments/list/`,
+      { id: id }
+    );
     if (response.data.status === "ok") {
       console.log(response.data.results, "product comments");
       setComments(response.data.results);
     }
-  }
+  };
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -42,15 +49,18 @@ const AddProductsComments = ({ com }) => {
 
     const comment = {
       text: productComment,
-      product: com.id
+      product: com.id,
     };
 
     try {
-      const response = await axios.post(`${eCommerseServerUrl}products/comments/create/`, comment);
+      const response = await axios.post(
+        `${eCommerseServerUrl}products/comments/create/`,
+        comment
+      );
       console.log(response);
       if (response.data.status === "ok") {
         setComments((prevComments) => {
-          return [...prevComments, response.data.results]
+          return [...prevComments, response.data.results];
         });
       }
     } catch (err) {
@@ -59,7 +69,7 @@ const AddProductsComments = ({ com }) => {
 
     setProductComment("");
   };
-  
+
   const handleReply = async () => {
     if (productComment.trim() === "") return;
 
@@ -67,11 +77,14 @@ const AddProductsComments = ({ com }) => {
       const comment = {
         text: productComment,
         product: com.id,
-        reply_to: replyingTo
+        reply_to: replyingTo,
       };
 
       try {
-        const response = await axios.post(`${eCommerseServerUrl}products/comments/reply/`, comment);
+        const response = await axios.post(
+          `${eCommerseServerUrl}products/comments/reply/`,
+          comment
+        );
         console.log(response);
         if (response.data.status === "ok") {
           loadData();
@@ -100,23 +113,27 @@ const AddProductsComments = ({ com }) => {
   };
 
   const handleCancelReply = () => {
-    setReplyingTo(null); 
+    setReplyingTo(null);
     setCurrentReplyTo(null);
     setProductComment("");
   };
-  
+
   const renderReplies = (replies) => {
     return replies.map((reply) => (
       <div key={reply.id} className="replied-messages">
         <div className="who">
           <div className="user">
-          <img src={`${mediaServerUrl}users${formatLink(reply.user.pfp)}`} alt="" />
+            <img
+              src={`${mediaServerUrl}users${formatLink(reply.user.pfp)}`}
+              alt=""
+            />
             <div className="texts">
               <div className="name">
-              {reply.user.first_name} {reply.user.last_name} {reply.user.id === com.user.id && "(muallif)"}
+                {reply.user.first_name} {reply.user.last_name}{" "}
+                {reply.user.id === com.user.id && "(muallif)"}
               </div>
               <div className="date">
-              <span>{new Date(reply.created_at).toLocaleDateString()}</span>
+                <span>{new Date(reply.created_at).toLocaleDateString()}</span>
               </div>
             </div>
           </div>
@@ -130,29 +147,47 @@ const AddProductsComments = ({ com }) => {
     <div id="comments">
       <h2>Izohlar</h2>
       <div className="commentsInner">
-        {comments.length > 0 ? <>{comments.map((comment) => <div className="user-comment" key={comment.id}>
-            <div className="who">
-              <div className="user">
-                <img src={`${mediaServerUrl}users${formatLink(comment.user.pfp)}`} alt="" />
-                <div className="texts">
-                  <div className="name">
-                    {comment.user.first_name} {comment.user.last_name} {comment.user.id === com.user.id && "(muallif)"}
+        {comments.length > 0 ? (
+          <>
+            {comments.map((comment) => (
+              <div className="user-comment" key={comment.id}>
+                <div className="who">
+                  <div className="user">
+                    <img
+                      src={`${mediaServerUrl}users${formatLink(
+                        comment.user.pfp
+                      )}`}
+                      alt=""
+                    />
+                    <div className="texts">
+                      <div className="name">
+                        {comment.user.first_name} {comment.user.last_name}{" "}
+                        {comment.user.id === com.user.id && "(muallif)"}
+                      </div>
+                      <div className="date">
+                        <span>
+                          {new Date(comment.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="date">
-                    <span>{new Date(comment.created_at).toLocaleDateString()}</span>
+                  <div className="reply-button">
+                    <button onClick={() => setReplyingTo(comment.id)}>
+                      Javob berish
+                    </button>
                   </div>
                 </div>
+                <div className="message">{comment.text}</div>
+                {comment.product_comment_Ecommerce_comment_replies &&
+                  renderReplies(
+                    comment.product_comment_Ecommerce_comment_replies
+                  )}
               </div>
-              <div className="reply-button">
-                <button onClick={() => setReplyingTo(comment.id)}>
-                  Javob berish
-                </button>
-              </div>
-            </div>
-            <div className="message">{comment.text}</div>
-            {comment.product_comment_Ecommerce_comment_replies && renderReplies(comment.product_comment_Ecommerce_comment_replies)}
-          </div>)}</> : <div>Birinch izohni bildiring!</div>
-        }
+            ))}
+          </>
+        ) : (
+          <div>Birinch izohni bildiring!</div>
+        )}
       </div>
       <div className="addComment">
         <div className="title">
@@ -173,9 +208,9 @@ const AddProductsComments = ({ com }) => {
             e.preventDefault();
             if (productComment.trim() === "") return;
             if (currentReplyTo) {
-              handleReply(); 
+              handleReply();
             } else if (replyingTo) {
-              handleReply(); 
+              handleReply();
             } else {
               handleAddComment();
             }

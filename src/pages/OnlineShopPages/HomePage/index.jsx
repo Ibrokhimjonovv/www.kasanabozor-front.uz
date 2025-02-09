@@ -2,16 +2,16 @@ import React from "react";
 import "./onlineShop.scss";
 import backgroundImg from "./backgroundImg.png";
 import img from "./posterImg.png";
-import TopProducts from "../../components/topProducts/topProducts";
-import ShopSwiper from "../../components/shopSwiper/shopSwiper";
+import TopProducts from "../../../components/TopProductsComponent";
+import ShopSwiper from "../../../components/ShowSwiperComponent/shopSwiper";
 import posterImg2 from "./posterImg2.png";
-import News from "../../components/newsFromWorkers/News";
-import Offers from "../../components/offers/Offers";
-import Success from "../../components/success/Success";
-import SearchBar from "../../components/searchBar/searchBar";
+import News from "../../../components/NewsFromWorkersComponent/News";
+import Offers from "../../../components/OffersComponent/Offers";
+import Success from "../../../components/SuccessComponent/Success";
+import SearchBar from "../../../components/SearchbarComponent/searchBar";
 
 
-const OnlineShop = () => {
+const HomePage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
     backgroundSize: "cover",
@@ -25,12 +25,16 @@ const OnlineShop = () => {
       <div className="search-bar-container search-bar-mobile-version">
         <SearchBar />
       </div>
+
       <div className="miniPoster" style={backgroundStyle}>
         <div className="text">Kasanachilik onlayn bozori</div>
         <img src={img} alt="" />
       </div>
+      
       <TopProducts />
+      
       <ShopSwiper />
+      
       <div className="forBackgroundColor">
         <div className="poster">
           <div className="left-side">
@@ -53,9 +57,11 @@ const OnlineShop = () => {
           </div>
         </div>
       </div>
+
       <div className="newsFromWorkers">
         <News />
       </div>
+      
       {/* TODO: THIS MUST BE IN WEB */}
       {/* <div className="cubes">
         <div className="cubesInner">
@@ -66,10 +72,12 @@ const OnlineShop = () => {
           <div className="cube"></div>
         </div>
       </div> */}
+      
       <Offers />
       <Success />
     </div>
   );
 };
 
-export default OnlineShop;
+
+export default HomePage;

@@ -1,0 +1,269 @@
+#allCategories {
+  .to-back {
+    background-color: #41a58d;
+    height: 50px;
+    margin-top: 170px;
+
+    .inner {
+      margin: 0 auto;
+      max-width: 1366px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: #fff;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .allProductsPoster {
+    background-color: #fff;
+    height: 100px;
+
+    .inner {
+      max-width: 1366px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #41a58d;
+
+      h2 {
+        font-weight: 600;
+        font-size: 28px;
+      }
+
+      img {
+        width: 790px;
+        height: 105px;
+      }
+    }
+  }
+
+  .main {
+    background-color: #f5f5f5;
+
+    .inner {
+      max-width: 1366px;
+      margin: 0 auto;
+      display: flex;
+      gap: 16px;
+      padding: 26px 0;
+
+      .left-side {
+        min-width: 25%;
+
+        .first-select,
+        .second-select {
+          background-color: #fff;
+          border-radius: 10px;
+          padding: 20px 25px;
+
+          p {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+          }
+
+          ul {
+            li {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+              padding: 10px 0 10px;
+              border-bottom: 1px solid #ebebeb;
+              position: relative;
+
+              &:last-child {
+                border-bottom: none;
+              }
+
+              input,
+              label {
+                cursor: pointer;
+              }
+
+              input {
+                display: none;
+              }
+
+              label {
+                padding-left: 27px;
+              }
+
+              .custom-checkbox {
+                border: 1px solid #c2c2c2;
+                border-radius: 5px;
+                height: 20px;
+                left: 0;
+                position: absolute;
+                // top: 50%;
+                // -webkit-transform: translateY(-50%);
+                // transform: translateY(-50%);
+                width: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &::after {
+                  border: 1px solid #fff;
+                  border-width: 0 2px 2px 0;
+                  content: "";
+                  display: none;
+                  width: 5px;
+                  height: 10px;
+                  position: absolute;
+                  -webkit-transform: rotate(45deg);
+                  transform: rotate(45deg);
+                  z-index: 9;
+                  margin-top: -2px;
+                }
+              }
+
+              input:checked ~ .custom-checkbox::after {
+                display: block;
+              }
+
+              input:checked ~ .custom-checkbox {
+                background-color: #1d9da0;
+                border: 1px solid #1d9da0;
+              }
+            }
+          }
+        }
+
+        .second-select {
+          margin-top: 10px;
+        }
+
+        .third-select {
+          background-color: #fff;
+          margin-top: 10px;
+          border-radius: 10px;
+
+          p {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+          }
+
+          #box1,
+          #box2 {
+            width: 120px;
+            border-radius: 10px;
+            border: 1px solid #f2f2f2;
+            background-color: #f8f8f8;
+            padding: 10px 20px;
+          }
+        }
+      }
+
+      .right-side {
+        width: 100%;
+
+        #topProducts {
+          display: flex;
+          gap: 16px;
+          flex-wrap: wrap;
+
+          .link-a {
+            overflow: hidden;
+            width: calc(calc(100% / 3) - 16px);
+
+            .product {
+              width: 100% !important;
+              border-radius: 12px;
+              overflow: hidden;
+              transition: all 1s;
+
+              // &:hover {
+              //     box-shadow: 0 0 20px #00000038;
+              // }
+
+              .imgContainer {
+                width: 100%;
+                height: 300px;
+
+                img {
+                  object-fit: cover;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 10px;
+                }
+              }
+
+              .productTitle {
+                margin-top: 5px;
+                color: #1e1e1e;
+                font-weight: 600;
+                font-size: 17px;
+                margin-top: 10px;
+              }
+
+              .productDescription {
+                margin-top: 5px;
+                color: #757575;
+                font-size: 15px;
+              }
+
+              .price {
+                margin-top: 5px;
+                display: flex;
+                justify-content: space-between;
+
+                .oldPrice {
+                  font-size: 14px;
+                  color: #757575;
+                  text-decoration: line-through;
+                }
+
+                .newPrice {
+                  color: #41a58d;
+                  font-weight: 600;
+                }
+              }
+
+              .details {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                border-top: 1px solid #ebebeb;
+                margin-top: 15px;
+                padding-top: 10px;
+
+                div {
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                  color: #757575;
+                }
+              }
+
+              .author {
+                align-items: center;
+                gap: 10px;
+                display: flex;
+                margin-top: 10px;
+
+                img {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                }
+
+                span {
+                  color: #757575;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

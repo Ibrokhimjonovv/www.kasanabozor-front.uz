@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Offers.scss";
 import { Link, useLocation } from "react-router-dom";
-import Discount from "../discount/Discount";
+import Discount from "../DiscountComponent/Discount";
 import { formatLink, mediaServerUrl } from "../../SuperVars";
 // import axios from 'axios';
 // import { eCommerseServerUrl } from '../../SuperVars';

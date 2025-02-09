@@ -1,12 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
+
 import "./topProducts.scss";
+
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
-import category9 from "./Cup_perspective_matte.png";
-import downArrow from "./Chevron down.png";
-import Discount from "../discount/Discount";
-import { formatLink, mediaServerUrl } from "../../SuperVars";
 
+import whenImageIsNotUploaded from '../../assets/when_image_is_not_uploaded.jpg';
+
+import Discount from "../DiscountComponent/Discount";
+
+import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 const TopProducts = () => {
   const { products, categories } = useContext(MyContext);
@@ -15,42 +18,20 @@ const TopProducts = () => {
   const handleShowMore = () => {
     setVisibleProducts((prevVisible) => prevVisible + 8);
   };
-  
-  useEffect(() => {
-    const reveal = () => {
-      const reveals = document.querySelectorAll(".product:not(.revealed)");
-      reveals.forEach((revealElement) => {
-        const windowHeight = window.innerHeight;
-        const revealTop = revealElement.getBoundingClientRect().top;
-        const revealPoint = windowHeight * 0.9;
-        if (
-          revealTop < revealPoint &&
-          !revealElement.classList.contains("revealed")
-        ) {
-          revealElement.classList.add("revealed");
-        }
-      });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal();
-    return () => window.removeEventListener("scroll", reveal);
-  }, []);
-  
+
   return (
     <div id="topProductss">
       <div className="categories">
         <div className="custom-catgories">
           {categories.map((category, index) => (
-            <Link to={`categories/${category.id}`} key={index}>
+            <Link to={`/online-shop/categories/${category.id}/`} key={index}>
               <span>{category.title}</span>
             </Link>
           ))}
         </div>
-        <Link to="/online-shop/all-categories">
+        <Link to="/online-shop/categories/">
           <div className="default-category">
-            <img src={category9} alt="" />
             <span>Barcha kategoriyalar</span>
-            <img src={downArrow} alt="" />
           </div>
         </Link>
       </div>
@@ -61,10 +42,13 @@ const TopProducts = () => {
         </div>
         <div className="productsInner">
           {products.slice(0, visibleProducts).map((product, index) => (
-            <Link to={`product/${product.id}`} key={index}>
-              <div className="product">
+            <Link to={`/online-shop/details/${product.id}/`} key={index}>
+              <div className="product revealed">
                 <div className="imgContainer">
-                  <img src={`${mediaServerUrl}ecommerse` + String(product.product_image_Ecommerce_product_images[0] ? formatLink(product.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
+                  <img
+                    src={ product.product_image_Ecommerce_product_images[0] ? `${mediaServerUrl}ecommerse${formatLink(product.product_image_Ecommerce_product_images[0].image)}` : whenImageIsNotUploaded }
+                    alt="..."
+                  />
                 </div>
                 <div className="productTitle">{product.name}</div>
                 <div className="productDescription">{product.description}</div>
@@ -118,8 +102,15 @@ const TopProducts = () => {
                   </div>
                 </div>
                 <div className="author">
-                  <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
-                  <span>{product.user.first_name} {product.user.last_name}</span>
+                  <img
+                    src={`${mediaServerUrl}users${formatLink(
+                      product.user.pfp
+                    )}`}
+                    alt=""
+                  />
+                  <span>
+                    {product.user.first_name} {product.user.last_name}
+                  </span>
                 </div>
               </div>
             </Link>

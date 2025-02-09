@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./News.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
-import Discount from "../discount/Discount";
+import Discount from "../DiscountComponent/Discount";
 import { formatLink, mediaServerUrl } from "../../SuperVars";
 
 
