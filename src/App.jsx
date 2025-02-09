@@ -2,8 +2,10 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { MyContext, MyContextProvider } from "./context/myContext";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
+
+import Header from "./components/Header/Header.jsx";
+import Footer from "./components/Footer/Footer.jsx";
+
 import Home from "./pages/Home";
 import OnlineShop from "./pages/onlineShop/onlineShop";
 import ProductDetails from "./pages/productDetail/productDetails";
@@ -69,6 +71,9 @@ import AdminAnnounces from "./pages/admin/admin-announces/adminAnnounces";
 import Loading from "./components/loading/loading.jsx";
 import NotificationsDisplay from "./components/notification/notification.jsx";
 import NotificationsProvider from "./context/notifications.jsx";
+
+import './i18n.js';
+
 
 const PrivateRoute = ({ children, userRole, allowedRole, isAuthenticated }) => {
   if (!isAuthenticated && userRole !== allowedRole) {
