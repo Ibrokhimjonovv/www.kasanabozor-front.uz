@@ -19,7 +19,7 @@ const NewsInnerRight = () => {
           {
             newsCategories.map((category, index) => (
               <li key={index}>
-                <Link to={`/news/${category.id}`}>{category.title}</Link>
+                <Link to={`/news/categories/details/${category.id}/`}>{category.title}</Link>
               </li>
             ))
           }
@@ -29,7 +29,7 @@ const NewsInnerRight = () => {
         <h2>So'nggi yangilikar</h2>
         <ul>
           { newsList.slice(newsList.length - 6, newsList.length).map((value, index) => <li key={ index }>
-            <Link to="#">
+            <Link to={`/news/_/details/${value.id}/`}>
               <div className="row">
                 <div className="row-right">
                   <img src={ `${mediaServerUrl}news${formatLink(value.thumbnail)}` } alt="" />

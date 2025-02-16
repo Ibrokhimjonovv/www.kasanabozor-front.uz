@@ -12,7 +12,7 @@ import {
   eCommerseServerUrl,
   formatLink,
   mediaServerUrl,
-} from "../../../SuperVars.js";
+} from "../../../SuperVars.ts";
 
 const Actions = ({ product }) => {
   return (

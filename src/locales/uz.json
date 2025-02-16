@@ -1,12 +1,22 @@
 {
-    "translation": {
-        "Online shop": "Online bozor",
-        "Announcements": "Elonlar",
-        "News": "Yangiliklar",
-        "Courses": "Kurslar",
-        "Admin dashboard": "Admin kabinet",
-        "Moderator dashboard": "Moderator kabinet",
-        "User dashboard": "Shaxsiy kabinet",
-        "Login": "Kirish"
-    }
+  "translation": {
+    "Online shop": "Onlayn bozor",
+    "Announcements": "E`lonlar",
+    "News": "Yangiliklar",
+    "Courses": "Kurslar",
+    "Admin dashboard": "Admin kabinet",
+    "Moderator dashboard": "Moderator kabinet",
+    "User dashboard": "Shaxsiy kabinet",
+    "Login": "Kirish",
+    "About project": "Loyiha haqida",
+    "Partners": "Hamkorlarimiz",
+    "Contact": "Bog'lanish",
+    "Documents": "Hujjatlar",
+    "Online lessons": "Onlayn darslar",
+    "Jobs": "Ish e`lonlari",
+    "Services": "Xizmatlar",
+    "Announcement Create": "E`lon joylash",
+    "Legislation": "Qonunchilik",
+    "Legal documents": "Huquqiy hujjatlar"
+  }
 }

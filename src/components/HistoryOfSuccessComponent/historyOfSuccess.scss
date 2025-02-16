@@ -1,6 +1,7 @@
 #success-history {
-    padding: 30px 50px;
+    padding: 36px 0;
     margin: 0 auto;
+    width: 100%;
     max-width: 1366px;
 
     .title {
@@ -14,14 +15,13 @@
     }
 
     .people {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
         margin-top: 15px;
-        flex-wrap: wrap;
 
         .hito {
-            width: 45%;
+            width: 100%;
             height: 420px;
             position: relative;
             border-radius: 7px;

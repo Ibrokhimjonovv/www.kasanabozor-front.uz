@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
 import "./goodTeachers.scss";
+
 import img1 from "./img1.png";
 import img2 from "./img2.png";
 import img3 from "./img3.png";
 import img4 from "./img4.png";
-import Loading from "../loading/loading";
+
+import Loading from "../LoaderComponent/loading";
+
 const ProTeachers = () => {
   const proTeachers = [
     {
@@ -40,15 +44,20 @@ const ProTeachers = () => {
       income: "$25k+ umumiy daromadlar",
     },
   ];
-  
+
   useEffect(() => {
     const reveal = () => {
-      const reveals = document.querySelectorAll(".scroll-fade-effect:not(.revealed)");
+      const reveals = document.querySelectorAll(
+        ".scroll-fade-effect:not(.revealed)"
+      );
       reveals.forEach((revealElement) => {
         const windowHeight = window.innerHeight;
         const revealTop = revealElement.getBoundingClientRect().top;
         const revealPoint = windowHeight * 0.9;
-        if (revealTop < revealPoint && !revealElement.classList.contains("revealed")) {
+        if (
+          revealTop < revealPoint &&
+          !revealElement.classList.contains("revealed")
+        ) {
           revealElement.classList.add("revealed");
         }
       });
@@ -57,7 +66,7 @@ const ProTeachers = () => {
     reveal();
     return () => window.removeEventListener("scroll", reveal);
   }, []);
-  
+
   return (
     <div id="successPeople">
       <h1>Mohir ustozlar</h1>

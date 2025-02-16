@@ -1,22 +1,64 @@
-import { Routes } from "react-router-dom";
-import OnlineShopRoutes from "./pages/OnlineShopPages/Routers";
+import { useContext, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import Header from "./components/HeaderComponent/Header";
+import OnlineShopRoutes from "./pages/OnlineShopPages/Routes";
+import AnnouncementsRoutes from "./pages/AnnouncementPages/Routes";
+import NewsRoutes from "./pages/NewsPages/Routes";
+import CoursesRoutes from "./pages/CoursesPages/Routes";
+import AuthenticationRoutes from "./pages/AuthenticationPages/Router";
+import ProfileRoutes from "./pages/ProfilePages/Routes";
+
+import Header from "./components/HeaderComponent";
 import Footer from "./components/FooterComponent/Footer";
+import HomePage from "./pages/HomePage/index";
+import NotFoundPage from "./pages/NotFoundPage/index";
+import Loading from "./components/LoaderComponent/loading";
 
 const AppContent = () => {
-  return (
+  const isLoading = false;
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [location]);
+
+  return isLoading ? (
     <>
-      <Header></Header>
+      <Loading />
+    </>
+  ) : (
+    <>
+      {!Boolean(
+        location.pathname.includes("auth") ||
+          location.pathname.includes("dashboard")
+      ) ? (
+        <Header></Header>
+      ) : (
+        <></>
+      )}
 
       <Routes>
-        { OnlineShopRoutes }
+        <Route path="" element={<HomePage />} />
+        {OnlineShopRoutes}
+        {AnnouncementsRoutes}
+        {NewsRoutes}
+        {CoursesRoutes}
+        {AuthenticationRoutes}
+        {ProfileRoutes}
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
-      <Footer></Footer>
+      {!Boolean(
+        location.pathname.includes("auth") ||
+          location.pathname.includes("dashboard")
+      ) ? (
+        <Footer></Footer>
+      ) : (
+        <></>
+      )}
     </>
   );
-}
-
+};
 
 export default AppContent;

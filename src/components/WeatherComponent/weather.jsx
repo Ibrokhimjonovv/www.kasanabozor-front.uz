@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./weather.scss";
-import Loading from "../loading/loading";
+import Loading from "../LoaderComponent/loading";
 import sunny from "./sunny.png";
-import night from "./night.png";
 import partlyCloud from "./partly-cloud.png";
 import partlyCloudNight from "./partly-cloud-night.png";
 import rain from "./rain.png";
@@ -68,7 +67,7 @@ const Weather = () => {
   if (!weatherData) {
     return (
       <div>
-        <Loading />
+        Yuklanmoqda
       </div>
     );
   }

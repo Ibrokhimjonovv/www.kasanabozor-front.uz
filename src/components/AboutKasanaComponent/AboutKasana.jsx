@@ -7,7 +7,9 @@ import img2 from "./img2.png";
 import img3 from "./img3.jfif";
 import img4 from "./img4.png";
 import arrow from "./arrow.png";
-import Counter from "../Counter/Counter";
+
+import Counter from "../CounterComponent/Counter";
+
 
 const AboutKasana = () => {
   const { ref: ref1, inView: inView1 } = useInView({

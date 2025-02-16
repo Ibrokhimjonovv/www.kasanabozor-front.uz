@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/right.png";
 import axios from "axios";
-import { usersServerUrl } from "../../../SuperVars.js";
+import { usersServerUrl } from "../../../SuperVars.ts";
 
 const Users = () => {
   const { isOpen } = useContext(MyContext);

@@ -6,56 +6,13 @@ import aaa from "./Без имени-2 1.png";
 import whenImageIsNotUploaded from "../../../assets/when_image_is_not_uploaded.jpg";
 
 import Discount from "../../../components/DiscountComponent/Discount";
-import { MyContext } from "../../../context/myContext";
+import { OnlineShopContext } from "../../../context/onlineshop";
 
-import axios from "axios";
-import {
-  eCommerseServerUrl,
-  formatLink,
-  mediaServerUrl,
-} from "../../../SuperVars";
-
+import { formatLink, mediaServerUrl } from "../../../SuperVars";
 
 const CategoriesPage = () => {
-  const { categories } = useContext(MyContext);
-  const [products, setProducts] = useState([]);
-
-  const fetchData = async (id) => {
-    try {
-      const response = await axios.post(
-        `${eCommerseServerUrl}products/filtered/`,
-        { filters: { category: id } },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log(response);
-      if (response.data.status === "ok") {
-        setProducts(response.data.results);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleCategoryChange = async (event) => {
-    const { id } = event.target;
-    fetchData(id);
-  };
-
-  /* const handlePaidChange = (event) => {
-    const { checked, id } = event.target;
-    setSelectedPaid((prev) =>
-      checked ? [...prev, id] : prev.filter((paid) => paid !== id)
-    );
-  };
-  
-  const handleRatingChange = (event, newValue) => {
-    setRatingRange(newValue);
-    console.log(newValue);
-  };
-
-  */
+  const { categories } = useContext(OnlineShopContext);
+  const [moreProducts, setMoreProducts] = useState([]);
 
   return (
     <div id="allCategories">
@@ -109,16 +66,11 @@ const CategoriesPage = () => {
             <div className="first-select">
               <p>Kategoriyalar</p>
               <ul>
-                {categories.map((category, index) => (
-                  <li key={category.id}>
-                    <input
-                      type="radio"
-                      name="category"
-                      onChange={handleCategoryChange}
-                      id={category.id}
-                    />
-                    <span className="custom-checkbox"></span>
-                    <label htmlFor={category.id}>{category.title}</label>
+                {categories.map((category) => (
+                  <li key={category.guid}>
+                    <Link to={`/online-shop/categories/${category.meta}`}>
+                      {category.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -183,10 +135,10 @@ const CategoriesPage = () => {
           </div>
           <div className="right-side">
             <div className={`productsInner sze`} id="topProducts">
-              {products.length > 0 ? (
+              {moreProducts.length > 0 ? (
                 products.map((product) => (
                   <Link
-                    to={`/online-shop/product/${product.id}`}
+                    to={`/online-shop/details/${product.id}/`}
                     key={product.id}
                     className="link-a revealed"
                   >

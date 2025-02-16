@@ -11,7 +11,9 @@ import cubeImg1 from "./cube-img.png";
 import cubeImg2 from "./cube-img2.png";
 import cubeImg3 from "./cube-img3.png";
 import cubeImg4 from "./cube-img4.png";
-import Counter from "../Counter/Counter";
+
+import Counter from "../CounterComponent/Counter";
+
 
 const KasanaTypes = () => {
   const { ref: ref1, inView: inView1 } = useInView({
@@ -46,6 +48,7 @@ const KasanaTypes = () => {
     threshold: 0.1,
     triggerOnce: true,
   });
+
   return (
     <div id="kasanaTypes">
       <div className="left-side">

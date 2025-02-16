@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../AddCommentsComponent/addComments.scss";
 
 import { Link, useParams } from "react-router-dom";
-import { MyContext } from "../../context/myContext";
-import { useContext } from "react";
+import { UserContext } from "../../context/user";
+
 import axios from "axios";
 import {
   eCommerseServerUrl,
@@ -17,7 +17,7 @@ const AddProductsComments = ({ com }) => {
   const [replyingTo, setReplyingTo] = useState(null);
   const [currentReplyTo, setCurrentReplyTo] = useState(null);
   const { id } = useParams();
-  const { isAuthenticated } = useContext(MyContext);
+  const { isAuthenticated } = useContext(UserContext);
 
   const loadData = async () => {
     const response = await axios.post(
