@@ -8,60 +8,44 @@ import SearchBar from "../../../components/SearchbarComponent/searchBar";
 import "./index.scss";
 
 import {
-  announcementsServerUrl,
+  announcementsApi,
   formatLink,
   mediaServerUrl,
+  usersApi,
 } from "../../../SuperVars";
 import axios from "axios";
+import { AnnouncementsContext } from "../../../context/announcements";
 
 const ServiceDetailsPage = () => {
-  const { services, announcements } = useContext(MyContext);
+  const { serviceAnnouncements, workAnnouncement, loading } =
+    useContext(AnnouncementsContext);
+  const [loadingDetails, setLoadingDetails] = useState(true);
+  const [announcements, setAnnouncements] = useState([]);
+  const [selectedDep, setSelectedDep] = useState("announce");
   const [currentService, setCurrentService] = useState(null);
-  const { id } = useParams();
-  const [savedServices, setSavedServices] = useState([]);
-
-  const loadData = async () => {
-    try {
-      const response = await axios.post(
-        `${announcementsServerUrl}announcements/exact/`,
-        { id: id }
-      );
-      if (response.data.status === "ok") {
-        setCurrentService(response.data.results);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { meta } = useParams();
 
   useEffect(() => {
-    const timeout = setTimeout(loadData, 100);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [id]);
-
-  if (!currentService) {
-    return (
-      <p>
-        <Loading />
-      </p>
-    );
-  }
-  const handleSaveClick = (e, service) => {
-    e.preventDefault();
-    setSavedServices((prevServices) => {
-      if (prevServices.some((saved) => saved.id === service.id)) {
-        return prevServices.filter((saved) => saved.id !== service.id);
-      } else {
-        return [...prevServices, service];
+    setLoadingDetails(true);
+    axios.get(`${announcementsApi}announcement/${meta}/`).then((response) => {
+      if (response.status === 200) {
+        setCurrentService(response.data.announcement);
+        setAnnouncements(response.data.announcements);
+        setLoadingDetails(false);
       }
     });
+  }, [meta]);
+
+  const isSaved = () => {
+    // return savedAnnouncements.some((a) => a.id === announcement.id);
+    return false;
   };
-  const isSaved = (announcement) => {
-    return savedServices.some((a) => a.id === announcement.id);
-  };
-  return (
+
+  return loading || loadingDetails ? (
+    <div style={{ height: "100vh" }}>
+      <Loading />
+    </div>
+  ) : (
     <div id="announceDetail" className="servicecDetail">
       <div className="to-back services-mobile-version">
         <div className="backInner">
@@ -141,7 +125,9 @@ const ServiceDetailsPage = () => {
       </div>
       <div className="announceSelect">
         <Link
-          to={`/announcements/_/details/${announcements[0] ? announcements[0].id : 1}/`}
+          to={`/announcements/_/details/${
+            workAnnouncement[0] ? workAnnouncement[0].meta : 1
+          }/`}
         >
           <svg
             width="20"
@@ -162,7 +148,9 @@ const ServiceDetailsPage = () => {
         </Link>
 
         <Link
-          to={`/announcements/services/details/${services[0] ? services[0].id : 1}/`}
+          to={`/announcements/services/details/${
+            serviceAnnouncements[0] ? serviceAnnouncements[0].meta : 1
+          }/`}
           id="ser-link"
         >
           <svg
@@ -206,105 +194,97 @@ const ServiceDetailsPage = () => {
         <div className="datas-container announceDetail">
           <div className="left-side">
             <div className="announcements-cards">
-              {services.map((service) => {
-                const isSaved = savedServices.some(
-                  (saved) => saved.id === service.id
-                );
-
-                return (
-                  <Link to={`/services/${service.id}`} key={service.id}>
-                    <div className={`card ${isSaved ? "saved" : ""}`}>
-                      <button
-                        id="save-btn"
-                        className={`${isSaved ? "saved" : ""}`}
-                        onClick={(e) => handleSaveClick(e, service)}
+              {serviceAnnouncements.map((value) => (
+                <Link to={`/services/${value.meta}`} key={value.meta}>
+                  <div className={`card ${isSaved ? "saved" : ""}`}>
+                    <button
+                      id="save-btn"
+                      className={`${isSaved ? "saved" : ""}`}
+                      onClick={(e) => handleSaveClick(e, value)}
+                    >
+                      <svg
+                        width="32"
+                        height="32"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <svg
-                          width="32"
-                          height="32"
-                          viewBox="0 0 32 32"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M25.3337 28L16.0003 21.3333L6.66699 28V6.66667C6.66699 5.95942 6.94794 5.28115 7.44804 4.78105C7.94814 4.28095 8.62641 4 9.33366 4H22.667C23.3742 4 24.0525 4.28095 24.5526 4.78105C25.0527 5.28115 25.3337 5.95942 25.3337 6.66667V28Z"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
+                        <path
+                          d="M25.3337 28L16.0003 21.3333L6.66699 28V6.66667C6.66699 5.95942 6.94794 5.28115 7.44804 4.78105C7.94814 4.28095 8.62641 4 9.33366 4H22.667C23.3742 4 24.0525 4.28095 24.5526 4.78105C25.0527 5.28115 25.3337 5.95942 25.3337 6.66667V28Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
 
-                      <div className="hero-img-title">
-                        {service.thumbnail ? (
-                          <img
-                            className="heroImg"
-                            src={`${mediaServerUrl}announcements${formatLink(
-                              service.thumbnail
-                            )}`}
-                            alt=""
-                          />
-                        ) : (
-                          <></>
-                        )}
-                        <div>
-                          <p className="title">{service.title}</p>
-                          <p className="price">
-                            {service.argued ? (
-                              <>Kelishiladi</>
-                            ) : (
-                              <>{service.price_min || service.price_max} SO'M</>
-                            )}
-                          </p>
-                          <div className="details">
-                            {/* {service.details.map((detail, index) => (
+                    <div className="hero-img-title">
+                      {value.thumbnail ? (
+                        <img
+                          className="heroImg"
+                          src={`${announcementsApi.split("/api")[0]}${
+                            value.thumbnail
+                          }`}
+                          alt=""
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      <div>
+                        <p className="title">{value.title}</p>
+                        <p className="price">
+                          {value.argued ? (
+                            <>Kelishiladi</>
+                          ) : (
+                            <>{value.price_min || value.price_max} SO'M</>
+                          )}
+                        </p>
+                        <div className="details">
+                          {/* {value.details.map((detail, index) => (
                               <div className="detail" key={index}>
                                 {detail}
                               </div>
                             ))} */}
-                          </div>
                         </div>
                       </div>
-                      <div className="author">
-                        <img
-                          src={`${mediaServerUrl}users${formatLink(
-                            service.user.pfp
-                          )}`}
-                          alt=""
-                        />
-                        <span>
-                          {service.user.first_name} {service.user.last_name}
-                        </span>
-                      </div>
-                      <div className="date-count">
-                        <span>{service.created_at.split("T")[0]}</span>
-                        <span>{service.views || 0} ko'rishlar</span>
-                      </div>
                     </div>
-                  </Link>
-                );
-              })}
+                    <div className="author">
+                      <img
+                        src={`${usersApi.split("/api")[0]}${value.user.pfp}`}
+                        alt=""
+                      />
+                      <span>
+                        {value.user.first_name} {value.user.last_name}
+                      </span>
+                    </div>
+                    <div className="date-count">
+                      <span>{value.created_at.split("T")[0]}</span>
+                      <span>{value.views || 0} ko'rishlar</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
           <div className="right-side">
             {currentService.thumbnail && (
               <div className="hero-img-detail">
                 <img
-                  src={`${mediaServerUrl}announcements${formatLink(
+                  src={`${announcementsApi.split("/api")[0]}${
                     currentService.thumbnail
-                  )}`}
+                  }`}
                   alt=""
                 />
               </div>
             )}
             <div className="top-side">
-              <div className="top-left">
+              <div className="top-above">
                 <div className="author">
                   <img
-                    src={`${mediaServerUrl}users${formatLink(
+                    src={`${usersApi.split("/api")[0]}${
                       currentService.user.pfp
-                    )}`}
+                    }`}
                     alt=""
                   />
                   <span>
@@ -312,9 +292,9 @@ const ServiceDetailsPage = () => {
                     {currentService.user.last_name}
                   </span>
                 </div>
-                <div className="cur-title">{currentService.title}</div>
               </div>
-              <div className="top-right">
+              <div className="top-belove">
+                <div className="cur-title">{currentService.title}</div>
                 <span>
                   <svg
                     width="32"
@@ -460,13 +440,21 @@ const ServiceDetailsPage = () => {
                     {currentService.argued ? (
                       <>Kelishiladi</>
                     ) : (
-                      <>{currentService.price_min || currentService.price_max} SO'M</>
+                      <>
+                        {currentService.price_min || currentService.price_max}{" "}
+                        SO'M
+                      </>
                     )}
                   </p>
                 </div>
               </li>
             </ul>
-            <div className="other-details" dangerouslySetInnerHTML={{ __html: currentService.description.replaceAll('\n', '<br />') }}></div>
+            <div
+              className="other-details"
+              dangerouslySetInnerHTML={{
+                __html: currentService.description.replaceAll("\n", "<br />"),
+              }}
+            ></div>
 
             {/* ?
             <div className="hashtags">

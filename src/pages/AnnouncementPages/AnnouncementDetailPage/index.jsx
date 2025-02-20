@@ -2,73 +2,51 @@ import React, { useContext, useState, useEffect } from "react";
 
 import "./index.scss";
 
-import { MyContext } from "../../../context/myContext";
 import { Link, useParams } from "react-router-dom";
 
 import Loading from "../../../components/LoaderComponent/loading";
 import SearchBar from "../../../components/SearchbarComponent/searchBar";
 
 import {
-  announcementsServerUrl,
+  announcementsApi,
   formatLink,
   mediaServerUrl,
+  usersApi,
 } from "../../../SuperVars";
 
 import axios from "axios";
+import { AnnouncementsContext } from "../../../context/announcements";
 
 const AnnouncementDetailPage = () => {
+  const { serviceAnnouncements, workAnnouncement, loading } =
+    useContext(AnnouncementsContext);
+  const [loadingDetails, setLoadingDetails] = useState(true);
+  const [announcements, setAnnouncements] = useState([]);
   const [selectedDep, setSelectedDep] = useState("announce");
-  const { announcements, savedAnnouncements, services } = useContext(MyContext);
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
-  const { id } = useParams();
-
-  const loadData = async () => {
-    try {
-      const response = await axios.post(
-        `${announcementsServerUrl}announcements/exact/`,
-        { id: id }
-      );
-      if (response.data.status === "ok") {
-        console.log(response.data, "announce");
-        setCurrentAnnounce(response.data.results);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { meta } = useParams();
 
   useEffect(() => {
-    const timeout = setTimeout(loadData, 100);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [id]);
-
-  if (!currentAnnounce) {
-    return (
-      <p>
-        <Loading />
-      </p>
-    );
-  }
-
-  const saveAnnouncement = async (announcement) => {
-    const response = await axios.post(
-      `${announcementsServerUrl}profile/announcements/likes/`,
-      { id: announcement.id }
-    );
-    if (response.data.status === "ok") {
-      alert("Ushbu elon saqlab olindi");
-    } else {
-      alert("Xatolik yuz berdi. Birozdan so'ng qayta urinib ko'ring");
-    }
-  };
+    setLoadingDetails(true);
+    axios.get(`${announcementsApi}announcement/${meta}/`).then((response) => {
+      if (response.status === 200) {
+        setCurrentAnnounce(response.data.announcement);
+        setAnnouncements(response.data.announcements);
+        setLoadingDetails(false);
+      }
+    });
+  }, [meta]);
 
   const isSaved = (announcement) => {
-    return savedAnnouncements.some((a) => a.id === announcement.id);
+    // return savedAnnouncements.some((a) => a.id === announcement.id);
+    return false;
   };
 
-  return (
+  return loading || loadingDetails ? (
+    <div style={{ height: "100vh" }}>
+      <Loading />
+    </div>
+  ) : (
     <div id="announceDetail" className="announceDetailContainer">
       <div className="to-back announce-detail-mobile-version">
         <div className="backInner">
@@ -127,7 +105,7 @@ const AnnouncementDetailPage = () => {
       </div>
       <div className="search-container announce-detail-mobile-version">
         <SearchBar />
-        
+
         <Link to="/announcements/create/">
           <svg
             width="21"
@@ -149,7 +127,9 @@ const AnnouncementDetailPage = () => {
       </div>
       <div className="announceSelect">
         <Link
-          to={`/announcements/_/details/${announcements[0] ? announcements[0].id : 1}/`}
+          to={`/announcements/_/details/${
+            workAnnouncement[0] ? workAnnouncement[0].meta : 1
+          }/`}
           id="ann-link"
         >
           <svg
@@ -169,7 +149,11 @@ const AnnouncementDetailPage = () => {
           </svg>
           Ish e'lonlari
         </Link>
-        <Link to={`/announcements/services/details/${services[0] ? services[0].id : 1}/`}>
+        <Link
+          to={`/announcements/services/details/${
+            serviceAnnouncements[0] ? serviceAnnouncements[0].meta : 1
+          }/`}
+        >
           <svg
             width="21"
             height="20"
@@ -214,31 +198,28 @@ const AnnouncementDetailPage = () => {
         >
           <div className="left-side">
             <div className="announcements-cards">
-              {announcements.map((announcement) => (
+              {announcements.map((value) => (
                 <Link
-                  to={`/announcements/_/details/${announcement.id}`}
-                  key={announcement.id}
+                  to={`/announcements/_/details/${value.id}`}
+                  key={value.id}
                 >
                   <div className="card ">
-                    <p className="title">{announcement.title}</p>
-                    {/* <p className="price">{announcement.price}</p> */}
+                    <p className="title">{value.title}</p>
+                    {/* <p className="price">{value.price}</p> */}
                     <div className="details">
-                      {/*announcement.details.map((detail, index) => (
-                        <div className="detail" key={index}>
-                          {detail}
-                        </div>
-                      ))*/}
+                      {/*value.details.map((detail, index) => (
+                      <div className="detail" key={index}>
+                        {detail}
+                      </div>
+                    ))*/}
                     </div>
                     <div className="author">
                       <img
-                        src={`${mediaServerUrl}users${formatLink(
-                          announcement.user.pfp
-                        )}`}
+                        src={`${usersApi.split("/api")[0]}${value.user.pfp}`}
                         alt=""
                       />
                       <span>
-                        {announcement.user.first_name}{" "}
-                        {announcement.user.last_name}
+                        {value.user.first_name} {value.user.last_name}
                       </span>
                     </div>
                     <div className="date-count">
@@ -265,7 +246,7 @@ const AnnouncementDetailPage = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        {announcement.date || "Aniq emas"}
+                        {value.date || "Aniq emas"}
                       </span>
                       <span>
                         <svg
@@ -302,7 +283,7 @@ const AnnouncementDetailPage = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        {announcement.views || 0}
+                        {value.views || 0}
                       </span>
                     </div>
                   </div>
@@ -312,12 +293,12 @@ const AnnouncementDetailPage = () => {
           </div>
           <div className="right-side">
             <div className="top-side">
-              <div className="top-left">
+              <div className="top-above">
                 <div className="author">
                   <img
-                    src={`${mediaServerUrl}users${formatLink(
+                    src={`${usersApi.split("/api")[0]}${
                       currentAnnounce.user.pfp
-                    )}`}
+                    }`}
                     alt=""
                   />
                   <span>
@@ -325,9 +306,11 @@ const AnnouncementDetailPage = () => {
                     {currentAnnounce.user.last_name}
                   </span>
                 </div>
-                <div className="cur-title">{currentAnnounce.title}</div>
               </div>
-              <div className="top-right">
+
+              <div className="top-belove">
+                <div className="cur-title">{currentAnnounce.title}</div>
+
                 <span>
                   <svg
                     width="32"
@@ -449,7 +432,15 @@ const AnnouncementDetailPage = () => {
                 </span>
                 <div className="text">
                   <p>Ish vaqti</p>
-                  <p>{currentAnnounce.type_type}</p>
+                  <p>
+                    {
+                      {
+                        full_time: "Full time",
+                        part_time: "Part time",
+                        flexable_time: "Flexable time",
+                      }[currentAnnounce.work_time]
+                    }
+                  </p>
                 </div>
               </li>
               <li>
@@ -484,15 +475,19 @@ const AnnouncementDetailPage = () => {
             </ul>
             <div className="other-details">
               <h2>Ko'proq malumot</h2>
-              <p>{currentAnnounce.description}</p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: currentAnnounce.description,
+                }}
+              ></p>
             </div>
 
             {/* <div className="hashtags">
-              <div className="hashtag">#quroqchilik</div>
-              <div className="hashtag">#quroqchilik</div>
-              <div className="hashtag">#quroqchilik</div>
-              <div className="hashtag">#quroqchilik</div>
-            </div> */}
+            <div className="hashtag">#quroqchilik</div>
+            <div className="hashtag">#quroqchilik</div>
+            <div className="hashtag">#quroqchilik</div>
+            <div className="hashtag">#quroqchilik</div>
+          </div> */}
           </div>
         </div>
         <div
@@ -501,12 +496,12 @@ const AnnouncementDetailPage = () => {
           }`}
         ></div>
         {/* <div
-          className={`datas-container ${
-            selectedDep === "toAnnounce" ? "active" : ""
-          }`}
-        >
-          <p className="title">E'lon berish</p>
-        </div> */}
+        className={`datas-container ${
+          selectedDep === "toAnnounce" ? "active" : ""
+        }`}
+      >
+        <p className="title">E'lon berish</p>
+      </div> */}
       </div>
     </div>
   );

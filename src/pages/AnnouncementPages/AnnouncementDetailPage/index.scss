@@ -155,7 +155,7 @@
             padding: 20px;
             position: sticky;
             top: 178px;
-            min-height: calc(100vh - 190px);
+            min-height: calc(100vh - 198px);
             overflow-y: auto;
 
             &::-webkit-scrollbar {
@@ -181,9 +181,9 @@
             .top-side {
                 width: 100%;
                 display: flex;
-                justify-content: space-between;
+                flex-direction: column;
 
-                .top-left {
+                .top-above {
                     .author {
                         display: flex;
                         align-items: center;
@@ -198,20 +198,21 @@
                             object-fit: cover;
                         }
                     }
+                }
+
+                .top-belove {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
 
                     .cur-title {
                         font-size: 26px;
                         font-weight: 600;
                         margin-top: 10px;
                     }
-                }
-
-                .top-right {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
 
                     a {
+                        min-width: fit-content;
                         padding: 9px 15px;
                         background-color: #41A58D;
                         color: #fff;

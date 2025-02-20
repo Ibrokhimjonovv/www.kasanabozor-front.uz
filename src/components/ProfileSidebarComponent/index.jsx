@@ -216,7 +216,7 @@ const ProfileSideBarComponent = () => {
         </li> */}
 
         <NavLink
-          to="/profile/edit-profile/"
+          to="/profile/edit/"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
           <svg

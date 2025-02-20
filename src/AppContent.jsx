@@ -13,6 +13,7 @@ import Footer from "./components/FooterComponent/Footer";
 import HomePage from "./pages/HomePage/index";
 import NotFoundPage from "./pages/NotFoundPage/index";
 import Loading from "./components/LoaderComponent/loading";
+import Messaging from "./pages/MessengerPage";
 
 const AppContent = () => {
   const isLoading = false;
@@ -45,6 +46,8 @@ const AppContent = () => {
         {CoursesRoutes}
         {AuthenticationRoutes}
         {ProfileRoutes}
+
+        <Route path="messaging/" element={<Messaging />}/>
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

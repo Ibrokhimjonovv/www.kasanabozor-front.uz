@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 
 import "./index.scss";
 
-import { formatLink, mediaServerUrl, usersApi } from "../../../SuperVars";
+import { usersApi } from "../../../SuperVars";
 import { UserContext } from "../../../context/user";
 
 const formatPhone = ({ phone }) => {
+  phone = phone.toString();
   return `+998 (${phone[0] + phone[1]}) ${phone[2] + phone[3] + phone[4]}-${
     phone[5] + phone[6]
   }-${phone[7] + phone[8]}`;
@@ -35,7 +36,7 @@ const Profile = () => {
       <div className="page-title">
         <h2>Shaxsiy ma'lumotlarim</h2>
 
-        <Link to="/profile/edit-profile" className="edit-profile-button">
+        <Link to="/profile/edit/" className="edit-profile-button">
           Tahrirlash
           <svg
             width="16"

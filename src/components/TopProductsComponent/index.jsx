@@ -59,7 +59,7 @@ const TopProducts = () => {
               <div className="product revealed">
                 <div className="imgContainer">
                   <img
-                    src={`${onlineShopApi.split("api")[0]}${product.image}`}
+                    src={`${onlineShopApi.split("/api")[0]}${product.image}`}
                     alt="..."
                   />
                 </div>

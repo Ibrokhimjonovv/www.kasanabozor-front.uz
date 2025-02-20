@@ -7,25 +7,26 @@ import langImg from "./Icon (3).png";
 import menuBackgroundImage from "./menuImg.png";
 import cheveronIcon from "./menu-cheveron-icon.png";
 import { useTranslation } from "react-i18next";
+import { UserContext } from "../../context/user.jsx";
 
 const Header = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated } = useContext(UserContext); 
   const [
     selectedLanguage,
     setSelectedLanguage,
     languages,
     setLanguages,
-    isAuthenticated,
     user,
     courseCategories,
     announcements,
     services,
     newsCategories,
     categories,
-  ] = ['uz', () => {}, [], false, {}, [], [], [], [], [], []];
+  ] = ['uz', () => {}, [], {}, [], [], [], [], [], []];
 
   const toggleDropDown = () => {
     setIsOpen(!isOpen);

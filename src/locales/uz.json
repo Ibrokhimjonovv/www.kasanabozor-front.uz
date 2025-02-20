@@ -17,6 +17,18 @@
     "Services": "Xizmatlar",
     "Announcement Create": "E`lon joylash",
     "Legislation": "Qonunchilik",
-    "Legal documents": "Huquqiy hujjatlar"
+    "Legal documents": "Huquqiy hujjatlar",
+    "First name": "Ism",
+    "Last name": "Familiya",
+    "Middle name": "Sharf",
+    "Birthday": "Tug'ilgan kun",
+    "Gender": "Jins",
+    "Phone number": "Telefon raqam",
+    "Email": "Elektron pochta",
+    "Region": "Viloyat (shaxar)",
+    "District": "Tuman",
+    "Purposes": "Faoliyati",
+    "About me": "Men haqimda",
+    "Biography": "Biografiya"
   }
 }

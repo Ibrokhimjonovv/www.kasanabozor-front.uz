@@ -1,12 +1,16 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { Notifications } from "./notifications";
+import { createContext, useContext, useEffect, useState } from "react";
 import { usersApi } from "../SuperVars";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
+  const { addNotification } = useContext(Notifications);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [guid, setGuid] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -21,30 +25,35 @@ const UserProvider = ({ children }) => {
   const [biography, setBiography] = useState("");
   const [pfp, setPfp] = useState("");
   const [purposes, setPurposes] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `${usersApi}accounts/00000000-0000-0000-0000-000000000000/`
-      );
-      if (response.status == 200) {
-        setFirstName(response.data.first_name);
-        setLastName(response.data.last_name);
-        setMiddleName(response.data.middle_name);
-        setPhone(response.data.phone);
-        setEmail(response.data.email);
-        setUsername(response.data.username);
-        setGender(response.data.gender);
-        setBirthday(response.data.birthday);
-        setRegion(response.data.region);
-        setDistrict(response.data.district);
-        setAbout(response.data.about);
-        setBiography(response.data.biography);
-        setPfp(response.data.pfp);
-        setPurposes(response.data.purposes);
-        setIsAuthenticated(true);
-      } else {
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  
+  const fetchData = async () => {
+    setLoading(true);
+    axios
+      .get(`${usersApi}accounts/00000000-0000-0000-0000-000000000000/`)
+      .then((response) => {
+        if (response.status == 200) {
+          setGuid(response.data.guid);
+          setFirstName(response.data.first_name);
+          setLastName(response.data.last_name);
+          setMiddleName(response.data.middle_name);
+          setPhone(response.data.phone);
+          setEmail(response.data.email);
+          setUsername(response.data.username);
+          setGender(response.data.gender);
+          setBirthday(response.data.birthday);
+          setRegion(response.data.region);
+          setDistrict(response.data.district);
+          setAbout(response.data.about);
+          setBiography(response.data.biography);
+          setPfp(response.data.pfp);
+          setPurposes(response.data.purposes);
+          setIsAuthenticated(true);
+        }
+      })
+      .catch(() => {
+        setGuid("");
         setFirstName("");
         setLastName("");
         setMiddleName("");
@@ -60,25 +69,64 @@ const UserProvider = ({ children }) => {
         setPfp("");
         setPurposes("");
         setIsAuthenticated(false);
-      }
-      setLoading(false);
-    };
+      });
+    setLoading(false);
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
   const login = async ({ phone, password }) => {
-    const response = await axios.post(`${usersApi}accounts/login/`, {
-      phone,
-      password,
-    });
+    setLoading(true);
+    return axios
+      .post(`${usersApi}accounts/login/`, {
+        phone,
+        password,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          window.localStorage.setItem("access", response.data.access);
+          window.localStorage.setItem("refresh", response.data.refresh);
 
-    if (response.status == 200) {
-      setIsAuthenticated(true);
+          setIsAuthenticated(true);
+          addNotification(
+            "Muaffaqiyatli login",
+            "Login muaffaqiyatli amalga oshdi."
+          );
+          navigate("/profile/overview/");
+          
+          return fetchData();
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        logout();
+        setLoading(false);
+        return false;
+      });
+  };
 
-      window.localStorage.setItem("access", response.data.access);
-      window.localStorage.setItem("refresh", response.data.refresh);
-    }
+  const logout = async () => {
+    window.localStorage.removeItem("access");
+    window.localStorage.removeItem("refresh");
+
+    setGuid("");
+    setFirstName("");
+    setLastName("");
+    setMiddleName("");
+    setPhone("");
+    setEmail("");
+    setUsername("");
+    setGender("");
+    setBirthday("");
+    setRegion("");
+    setDistrict("");
+    setAbout("");
+    setBiography("");
+    setPfp("");
+    setPurposes("");
+    setIsAuthenticated(false);
   };
 
   return (
@@ -86,6 +134,7 @@ const UserProvider = ({ children }) => {
       <UserContext.Provider
         value={{
           isAuthenticated,
+          guid,
           firstName,
           lastName,
           middleName,
@@ -101,7 +150,9 @@ const UserProvider = ({ children }) => {
           pfp,
           purposes,
           login,
-          loading
+          logout,
+          loading,
+          errors
         }}
       >
         {children}

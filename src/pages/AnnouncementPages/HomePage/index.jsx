@@ -4,13 +4,19 @@ import "./index.scss";
 import img from "./posterImg.png";
 import backgroundImg from "./backgroundImg.png";
 
+import { UserContext } from "../../../context/user";
+import { AnnouncementsContext } from "../../../context/announcements";
+
 import { Link } from "react-router-dom";
 
-import { MyContext } from "../../../context/myContext";
+import {
+  announcementsApi,
+  formatLink,
+  mediaServerUrl,
+  usersApi,
+} from "../../../SuperVars";
 
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
-
-const AnnouncementsPage = () => {
+const HomePage = () => {
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
     backgroundSize: "cover",
@@ -18,8 +24,9 @@ const AnnouncementsPage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
-
-  const { announcements, services, isAuthenticated } = useContext(MyContext);
+  const { isAuthenticated } = useContext(UserContext);
+  const { serviceAnnouncements, workAnnouncement } =
+    useContext(AnnouncementsContext);
 
   return (
     <div id="announcementsPage">
@@ -47,39 +54,49 @@ const AnnouncementsPage = () => {
           <p>Barchasini bizda toping</p>
         </div>
         <Link
-          to={`/announcements/_/details/${announcements[0] ? announcements[0].id : 1}/`}
+          to={`/announcements/_/details/${
+            workAnnouncement[0] ? workAnnouncement[0].id : 1
+          }/`}
         >
           Ko'proq ko'rish
         </Link>
       </div>
       <div className="announcements-cards ann">
-        {announcements.map((announcement, index) => (
-          <Link to={`/announcements/_/details/${announcement.id}/`} key={announcement.id}>
+        {serviceAnnouncements.map((value) => (
+          <Link
+            to={`/announcements/_/details/${value.meta}/`}
+            key={value.guid}
+          >
             <div className="card">
-              <p className="title">{announcement.title}</p>
+              <p className="title">{value.title}</p>
               <p className="price">
-                {announcement.argued ? (
+                {value.dealed ? (
                   <>Kelishiladi</>
                 ) : (
-                  <>{announcement.price_min} SO'M</>
+                  <>
+                    {value.price_min}
+                    {value.price_max > value.price_min
+                      ? "-" + value.price_max
+                      : ""}{" "}
+                    SO'M
+                  </>
                 )}
               </p>
               <div className="details">
-                {/*announcement.details.map((detail, index) => (
+                {/*value.details.map((detail, index) => (
                   <div className="detail" key={index}>
                     {detail}
                   </div>
                 ))*/}
+                <div className="detail">{{"full_time": "Full time", "part_time": "Part time", "flexable_time": "Flexable time"}[value.work_time]}</div>
               </div>
               <div className="author">
                 <img
-                  src={`${mediaServerUrl}users${formatLink(
-                    announcement.user.pfp
-                  )}`}
+                  src={`${usersApi.split("/api")[0]}${value.user.pfp}`}
                   alt=""
                 />
                 <span>
-                  {announcement.user.first_name} {announcement.user.last_name}
+                  {value.user.first_name} {value.user.last_name}
                 </span>
               </div>
               <div className="date-count">
@@ -106,7 +123,7 @@ const AnnouncementsPage = () => {
                       </clipPath>
                     </defs>
                   </svg>
-                  {announcement.created_at.split("T")[0]}
+                  {value.created_at.split("T")[0]}
                 </span>
                 <span>
                   <svg
@@ -143,7 +160,7 @@ const AnnouncementsPage = () => {
                       </clipPath>
                     </defs>
                   </svg>
-                  {announcement.views || 0}
+                  {value.views || 0}
                 </span>
               </div>
             </div>
@@ -157,23 +174,26 @@ const AnnouncementsPage = () => {
             <h2>Xizmatlar</h2>
             <p>Barchasini bizda toping</p>
           </div>
-          <Link to={`/announcements/services/details/${services[0] ? services[0].id : 1}/`}>
+          <Link
+            to={`/announcements/services/details/${
+              serviceAnnouncements[0] ? serviceAnnouncements[0].id : 1
+            }/`}
+          >
             Ko'proq ko'rish
           </Link>
         </div>
         <div className="services-cards">
-          {services.map((value, index) => (
-            <Link to={`/announcements/services/details/${value.id}/`} key={index}>
+          {workAnnouncement.map((value) => (
+            <Link
+              to={`/announcements/services/details/${value.meta}/`}
+              key={value.guid}
+            >
               <div className="service-card revealed">
                 <div className="img-card">
                   <img
-                    src={
+                    src={`${announcementsApi.split("/api")[0]}${
                       value.thumbnail
-                        ? `${mediaServerUrl}announcements${formatLink(
-                            value.thumbnail
-                          )}`
-                        : "https://img.lovepik.com/element/40021/7866.png_1200.png"
-                    }
+                    }`}
                     alt=""
                   />
                 </div>
@@ -182,16 +202,14 @@ const AnnouncementsPage = () => {
                 <div className="author-location">
                   <div className="author">
                     <img
-                      src={`${mediaServerUrl}users${formatLink(
-                        value.user.pfp
-                      )}`}
+                      src={`${usersApi.split("/api")[0]}${value.user.pfp}`}
                       alt=""
                     />
                     <span>
                       {value.user.first_name} {value.user.last_name}
                     </span>
                   </div>
-                  <div className="location">{value.region}</div>
+                  <div className="location">{value.address.split(',')[0]}</div>
                 </div>
                 <div className="service-date">
                   <span>
@@ -235,7 +253,7 @@ const AnnouncementsPage = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span></span>
+                    <span>{value.views || 0}</span>
                   </span>
                 </div>
               </div>
@@ -313,4 +331,4 @@ const AnnouncementsPage = () => {
   );
 };
 
-export default AnnouncementsPage;
+export default HomePage;

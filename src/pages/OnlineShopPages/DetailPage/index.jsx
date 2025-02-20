@@ -139,7 +139,7 @@ const DetailPage = () => {
                     {images?.map((image, index) => (
                       <img
                         key={index}
-                        src={`${onlineShopApi.split("api")[0]}${image.image}`}
+                        src={`${onlineShopApi.split("/api")[0]}${image.image}`}
                         alt={`Image ${index + 2}`}
                         onClick={() => handleImageClick(image, index)}
                         style={{ cursor: "pointer" }}
@@ -148,7 +148,7 @@ const DetailPage = () => {
                   </div>
                   <div className="hero-image">
                     <img
-                      src={`${onlineShopApi.split("api")[0]}${
+                      src={`${onlineShopApi.split("/api")[0]}${
                         mainImage?.image
                       }`}
                       alt=""

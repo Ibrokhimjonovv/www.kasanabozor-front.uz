@@ -6,135 +6,33 @@ import "./index.scss";
 import ImageUpload from "../../../components/ImageUploaderComponent/imgUpload";
 import SearchBar from "../../../components/SearchbarComponent/searchBar";
 
-import { MyContext } from "../../../context/myContext";
+import { AnnouncementsContext } from "../../../context/announcements";
 
-import axios from "axios";
-import { announcementsServerUrl } from "../../../SuperVars";
+const regionsURL =
+  "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
+const districtsURL =
+  "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
 
 const CreatePage = () => {
-  const { services, announcements } = useContext(MyContext);
-  const navigation = useNavigate();
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [isNegotiable, setIsNegotiable] = useState(false);
-  const [announceType, setAnnounceType] = useState("service_announcement");
+  const { serviceAnnouncements, workAnnouncement } =
+    useContext(AnnouncementsContext);
 
-  const handleNegotiableChange = () => {
-    setIsNegotiable(!isNegotiable);
-    if (!isNegotiable) {
-      setMinPrice("0");
-      setMaxPrice("0");
-    }
-  };
+  const [formData, setFormData] = useState({
+    announcement_type: "service_announcement",
+    title: "",
+    price_min: "0.0",
+    price_max: "100000.0",
+    dealed: false,
+    address: "",
+    experience: "",
+    work_time: "",
+    short_description: "",
+    description: "",
+    thumbnail: "",
+  });
 
-  const regionsURL =
-    "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
-  const districtsURL =
-    "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/districts.json";
-  const villagesURL =
-    "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/villages.json";
-
-  const [regions, setRegions] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [villages, setVillages] = useState([]);
-  const [timeType, setTimeTypes] = useState(null);
-  const [experience, setExperience] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [filteredDistricts, setFilteredDistricts] = useState([]);
-  const [filteredVillages, setFilteredVillages] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [regionsResponse, districtsResponse, villagesResponse] =
-          await Promise.all([
-            fetch(regionsURL),
-            fetch(districtsURL),
-            fetch(villagesURL),
-          ]);
-
-        if (
-          !regionsResponse.ok ||
-          !districtsResponse.ok ||
-          !villagesResponse.ok
-        ) {
-          throw new Error("Ma'lumotlarni yuklashda xatolik yuz berdi!");
-        }
-
-        const regionsData = await regionsResponse.json();
-        const districtsData = await districtsResponse.json();
-        const villagesData = await villagesResponse.json();
-
-        setRegions(regionsData);
-        setDistricts(districtsData);
-        setVillages(villagesData);
-      } catch (error) {
-        console.error("Ma'lumotlarni yuklashda xatolik yuz berdi:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedRegion) {
-      const filtered = districts.filter(
-        (district) =>
-          parseInt(district.region_id, 10) === parseInt(selectedRegion, 10)
-      );
-      setFilteredDistricts(filtered);
-      setSelectedDistrict(""); // Tumanni tanlamagan holatga qaytarish
-      setFilteredVillages([]); // Qishloqlarni tozalash
-    } else {
-      setFilteredDistricts([]);
-      setFilteredVillages([]);
-    }
-  }, [selectedRegion, districts]);
-
-  useEffect(() => {
-    if (selectedDistrict) {
-      const filtered = villages.filter(
-        (village) =>
-          parseInt(village.district_id, 10) === parseInt(selectedDistrict, 10)
-      );
-      setFilteredVillages(filtered);
-    } else {
-      setFilteredVillages([]);
-    }
-  }, [selectedDistrict, villages]);
-
-  const [announceTitle, setAnnounceTitle] = useState("");
-  const [announceImage, setAnnounceImage] = useState("");
-  const [fAddress, setFAddress] = useState("");
-  const [description, setDescription] = useState("");
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-
-    formData.append("p_type", announceType);
-    formData.append("title", announceTitle);
-    formData.append("thumbnail", announceImage);
-    formData.append("price_min", minPrice);
-    formData.append("price_max", maxPrice);
-    formData.append("region", "Keyinchalik qo'shiladi");
-    formData.append("district", "Keyinchalik qo'shiladi");
-    formData.append("argued", isNegotiable);
-    formData.append("address", fAddress);
-    formData.append("experience", experience);
-    formData.append("type_type", timeType);
-    formData.append("description", description);
-
-    const response = await axios.post(
-      `${announcementsServerUrl}announcements/create/`,
-      formData
-    );
-    if (response.data.status === "ok") {
-      navigation("/announcements/");
-    } else {
-      alert("Xatolik yuz berdi.");
-    }
   };
 
   return (
@@ -234,7 +132,9 @@ const CreatePage = () => {
       </div>
       <div className="announceSelect">
         <Link
-          to={`/announcements/_/details/${announcements[0] ? announcements[0].id : 1}/`}
+          to={`/announcements/_/details/${
+            workAnnouncement[0] ? workAnnouncement[0].meta : 1
+          }/`}
         >
           <svg
             width="20"
@@ -254,7 +154,11 @@ const CreatePage = () => {
           Ish e'lonlari
         </Link>
 
-        <Link to={`/announcements/services/details/${services[0] ? services[0].id : 1}/`}>
+        <Link
+          to={`/announcements/services/details/${
+            serviceAnnouncements[0] ? serviceAnnouncements[0].meta : 1
+          }/`}
+        >
           <svg
             width="21"
             height="20"
@@ -296,7 +200,7 @@ const CreatePage = () => {
         <h1 className="big-title">E'lon berish</h1>
         <form action="" onSubmit={handleSubmit}>
           <div className="input-col">
-            <label htmlFor="announce-type">E'lon turi</label>
+            <label htmlFor="announcement_type">E'lon turi</label>
             <div className="input-icon">
               <svg
                 width="24"
@@ -311,13 +215,17 @@ const CreatePage = () => {
                 />
               </svg>
               <select
-                name="announce-type"
-                id="announce-type"
-                value={announceType}
-                onChange={(e) => setAnnounceType(e.target.value)}
+                id="announcement_type"
+                value={formData.announcement_type || ""}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    announcement_type: e.target.value,
+                  }))
+                }
               >
                 <option value="service_announcement">Xizmat e'loni</option>
-                <option value="job_announcement">Ish e'loni</option>
+                <option value="work_announcement">Ish e'loni</option>
               </select>
             </div>
           </div>
@@ -351,34 +259,37 @@ const CreatePage = () => {
 
           <div className="timm">
             <div className="input-col">
-              <label htmlFor="districts">Xizmat nomi</label>
+              <label htmlFor="title">Xizmat nomi</label>
               <div className="input-icon">
                 <input
                   type="text"
                   placeholder="Nomini kiriting"
                   className="input-p-0"
-                  id="announce-name"
-                  value={announceTitle}
-                  onChange={(e) => {
-                    setAnnounceTitle(e.target.value);
-                  }}
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, title: e.target.value }))
+                  }
                 />
               </div>
             </div>
-            <div className="input-col">
-              <label htmlFor="regions">Rasm yuklang</label>
+            {formData.announcement_type === "service_announcement" ? <div className="input-col">
+              <label htmlFor="tumbnail">Rasm yuklang</label>
               <div className="input-icon">
                 <input
                   type="file"
                   className="input-p-0"
-                  id="announce-image"
-                  // value={announceImage}
-                  onChange={(e) => {
-                    setAnnounceImage(e.target.files[0]);
-                  }}
+                  id="tumbnail"
+                  value={formData.thumbnail}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      thumbnail: e.target.files[-1],
+                    }))
+                  }
                 />
               </div>
-            </div>
+            </div> : <></>}
           </div>
 
           <div className="input-col w-100">
@@ -409,10 +320,15 @@ const CreatePage = () => {
                 <input
                   id="price"
                   type="number"
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(e.target.value)}
-                  placeholder={`${isNegotiable ? "Kelishilgan holda" : "0"}`}
-                  disabled={isNegotiable}
+                  value={formData.price_min}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      price_min: e.target.value,
+                    }))
+                  }
+                  placeholder={`${formData.dealed ? "Kelishilgan holda" : "0"}`}
+                  disabled={formData.dealed}
                 />
               </div>
               <div className="input-icon">
@@ -438,23 +354,33 @@ const CreatePage = () => {
                 <input
                   id="price"
                   type="number"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
+                  value={formData.price_max}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      price_max: e.target.value,
+                    }))
+                  }
                   placeholder={`${
-                    isNegotiable ? "Kelishilgan holda" : "1 000 000"
+                    formData.dealed ? "Kelishilgan holda" : "1 000 000"
                   }`}
-                  disabled={isNegotiable}
+                  disabled={formData.dealed}
                 />
               </div>
               <div className="checker">
                 <input
                   id="negotiable"
                   type="checkbox"
-                  checked={isNegotiable}
-                  onChange={handleNegotiableChange}
+                  checked={formData.dealed}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      dealed: e.target.checked,
+                    }))
+                  }
                 />
                 <label htmlFor="negotiable" className="checkbox">
-                  <span className={`${isNegotiable ? "active" : ""}`}></span>
+                  <span className={`${formData.dealed ? "active" : ""}`}></span>
                 </label>
                 <label htmlFor="negotiable" style={{ marginRight: "5px" }}>
                   Kelishiladi
@@ -542,23 +468,24 @@ const CreatePage = () => {
           </div> */}
 
           <div className="input-col w-100">
-            <label htmlFor="announce-type">Manzil</label>
+            <label htmlFor="address">Manzil</label>
             <div className="input-icon">
               <input
                 type="text"
                 className="input-p-0"
                 placeholder="Manzil to'liq holda"
-                value={fAddress}
-                onChange={(e) => {
-                  setFAddress(e.target.value);
-                }}
+                id="address"
+                value={formData.address}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, address: e.target.value }))
+                }
               />
             </div>
           </div>
           <p>Tajriba va ish vaqti</p>
           <div className="timm">
             <div className="input-col">
-              <label htmlFor="districts">Tajriba</label>
+              <label htmlFor="experience">Tajriba</label>
               <div className="input-icon">
                 <svg
                   width="24"
@@ -583,15 +510,19 @@ const CreatePage = () => {
                 <input
                   type="text"
                   placeholder="2yil, 4yil+ va hokazo"
-                  value={experience}
-                  onChange={(e) => {
-                    setExperience(e.target.value);
-                  }}
+                  id="experience"
+                  value={formData.experience}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      experience: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>
             <div className="input-col">
-              <label htmlFor="regions">Ish vaqti</label>
+              <label htmlFor="work_time">Ish vaqti</label>
               <div className="input-icon">
                 <svg
                   width="24"
@@ -610,38 +541,78 @@ const CreatePage = () => {
                 </svg>
 
                 <select
-                  id="work-time"
-                  name="work-time"
-                  value={timeType}
-                  onChange={(e) => {
-                    setTimeTypes(e.target.value);
-                  }}
+                  id="work_time"
+                  value={formData.work_time || ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      work_time: e.target.value,
+                    }))
+                  }
                 >
-                  <option value="To'liq ish vaqti">To'liq ish vaqti</option>
-                  <option value="Yarim ish vaqti">Yarim ish vaqti</option>
-                  <option value="Moslashuvchan ish vaqti">
-                    Moslashuvchan ish vaqti
-                  </option>
+                  <option value="full_time">To'liq ish vaqti</option>
+                  <option value="part_time">Yarim ish vaqti</option>
+                  <option value="flexable_time">Moslashuvchan ish vaqti</option>
                 </select>
               </div>
             </div>
           </div>
-          <p>To'liq ma'lumot</p>
-          <label
-            htmlFor="shortData"
-            style={{ marginTop: "15px", display: "block", color: "#767676" }}
-          >
-            Qisqacha ma'lumot
-          </label>
-          {/* <EditorBar /> */}
-          <textarea
-            name=""
-            id=""
-            placeholder="Qisqacha ma'lumot"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-          {announceType === "Xizmat e'loni" && (
+
+          <p>To'liq malumot</p>
+          <div className="description">
+            <div className="input-col w-100">
+              <label
+                htmlFor="short_description"
+                style={{
+                  marginTop: "15px",
+                  display: "block",
+                  color: "#767676",
+                }}
+              >
+                Qisqacha tavsif
+              </label>
+              {/* <EditorBar /> */}
+              <textarea
+                id="short_description"
+                placeholder="Qisqacha tavsif"
+                value={formData.short_description}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    short_description: e.target.value,
+                  }))
+                }
+              ></textarea>
+            </div>
+          </div>
+
+          <div className="description">
+            <div className="input-col w-100">
+              <label
+                htmlFor="description"
+                style={{
+                  marginTop: "15px",
+                  display: "block",
+                  color: "#767676",
+                }}
+              >
+                To'liq tavsif
+              </label>
+              {/* <EditorBar /> */}
+              <textarea
+                id="description"
+                placeholder="To'liq tavsif"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+              ></textarea>
+            </div>
+          </div>
+          {/* {announceType === "Xizmat e'loni" && (
             <>
               <p>Xizmat rasmlari</p>
               <div className="input-col w-100">
@@ -649,7 +620,7 @@ const CreatePage = () => {
                 <ImageUpload />
               </div>
             </>
-          )}
+          )} */}
           {/*<div className="input-col" style={{ marginTop: "10px" }}>
             <label
               htmlFor="status"
@@ -704,7 +675,7 @@ const CreatePage = () => {
           <div className="input-col">
             <div className="input-icons">
               <button type="submit">Qo'shish +</button>
-              <button type="button">
+              {/* <button type="button">
                 Oldindan ko'rish{" "}
                 <svg
                   width="16"
@@ -753,7 +724,7 @@ const CreatePage = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </button>
+              </button> */}
             </div>
           </div>
         </form>

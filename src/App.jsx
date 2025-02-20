@@ -8,6 +8,8 @@ import NotificationsDisplay from "./components/NotificationsComponent/notificati
 import NotificationsProvider from "./context/notifications";
 import { OnlineShopProvider } from "./context/onlineshop.jsx";
 import { UserProvider } from "./context/user.jsx";
+import { ChatProvider } from "./context/messenger.jsx";
+import { AnnouncementsProvider } from "./context/announcements.jsx";
 
 const App = () => {
   return (
@@ -16,10 +18,14 @@ const App = () => {
     >
       <NotificationsProvider>
         <UserProvider>
-          <OnlineShopProvider>
-            <AppContent />
-            <NotificationsDisplay />
-          </OnlineShopProvider>
+          <ChatProvider>
+            <OnlineShopProvider>
+              <AnnouncementsProvider>
+                <AppContent />
+                <NotificationsDisplay />
+              </AnnouncementsProvider>
+            </OnlineShopProvider>
+          </ChatProvider>
         </UserProvider>
       </NotificationsProvider>
     </BrowserRouter>

@@ -83,7 +83,7 @@ const CategoryPage = () => {
                 <div className="product">
                   <div className="imgContainer">
                     <img
-                      src={`${onlineShopApi.split("api")[0]}${product.image}`}
+                      src={`${onlineShopApi.split("/api")[0]}${product.image}`}
                       alt=""
                     />
                   </div>

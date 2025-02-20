@@ -12,6 +12,8 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(isAuthenticated, loading);
+    
     if (!isAuthenticated && !loading) {
       navigate("/auth/sign-in/");
     }
