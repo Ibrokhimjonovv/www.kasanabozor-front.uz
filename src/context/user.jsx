@@ -11,6 +11,7 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [guid, setGuid] = useState("");
+  const [role, setRole] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -35,6 +36,7 @@ const UserProvider = ({ children }) => {
       .then((response) => {
         if (response.status == 200) {
           setGuid(response.data.guid);
+          setRole(response.data.role);
           setFirstName(response.data.first_name);
           setLastName(response.data.last_name);
           setMiddleName(response.data.middle_name);
@@ -54,6 +56,7 @@ const UserProvider = ({ children }) => {
       })
       .catch(() => {
         setGuid("");
+        setRole("");
         setFirstName("");
         setLastName("");
         setMiddleName("");
@@ -112,6 +115,7 @@ const UserProvider = ({ children }) => {
     window.localStorage.removeItem("refresh");
 
     setGuid("");
+    setRole("");
     setFirstName("");
     setLastName("");
     setMiddleName("");
@@ -135,6 +139,7 @@ const UserProvider = ({ children }) => {
         value={{
           isAuthenticated,
           guid,
+          role,
           firstName,
           lastName,
           middleName,

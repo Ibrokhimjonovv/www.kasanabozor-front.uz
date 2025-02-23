@@ -2,29 +2,27 @@ import React, { useContext, useState, useEffect } from "react";
 
 import "./index.scss";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Loading from "../../../components/LoaderComponent/loading";
 import SearchBar from "../../../components/SearchbarComponent/searchBar";
 
-import {
-  announcementsApi,
-  formatLink,
-  mediaServerUrl,
-  usersApi,
-} from "../../../SuperVars";
+import { announcementsApi, usersApi, onlineShopApi } from "../../../SuperVars";
 
 import axios from "axios";
 import { AnnouncementsContext } from "../../../context/announcements";
+import { ChatContext } from "../../../context/messenger";
 
 const AnnouncementDetailPage = () => {
   const { serviceAnnouncements, workAnnouncement, loading } =
     useContext(AnnouncementsContext);
+  const { fetchChatsData, changeChat } = useContext(ChatContext);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [announcements, setAnnouncements] = useState([]);
   const [selectedDep, setSelectedDep] = useState("announce");
   const [currentAnnounce, setCurrentAnnounce] = useState(null);
   const { meta } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoadingDetails(true);
@@ -37,10 +35,37 @@ const AnnouncementDetailPage = () => {
     });
   }, [meta]);
 
-  const isSaved = (announcement) => {
+  const isSaved = () => {
     // return savedAnnouncements.some((a) => a.id === announcement.id);
     return false;
   };
+
+  const handleConnect = () => {
+    axios
+      .post(
+        `${onlineShopApi.replace("api", "messenger")}chats/${
+          currentAnnounce.user.guid
+        }/create/`,
+        {
+          data: {
+            announcement: currentAnnounce.guid,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((request) => {
+        fetchChatsData(() => {
+          if (request.data.guid) {
+            changeChat(request.data.guid);
+            navigate("/messaging/");
+          }
+        });
+      });
+  };
+
+  const handleSaveAnnouncement = () => {};
 
   return loading || loadingDetails ? (
     <div style={{ height: "100vh" }}>
@@ -200,8 +225,8 @@ const AnnouncementDetailPage = () => {
             <div className="announcements-cards">
               {announcements.map((value) => (
                 <Link
-                  to={`/announcements/_/details/${value.id}`}
-                  key={value.id}
+                  to={`/announcements/_/details/${value.meta}/`}
+                  key={value.guid}
                 >
                   <div className="card ">
                     <p className="title">{value.title}</p>
@@ -345,7 +370,7 @@ const AnnouncementDetailPage = () => {
                 <span>
                   <button
                     key={currentAnnounce.id}
-                    onClick={() => saveAnnouncement(currentAnnounce)}
+                    onClick={handleSaveAnnouncement}
                     className={`save-btn ${
                       isSaved(currentAnnounce) ? "saved" : "not-saved"
                     }`}
@@ -367,7 +392,7 @@ const AnnouncementDetailPage = () => {
                     </svg>
                   </button>
                 </span>
-                <Link to="#">Ariza qoldirish</Link>
+                <button onClick={handleConnect}>Ariza qoldirish</button>
               </div>
             </div>
             <div className="mobile-announce-title">

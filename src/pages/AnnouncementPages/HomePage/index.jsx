@@ -9,12 +9,7 @@ import { AnnouncementsContext } from "../../../context/announcements";
 
 import { Link } from "react-router-dom";
 
-import {
-  announcementsApi,
-  formatLink,
-  mediaServerUrl,
-  usersApi,
-} from "../../../SuperVars";
+import { announcementsApi, usersApi } from "../../../SuperVars";
 
 const HomePage = () => {
   const backgroundStyle = {
@@ -27,6 +22,10 @@ const HomePage = () => {
   const { isAuthenticated } = useContext(UserContext);
   const { serviceAnnouncements, workAnnouncement } =
     useContext(AnnouncementsContext);
+
+  useEffect(() => {
+    document.title = "E'lonlar - Kasana.uz";
+  }, []);
 
   return (
     <div id="announcementsPage">
@@ -63,10 +62,7 @@ const HomePage = () => {
       </div>
       <div className="announcements-cards ann">
         {serviceAnnouncements.map((value) => (
-          <Link
-            to={`/announcements/_/details/${value.meta}/`}
-            key={value.guid}
-          >
+          <Link to={`/announcements/_/details/${value.meta}/`} key={value.guid}>
             <div className="card">
               <p className="title">{value.title}</p>
               <p className="price">
@@ -88,7 +84,15 @@ const HomePage = () => {
                     {detail}
                   </div>
                 ))*/}
-                <div className="detail">{{"full_time": "Full time", "part_time": "Part time", "flexable_time": "Flexable time"}[value.work_time]}</div>
+                <div className="detail">
+                  {
+                    {
+                      full_time: "Full time",
+                      part_time: "Part time",
+                      flexable_time: "Flexable time",
+                    }[value.work_time]
+                  }
+                </div>
               </div>
               <div className="author">
                 <img
@@ -209,7 +213,7 @@ const HomePage = () => {
                       {value.user.first_name} {value.user.last_name}
                     </span>
                   </div>
-                  <div className="location">{value.address.split(',')[0]}</div>
+                  <div className="location">{value.address.split(",")[0]}</div>
                 </div>
                 <div className="service-date">
                   <span>

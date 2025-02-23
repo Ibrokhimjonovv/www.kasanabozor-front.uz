@@ -14,6 +14,7 @@ import HomePage from "./pages/HomePage/index";
 import NotFoundPage from "./pages/NotFoundPage/index";
 import Loading from "./components/LoaderComponent/loading";
 import Messaging from "./pages/MessengerPage";
+import AdminRoutes from "./pages/AdminPages/Router";
 
 const AppContent = () => {
   const isLoading = false;
@@ -31,7 +32,7 @@ const AppContent = () => {
     <>
       {!Boolean(
         location.pathname.includes("auth") ||
-          location.pathname.includes("dashboard")
+          location.pathname.includes("admin")
       ) ? (
         <Header></Header>
       ) : (
@@ -46,6 +47,7 @@ const AppContent = () => {
         {CoursesRoutes}
         {AuthenticationRoutes}
         {ProfileRoutes}
+        {AdminRoutes}
 
         <Route path="messaging/" element={<Messaging />}/>
 
@@ -54,7 +56,7 @@ const AppContent = () => {
 
       {!Boolean(
         location.pathname.includes("auth") ||
-          location.pathname.includes("dashboard")
+          location.pathname.includes("admin")
       ) ? (
         <Footer></Footer>
       ) : (

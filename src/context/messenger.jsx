@@ -14,25 +14,28 @@ const ChatProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [chatWebSocket, setChatWebSocket] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      axios
-        .get(`${onlineShopApi.replace("api", "messenger")}chats/`)
-        .then((response) => {
-          setChats(
-            Array.from(response.data?.chats || []).map((value) => ({
-              guid: value.guid,
-              display: value.users[0],
-            }))
-          );
-        })
-        .catch(() => {
-          setChats([]);
-        });
-    };
+  const fetchChatsData = async (postFunction) => {
+    axios
+      .get(`${onlineShopApi.replace("api", "messenger")}chats/`)
+      .then((response) => {
+        setChats(
+          Array.from(response.data?.chats || []).map((value) => ({
+            guid: value.guid,
+            display: value.users[0],
+          }))
+        );
+        if (postFunction) {
+          postFunction();
+        }
+      })
+      .catch(() => {
+        setChats([]);
+      });
+  };
 
+  useEffect(() => {
     if (isAuthenticated) {
-      fetchData();
+      fetchChatsData();
     }
   }, [isAuthenticated]);
 
@@ -93,6 +96,7 @@ const ChatProvider = ({ children }) => {
           loading,
           changeChat,
           sendMessage,
+          fetchChatsData,
         }}
       >
         {children}

@@ -9,8 +9,9 @@ import Send from "../../assets/messenger/send.svg";
 
 import { ChatContext } from "../../context/messenger";
 
-import { usersApi } from "../../SuperVars";
+import { onlineShopApi, usersApi } from "../../SuperVars";
 import { UserContext } from "../../context/user";
+import axios from "axios";
 
 function convertTimestamp(timestamp) {
   const date = new Date(timestamp);
@@ -20,6 +21,56 @@ function convertTimestamp(timestamp) {
     hour12: false,
   });
 }
+
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
+const ProductMessage = ({ message }) => {
+  const [product, setProduct] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get(`${onlineShopApi}mproduct/${message.content}/`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+
+          setProduct(response.data);
+        }
+      });
+  }, []);
+
+  return product ? (
+    <div className="message-product">
+      <div className="product-image">
+        <img
+          src={`${onlineShopApi.split("/api")[0]}${product.image}`}
+          alt="product image goes here"
+        />
+      </div>
+      <div className="product-data">
+        <h3 className="product-title">{product.title || "Yuklanmoqda..."}</h3>
+        <p className="prodcut-price">
+          <span>{formatPrice(product.price_discount || 0)}</span> SO'M
+        </p>
+        <p className="product-description">{product.short_description}</p>
+      </div>
+    </div>
+  ) : (
+    <div
+      style={{
+        width: "300px",
+        height: "100px",
+        marginBottom: "8px",
+        borderRadius: "8px",
+        overflow: "hidden",
+      }}
+    >
+      <Loading />
+    </div>
+  );
+};
 
 const Messaging = () => {
   const {
@@ -38,6 +89,10 @@ const Messaging = () => {
   const messagesDiv = useRef();
 
   let lastDate = null;
+
+  useEffect(() => {
+    document.title = "Xabarlar - Kasana.uz";
+  }, [])
 
   useEffect(() => {
     if (searchQuery) {
@@ -148,7 +203,12 @@ const Messaging = () => {
                             const showDateHeader = lastDate !== messageDate;
                             lastDate = messageDate;
 
-                            return (
+                            return value.type === "product" ? (
+                              <ProductMessage
+                                message={value}
+                                key={value.guid}
+                              />
+                            ) : (
                               <React.Fragment key={value.guid}>
                                 {showDateHeader && (
                                   <div className="date-separator">
@@ -175,14 +235,14 @@ const Messaging = () => {
                         </div>
                       </div>
 
-                      <form action="" onSubmit={ handleSubmit }>
+                      <form action="" onSubmit={handleSubmit}>
                         <div className="message-form">
                           <input
                             type="text"
                             className="message-input"
                             placeholder="Matn"
-                            value={ messageText }
-                            onChange={ (e) => setMessageText(e.target.value)  }
+                            value={messageText}
+                            onChange={(e) => setMessageText(e.target.value)}
                           />
                           <button className="message-send" type="submit">
                             <img src={Send} alt="..." />

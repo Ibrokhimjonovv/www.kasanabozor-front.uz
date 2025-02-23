@@ -201,6 +201,39 @@
               }
             }
           }
+
+          .message-product {
+            max-width: 520px;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #cfe8e3;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 8px;
+
+            .product-image {
+              width: 100%;
+              max-width: 140px;
+              height: 140px;
+              overflow: hidden;
+
+              img {
+                height: 100%;
+              }
+            }
+
+            .product-data {
+              width: 100%;
+              max-width: calc(100% - 140px);
+              padding: 8px;
+            }
+
+            .product-description {
+              width: 100%;
+              flex-grow: 8;
+            }
+          }
         }
 
         .message-form {

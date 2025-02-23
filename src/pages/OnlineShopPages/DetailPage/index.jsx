@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 import "./index.scss";
 
 import whenImageIsNotUploaded from "../../../assets/when_image_is_not_uploaded.jpg";
 
 import Loading from "../../../components/LoaderComponent/loading";
-import AddProductsComments from "../../../components/AddProductCommentsComponent/addProductsComment";
+import AddProductsComments from "../../../components/AddProductCommentsComponent";
 import NotFoundPage from "../../NotFoundPage/index";
 
 import axios from "axios";
@@ -17,26 +17,30 @@ import {
   usersApi,
 } from "../../../SuperVars";
 import { UserContext } from "../../../context/user";
+import { ChatContext } from "../../../context/messenger";
 
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
+
 const DetailPage = () => {
   const { meta } = useParams();
   const { isAuthenticated } = useContext(UserContext);
+  const { fetchChatsData, changeChat } = useContext(ChatContext);
   const [product, setProduct] = useState(null);
   const [selectedDep, setSelectedDep] = useState("tarriff");
   const [similarProducts, setSimilarProducts] = useState([]);
   const [mainImage, setMainImage] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${onlineShopApi}product/${meta}`);
       console.log(response);
-      
+
       if (response.status === 200) {
         setProduct(response.data);
         setMainImage(response.data.product_images_onlineshop[0]);
@@ -62,7 +66,28 @@ const DetailPage = () => {
   };
 
   const handleConnect = () => {
-    alert("Bog'lanish");
+    axios
+      .post(
+        `${onlineShopApi.replace("api", "messenger")}chats/${
+          product.user.guid
+        }/create/`,
+        {
+          data: {
+            product: product.guid,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((request) => {
+        fetchChatsData(() => {
+          if (request.data.guid) {
+            changeChat(request.data.guid);
+            navigate('/messaging/');
+          }
+        });
+      });
   };
 
   return (
@@ -285,7 +310,9 @@ const DetailPage = () => {
                 }`}
               >
                 <p className="title">{product.title}</p>
-                <p dangerouslySetInnerHTML={{ __html: product.description }}></p>
+                <p
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                ></p>
                 {/*<div className="hashtags">
               <div className="hashtag">#quroqchilik</div>
               <div className="hashtag">#quroqchilik</div>

@@ -14,7 +14,7 @@ const Header = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated } = useContext(UserContext); 
+  const { isAuthenticated, role } = useContext(UserContext);
   const [
     selectedLanguage,
     setSelectedLanguage,
@@ -26,7 +26,7 @@ const Header = () => {
     services,
     newsCategories,
     categories,
-  ] = ['uz', () => {}, [], {}, [], [], [], [], [], []];
+  ] = ["uz", () => {}, [], {}, [], [], [], [], [], []];
 
   const toggleDropDown = () => {
     setIsOpen(!isOpen);
@@ -457,8 +457,8 @@ const Header = () => {
             </li>
             <li id="login-top">
               {isAuthenticated ? (
-                user.role === "admin" ? (
-                  <Link to="/dashboard">
+                role === "admin" ? (
+                  <Link to="/admin/dashboard/">
                     <svg
                       width="24"
                       height="24"
@@ -1039,7 +1039,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="mob-menu-bottom">
-            {isAuthenticated && user.role === "admin" && (
+            {isAuthenticated && (
               <>
                 <Link
                   to={
@@ -1101,7 +1101,7 @@ const Header = () => {
             </Link> */}
             {isAuthenticated ? (
               user.role === "admin" ? (
-                <Link id="to-profile" to="/dashboard">
+                <Link id="to-profile" to="/admin/">
                   <svg
                     width="24"
                     height="24"
