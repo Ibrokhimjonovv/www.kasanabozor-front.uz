@@ -12,7 +12,7 @@ import stepIcon1 from "../../../assets/svg/stepIcon1.svg";
 
 import InputMask from "react-input-mask";
 import { MyContext } from "../../../context/myContext";
-import { usersServerUrl } from "../../../SuperVars";
+import { usersServerUrl } from "../../../server";
 import { Notifications } from "../../../context/notifications";
 import axios from "axios";
 

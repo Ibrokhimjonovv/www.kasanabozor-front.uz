@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./newsInnerRight.scss";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
-import { formatLink, mediaServerUrl } from "../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../server";
 
 const NewsInnerRight = () => {
   const { newsCategories, newsList } = useContext(MyContext);

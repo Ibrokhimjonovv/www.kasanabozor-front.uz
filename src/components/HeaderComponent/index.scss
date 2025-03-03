@@ -26,16 +26,6 @@ header {
     padding: 16px 0;
     justify-content: space-between;
     
-    a.active-link {
-        opacity: 0.5;
-    }
-
-    #acc {
-        a:hover {
-            opacity: 0.5;
-        }
-    }
-    
     .top-side {
         width: 100%;
         display: flex;
@@ -115,124 +105,6 @@ header {
         justify-content: space-between;
         align-items: center;
         margin-top: 15px;
-
-        .logo {
-            a {
-                font-weight: 600;
-                color: var(--main-color);
-                opacity: 1 !important;
-
-                svg {
-                    width: 160px;
-                    height: 50px;
-                }
-            }
-        }
-        
-        ul {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-
-            li {
-                a {
-                    display: flex;
-                    align-items: center;
-                    gap: 7px;
-                    color: #303030;
-                    font-size: 17px;
-                    font-weight: 500;
-
-                    &:hover {
-                        padding: 7px 10px !important;
-                        background-color: #41A58D !important;
-                        border-radius: 20px !important;
-                        color: #fff !important;
-                        
-                        svg path {
-                            stroke: #fff;
-                        }
-
-                        svg circle,
-                        svg polygon {
-                            stroke: #fff;
-                        }
-                    }
-
-                    &.active {
-                        padding: 7px 10px !important;
-                        background-color: #41A58D !important;
-                        border-radius: 20px !important;
-                        color: #fff !important;
-        
-                        svg path {
-                            stroke: #fff;
-                        }
-                    }
-                }
-            }
-        }
-        
-        #rightt {
-            li {
-                form {
-                    display: flex;
-                    align-items: center;
-
-                    input {
-                        border: none;
-                        padding: 5px;
-                        border-bottom: 1px solid var(--main-color);
-                        outline: none;
-                        color: var(--second-color);
-                        font-size: 16px;
-                        width: 0;
-                        transition: all 0.3s;
-                        opacity: 0;
-                        background-color: transparent;
-
-                        &.width {
-                            opacity: 1;
-                            width: 205px;
-                        }
-                    }
-
-                    button {
-                        background-color: transparent;
-                        border: none;
-                        font-size: 24px;
-                        display: flex;
-                        align-items: center;
-                        cursor: pointer;
-
-                        svg {
-                            color: var(--main-color);
-                        }
-                    }
-                }
-            }
-
-            li {
-                a {
-                    color: var(--main-color);
-                    font-size: 20px;
-                }
-            }
-
-            li {
-                button {
-                    background-color: var(--main-color);
-                    border: none;
-                    font-size: 24px;
-                    border-radius: 7px;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    padding: 10px;
-                    color: #fff;
-                }
-            }
-        }
     }
 }
 
@@ -399,40 +271,6 @@ header {
             display: flex;
             align-items: center;
             gap: 20px;
-            li {
-                a {
-                    display: flex;
-                    align-items: center;
-                    gap: 7px;
-                    color: #303030;
-                    font-size: 17px;
-                    font-weight: 500;
-                    &:hover {
-                        padding: 7px 10px !important;
-                        background-color: #41A58D !important;
-                        border-radius: 20px !important;
-                        color: #fff !important;
-
-                        svg path {
-                            stroke: #fff;
-                        }
-
-                        svg circle,
-                        svg polygon {
-                            stroke: #fff;
-                        }
-                    }
-                    &.active {
-                        padding: 7px 10px !important;
-                        background-color: #41A58D !important;
-                        border-radius: 20px !important;
-                        color: #fff !important;
-                        svg path {
-                            stroke: #fff;
-                        }
-                    }
-                }
-            }
         }
 
         #rightt {
@@ -594,27 +432,6 @@ header {
 
             #acc {
                 display: none;
-            }
-
-            #rightt {
-
-                #login-top,
-                #ser {
-                    display: none;
-                }
-
-                .mob-ver {
-                    display: unset;
-                }
-
-                li {
-                    a {
-                        svg {
-                            width: 20px;
-                            height: 20px;
-                        }
-                    }
-                }
             }
         }
     }

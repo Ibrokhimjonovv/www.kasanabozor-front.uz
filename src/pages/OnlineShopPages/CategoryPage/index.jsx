@@ -7,7 +7,7 @@ import Discount from "../../../components/DiscountComponent/Discount";
 
 import { OnlineShopContext } from "../../../context/onlineshop";
 import axios from "axios";
-import { onlineShopApi, usersApi } from "../../../SuperVars";
+import { onlineShopApi, usersApi } from "../../../server";
 
 const CategoryPage = () => {
   const { categories } = useContext(OnlineShopContext);

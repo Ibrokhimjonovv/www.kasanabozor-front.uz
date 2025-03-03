@@ -5,7 +5,7 @@ import "./index.scss";
 
 import Loading from "../../../components/LoaderComponent/loading";
 
-import { formatLink, mediaServerUrl, newsServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl, newsServerUrl } from "../../../server";
 import axios from "axios";
 
 

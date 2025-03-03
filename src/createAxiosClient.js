@@ -1,5 +1,5 @@
 import axios from "axios";
-import { usersServerUrl } from "./SuperVars.js";
+import { usersServerUrl } from "./server.js";
 
 const access = localStorage.getItem("access");
 if (access && access !== "undefined") {  

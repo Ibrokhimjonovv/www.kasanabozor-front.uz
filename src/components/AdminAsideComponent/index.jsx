@@ -100,8 +100,17 @@ const AdminAsideComponent = () => {
               <span className="admin-aside-link-icon">
                 <img src={OnlineshopIcon} alt="D" />
               </span>
-              <span className="admin-aside-link-text">Mahsulotlar</span>
+              <span className="admin-aside-link-text">Online shop</span>
             </NavLink>
+
+            <div className="admin-aside-links-content">
+              <NavLink
+                className={(e) => "content-" + generateAdminAsideLinkClass(e)}
+                to={"/admin/products/products/"}
+              >
+                <span className="admin-aside-link-text">Maxsulotlar</span>
+              </NavLink>
+            </div>
           </div>
 
           <div className="admin-aside-link-container">

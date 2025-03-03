@@ -7,7 +7,7 @@ import Discount from "../../../components/discount/Discount";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
 import axios from 'axios';
-import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
+import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const LikedProducts = () => {

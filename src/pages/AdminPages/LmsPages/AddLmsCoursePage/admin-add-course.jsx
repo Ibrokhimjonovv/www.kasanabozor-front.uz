@@ -4,7 +4,7 @@ import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./admin-add-course.scss";
 import axios from "axios";
-import { coursesServerUrl } from "../../../../SuperVars";
+import { coursesServerUrl } from "../../../../server";
 
 const AddCourse = () => {
   const { isOpen } = useContext(MyContext);

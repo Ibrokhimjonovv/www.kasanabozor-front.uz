@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import "./index.scss";
-import { formatLink, mediaServerUrl } from "../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../server";
 import { useEffect } from "react";
 
 

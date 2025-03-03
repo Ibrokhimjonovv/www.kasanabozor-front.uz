@@ -7,7 +7,7 @@ import category9 from "./Grid.png";
 
 import { MyContext } from "../../context/myContext";
 
-import { formatLink, mediaServerUrl } from "../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../server";
 
 const TopCourses = () => {
   const { courses, courseCategories } = useContext(MyContext);

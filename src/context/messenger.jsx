@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { onlineShopApi } from "../SuperVars";
+import { onlineShopApi } from "../server";
 import { UserContext } from "./user";
 
 const ChatContext = createContext({});

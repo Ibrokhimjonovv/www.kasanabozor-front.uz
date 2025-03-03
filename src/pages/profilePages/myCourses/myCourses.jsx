@@ -3,7 +3,7 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import "./myCourses.scss";
 import axios from 'axios';
-import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
+import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const MyCourses = () => {

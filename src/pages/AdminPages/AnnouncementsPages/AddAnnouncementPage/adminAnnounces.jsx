@@ -12,8 +12,8 @@ import {
   eCommerseServerUrl,
   formatLink,
   mediaServerUrl,
-} from "../../../../SuperVars.ts";
-import { announcementsServerUrl } from "../../../../SuperVars.ts";
+} from "../../../../server.ts";
+import { announcementsServerUrl } from "../../../../server.ts";
 
 const AdminAnnounces = () => {
   const { isOpen } = useContext(MyContext);

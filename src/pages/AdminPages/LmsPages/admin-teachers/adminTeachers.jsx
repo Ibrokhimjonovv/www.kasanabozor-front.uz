@@ -7,7 +7,7 @@ import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import StarRating from "../../../components/starRating/starRating";
 import axios from "axios";
-import { coursesServerUrl } from "../../../../SuperVars";
+import { coursesServerUrl } from "../../../../server";
 
 
 const AdminTeachers = () => {

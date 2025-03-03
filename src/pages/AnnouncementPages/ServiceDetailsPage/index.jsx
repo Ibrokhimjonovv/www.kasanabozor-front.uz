@@ -12,7 +12,7 @@ import {
   formatLink,
   mediaServerUrl,
   usersApi,
-} from "../../../SuperVars";
+} from "../../../server";
 import axios from "axios";
 import { AnnouncementsContext } from "../../../context/announcements";
 

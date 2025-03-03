@@ -12,7 +12,7 @@ import CurrencyRates from "../../../components/ConverterComponent/converter";
 import Loading from "../../../components/LoaderComponent/loading";
 
 import { MyContext } from "../../../context/myContext";
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../../server";
 
 const CategoryDetailsPage = () => {
   const { category } = useParams();

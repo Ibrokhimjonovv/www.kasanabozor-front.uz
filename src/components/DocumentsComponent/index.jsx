@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
   formatLink,
   mediaServerUrl,
-} from "../../SuperVars";
+} from "../../server";
 
 function getDomain(url, subdomain) {
   subdomain = subdomain || false;

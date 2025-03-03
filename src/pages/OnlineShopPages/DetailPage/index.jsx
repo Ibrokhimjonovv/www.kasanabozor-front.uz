@@ -11,11 +11,9 @@ import NotFoundPage from "../../NotFoundPage/index";
 
 import axios from "axios";
 import {
-  formatLink,
-  mediaServerUrl,
   onlineShopApi,
   usersApi,
-} from "../../../SuperVars";
+} from "../../../server";
 import { UserContext } from "../../../context/user";
 import { ChatContext } from "../../../context/messenger";
 

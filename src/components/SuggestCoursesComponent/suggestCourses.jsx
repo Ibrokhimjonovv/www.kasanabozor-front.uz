@@ -3,7 +3,7 @@ import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 // import Discount from "../discount/Discount";
 import "./suggestCourses.scss"
-import { formatLink, mediaServerUrl } from "../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../server";
 
 
 const SuggestCourses = () => {

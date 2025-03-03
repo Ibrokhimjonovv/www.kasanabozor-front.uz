@@ -9,12 +9,28 @@ import cheveronIcon from "./menu-cheveron-icon.png";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "../../context/user.jsx";
 
-const Header = () => {
+const AuthButtonClassName =
+  "flex w-fit h-7 group items-center justify-center gap-1 px-3 rounded-full text-lg text-brand hover:bg-brand hover:text-white transition-all duration-300";
+
+const generateNavbarActiveLinkClass = ({ isActive }) => {
+  if (isActive) {
+    return "group flex w-fit h-6 gap-1.5 px-5 flex items-center justify-center bg-brand text-lg text-white rounded-full transition-all duration-300";
+  } else {
+    return "group flex w-fit h-6 gap-1.5 px-2 flex items-center justify-center hover:bg-brand hover:text-white text-lg rounded-full transition-all duration-300";
+  }
+};
+const NavbarLinkIconClass =
+  "group-hover:stroke-white transition-all duration-300";
+const NavbarActiveLinkIconClass = "stroke-white transition-all duration-300";
+
+const HeaderComponent = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, role } = useContext(UserContext);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const [
     selectedLanguage,
     setSelectedLanguage,
@@ -47,7 +63,6 @@ const Header = () => {
     };
   }, []);
 
-  const [selectedMenu, setSelectedMenu] = useState(null);
   const [help, setHelp] = useState(false);
 
   const handleLanguageChange = (newLanguage) => {
@@ -58,9 +73,7 @@ const Header = () => {
     setIsOpen(false);
   };
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const openClick = () => {
+  const openMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
@@ -70,10 +83,6 @@ const Header = () => {
   };
 
   const [activeMenu, setActiveMenu] = useState(null);
-
-  const toggleMenu = (index) => {
-    setActiveMenu(activeMenu === index ? null : index);
-  };
 
   const getContentByLanguage = (lang) => {
     switch (lang) {
@@ -92,7 +101,6 @@ const Header = () => {
 
   useEffect(() => {
     setIsOpen(false);
-    setSelectedMenu(false);
     setMenuOpen(false);
   }, [location]);
 
@@ -275,11 +283,10 @@ const Header = () => {
             </ul>
           </div>
         </div>
-        <div className="bottom-side">
-          <div className="logo">
+        <div className="bottom-side relative">
+          <div className="logo relative z-99">
             <NavLink
               to="/"
-              className={({ isActive }) => (isActive ? "active-link" : "")}
             >
               <svg
                 width="131"
@@ -327,117 +334,116 @@ const Header = () => {
               </svg>
             </NavLink>
           </div>
-          <ul id="acc">
-            <li>
-              <NavLink
-                to="/online-shop"
-                onClick={() => setSelectedMenu(1)}
-                className={selectedMenu === 1 ? "bottom-active-link" : ""}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clipPath="url(#clip0_464_626)">
+          <div
+            id="navbar-top-links"
+            className="absolute w-full flex items-center justify-center gap-4"
+          >
+            <NavLink
+              to="/online-shop"
+              className={generateNavbarActiveLinkClass}
+            >
+              {({ isActive }) => (
+                <>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={
+                      isActive ? NavbarActiveLinkIconClass : NavbarLinkIconClass
+                    }
+                  >
+                    <g clipPath="url(#clip0_464_626)">
+                      <path
+                        d="M0.833008 0.833313H4.16634L6.39967 11.9916C6.47588 12.3753 6.6846 12.7199 6.9893 12.9652C7.29399 13.2105 7.67526 13.3408 8.06634 13.3333H16.1663C16.5574 13.3408 16.9387 13.2105 17.2434 12.9652C17.5481 12.7199 17.7568 12.3753 17.833 11.9916L19.1663 4.99998H4.99967M8.33301 17.5C8.33301 17.9602 7.95991 18.3333 7.49967 18.3333C7.03944 18.3333 6.66634 17.9602 6.66634 17.5C6.66634 17.0397 7.03944 16.6666 7.49967 16.6666C7.95991 16.6666 8.33301 17.0397 8.33301 17.5ZM17.4997 17.5C17.4997 17.9602 17.1266 18.3333 16.6663 18.3333C16.2061 18.3333 15.833 17.9602 15.833 17.5C15.833 17.0397 16.2061 16.6666 16.6663 16.6666C17.1266 16.6666 17.4997 17.0397 17.4997 17.5Z"
+                        stroke="#303030"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={
+                          isActive
+                            ? NavbarActiveLinkIconClass
+                            : NavbarLinkIconClass
+                        }
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_464_626">
+                        <rect width="20" height="20" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  <span>Online bozor</span>
+                </>
+              )}
+            </NavLink>
+            <NavLink
+              to="/announcements"
+              className={generateNavbarActiveLinkClass}
+            >
+              {({ isActive }) => (
+                <>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={
+                      isActive ? NavbarActiveLinkIconClass : NavbarLinkIconClass
+                    }
+                  >
                     <path
-                      d="M0.833008 0.833313H4.16634L6.39967 11.9916C6.47588 12.3753 6.6846 12.7199 6.9893 12.9652C7.29399 13.2105 7.67526 13.3408 8.06634 13.3333H16.1663C16.5574 13.3408 16.9387 13.2105 17.2434 12.9652C17.5481 12.7199 17.7568 12.3753 17.833 11.9916L19.1663 4.99998H4.99967M8.33301 17.5C8.33301 17.9602 7.95991 18.3333 7.49967 18.3333C7.03944 18.3333 6.66634 17.9602 6.66634 17.5C6.66634 17.0397 7.03944 16.6666 7.49967 16.6666C7.95991 16.6666 8.33301 17.0397 8.33301 17.5ZM17.4997 17.5C17.4997 17.9602 17.1266 18.3333 16.6663 18.3333C16.2061 18.3333 15.833 17.9602 15.833 17.5C15.833 17.0397 16.2061 16.6666 16.6663 16.6666C17.1266 16.6666 17.4997 17.0397 17.4997 17.5Z"
+                      d="M10.0003 5.83333C10.0003 4.94928 9.64914 4.10143 9.02402 3.47631C8.39889 2.85119 7.55105 2.5 6.66699 2.5H1.66699V15H7.50033C8.16337 15 8.79925 15.2634 9.26809 15.7322C9.73693 16.2011 10.0003 16.837 10.0003 17.5M10.0003 5.83333V17.5M10.0003 5.83333C10.0003 4.94928 10.3515 4.10143 10.9766 3.47631C11.6018 2.85119 12.4496 2.5 13.3337 2.5H18.3337V15H12.5003C11.8373 15 11.2014 15.2634 10.7326 15.7322C10.2637 16.2011 10.0003 16.837 10.0003 17.5"
                       stroke="#303030"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      className={
+                        isActive
+                          ? NavbarActiveLinkIconClass
+                          : NavbarLinkIconClass
+                      }
                     />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_464_626">
-                      <rect width="20" height="20" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                Online bozor
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink
-                to="/announcements"
-                onClick={() => setSelectedMenu(2)}
-                className={selectedMenu === 2 ? "bottom-active-link" : ""}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.0003 5.83333C10.0003 4.94928 9.64914 4.10143 9.02402 3.47631C8.39889 2.85119 7.55105 2.5 6.66699 2.5H1.66699V15H7.50033C8.16337 15 8.79925 15.2634 9.26809 15.7322C9.73693 16.2011 10.0003 16.837 10.0003 17.5M10.0003 5.83333V17.5M10.0003 5.83333C10.0003 4.94928 10.3515 4.10143 10.9766 3.47631C11.6018 2.85119 12.4496 2.5 13.3337 2.5H18.3337V15H12.5003C11.8373 15 11.2014 15.2634 10.7326 15.7322C10.2637 16.2011 10.0003 16.837 10.0003 17.5"
-                    stroke="#303030"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                E'lonlar
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink
-                to="/news"
-                onClick={() => setSelectedMenu(3)}
-                className={selectedMenu === 3 ? "bottom-active-link" : ""}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3.33301 9.16665C5.32213 9.16665 7.22979 9.95682 8.63631 11.3633C10.0428 12.7699 10.833 14.6775 10.833 16.6666M3.33301 3.33331C6.86923 3.33331 10.2606 4.73807 12.7611 7.23856C15.2616 9.73904 16.6663 13.1304 16.6663 16.6666M4.99967 15.8333C4.99967 16.2935 4.62658 16.6666 4.16634 16.6666C3.7061 16.6666 3.33301 16.2935 3.33301 15.8333C3.33301 15.3731 3.7061 15 4.16634 15C4.62658 15 4.99967 15.3731 4.99967 15.8333Z"
-                    stroke="#303030"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Yangiliklar
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink
-                to="/courses"
-                onClick={() => setSelectedMenu(4)}
-                className={selectedMenu === 4 ? "bottom-active-link" : ""}
-              >
-                <svg
-                  stroke="currentColor"
-                  fill="none"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                </svg>
-                Kurslar
-              </NavLink>
-            </li>
-          </ul>
-          <ul id="rightt">
-            <li id="ser">
-              <form action="">
-                <button type="button" onClick={() => setHelp(!help)}>
+                  </svg>
+                  <span>E'lonlar</span>
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/news" className={generateNavbarActiveLinkClass}>
+              {({ isActive }) => (
+                <>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={
+                      isActive ? NavbarActiveLinkIconClass : NavbarLinkIconClass
+                    }
+                  >
+                    <path
+                      d="M3.33301 9.16665C5.32213 9.16665 7.22979 9.95682 8.63631 11.3633C10.0428 12.7699 10.833 14.6775 10.833 16.6666M3.33301 3.33331C6.86923 3.33331 10.2606 4.73807 12.7611 7.23856C15.2616 9.73904 16.6663 13.1304 16.6663 16.6666M4.99967 15.8333C4.99967 16.2935 4.62658 16.6666 4.16634 16.6666C3.7061 16.6666 3.33301 16.2935 3.33301 15.8333C3.33301 15.3731 3.7061 15 4.16634 15C4.62658 15 4.99967 15.3731 4.99967 15.8333Z"
+                      stroke="#303030"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={
+                        isActive
+                          ? NavbarActiveLinkIconClass
+                          : NavbarLinkIconClass
+                      }
+                    />
+                  </svg>
+                  <span>Yangiliklar</span>
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/courses" className={generateNavbarActiveLinkClass}>
+              {({ isActive }) => (
+                <>
                   <svg
                     stroke="currentColor"
                     fill="none"
@@ -448,57 +454,90 @@ const Header = () => {
                     height="1em"
                     width="1em"
                     xmlns="http://www.w3.org/2000/svg"
+                    className={
+                      isActive ? NavbarActiveLinkIconClass : NavbarLinkIconClass
+                    }
                   >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
                   </svg>
-                </button>
-              </form>
-            </li>
-            <li id="login-top">
+                  <span>Kurslar</span>
+                </>
+              )}
+            </NavLink>
+          </div>
+          <div className="relative flex items-center justify-center gap-1 z-98">
+            <div id="search-button-top">
+              <button
+                type="button"
+                className="flex items-center justify-center w-7 h-7 group hover:bg-brand cursor-pointer rounded-full transition-all duration-300 ease-in-out"
+                onClick={() => setHelp(!help)}
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="none"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4 stroke-brand group-hover:stroke-white transition-all duration-300 ease-in-out"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </button>
+            </div>
+            <div id="auth-button-top">
               {isAuthenticated ? (
                 role === "admin" ? (
-                  <Link to="/admin/dashboard/">
+                  <Link to="/admin/dashboard/" className={AuthButtonClassName}>
                     <svg
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      className="group-hover:stroke-white"
                     >
                       <path
                         d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
                         stroke="#118E71"
                         strokeWidth="2"
                         strokeLinecap="round"
+                        className="group-hover:stroke-white transition-all duration-300 ease-in-out"
                       />
                     </svg>
                     Admin Dashboard
                   </Link>
                 ) : (
-                  <Link to="/profile/overview/">
+                  <Link to="/profile/overview/" className={AuthButtonClassName}>
                     <svg
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      className="group-hover:stroke-white"
                     >
                       <path
                         d="M3.23828 19.5C4.56369 17.2892 7.46856 15.7762 12.0006 15.7762C16.5326 15.7762 19.4374 17.2892 20.7628 19.5M15.6006 8.1C15.6006 10.0882 13.9888 11.7 12.0006 11.7C10.0123 11.7 8.40056 10.0882 8.40056 8.1C8.40056 6.11177 10.0123 4.5 12.0006 4.5C13.9888 4.5 15.6006 6.11177 15.6006 8.1Z"
                         stroke="#118E71"
                         strokeWidth="2"
                         strokeLinecap="round"
+                        className="group-hover:stroke-white transition-all duration-300 ease-in-out"
                       />
                     </svg>
                     Shaxsiy kabinet
                   </Link>
                 )
               ) : (
-                <Link to="/auth/sign-in/">Kirish</Link>
+                <Link to="/auth/sign-in/" className={AuthButtonClassName}>
+                  Kirish
+                </Link>
               )}
-            </li>
-            <li className="mob-ver">
+            </div>
+            <div className="mob-ver">
               <NavLink
                 to="/mail"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -519,8 +558,8 @@ const Header = () => {
                   />
                 </svg>
               </NavLink>
-            </li>
-            <li className="mob-ver">
+            </div>
+            <div className="mob-ver">
               <NavLink
                 to="/notification"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -541,25 +580,34 @@ const Header = () => {
                   />
                 </svg>
               </NavLink>
-            </li>
-            <li>
+            </div>
+            <div className="toggle-menu-top">
               <div
-                className={`openIcon ${menuOpen ? "openMenu" : ""}`}
-                id="menu"
-                onClick={openClick}
+                className={
+                  "w-7 h-7 bg-brand rounded-sm cursor-pointer relative"
+                }
+                id="toggle-menu-button"
+                onClick={openMenu}
               >
                 <span
-                  className={`line-1 ${menuOpen ? "active-line-1" : ""}`}
+                  className={
+                    "w-4 h-0.5 bg-white block rounded-sm absolute left-1/2 top-4/12 -translate-x-1/2 -translate-y-1/2"
+                  }
                 ></span>
                 <span
-                  className={`line-2 ${menuOpen ? "active-line-2" : ""}`}
+                  className={
+                    "w-4 h-0.5 bg-white block rounded-sm absolute left-1/2 top-6/12 -translate-x-1/2 -translate-y-1/2"
+                  }
                 ></span>
                 <span
-                  className={`line-3 ${menuOpen ? "active-line-3" : ""}`}
+                  className={
+                    "w-4 h-0.5 bg-white block rounded-sm absolute left-1/2 top-8/12 -translate-x-1/2 -translate-y-1/2" +
+                    ` ${menuOpen ? "hidden" : ""}`
+                  }
                 ></span>
               </div>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </header>
       <div className={`for-search ${help ? "df" : scrolled ? "bg" : ""}`}>
@@ -1101,7 +1149,11 @@ const Header = () => {
             </Link> */}
             {isAuthenticated ? (
               user.role === "admin" ? (
-                <Link id="to-profile" to="/admin/">
+                <Link
+                  id="to-profile"
+                  to="/admin/"
+                  className="text-md transition-all duration-300"
+                >
                   <svg
                     width="24"
                     height="24"
@@ -1149,4 +1201,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderComponent;

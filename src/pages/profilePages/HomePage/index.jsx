@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./index.scss";
 
-import { usersApi } from "../../../SuperVars";
+import { usersApi } from "../../../server";
 import { UserContext } from "../../../context/user";
 
 const formatPhone = ({ phone }) => {

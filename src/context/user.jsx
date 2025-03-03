@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Notifications } from "./notifications";
 import { createContext, useContext, useEffect, useState } from "react";
-import { usersApi } from "../SuperVars";
+import { usersApi } from "../server";
 import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();

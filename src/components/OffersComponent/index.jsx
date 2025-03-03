@@ -5,7 +5,7 @@ import "./index.scss";
 import Discount from "../DiscountComponent/Discount";
 import Loading from "../LoaderComponent/loading";
 
-import { onlineShopApi, usersApi } from "../../SuperVars";
+import { onlineShopApi, usersApi } from "../../server";
 import { Link } from "react-router-dom";
 
 import { OnlineShopContext } from "../../context/onlineshop";

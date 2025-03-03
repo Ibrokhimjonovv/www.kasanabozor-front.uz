@@ -10,7 +10,7 @@ import Loading from "../LoaderComponent/loading";
 import {
   onlineShopApi,
   usersApi,
-} from "../../SuperVars";
+} from "../../server";
 
 import { OnlineShopContext } from "../../context/onlineshop";
 

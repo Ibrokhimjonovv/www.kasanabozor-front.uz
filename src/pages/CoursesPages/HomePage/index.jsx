@@ -16,7 +16,7 @@ import SuggestCourses from "../../../components/SuggestCoursesComponent/suggestC
 import Success from "../../../components/SuccessComponent/Success";
 import LittlePoster from "../../../components/LittlePosterComponent/LittlePoster";
 
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../../server";
 
 const HomePage = () => {
   const { courses } = useContext(MyContext);

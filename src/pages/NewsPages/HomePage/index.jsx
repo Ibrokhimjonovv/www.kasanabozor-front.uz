@@ -7,7 +7,6 @@ import backgroundImg from "./backgroundImg.png";
 import posterImg from "./newsimg.png";
 import posterImg2 from "./posterImg2.png";
 
-
 import { MyContext } from "../../../context/myContext";
 
 import HistoryOfSuccess from "../../../components/HistoryOfSuccessComponent/historyOfSuccess";
@@ -15,13 +14,12 @@ import Weather from "../../../components/WeatherComponent/weather";
 import CurrencyRates from "../../../components/ConverterComponent/converter";
 import Documents from "../../../components/DocumentsComponent";
 
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../../server";
 
 import Loading from "../../../components/LoaderComponent/loading";
 
-
 const HomePage = () => {
-  const { newsList } = useContext(MyContext);
+  const newsList = [];
 
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -30,11 +28,6 @@ const HomePage = () => {
     backgroundPosition: "center",
     width: "100%",
   };
-
-  if (newsList.length <= 0) {
-    console.log(newsList);
-    return <Loading />;
-  }
 
   return (
     <>
@@ -45,7 +38,6 @@ const HomePage = () => {
         </div>
         <div className="newsInner">
           <div className="left-side">
-            {console.log(newsList)}
             {newsList[0] ? (
               <>
                 <div className="img-container">
@@ -59,7 +51,9 @@ const HomePage = () => {
                     <h1>{newsList[0].title}</h1>
                     <p>{newsList[0].description.split(".")[0]}.</p>
                     <div className="date">
-                      <Link to={`/news/categories/details/${newsList[0].category.id}/`}>
+                      <Link
+                        to={`/news/categories/details/${newsList[0].category.id}/`}
+                      >
                         {newsList[0].category.title}
                       </Link>
                       <div className="date-inner">
@@ -277,7 +271,9 @@ const HomePage = () => {
             <div className="showMoreBtn">
               {/* <button onClick={handleShowMore}>Ko'proq ko'rish</button> */}
               <div className="showMoreBtn">
-                <Link to={`/news/categories/details/all/`}>Ko'proq ko'rish</Link>
+                <Link to={`/news/categories/details/all/`}>
+                  Ko'proq ko'rish
+                </Link>
               </div>
             </div>
           </div>

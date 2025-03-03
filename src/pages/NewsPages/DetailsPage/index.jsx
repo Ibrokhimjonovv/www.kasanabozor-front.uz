@@ -11,7 +11,7 @@ import Weather from "../../../components/WeatherComponent/weather";
 import Loading from "../../../components/LoaderComponent/loading";
 import CurrencyRates from "../../../components/ConverterComponent/converter";
 
-import { formatLink, mediaServerUrl, newsServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl, newsServerUrl } from "../../../server";
 import axios from "axios";
 
 const DetialsPage = () => {

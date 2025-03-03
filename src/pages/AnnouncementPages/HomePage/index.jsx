@@ -9,7 +9,7 @@ import { AnnouncementsContext } from "../../../context/announcements";
 
 import { Link } from "react-router-dom";
 
-import { announcementsApi, usersApi } from "../../../SuperVars";
+import { announcementsApi, usersApi } from "../../../server";
 
 const HomePage = () => {
   const backgroundStyle = {

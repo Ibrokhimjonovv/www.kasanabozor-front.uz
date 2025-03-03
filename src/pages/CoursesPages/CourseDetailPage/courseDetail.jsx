@@ -6,7 +6,7 @@ import play from "./playBtnImg.png";
 // import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
 import axios from 'axios';
-import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
+import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const CourseDetail = () => {

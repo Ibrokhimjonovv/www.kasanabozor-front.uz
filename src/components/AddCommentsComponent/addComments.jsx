@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
 import axios from "axios";
-import { eCommerseServerUrl } from "../../SuperVars";
+import { eCommerseServerUrl } from "../../server";
 
 const AddComments = ({ news }) => {
   const [comments, setComments] = useState([]);

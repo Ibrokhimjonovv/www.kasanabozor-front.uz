@@ -13,7 +13,7 @@ import {
   eCommerseServerUrl,
   formatLink,
   mediaServerUrl,
-} from "../../../SuperVars";
+} from "../../../server";
 import axios from "axios";
 
 const UploadProductsPage = () => {

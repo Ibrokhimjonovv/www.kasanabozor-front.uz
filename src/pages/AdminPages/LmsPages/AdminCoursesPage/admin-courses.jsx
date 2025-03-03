@@ -6,7 +6,7 @@ import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import axios from "axios";
-import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../../SuperVars.ts";
+import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../../server.ts";
 
 const Actions = ({ course }) => {
   return (

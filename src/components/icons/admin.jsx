@@ -21,5 +21,56 @@ const DashboardIcon = (props) => {
   );
 };
 
+const AddUserIcon = (props) => {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_2367_7804)">
+        <path
+          d="M10.666 14V12.6667C10.666 11.9594 10.3851 11.2811 9.88497 10.781C9.38487 10.281 8.70659 10 7.99935 10H3.33268C2.62544 10 1.94716 10.281 1.44706 10.781C0.946967 11.2811 0.666016 11.9594 0.666016 12.6667V14M13.3327 5.33333V9.33333M15.3327 7.33333H11.3327M8.33268 4.66667C8.33268 6.13943 7.13878 7.33333 5.66602 7.33333C4.19326 7.33333 2.99935 6.13943 2.99935 4.66667C2.99935 3.19391 4.19326 2 5.66602 2C7.13878 2 8.33268 3.19391 8.33268 4.66667Z"
+          stroke={props.color ? props.color : "#767676"}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2367_7804">
+          <rect width="16" height="16" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
 
-export {DashboardIcon};
+const NameIcon = (props) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M16.0459 7.29397C16.0459 9.99661 14.3295 11.97 12.2123 11.97C10.0951 11.97 8.37874 9.99661 8.37874 7.29397C8.37874 4.59132 10.0951 2.40039 12.2123 2.40039C14.3295 2.40039 16.0459 4.59132 16.0459 7.29397Z"
+        stroke={props.color ? props.color : "#767676"}
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4.40059 15.8849C4.6754 15.3838 5.17974 15.0756 5.72513 15.0756H18.2756C18.821 15.0756 19.3254 15.3838 19.6002 15.8849L21.3892 19.1473C21.9855 20.2347 21.2481 21.6004 20.0647 21.6004H3.93613C2.75264 21.6004 2.01526 20.2347 2.61159 19.1473L4.40059 15.8849Z"
+        stroke={props.color ? props.color : "#767676"}
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export { DashboardIcon, AddUserIcon, NameIcon };

@@ -9,7 +9,7 @@ import Send from "../../assets/messenger/send.svg";
 
 import { ChatContext } from "../../context/messenger";
 
-import { onlineShopApi, usersApi } from "../../SuperVars";
+import { onlineShopApi, usersApi } from "../../server";
 import { UserContext } from "../../context/user";
 import axios from "axios";
 

@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/LoaderComponent/loading";
 import SearchBar from "../../../components/SearchbarComponent/searchBar";
 
-import { announcementsApi, usersApi, onlineShopApi } from "../../../SuperVars";
+import { announcementsApi, usersApi, onlineShopApi } from "../../../server";
 
 import axios from "axios";
 import { AnnouncementsContext } from "../../../context/announcements";

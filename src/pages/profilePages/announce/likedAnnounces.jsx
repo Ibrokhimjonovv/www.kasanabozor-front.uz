@@ -5,7 +5,7 @@ import "./likedAnnounces.scss";
 import left from "../../../assets/left.png";
 import right from "../../../assets/right.png";
 import axios from 'axios';
-import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../SuperVars';
+import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const LikedAnnounces = () => {

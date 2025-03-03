@@ -6,7 +6,7 @@ import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import axios from "axios";
-import { coursesServerUrl } from "../../../../SuperVars";
+import { coursesServerUrl } from "../../../../server";
 
 
 const AdminPupils = () => {

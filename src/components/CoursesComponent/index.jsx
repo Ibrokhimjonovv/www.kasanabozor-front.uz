@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
-import { formatLink, mediaServerUrl} from "../../SuperVars";
+import { formatLink, mediaServerUrl} from "../../server";
 
 
 const Courses = () => {

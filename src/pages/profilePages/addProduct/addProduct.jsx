@@ -4,7 +4,7 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link, useNavigate } from "react-router-dom";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
 import axios from 'axios';
-import { eCommerseServerUrl } from '../../../SuperVars';
+import { eCommerseServerUrl } from '../../../server';
 import { MyContext } from '../../../context/myContext';
 
 

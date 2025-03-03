@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import aaa from "./Без имени-2 1.png";
 // import Discount from "../../components/discount/Discount";
 import axios from "axios";
-import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../SuperVars";
+import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../server";
 import Loading from "../../components/loading/loading";
 
 

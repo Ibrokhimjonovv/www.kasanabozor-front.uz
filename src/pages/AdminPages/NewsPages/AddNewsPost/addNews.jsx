@@ -3,7 +3,7 @@ import Dashboard from "../dashboard/dashboard";
 import { MyContext } from "../../../../context/myContext";
 import { Link, useNavigate } from "react-router-dom";
 import "./addNews.scss";
-import { newsServerUrl } from "../../../../SuperVars";
+import { newsServerUrl } from "../../../../server";
 import axios from "axios";
 
 

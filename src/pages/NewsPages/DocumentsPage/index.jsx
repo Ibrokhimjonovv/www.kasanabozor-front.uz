@@ -12,7 +12,7 @@ import LittlePoster from "../../../components/LittlePosterComponent/LittlePoster
 import Weather from "../../../components/WeatherComponent/weather";
 import CurrencyRates from "../../../components/ConverterComponent/converter";
 
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../../server";
 
 const DocumentsPage = () => {
   const { type } = useParams();

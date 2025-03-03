@@ -8,7 +8,7 @@ import whenImageIsNotUploaded from "../../../assets/when_image_is_not_uploaded.j
 import Discount from "../../../components/DiscountComponent/Discount";
 import { OnlineShopContext } from "../../../context/onlineshop";
 
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../../server";
 
 const CategoriesPage = () => {
   const { categories } = useContext(OnlineShopContext);

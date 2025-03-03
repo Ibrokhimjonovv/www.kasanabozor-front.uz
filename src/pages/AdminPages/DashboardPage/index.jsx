@@ -5,7 +5,7 @@ import "./index.scss";
 import { NavLink, Link } from "react-router-dom";
 // import Logout from "../../../components/logout/logout";
 
-import { formatLink, mediaServerUrl } from "../../../SuperVars";
+import { formatLink, mediaServerUrl } from "../../../server";
 
 const DashboardPage = () => {
   return (

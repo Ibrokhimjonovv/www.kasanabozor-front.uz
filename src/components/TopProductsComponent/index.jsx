@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Discount from "../DiscountComponent/Discount";
 import Loading from "../LoaderComponent/loading";
 
-import { onlineShopApi, usersApi } from "../../SuperVars";
+import { onlineShopApi, usersApi } from "../../server";
 import { OnlineShopContext } from "../../context/onlineshop";
 
 const TopProducts = () => {

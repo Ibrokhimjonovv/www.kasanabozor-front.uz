@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-import { eCommerseServerUrl } from "../../../../SuperVars";
+import { eCommerseServerUrl } from "../../../../server";
 import axios from "axios";
 
 const AdminCategories = () => {

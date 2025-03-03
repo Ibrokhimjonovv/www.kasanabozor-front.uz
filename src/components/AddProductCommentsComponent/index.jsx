@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "../AddCommentsComponent/addComments.scss";
 
 import { Link, useParams } from "react-router-dom";
@@ -9,7 +9,7 @@ import {
   eCommerseServerUrl,
   formatLink,
   mediaServerUrl,
-} from "../../SuperVars";
+} from "../../server";
 
 const AddProductsComments = ({ com }) => {
   const [comments, setComments] = useState([]);

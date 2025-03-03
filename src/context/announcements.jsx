@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { announcementsApi } from "../SuperVars";
+import { announcementsApi } from "../server";
 
 const AnnouncementsContext = createContext();
 
