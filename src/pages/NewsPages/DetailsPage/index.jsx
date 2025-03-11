@@ -3,37 +3,17 @@ import { useParams, Link } from "react-router-dom";
 
 import "./index.scss";
 
-import { MyContext } from "../../../context/myContext";
-
 import NewsInnerRight from "../../../components/NewsInnerRightComponent/newsInnerRight";
 import posterImg2 from "./posterImg2.png";
 import Weather from "../../../components/WeatherComponent/weather";
 import Loading from "../../../components/LoaderComponent/loading";
 import CurrencyRates from "../../../components/ConverterComponent/converter";
 
-import { formatLink, mediaServerUrl, newsServerUrl } from "../../../server";
-import axios from "axios";
-
 const DetialsPage = () => {
-  const { newsCategories } = useContext(MyContext);
+  const newsCategories = [];
   const { id } = useParams();
-  const [newsItem, setNewsItem] = useState(null);
-  const [fc, setFc] = useState({title: "Loading..."});
-
-  const loadData = async () => {
-    try {
-      const response = await axios.post(`${newsServerUrl}news/exact/`, {
-        id: id,
-      });
-      console.log(response);
-      if (response.data.status === "ok") {
-        setNewsItem(response.data.results);
-        setFc(response.data.results.category);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [newsItem] = useState(null);
+  const [fc] = useState({title: "Loading..."});
 
   useEffect(() => {
     const timeout = setTimeout(loadData, 100);
@@ -127,10 +107,7 @@ const DetialsPage = () => {
           <div className="left-top-side">
             <div className="hero-new">
               <div className="hero-img">
-                <img
-                  src={`${mediaServerUrl}news${formatLink(newsItem.thumbnail)}`}
-                  alt=""
-                />
+                
               </div>
               <div className="hero-new-details">
                 <ul>
@@ -222,12 +199,7 @@ const DetialsPage = () => {
                   </li> */}
                 </ul>
                 <div className="author">
-                  <img
-                    src={`${mediaServerUrl}users${formatLink(
-                      newsItem.user.pfp
-                    )}`}
-                    alt=""
-                  />
+                  
                   <span>
                     {newsItem.user.first_name} {newsItem.user.last_name}
                   </span>

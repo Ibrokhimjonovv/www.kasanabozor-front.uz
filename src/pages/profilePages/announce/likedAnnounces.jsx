@@ -5,7 +5,6 @@ import "./likedAnnounces.scss";
 import left from "../../../assets/left.png";
 import right from "../../../assets/right.png";
 import axios from 'axios';
-import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const LikedAnnounces = () => {
@@ -157,7 +156,7 @@ const LikedAnnounces = () => {
                     )) */ }
                   </div>
                   <div className="author">
-                    <img src={`${mediaServerUrl}users${formatLink(announcement.user.pfp)}`} alt="" />
+                    <img src={null} alt="" />
                     <span>{announcement.user.first_name} {announcement.user.last_name}</span>
                   </div>
                   <div className="date-count">

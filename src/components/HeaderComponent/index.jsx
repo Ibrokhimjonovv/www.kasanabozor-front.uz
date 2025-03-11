@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import "./index.scss";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import SearchBar from "../SearchbarComponent/searchBar.jsx";
-import { MyContext } from "../../context/myContext.jsx";
 import langImg from "./Icon (3).png";
 import menuBackgroundImage from "./menuImg.png";
 import cheveronIcon from "./menu-cheveron-icon.png";

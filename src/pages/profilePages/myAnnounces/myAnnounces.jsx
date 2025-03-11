@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
 import axios from 'axios';
-import { announcementsServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const MyAnnounces = () => {
@@ -210,13 +209,13 @@ const MyAnnounces = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={announce.thumbnail ? `${mediaServerUrl}announcements${formatLink(announce.thumbnail)}` : '${mediaServerUrl}ecommerse/static/404.png'}
+                      src={null}
                       alt=""
                     />
                   </td>
                   <td className="announce-title">{announce.title}</td>
                   <td>
-                    <img className="productImg" src={`${mediaServerUrl}users${formatLink(announce.user.pfp)}`} alt="" />
+                    <img className="productImg" src={null} alt="" />
                   </td>
                   <td className="announce-price">{announce.price_max} UZS</td>
                   { /* <td>{announce.applicationsCount}</td> */}

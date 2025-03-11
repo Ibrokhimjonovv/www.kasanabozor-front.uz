@@ -1,18 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./courseDetail.scss";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { MyContext } from "../../../context/myContext";
 import play from "./playBtnImg.png";
 // import AddComments from "../../components/addComments/addComments";
 import Loading from "../../components/loading/loading";
 import axios from 'axios';
-import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated, followedCourses } = useContext(MyContext);
+  const isAuthenticated, followedCourses = [false, []];
   const [course, setCourse] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(0);
   const [lessons, setLessons] = useState([]);
@@ -230,7 +228,7 @@ const CourseDetail = () => {
               </li> */ }
             </ul>
             <div className="author">
-              <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt="" />
+
               <span>{course.user.first_name} {course.user.last_name}</span>
             </div>
           </div>

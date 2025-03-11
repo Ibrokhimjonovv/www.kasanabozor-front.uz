@@ -1,10 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import "./index.scss";
 
 import { Link } from "react-router-dom";
-
-import { formatLink, mediaServerUrl } from "../../server";
 
 const Announcements = () => {
   const announcements = [];
@@ -54,7 +52,7 @@ const Announcements = () => {
                 </div>
                 <div className="author">
                   <img
-                    src={`${mediaServerUrl}users${formatLink(announcement.user.pfp)}`}
+                    src={null}
                     alt=""
                   />
                   <span>{announcement.user.first_name} {announcement.user.last_name}</span>

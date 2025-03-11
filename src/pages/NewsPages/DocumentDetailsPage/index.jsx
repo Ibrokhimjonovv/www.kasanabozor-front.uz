@@ -1,35 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import "./index.scss";
 
 import Loading from "../../../components/LoaderComponent/loading";
 
-import { formatLink, mediaServerUrl, newsServerUrl } from "../../../server";
-import axios from "axios";
-
 
 const DocumentDetailsPage = () => {
   const [currentDoc, setCurrentDoc] = useState(null);
   const { id } = useParams();
-
-  const loadData = async () => {
-    try {
-      const bdocsResponse = await axios.post(`${newsServerUrl}bussinies/exact/`, {'id': id});
-      if (bdocsResponse.data.status === "ok") {
-        setCurrentDoc(bdocsResponse.data.results);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  useEffect(() => {
-    const timeout = setTimeout(loadData, 200);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
 
   if (!(currentDoc && currentDoc.file)) {
     return <Loading/>;
@@ -113,7 +92,7 @@ const DocumentDetailsPage = () => {
             </div>
           </div>
           {currentDoc.file ? (
-              <embed src={`${mediaServerUrl}news${formatLink(currentDoc.file)}#toolbar=0`} type="application/pdf" />
+              <embed src={null} type="application/pdf" />
             ) : (
               <h2 style={{margin: "20px 50px"}}>Pdf mavjud emas</h2>
             )

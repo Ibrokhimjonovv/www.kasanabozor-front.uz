@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { MyContext } from "../../../context/myContext";
 import { Link, useParams } from "react-router-dom";
 
 import Loading from "../../../components/LoaderComponent/loading";
@@ -9,8 +8,6 @@ import "./index.scss";
 
 import {
   announcementsApi,
-  formatLink,
-  mediaServerUrl,
   usersApi,
 } from "../../../server";
 import axios from "axios";
@@ -20,8 +17,6 @@ const ServiceDetailsPage = () => {
   const { serviceAnnouncements, workAnnouncement, loading } =
     useContext(AnnouncementsContext);
   const [loadingDetails, setLoadingDetails] = useState(true);
-  const [announcements, setAnnouncements] = useState([]);
-  const [selectedDep, setSelectedDep] = useState("announce");
   const [currentService, setCurrentService] = useState(null);
   const { meta } = useParams();
 
@@ -30,14 +25,12 @@ const ServiceDetailsPage = () => {
     axios.get(`${announcementsApi}announcement/${meta}/`).then((response) => {
       if (response.status === 200) {
         setCurrentService(response.data.announcement);
-        setAnnouncements(response.data.announcements);
         setLoadingDetails(false);
       }
     });
   }, [meta]);
 
   const isSaved = () => {
-    // return savedAnnouncements.some((a) => a.id === announcement.id);
     return false;
   };
 

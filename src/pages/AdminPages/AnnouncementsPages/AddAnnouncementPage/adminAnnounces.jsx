@@ -1,22 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./adminAnnounces.scss";
-import { MyContext } from "../../../../context/myContext.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
-import StarRating from "../../../components/starRating/starRating";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
 import axios from "axios";
-import {
-  eCommerseServerUrl,
-  formatLink,
-  mediaServerUrl,
-} from "../../../../server.ts";
+
 import { announcementsServerUrl } from "../../../../server.ts";
 
 const AdminAnnounces = () => {
-  const { isOpen } = useContext(MyContext);
+  const isOpen = false;
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
 
@@ -526,26 +520,13 @@ const AdminAnnounces = () => {
                   <td>
                     <img
                       className="productImg"
-                      src={
-                        product.product_image_Ecommerce_product_images[0]
-                          ? `${mediaServerUrl}ecommerse${formatLink(
-                              product.product_image_Ecommerce_product_images[0]
-                                .image
-                            )}`
-                          : ""
-                      }
+                      src={null}
                       alt=""
                     />
                   </td>
                   <td>{product.name}</td>
                   <td>
-                    <img
-                      className="authorImg"
-                      src={`${mediaServerUrl}users${formatLink(
-                        product.user.pfp
-                      )}`}
-                      alt=""
-                    />
+
                   </td>
                   <td>{product.price}</td>
                   <td>213</td>

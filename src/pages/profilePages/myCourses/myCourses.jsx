@@ -3,7 +3,6 @@ import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import { Link } from "react-router-dom";
 import "./myCourses.scss";
 import axios from 'axios';
-import { coursesServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const MyCourses = () => {
@@ -93,7 +92,7 @@ const MyCourses = () => {
           {courses.map((course, index) => (
             <div className="my-course-card" key={index}>
               <img
-                src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`}
+                src={null}
                 alt={course.title}
                 className="my-course-card__image"
               />
@@ -115,7 +114,7 @@ const MyCourses = () => {
                 </div> */}
                 <div className="my-course-card__content__author">
                   <img
-                    src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`}
+                    src={null}
                     alt={course.authorName}
                     className="my-course-card__content__author-image"
                   />

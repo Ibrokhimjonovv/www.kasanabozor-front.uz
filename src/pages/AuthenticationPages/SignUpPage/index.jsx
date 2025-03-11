@@ -11,9 +11,9 @@ import rightChevron from "../../../assets/svg/right-chevron.svg";
 import stepIcon1 from "../../../assets/svg/stepIcon1.svg";
 
 import InputMask from "react-input-mask";
-import { MyContext } from "../../../context/myContext";
-import { usersServerUrl } from "../../../server";
+
 import { Notifications } from "../../../context/notifications";
+
 import axios from "axios";
 
 function formatDate(dateStr) {
@@ -45,8 +45,12 @@ function formatDate(dateStr) {
 
 const SignUpPage = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, setSelectedLanguage, languages, setLanguages } =
-    useContext(MyContext);
+  const [selectedLanguage, setSelectedLanguage, languages, setLanguages] = [
+    "uz",
+    () => {},
+    [],
+    () => {},
+  ];
   const { addNotification } = useContext(Notifications);
 
   const [showPassword1, setShowPassword1] = useState(false);

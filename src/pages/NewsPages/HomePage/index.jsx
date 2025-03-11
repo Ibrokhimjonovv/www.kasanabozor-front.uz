@@ -7,19 +7,18 @@ import backgroundImg from "./backgroundImg.png";
 import posterImg from "./newsimg.png";
 import posterImg2 from "./posterImg2.png";
 
-import { MyContext } from "../../../context/myContext";
-
 import HistoryOfSuccess from "../../../components/HistoryOfSuccessComponent/historyOfSuccess";
 import Weather from "../../../components/WeatherComponent/weather";
 import CurrencyRates from "../../../components/ConverterComponent/converter";
 import Documents from "../../../components/DocumentsComponent";
 
-import { formatLink, mediaServerUrl } from "../../../server";
+import { newsApi } from "../../../server";
 
 import Loading from "../../../components/LoaderComponent/loading";
+import { NewsContext } from "../../../context/news";
 
 const HomePage = () => {
-  const newsList = [];
+  const { bannerNews, weekNews } = useContext(NewsContext);
 
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -38,23 +37,23 @@ const HomePage = () => {
         </div>
         <div className="newsInner">
           <div className="left-side">
-            {newsList[0] ? (
+            {bannerNews[0] ? (
               <>
                 <div className="img-container">
                   <img
-                    src={`${mediaServerUrl}news${formatLink(
-                      newsList[0].thumbnail
-                    )}`}
+                    src={`${newsApi.split("/api")[0]}${
+                      bannerNews[0].thumbnail
+                    }`}
                     alt=""
                   />
                   <div className="texts">
-                    <h1>{newsList[0].title}</h1>
-                    <p>{newsList[0].description.split(".")[0]}.</p>
+                    <h1>{bannerNews[0].title}</h1>
+                    <p>{bannerNews[0].short_description.split(".")[0]}.</p>
                     <div className="date">
                       <Link
-                        to={`/news/categories/details/${newsList[0].category.id}/`}
+                        to={`/news/categories/details/${bannerNews[0].category.id}/`}
                       >
-                        {newsList[0].category.title}
+                        {bannerNews[0].category.title}
                       </Link>
                       <div className="date-inner">
                         <div>
@@ -117,14 +116,12 @@ const HomePage = () => {
             )}
           </div>
           <div className="right-side">
-            {newsList.slice(1, 5).map((value, index) => (
+            {bannerNews.slice(1, 5).map((value, index) => (
               <Link to={`/news/_/details/${value.id}/`} key={index}>
                 <div className="row">
                   <div className="row-right">
                     <img
-                      src={`${mediaServerUrl}news${formatLink(
-                        value.thumbnail
-                      )}`}
+                      src={`${newsApi.split("/api")[0]}${value.thumbnail}`}
                       alt=""
                     />
                   </div>
@@ -195,16 +192,14 @@ const HomePage = () => {
             <p>So’nggi haftaning eng mashhur mahsulotlari</p>
           </div>
           <div className="news-cards">
-            {newsList.length > 0 ? (
-              newsList.slice(0, 4).map((news, index) => (
-                <Link to={`/news/${news.category.id}/${news.id}`} key={index}>
+            {weekNews[0] ? (
+              weekNews.slice(0, 8).map((value, index) => (
+                <Link to={`/news/${value.category.meta}/${value.meta}`} key={index}>
                   <div className={`news-card revealed`}>
                     <div className="img-cont">
                       <img
-                        src={`${mediaServerUrl}news${formatLink(
-                          news.thumbnail
-                        )}`}
-                        alt={news.title}
+                        src={`${newsApi.split('/api')[0]}${value.thumbnail}`}
+                        alt={value.title}
                       />
                     </div>
                     <div className="time">
@@ -231,7 +226,7 @@ const HomePage = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        {news.created_at.split("T")[0]}
+                        {value.created_at.split("T")[0]}
                       </span>
                       <span id="views-count">
                         <svg
@@ -256,12 +251,12 @@ const HomePage = () => {
                             strokeLinejoin="round"
                           />
                         </svg>
-                        {news.views}
+                        {value.views}
                       </span>
                     </div>
-                    <div className="news-title">{news.title}</div>
-                    <div className="news-description">{news.description}</div>
-                    <div className="type">{news.category.title}</div>
+                    <div className="news-title">{value.title}</div>
+                    <div className="news-description">{value.short_description}</div>
+                    <div className="type">{value.category.title}</div>
                   </div>
                 </Link>
               ))

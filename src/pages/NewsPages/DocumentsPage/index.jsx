@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { MyContext } from "../../../context/myContext";
 
 import "./index.scss";
 
@@ -12,11 +11,10 @@ import LittlePoster from "../../../components/LittlePosterComponent/LittlePoster
 import Weather from "../../../components/WeatherComponent/weather";
 import CurrencyRates from "../../../components/ConverterComponent/converter";
 
-import { formatLink, mediaServerUrl } from "../../../server";
 
 const DocumentsPage = () => {
   const { type } = useParams();
-  const { legislativeDoc, bussinessDoc } = useContext(MyContext);
+  const [legislativeDoc, bussinessDoc] = [[], []];
 
   return (
     <div id="documentsPage">
@@ -97,7 +95,7 @@ const DocumentsPage = () => {
               <p>{doc.subtitle}</p>
               <div className="links">
                 <a
-                  href={`${mediaServerUrl}news${formatLink(doc.file)}`}
+                  href={``}
                   download
                 >
                   <svg

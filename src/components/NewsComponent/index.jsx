@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import "./index.scss";
-import { formatLink, mediaServerUrl } from "../../server";
 import { useEffect } from "react";
 
 
@@ -45,7 +44,7 @@ const NewsCard = ({ news }) => {
       className={`news-card ${inView ? "visible" : ""}`}
     >
       <div className="img-cont">
-        <img src={`${mediaServerUrl}news${formatLink(news.thumbnail)}`} alt={news.title} />
+
       </div>
       <div className="time">
         <span id="date-time"> 

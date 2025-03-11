@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./addComments.scss";
 import user from "./userImg.png";
 import { Link, useParams } from "react-router-dom";
-import { MyContext } from "../../context/myContext";
 import { useContext } from "react";
 import axios from "axios";
 import { eCommerseServerUrl } from "../../server";
@@ -12,8 +11,7 @@ const AddComments = ({ news }) => {
   const [newComment, setNewComment] = useState("");
   const [replyingTo, setReplyingTo] = useState(null);
   const [currentReplyTo, setCurrentReplyTo] = useState(null);
-  const { id } = useParams();
-  const { isAuthenticated } = useContext(MyContext);
+  const isAuthenticated = false;
 
   // Fetch comments from the server
   useEffect(() => {

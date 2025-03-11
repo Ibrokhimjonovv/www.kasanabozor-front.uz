@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./admin-categories.scss";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
@@ -9,7 +8,7 @@ import { eCommerseServerUrl } from "../../../../server";
 import axios from "axios";
 
 const AdminCategories = () => {
-  const { isOpen } = useContext(MyContext);
+  const isOpen = false;
   const [avaName, setAvaName] = useState("");
 
   const [categories, setCategories] = useState([]);

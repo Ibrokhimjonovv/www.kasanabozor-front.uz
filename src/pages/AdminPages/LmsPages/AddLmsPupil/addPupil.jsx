@@ -1,12 +1,11 @@
 import React, { useEffect, useContext, useState } from "react";
 import InputMask from "react-input-mask";
 import Dashboard from "../dashboard/dashboard";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./addPupil.scss";
 import eye from "../addUser/eye.png";
 const AddPupil = () => {
-  const {isOpen} = useContext(MyContext);
+  const isOpen = false;
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [avaName, setAvaName] = useState("");
@@ -68,8 +67,8 @@ const AddPupil = () => {
           parseInt(district.region_id, 10) === parseInt(selectedRegion, 10)
       );
       setFilteredDistricts(filtered);
-      setSelectedDistrict(""); 
-      setFilteredVillages([]); 
+      setSelectedDistrict("");
+      setFilteredVillages([]);
     } else {
       setFilteredDistricts([]);
       setFilteredVillages([]);

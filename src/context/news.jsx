@@ -5,6 +5,7 @@ import { newsApi } from "../server";
 const NewsContext = createContext();
 
 const NewsProvider = ({ children }) => {
+  const [categories, setCategories] = useState([]);
   const [bannerNews, setBannerNews] = useState([]);
   const [weekNews, setWeekNews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ const NewsProvider = ({ children }) => {
     const fetchData = () => {
       axios.get(`${newsApi}home-data/`).then((response) => {
         if (response.status == 200) {
+          setCategories(response.data.categories);
           setBannerNews(response.data.banner);
           setWeekNews(response.data.week);
           setLoading(false);
@@ -28,7 +30,10 @@ const NewsProvider = ({ children }) => {
     <>
       <NewsContext.Provider
         value={{
-          loading
+          categories,
+          bannerNews,
+          weekNews,
+          loading,
         }}
       >
         {children}

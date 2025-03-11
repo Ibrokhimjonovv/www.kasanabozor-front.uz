@@ -5,12 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import ImageUpload from "../../../components/imgUpload/imgUpload";
 import axios from 'axios';
 import { eCommerseServerUrl } from '../../../server';
-import { MyContext } from '../../../context/myContext';
 
 
 const AddProducts = () => {
   const navigate = useNavigate();
-  const {categories} = useContext(MyContext);
+  const categories = [];
   const [isChecked, setIsChecked] = useState(false);
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");

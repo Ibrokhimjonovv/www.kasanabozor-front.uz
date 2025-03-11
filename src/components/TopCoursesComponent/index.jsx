@@ -1,16 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import "./topCourses.scss";
+import "./index.scss";
 
-import category9 from "./Grid.png";
-
-import { MyContext } from "../../context/myContext";
-
-import { formatLink, mediaServerUrl } from "../../server";
 
 const TopCourses = () => {
-  const { courses, courseCategories } = useContext(MyContext);
+  const [courses, courseCategories] = [[], []];
   const [visibleCourses, setVisibleCourses] = useState(4);
 
   const handleShowMore = () => {
@@ -30,7 +25,7 @@ const TopCourses = () => {
         </div>
         <Link to="/courses/all-categories/">
           <div className="default-category">
-            <img src={category9} alt="" />
+            {/* <img src={category9} alt="" /> */}
             <span>Barcha kategoriyalar</span>
           </div>
         </Link>
@@ -46,9 +41,7 @@ const TopCourses = () => {
                   <img
                     src={
                       course.thumbnail
-                        ? `${mediaServerUrl}courses${formatLink(
-                            course.thumbnail
-                          )}`
+                        ? `${mediaServerUrl}courses`
                         : "https://img.lovepik.com/element/40021/7866.png_1200.png"
                     }
                     alt={course.title}
@@ -135,12 +128,6 @@ const TopCourses = () => {
                 </div>
                 <div className="author">
                   <div className="author-img">
-                    <img
-                      src={`${mediaServerUrl}users${formatLink(
-                        course.user.pfp
-                      )}`}
-                      alt=""
-                    />
                   </div>
                   <p className="author-name">
                     {course.user.first_name} {course.user.last_name}

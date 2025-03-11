@@ -2,7 +2,7 @@ import HeroSwiper from "../../components/HeroSwiperComponent/hero-swiper";
 import AboutKasana from "../../components/AboutKasanaComponent/AboutKasana";
 import KasanaTypes from "../../components/KasanaTypesComponent/KasanaTypes";
 import Documents from "../../components/DocumentsComponent";
-import Courses from "../../components/CoursesComponent/index";
+// import Courses from "../../components/CoursesComponent/index";
 import History from "../../components/HistoryComponent/History";
 import News from "../../components/NewsComponent/index";
 import Announcements from "../../components/AnnouncementsComponents";
@@ -20,7 +20,7 @@ const HomePage = () => {
       <AboutKasana />
       <KasanaTypes />
       <Documents />
-      <Courses />
+      {/* <Courses /> */}
       <History />
       <News />
       <Announcements />

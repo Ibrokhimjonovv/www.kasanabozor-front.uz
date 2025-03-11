@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Slider, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./allCourseCategory.scss";
-import { MyContext } from "../../../context/myContext";
 import Discount from "../../components/discount/Discount";
 import aaa from "./Без имени-2 1.png";
 const AllCourseCategory = () => {
@@ -17,7 +16,7 @@ const AllCourseCategory = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPaid, setSelectedPaid] = useState([]);
   const [ratingRange, setRatingRange] = useState([0, 5]);
-  const { courses } = useContext(MyContext);
+  const courses = [];
   const handleCategoryChange = (event) => {
     const { checked, name } = event.target;
     setSelectedCategories((prev) =>

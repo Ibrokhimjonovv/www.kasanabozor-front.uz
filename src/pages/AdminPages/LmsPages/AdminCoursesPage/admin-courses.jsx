@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./admin-courses.scss";
-import { MyContext } from "../../../../context/myContext.jsx";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
 import Dashboard from "../dashboard/dashboard";
 import axios from "axios";
-import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../../server.ts";
+
 
 const Actions = ({ course }) => {
   return (
@@ -48,7 +47,7 @@ const Actions = ({ course }) => {
 };
 
 const AdminCourses = () => {
-  const { isOpen } = useContext(MyContext);
+  const isOpen = false;
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
 
@@ -178,7 +177,6 @@ const AdminCourses = () => {
                     <input type="checkbox" />
                   </td>
                   <td>
-                    <img src={`${mediaServerUrl}courses${formatLink(value.thumbnail)}`} alt="" width={140} />
                   </td>
                   <td>{value.title}</td>
                   <td>{value.user.first_name} {value.user.last_name}</td>

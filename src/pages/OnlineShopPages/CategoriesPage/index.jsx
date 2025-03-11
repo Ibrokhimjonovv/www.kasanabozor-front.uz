@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import "./allCategories.scss";
+
+import "./index.scss";
 
 import aaa from "./Без имени-2 1.png";
 import whenImageIsNotUploaded from "../../../assets/when_image_is_not_uploaded.jpg";
@@ -8,11 +9,10 @@ import whenImageIsNotUploaded from "../../../assets/when_image_is_not_uploaded.j
 import Discount from "../../../components/DiscountComponent/Discount";
 import { OnlineShopContext } from "../../../context/onlineshop";
 
-import { formatLink, mediaServerUrl } from "../../../server";
 
 const CategoriesPage = () => {
   const { categories } = useContext(OnlineShopContext);
-  const [moreProducts, setMoreProducts] = useState([]);
+  const [moreProducts] = useState([]);
 
   return (
     <div id="allCategories">
@@ -145,15 +145,7 @@ const CategoriesPage = () => {
                     <div className="product revealed">
                       <div className="imgContainer">
                         <img
-                          src={
-                            product.product_image_Ecommerce_product_images[0]
-                              ? `${mediaServerUrl}ecommerse${formatLink(
-                                  product
-                                    .product_image_Ecommerce_product_images[0]
-                                    .image
-                                )}`
-                              : whenImageIsNotUploaded
-                          }
+                          src={null}
                           alt="..."
                         />
                       </div>
@@ -181,9 +173,7 @@ const CategoriesPage = () => {
                       </div>
                       <div className="author">
                         <img
-                          src={`${mediaServerUrl}users${formatLink(
-                            product.user.pfp
-                          )}`}
+                          src={null}
                           alt={`${product.first_name} ${product.last_name}`}
                         />
                         <span>

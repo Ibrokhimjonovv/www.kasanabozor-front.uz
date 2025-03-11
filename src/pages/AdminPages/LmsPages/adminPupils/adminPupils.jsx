@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./adminPupils.scss";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
@@ -10,7 +9,7 @@ import { coursesServerUrl } from "../../../../server";
 
 
 const AdminPupils = () => {
-  const {isOpen} = useContext(MyContext);
+  const isOpen = false;
   const [pupils, setPupils] = useState([]);
   const loadData = async () => {
     const response = await axios.post(`${coursesServerUrl}dashboard/students/list/`);

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./adminTeachers.scss";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
@@ -11,7 +10,7 @@ import { coursesServerUrl } from "../../../../server";
 
 
 const AdminTeachers = () => {
-  const {isOpen} = useContext(MyContext);
+  const isOpen = false;
   
   const [teachers, setTeachers] = useState([]);
   const loadData = async () => {

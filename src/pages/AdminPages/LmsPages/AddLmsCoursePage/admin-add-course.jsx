@@ -1,13 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
 import Dashboard from "../dashboard/dashboard";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./admin-add-course.scss";
 import axios from "axios";
 import { coursesServerUrl } from "../../../../server";
 
 const AddCourse = () => {
-  const { isOpen } = useContext(MyContext);
+  const isOpen = false;
   const [selectedTab, setSelectedTab] = useState("about-course");
 
   const [teachers, setTeachers] = useState([]);

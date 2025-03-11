@@ -4,7 +4,6 @@ import { useParams, Link } from "react-router-dom";
 import aaa from "./Без имени-2 1.png";
 // import Discount from "../../components/discount/Discount";
 import axios from "axios";
-import { coursesServerUrl, formatLink, mediaServerUrl } from "../../../server";
 import Loading from "../../components/loading/loading";
 
 
@@ -104,7 +103,6 @@ const CoursesCategory = () => {
               <Link to={`/courses/course/${course.id}`} key={index}>
                 <div className="course-card">
                   <div className="card-img">
-                    <img src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`} alt={course.title} />
                   </div>
                   <p className="card-title">{course.title}</p>
                   <p className="card-description">{course.description}</p>
@@ -129,7 +127,6 @@ const CoursesCategory = () => {
                   </div>
                   <div className="author">
                     <div className="author-img">
-                      <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.user.first_name} />
                     </div>
                     <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
                   </div>

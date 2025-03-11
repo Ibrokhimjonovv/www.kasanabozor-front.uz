@@ -342,16 +342,7 @@ const DetailPage = () => {
                   <div className="product">
                     <div className="imgContainer">
                       <img
-                        src={
-                          similarProduct
-                            .product_image_Ecommerce_product_images[0]
-                            ? `${mediaServerUrl}ecommerse${formatLink(
-                                similarProduct
-                                  .product_image_Ecommerce_product_images[0]
-                                  .image
-                              )}`
-                            : whenImageIsNotUploaded
-                        }
+                        src={null}
                         alt="..."
                       />
                     </div>
@@ -389,9 +380,7 @@ const DetailPage = () => {
                     </div>
                     <div className="author">
                       <img
-                        src={`${mediaServerUrl}users${formatLink(
-                          similarProduct.user.pfp
-                        )}`}
+                        src={null}
                         alt=""
                       />
                       <span>

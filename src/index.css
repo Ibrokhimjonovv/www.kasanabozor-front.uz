@@ -2,14 +2,21 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@plugin "tailwind-scrollbar-hide";
+@plugin "@tailwindcss/aspect-ratio";
 
 @theme {
+  --color-text: #4b4b4b;
   --color-brand: #41a58d;
   --color-border: #f8f8f8;
+  --color-sm-border: #f3f3f3;
   --color-background: #f2f2f2;
   --color-placeholder: #afb3b5;
+  --color-description: #757575;
+  --color-bg-placeholder: #f5f5f5;
+  --color-text-placeholder: #757575;
   --spacing: 0.4rem;
-	--font-display: "Golos Text", "sans-serif";
+  --font-display: "Golos Text", "sans-serif";
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -26,3 +33,18 @@ input[type="date"] {
   -moz-appearance: textfield;
 }
 
+.list-categories-container::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 4rem;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 1)
+  );
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
+}

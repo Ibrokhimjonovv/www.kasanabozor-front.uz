@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./admin-news-categories.scss";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
@@ -10,7 +9,7 @@ import { newsServerUrl } from "../../../../server";
 
 
 const AdminNewsCategories = () => {
-  const {isOpen} = useContext(MyContext);
+  const isOpen = false;
   const [newsCategories, setNewsCategories] = useState([]);
   const [title, setTitle] = useState("");
 

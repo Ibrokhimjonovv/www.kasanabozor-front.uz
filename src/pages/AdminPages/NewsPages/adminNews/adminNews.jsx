@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./adminNews.scss";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import left from "../../../assets/left.png";
 import right from "../../../assets/left.png";
@@ -48,7 +47,7 @@ const Actions = ({ news }) => {
 };
 
 const AdminNews = () => {
-  const {isOpen} = useContext(MyContext);
+  const isOpen = false;
   const [news, setNews] = useState([]);
 
   const loadData = async () => {

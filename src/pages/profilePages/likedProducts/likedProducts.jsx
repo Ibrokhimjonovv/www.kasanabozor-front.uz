@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileSideBar from "../../../components/profileSideBar/profileSideBar";
 import "./likedProducts.scss";
-// import { MyContext } from "../../../context/myContext";
 import Discount from "../../../components/discount/Discount";
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
 import axios from 'axios';
-import { eCommerseServerUrl, formatLink, mediaServerUrl } from '../../../server';
 
 
 const LikedProducts = () => {
@@ -29,8 +27,6 @@ const LikedProducts = () => {
   const currentProducts = products.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(products.length / usersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const startUserIndex = indexOfFirstUser + 1;
-  const endUserIndex = indexOfLastUser < products.length ? indexOfLastUser : products.length;
  
   const loadData = async () => {
     try {
@@ -146,7 +142,7 @@ const LikedProducts = () => {
               <Link to={`/online-shop/product/${product.id}`} key={index}>
                 <div className="product">
                   <div className="imgContainer">
-                    <img src={'${mediaServerUrl}ecommerse' + String(product.product_image_Ecommerce_product_images[0] ? formatLink(product.product_image_Ecommerce_product_images[0].image) : '/static/404.jpg')} alt="..." />
+                    <img src={null} alt="..." />
                   </div>
                   <div className="productTitle">{product.name}</div>
                   <div className="productDescription">
@@ -202,7 +198,7 @@ const LikedProducts = () => {
                     </div>
                   </div>
                   <div className="author">
-                    <img src={`${mediaServerUrl}users${formatLink(product.user.pfp)}`} alt="" />
+                    <img src={null} alt="" />
                     <span>{product.user.first_name} {product.user.last_name}</span>
                   </div>
                 </div>

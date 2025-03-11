@@ -7,7 +7,7 @@ function AppContent() {
     }, [navigate])
   
     const location = useLocation();
-    const { isAuthenticated, user, isLoading } = useContext(MyContext);
+    const [isAuthenticated, user, isLoading] = [false, null, true];
   
     // const noHeaderPaths = [
     //   "/login",

@@ -1,14 +1,13 @@
 import React, { useEffect, useContext, useState } from "react";
 import InputMask from "react-input-mask";
 import Dashboard from "../dashboard/dashboard";
-import { MyContext } from "../../../../context/myContext";
 import { Link } from "react-router-dom";
 import "./addTeacher.scss";
 import eye from "../addUser/eye.png";
 
 
 const AddTeacher = () => {
-  const { isOpen } = useContext(MyContext);
+  const isOpen = false;
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [avaName, setAvaName] = useState("");

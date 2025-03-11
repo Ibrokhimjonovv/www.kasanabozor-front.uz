@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
-import { MyContext } from "../../context/myContext";
 import { Link } from "react-router-dom";
 // import Discount from "../discount/Discount";
 import "./suggestCourses.scss"
-import { formatLink, mediaServerUrl } from "../../server";
 
 
 const SuggestCourses = () => {
-  const { courses } = useContext(MyContext)
+  const courses = [];
   const [visibleCourses2, setVisibleCourses2] = useState(4);
 
   const handleShowMore2 = () => {
@@ -25,7 +23,6 @@ const SuggestCourses = () => {
               className="course-card"
             >
               <div className="card-img">
-                <img src={`${mediaServerUrl}courses${formatLink(course.thumbnail)}`} alt={course.title} />
               </div>
 
               <p className="card-title">{course.title}</p>
@@ -108,7 +105,7 @@ const SuggestCourses = () => {
               </div>
               <div className="author">
                 <div className="author-img">
-                  <img src={`${mediaServerUrl}users${formatLink(course.user.pfp)}`} alt={course.author} />
+
                 </div>
                 <p className="author-name">{course.user.first_name} {course.user.last_name}</p>
               </div>

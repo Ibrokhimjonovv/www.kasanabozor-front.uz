@@ -8,7 +8,8 @@ import CoursesRoutes from "./pages/CoursesPages/Routes";
 import AuthenticationRoutes from "./pages/AuthenticationPages/Router";
 import ProfileRoutes from "./pages/ProfilePages/Routes";
 
-import Header from "./components/HeaderComponent";
+// import Header from "./components/HeaderComponent";
+import NavbarComponent from './components/Widgets/navbar';
 import Footer from "./components/FooterComponent/Footer";
 import HomePage from "./pages/HomePage/index";
 import NotFoundPage from "./pages/NotFoundPage/index";
@@ -30,14 +31,16 @@ const AppContent = () => {
     </>
   ) : (
     <>
-      {!Boolean(
+      {/* {!Boolean(
         location.pathname.includes("auth") ||
           location.pathname.includes("admin")
       ) ? (
         <Header></Header>
       ) : (
         <></>
-      )}
+      )} */}
+
+      <NavbarComponent></NavbarComponent>
 
       <Routes>
         <Route path="" element={<HomePage />} />
