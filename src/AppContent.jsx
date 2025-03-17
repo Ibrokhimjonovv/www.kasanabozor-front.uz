@@ -9,7 +9,7 @@ import AuthenticationRoutes from "./pages/AuthenticationPages/Router";
 import ProfileRoutes from "./pages/ProfilePages/Routes";
 
 // import Header from "./components/HeaderComponent";
-import NavbarComponent from './components/Widgets/navbar';
+import NavbarComponent from "./components/Widgets/navbar";
 import Footer from "./components/FooterComponent/Footer";
 import HomePage from "./pages/HomePage/index";
 import NotFoundPage from "./pages/NotFoundPage/index";
@@ -18,29 +18,24 @@ import Messaging from "./pages/MessengerPage";
 import AdminRoutes from "./pages/AdminPages/Router";
 
 const AppContent = () => {
-  const isLoading = false;
   const location = useLocation();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [location]);
 
-  return isLoading ? (
+  return false ? (
     <>
       <Loading />
     </>
   ) : (
     <>
-      {/* {!Boolean(
-        location.pathname.includes("auth") ||
-          location.pathname.includes("admin")
-      ) ? (
-        <Header></Header>
-      ) : (
+      {location.pathname.includes("auth") ||
+      location.pathname.includes("dashboard") ? (
         <></>
-      )} */}
-
-      <NavbarComponent></NavbarComponent>
+      ) : (
+        <NavbarComponent></NavbarComponent>
+      )}
 
       <Routes>
         <Route path="" element={<HomePage />} />
@@ -52,7 +47,7 @@ const AppContent = () => {
         {ProfileRoutes}
         {AdminRoutes}
 
-        <Route path="messaging/" element={<Messaging />}/>
+        <Route path="messaging/" element={<Messaging />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -5,17 +5,22 @@ import Categories from "@/components/CoursesComponents/categories";
 
 import { CoursesContext } from "@/context/courses";
 import CourseComponent from "@/components/CoursesComponents/course";
-import { Link } from "react-router-dom";
 import SuccessfulExperience from "@/components/CoursesComponents/successfulExperience";
+import TheHistoryOfSuccess from "@/components/CoursesComponents/theHistoryOfSuccess";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const HomePage: FC = () => {
   const context = useContext(CoursesContext);
+  const { t } = useTranslation();
+
+  document.title = `${t("Courses")} - Kasana.uz`;
 
   if (!context) {
     return <div>Error: CoursesContext is undefined</div>;
   }
 
-  const { topCourses } = context;
+  const { topCourses, newCourses } = context;
 
   return (
     <div id="page" className="min-h-screen">
@@ -52,6 +57,36 @@ const HomePage: FC = () => {
       </section>
 
       <SuccessfulExperience></SuccessfulExperience>
+
+      <section className="new-courses w-full">
+        <div className="container mx-auto">
+          <div className="section-title mb-4">
+            <h3 className="title text-4xl font-bold mb-1">Yangi kurslar</h3>
+            <p className="subtitle text-lg text-text-placeholder">
+              Yangi yonalishlarni organing
+            </p>
+          </div>
+
+          <div className="course-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            {newCourses && newCourses.length > 0 ? (
+              newCourses.map((course) => (
+                <CourseComponent key={course.guid} {...course} />
+              ))
+            ) : (
+              <p>Yangi kurslar mavjud emas.</p>
+            )}
+          </div>
+
+          <Link
+            to={"/"}
+            className="block max-w-fit h-auto mt-4 px-3 py-2 cursor-pointer border border-sm-border text-brand font-semibold rounded-lg mx-auto hover:text-white hover:bg-brand transition-colors duration-300 ease-out"
+          >
+            Ko’proq ko’rish
+          </Link>
+        </div>
+      </section>
+
+      <TheHistoryOfSuccess></TheHistoryOfSuccess>
     </div>
   );
 };

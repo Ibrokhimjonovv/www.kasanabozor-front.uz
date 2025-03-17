@@ -8,6 +8,7 @@ i18n.use(initReactI18next).init<I18nResources>({
   resources: {
     uz: uzLanguage,
   },
+
   lng: "uz",
   fallbackLng: "uz",
 

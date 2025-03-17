@@ -17,6 +17,10 @@ import { CoursesProvider } from "./context/courses.jsx";
 import "swiper/css";
 import "swiper/css/free-mode";
 
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
+
 const Providers = ({ children }) => {
   return (
     <NotificationsProvider>
@@ -36,6 +40,10 @@ const Providers = ({ children }) => {
 };
 
 const App = () => {
+  useEffect(() => {
+    AOS.init({ duration: 650, delay: 500 });
+  }, []);
+
   return (
     <BrowserRouter
       futureFlags={{ v7_startTransition: true, v7_relativeSplatPath: true }}

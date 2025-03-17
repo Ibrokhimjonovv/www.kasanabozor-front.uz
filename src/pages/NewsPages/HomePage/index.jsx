@@ -16,9 +16,13 @@ import { newsApi } from "../../../server";
 
 import Loading from "../../../components/LoaderComponent/loading";
 import { NewsContext } from "../../../context/news";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
   const { bannerNews, weekNews } = useContext(NewsContext);
+  const { t } = useTranslation();
+
+  document.title = `${t("News")} - Kasana.uz`;
 
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImg})`,
@@ -194,11 +198,14 @@ const HomePage = () => {
           <div className="news-cards">
             {weekNews[0] ? (
               weekNews.slice(0, 8).map((value, index) => (
-                <Link to={`/news/${value.category.meta}/${value.meta}`} key={index}>
+                <Link
+                  to={`/news/${value.category.meta}/${value.meta}`}
+                  key={index}
+                >
                   <div className={`news-card revealed`}>
                     <div className="img-cont">
                       <img
-                        src={`${newsApi.split('/api')[0]}${value.thumbnail}`}
+                        src={`${newsApi.split("/api")[0]}${value.thumbnail}`}
                         alt={value.title}
                       />
                     </div>
@@ -255,7 +262,9 @@ const HomePage = () => {
                       </span>
                     </div>
                     <div className="news-title">{value.title}</div>
-                    <div className="news-description">{value.short_description}</div>
+                    <div className="news-description">
+                      {value.short_description}
+                    </div>
                     <div className="type">{value.category.title}</div>
                   </div>
                 </Link>

@@ -14,12 +14,27 @@ const NavbarLinkActiveClassGenerator = ({
 const NavbarComponent: FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY >= 75) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    });
+  }, [location]);
 
   return (
     <>
       <div
         id="navbar"
-        className={`w-full h-auto top-0 left-0 z-50 transition-all duration-300 ${location.pathname === '/' ? "fixed bg-transparent" : "sticky bg-white"}`}
+        className={`w-full h-auto top-0 left-0 z-50 transition-all duration-300 ${
+          location.pathname === "/"
+            ? "fixed " + String(scrolled ? "bg-white" : "bg-transparent")
+            : "sticky bg-white"
+        }`}
       >
         <div className="container relative mx-auto flex items-center justify-between py-4">
           <Link to="/" className="brand flex relative z-20">
