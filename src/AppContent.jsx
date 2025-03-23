@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import OnlineShopRoutes from "./pages/OnlineShopPages/Routes";
@@ -6,9 +6,8 @@ import AnnouncementsRoutes from "./pages/AnnouncementPages/Routes";
 import NewsRoutes from "./pages/NewsPages/Routes";
 import CoursesRoutes from "./pages/CoursesPages/Routes";
 import AuthenticationRoutes from "./pages/AuthenticationPages/Router";
-import ProfileRoutes from "./pages/ProfilePages/Routes";
+import ProfileRoutes from "./pages/Profile/Routes";
 
-// import Header from "./components/HeaderComponent";
 import NavbarComponent from "./components/Widgets/navbar";
 import Footer from "./components/FooterComponent/Footer";
 import HomePage from "./pages/HomePage/index";
@@ -30,12 +29,7 @@ const AppContent = () => {
     </>
   ) : (
     <>
-      {location.pathname.includes("auth") ||
-      location.pathname.includes("dashboard") ? (
-        <></>
-      ) : (
-        <NavbarComponent></NavbarComponent>
-      )}
+      <NavbarComponent></NavbarComponent>
 
       <Routes>
         <Route path="" element={<HomePage />} />

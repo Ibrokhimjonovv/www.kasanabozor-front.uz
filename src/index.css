@@ -7,9 +7,12 @@
 
 @theme {
   --color-text: #4b4b4b;
+  --color-ttext: #29997F;
   --color-brand: #41a58d;
   --color-lbrand: #51BEA4;
+  --color-tbrand: #E7F4F1;
   --color-border: #f8f8f8;
+  --color-tborder: #C2C2C2;
   --color-sm-border: #f3f3f3;
   --color-background: #f2f2f2;
   --color-placeholder: #afb3b5;

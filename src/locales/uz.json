@@ -23,12 +23,23 @@
     "Middle name": "Sharf",
     "Birthday": "Tug'ilgan kun",
     "Gender": "Jins",
+    "Male": "Erkak",
+    "Female": "Ayol",
     "Phone number": "Telefon raqam",
     "Email": "Elektron pochta",
     "Region": "Viloyat (shaxar)",
     "District": "Tuman",
+    "Village, District": "Viloyat (shaxar), Tuman",
     "Purposes": "Faoliyati",
     "About me": "Men haqimda",
-    "Biography": "Biografiya"
+    "Biography": "Biografiya",
+    "Undefined": "Kiritilinmagan",
+		"Image[of]": "Rasmi",
+		"Name[of]": "Nomi",
+		"Category": "Kategoriya",
+		"Rating[of]": "Reytingi",
+		"Price": "Narx",
+		"Active[status]": "Aktivligi",
+		"Actions": "Amallar"
   }
 }

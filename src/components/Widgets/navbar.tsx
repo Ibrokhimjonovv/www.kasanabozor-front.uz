@@ -2,13 +2,66 @@ import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { NavbarLinkActiveClassGeneratorProps } from "@/types/util";
+import { useUserContext } from "@/context/user";
+
+type UserRole = "superadmin" | "admin" | "moderator" | "user" | "";
+
+const AdminRoles: UserRole[] = ["superadmin", "admin"];
+const ModeratorRoles: UserRole[] = ["moderator"];
 
 const NavbarLinkActiveClassGenerator = ({
   isActive,
-}: NavbarLinkActiveClassGeneratorProps): string => {
-  return isActive
+}: NavbarLinkActiveClassGeneratorProps): string =>
+  isActive
     ? "bg-brand px-6 py-1.5 rounded-full text-white font-semibold transition-all duration-300"
     : "text-text text-lg hover:bg-brand px-3 py-1 rounded-full hover:text-white font-normal transition-all duration-300";
+
+const UserAccountAction: FC = () => {
+  const { t } = useTranslation();
+  const { role, isAuthenticated } = useUserContext();
+
+  const userRole = role as UserRole;
+
+  const getRedirectLink = (): string => {
+    if (!isAuthenticated) return "/auth/sign-in/";
+
+    if (AdminRoles.includes(userRole) || ModeratorRoles.includes(userRole)) {
+      return "/admin/overview/";
+    }
+
+    if (userRole === "user") {
+      return "/profile/overview/";
+    }
+
+    return "/auth/sign-in/";
+  };
+
+  const getButtonLabel = (): string => {
+    if (!isAuthenticated) return t("Login");
+
+    if (AdminRoles.includes(userRole)) {
+      return t("Admin dashboard");
+    }
+
+    if (ModeratorRoles.includes(userRole)) {
+      return t("Moderator dashboard");
+    }
+
+    if (userRole === "user") {
+      return t("User dashboard");
+    }
+
+    return t("Login");
+  };
+
+  return (
+    <Link
+      to={getRedirectLink()}
+      className="text-[16px] text-brand font-semibold py-1.5 px-2 hover:text-white hover:bg-brand rounded-full transition-all duration-150 ease-in"
+    >
+      {getButtonLabel()}
+    </Link>
+  );
 };
 
 const NavbarComponent: FC = () => {
@@ -25,6 +78,13 @@ const NavbarComponent: FC = () => {
       }
     });
   }, [location]);
+
+  if (
+    location.pathname.includes("admin") ||
+    location.pathname.includes("auth")
+  ) {
+    return <></>;
+  }
 
   return (
     <>
@@ -71,12 +131,7 @@ const NavbarComponent: FC = () => {
           </div>
 
           <div className="actions relative z-10">
-            <Link
-              to={"/auth/sign-in/"}
-              className="text-brand text-lg font-medium py-2 px-3 hover:bg-brand hover:text-white transition-all duration-300 ease-out rounded-full"
-            >
-              {t("Login")}
-            </Link>
+            <UserAccountAction />
           </div>
         </div>
       </div>

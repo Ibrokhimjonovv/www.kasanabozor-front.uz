@@ -2,7 +2,7 @@ import React, { useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import InputMask from "react-input-mask";
 import Loading from "../../../components/LoaderComponent/loading.jsx";
-import { UserContext } from "../../../context/user.jsx";
+import { useUserContext } from "../../../context/user.jsx";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./index.scss";
 
@@ -11,7 +11,7 @@ const SignInPages = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ phone: "", password: "", general: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const { login, loading } = useContext(UserContext);
+  const { login, loading } = useUserContext();
 
   const phoneInputRef = useRef(null);
 
